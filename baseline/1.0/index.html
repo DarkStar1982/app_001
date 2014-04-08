@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Risk Plus, your portfolio performance and risk measurement tools</title>
+        	<!--meta section -->
+        	<meta charset="UTF-8">
+        	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+        	<meta name="description" content="">
+        	<meta name="author" content="">
+        	<!-- global stylesheets -->
+        	<link href="css/bootstrap.default.css" rel="stylesheet">
+        	<link href="css/datatable_bootstrap.css" rel="stylesheet">
+        	<link href="css/bootstrap-responsive.css" rel="stylesheet">
+        	<!-- page specific styles -->   
+        	<link href="css/tabbed.css" rel="stylesheet">      
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        	<!-- javascript imports -->
+        	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        	<script src="js/include/highstock.js"></script>
+        	<script src="js/include/exporting.js"></script>
+		<!--script src="js/include/chart_theme.js"></script-->
+        	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+       		<script src="js/include/bootstrap.js"></script>
+        	<!--page code -->
+        	<script src="js/index.js"></script>
+		<script src="js/index_ui.js"></script>
+		<script src="js/index_util.js"></script>
+		<script src="js/index_charts.js"></script>
+	</head>
+	<body>
+		<!-- top menu -->
+        	<div class="navbar navbar-inverse navbar-fixed-top">
+        		<div class="navbar-inner">
+        			<div class="container">
+        			<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            			    	<span class="icon-bar"></span>
+               			 	<span class="icon-bar"></span>
+              		 	 	<span class="icon-bar"></span>
+        			</button>
+        			<a class="brand" href="#">Risk Plus</a>
+   	     			<div class="nav-collapse collapse">
+	        			<ul class="nav">
+        				<li class="active"><a href="index.html">Home</a></li>
+        			</div>
+        			</div>
+        		</div>
+        	</div>
+		<!-- contents -->
+		<!--h3 align="center">Portfolio Whiteboard</h3-->
+		<div class="tabbable tabs-left">
+			<ul class="nav nav-tabs">
+				<li><a href="#Tab1" data-toggle="tab">Introduction</a></li>
+				<li><a href="#Tab2" data-toggle="tab">Positions</a></li>
+				<li><a href="#Tab3" data-toggle="tab">Charts</a></li>
+				<li><a href="#Tab4" data-toggle="tab">Performance</a></li>
+				<li><a href="#Tab5" data-toggle="tab">Analysis</a></li>
+			</ul>
+			<div class="tab-content">
+			<div class="tab-pane active" id="Tab1">
+			<h4>Welcome</h4>
+			<p>RiskPlus Ltd. is an innovative company, offering high-quality investment decision support tools for retail and professional investors. We view ourselves as partners with our customers, aiming to make available all the latest cutting edge metrics used by finance professionals and academia to track performance and analyze the risk profile of financial assets. Our goal is to become a recognized brand name that puts educating our customers in making the best investment decisions first. Follow us on <a target="_blank" href="https://twitter.com/@riskplus_ltd">Twitter@riskplus_ltd</a></p>
+			<h4>RiskPlus Solutions:</h4>
+			<p><b>Portfolio creation:</b><br/>Our stock universe currently covers 7000+ US and Canadian listed stocks and ETFs. This coupled with our Portfolio creation tool allows for investors to create a custom portfolio of holdings. Starting with the initial cash position and date the investor can enter multiple long/short positions to reflect net portfolio positions as they evolve though the investment horizon.</p>
+			<p><b>Performance Analysis:</b><br/>Tracks the performance of each individual holding and consolidates everything in a portfolio level. Performance measurements include: Holding Period Return, Annualized return, Standard Deviation, Beta, Performance Differential, Individual open position  PnL, Portfolio allocation.</p>
+			<p><b>Benchmark Analysis</b><br/>Portfolio benchmarking with major indices like SP500, TSX300, and DOW30.
+Performance measurements include: Single position PnL, Total Portfolio PnL, Portfolio performance chart (Absolute $ value / %Return), Holding period return, Annualized return. Beta, Standard Deviation (Risk).</p>
+			<p><b>Risk/Return Analysis</b><br/>
+Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Deviation (Risk). Beta, Jensen’s Alpha, Treynor Ratio, Sharpe Ratio, Value at Risk (VaR).  Historical Risk (Standard Deviation) Profile.</p>
+			</div>
+	         	<div class="tab-pane" id="Tab2"><h4>Set initial cash position</h4>
+			<p>Value: <input type="text" id="portfolio_cash" value="0"/> 
+			Start date: <input type="text" id="portfolio_date" />
+        		<button onclick="deposit_cash()" id="cash_add" class="btn" style="margin-bottom:10px">Deposit</button>
+        		<button onclick="withdraw_cash()" id="cash_remove" class="btn" style="margin-bottom:10px">Withdraw</button>
+        		</p>
+			<h4>Add transaction history</h4>
+        		<!-- add new trade action -->
+        		<table class="table"  cellpadding="0" cellspacing="0" cellpadding="0" border="0">
+                	<thead>
+                        <tr>
+                                <th>Type</th>
+                                <th>Symbol</th>
+                                <th>Date</th>
+                                <th>Price</th>
+                                <th>Volume</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                                <tr>
+                                        <td style="border-top:0px">
+                                                        <select id="trade_type" style="width:90%">
+                                                        <option>Buy</option>
+                                                        <option>Sell</option>
+                                                        <option>Short</option>
+                                                        <option>Cover</option>
+                                                </select>
+                                </td>
+                                <td style="border-top:0px">
+                                <input style="width:90%" type="text" id="instrument_entry" />
+                                </td>
+                                <td style="border-top:0px"><input style="width:90%" type ="text" id="date_entry"/></td>
+                                <td style="border-top:0px"><input style="width:90%" type ="text" value="0" id="price_entry"/></td>
+                                <td style="border-top:0px"><input style="width:90%" type ="text" value="0" id="amount_entry"/>
+                                </td>
+                                <td style="border-top:0px"><button onclick="append_row_action()" class="btn">Add</button></td>
+                                </tr>
+                         </tbody>
+                	</table>
+                        <!-- trade history -->
+                        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered">
+                                <thead>
+                                        <tr>
+                                                <th>Asset name</th>
+                                                <th>Sector</th>
+                                                <th>BuySell</th>
+                                                <th>Volume</th>
+                                                <th>Book date</th>
+                                                <th>Book Price</th>
+                                                <th>Current Price</th>
+                                                <th>Actions</th>
+                                        </tr>
+
+                                </thead>
+                                <tbody id="matrix">
+                                        <!-- Rows are inserted here -->
+                                </tbody>
+                        </table>
+			<!-- Net summary -->
+                        <h4 id="step3">Net positions</h4>
+                        <table id="summary_table" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
+                                <thead>
+                                        <tr>
+                                                <th>Symbol</th>
+                                                <th>Position</th>
+                                                <th>Quantity</th>
+                                                <th>Avg. Price</th>
+                                                <th>Book Value</th>
+                                                <th>Current Value</th>
+                                                <th>PnL</th>
+                                        </tr>
+                                </head>
+                                <tbody id="net_rows">
+                                </tbody>
+                        </table>
+                        <!-- Total book and market position, net profit or loss -->
+                        <h4 id="step3x1">Portfolio summary</h4>
+                        <table id="net_portfolio" class="table table-bordered" cellspacing="0" cellpadding="0">
+                                <tr>
+                                        <td><b>Net Value</b></td><td id="value_totals">0</td>
+                                        <td><b>Profit or loss</b></td><td id="pnl_totals">0</td>
+                                </tr>
+                        </table> 
+			</div>
+         		<div class="tab-pane" id="Tab3">
+				<select id="chart_select" onchange="draw_charts(2)">
+					<option value="pnl_chart">Profit or loss over time</option>
+					<option value="val_chart">Value over time</option>
+				<select>
+				<select id="perf_select" onchange="draw_charts(2)">
+                               		<option value="absolute">Absolute</option>
+                                	<option value="percent">Percentage</option>
+                       		</select>
+	              		<div id="container_chart1" style="width:80%; height:400px;">
+                        	</div>
+				<h4 id = "step4x15"> Profit or loss by position</h4>
+                        	<div id="container_chart2b" style="width:40%; float:left; height:400px;">
+                        	</div>
+                        	<div id ="container_chart0" style="width:40%; float:left; height:400px;">
+                        	</div>
+			</div>
+			<div class="tab-pane" id="Tab4">
+				<h4 style="margin-left:69px">Select benchmark to compare: 
+					<select id="benchmark_list" onchange="draw_charts(3)"></select>
+				</h4>
+                        	<div id = "step4" style="width:80%; margin-left:69px;  height:300px;">
+                                <table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+                                        <thead>
+					<th>Total Period Stats</th>
+                                        <th>Your portfolio</th>
+                                        <th>Benchmark</th>
+					</thead>
+					</tbody>
+                                        <tr>
+                                                <td id="label_value">Initial PV</td>
+                                                <td id="portfolio_value">0</td>
+                                                <td id="benchmark_value">0</td>
+                                        </tr>
+                                        <tr>
+                                                <td id="label_final_pv">Final PV</td>
+                                                <td id="portfolio_final_pv">0</td>
+                                                <td id="benchmark_final_pv">0</td>
+                                        </tr>
+                                        <tr>
+                                                <td id="label_net_pnl">Net Profit/Loss</td>
+                                                <td id="portfolio_net_pnl">0</td>
+                                                <td id="benchmark_net_pnl">0</td>
+                                        </tr>
+                                        <tr>
+                                                <td id="label_annualized">Annualized</td>
+                                                <td id="portfolio_annualized">0</td>
+                                                <td id="benchmark_annualized">0</td>
+                                        </tr>
+                                        <tr>
+                                                <td id="label_std">STD</td>
+						<td id="portfolio_std">0</td>
+                                                <td id="benchmark_std">0</td>
+                                        </tr>
+                                        <tr>
+                                                <td id="label_beta">Beta</td>
+                                                <td id="portfolio_beta">0</td>
+                                                <td id="benchmark_beta">0</td>
+                                        </tr>
+                                        <!--tr>
+                                                <td id="label_jensen_alpha">Jensen's Alpha</td>
+                                                <td id="portfolio_jensen_alpha">0</td>
+                                                <td id="benchmark_jensen_alpha">0</td>
+                                        </tr>
+                                        <tr>
+                                                <td id="label_treynor">Treynor Ratio</td>
+                                                <td id="portfolio_treynor">0</td>
+                                                <td id="benchmark_treynor">0</td>
+                                        </tr>
+                                        <tr>
+                                                <td id="label_sharpe">Sharpe Ratio</td>
+                                                <td id="portfolio_sharpe">0</td>
+                                                <td id="benchmark_sharpe">0</td>
+                                        </tr>
+                                        <tr>
+                                                <td id="label_var">VAR</td>
+                                                <td id="portfolio_var">0</td>
+                                                <td id="benchmark_var">0</td>
+                                        </tr-->
+					</tbody>
+                                </table><br/>
+					</div>
+					<div id="container_chart3" style="width:80%; height:600px;">
+                        		</div>
+				</div>
+				<div class="tab-pane" id="Tab5"><h4>Analysis and risk estimation</h4>
+				<p id="risk_info">
+                        		Select risk model:
+                                	<select id="model_select" onchange="draw_charts(1)">
+                                        <option value="STD_DEV">Standard Deviation</option>
+                                        <option value="STD_DEV_CMT">Cumulative Standard Deviation</option>
+                                	</select>
+                     		   	Select  measurement range:
+                                <input type="number" id = "range_select" min="2" max="30" value="5" onchange="draw_charts(1)">
+                        	</p>
+				<div id ="risk_table" style="width:89%;  height:150px;">
+					<table id = "risk_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+					<thead>
+						<th>Stats</th>
+						<th>Portfolio</th>
+						<th>Benchmark</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Value at risk</td>
+							<td>1.0</td>
+							<td>1.4</td>
+						</tr>
+					</tbody>
+					</table>
+				</div>
+                        	<div id="container_chart4" style="width:80%; height:400px">
+                       	 	</div>
+					<!--div id="container_chart4b" style="width:80%; height:400px">
+                       	 		</div-->
+				<div style="width:50%; float:left; height:160px">
+					<h4>Present Portfolio Volatility</h4>
+					<div id="container_chart5a" style="width:100%; float:left; height:120px;">
+					</div>
+				</div>
+				<div style="width:50%; float:left; height:160px">
+						<h4>Present Benchmark Volatility</h4>
+                        			<div id="container_chart5b" style="width:100%; float:left; height:120px;">
+						</div>
+					</div>
+			</div>
+		</div>		
+	</body>
+</html>
