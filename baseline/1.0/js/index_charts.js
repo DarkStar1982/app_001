@@ -28,6 +28,7 @@ var namespace_charts = (function () {
 		ret_obj.min_val = 0.0;
 		ret_obj.max_val = 0.0;
 		ret_obj.last_val = 0.0;
+		console.log(p_series_data);
 		for (var i=0; i<p_series_data.length; i++)
 		{
 			if (p_series_data[i].y>ret_obj.max_val) ret_obj.max_val = math_util.aux_math_round(p_series_data[i].y,3);
@@ -672,6 +673,14 @@ var namespace_charts = (function () {
                                                         	}
                                                 	}	
                                         	},
+						plotOptions : {
+							series: {
+								dataGrouping: {
+									approximation: "average",
+									enabled:false
+								}
+							}
+						},
                                         	series : seriesOptions
                                         });
                                 	}
