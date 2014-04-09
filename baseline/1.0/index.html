@@ -51,9 +51,10 @@
 			<ul class="nav nav-tabs">
 				<li><a href="#Tab1" data-toggle="tab">Introduction</a></li>
 				<li><a href="#Tab2" data-toggle="tab">Positions</a></li>
-				<li><a href="#Tab3" data-toggle="tab">Charts</a></li>
-				<li><a href="#Tab4" data-toggle="tab">Performance</a></li>
-				<li><a href="#Tab5" data-toggle="tab">Analysis</a></li>
+				<li><a href="#Tab3" data-toggle="tab">Dashboard</a></li>
+				<li><a href="#Tab4" data-toggle="tab">Charts</a></li>
+				<li><a href="#Tab5" data-toggle="tab">Performance</a></li>
+				<li><a href="#Tab6" data-toggle="tab">Analysis</a></li>
 			</ul>
 			<div class="tab-content">
 			<div class="tab-pane active" id="Tab1">
@@ -151,7 +152,9 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
                                 </tr>
                         </table> 
 			</div>
-         		<div class="tab-pane" id="Tab3">
+			<div class="tab-pane" id="Tab3">
+			</div>
+         		<div class="tab-pane" id="Tab4">
 				<select id="chart_select" onchange="draw_charts(2)">
 					<option value="pnl_chart">Profit or loss over time</option>
 					<option value="val_chart">Value over time</option>
@@ -168,7 +171,7 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
                         	<div id ="container_chart0" style="width:40%; float:left; height:400px;">
                         	</div>
 			</div>
-			<div class="tab-pane" id="Tab4">
+			<div class="tab-pane" id="Tab5">
 				<h4 style="margin-left:69px">Select benchmark to compare: 
 					<select id="benchmark_list" onchange="draw_charts(3)"></select>
 				</h4>
@@ -236,7 +239,7 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
 					<div id="container_chart3" style="width:80%; height:600px;">
                         		</div>
 				</div>
-				<div class="tab-pane" id="Tab5"><h4>Analysis and risk estimation</h4>
+				<div class="tab-pane" id="Tab6"><h4>Analysis and risk estimation</h4>
 				<p id="risk_info">
                         		Select risk model:
                                 	<select id="model_select" onchange="draw_charts(1)">
