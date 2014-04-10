@@ -575,6 +575,14 @@ var namespace_charts = (function () {
 								navigator : { enabled:false },
                                                 		yAxis :{ offset:0},
                                                 		xAxis :{ offset:0},
+								plotOptions : {
+									series: {
+										dataGrouping: {
+											approximation: 'high',
+											enabled: true
+										}
+									}
+								},
 								series : seriesOptions
                                         		});
 							//part 2
@@ -673,14 +681,6 @@ var namespace_charts = (function () {
                                                         	}
                                                 	}	
                                         	},
-						plotOptions : {
-							series: {
-								dataGrouping: {
-									approximation: "average",
-									enabled:false
-								}
-							}
-						},
                                         	series : seriesOptions
                                         });
                                 	}
