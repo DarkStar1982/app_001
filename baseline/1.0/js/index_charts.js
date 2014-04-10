@@ -585,7 +585,7 @@ var namespace_charts = (function () {
 								},
 								series : seriesOptions
                                         		});
-							//part 2
+							//part two
 							var a = compute_gauge_data(seriesOptions[0].data)
 							var b = compute_gauge_data(seriesOptions[1].data)
 							render_risk_gauge('container_chart5a', stored_data.portfolio_risk_gauge, a);
