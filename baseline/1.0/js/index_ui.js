@@ -257,6 +257,11 @@ var namespace_ui = (function () {
                         });
                 	return list_positions;
         	}
+		render_risk_report()
+		{
+			//get last and max historical risk
+			//multiply by portfolio value
+		}
 
 	};
 }) ();
