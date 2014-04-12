@@ -262,10 +262,10 @@ var namespace_ui = (function () {
 		{
 			//get last and max historical risk
 			//multiply by portfoilio value
-			$("#portfolio_last_vatr").text("1.0");
-			$("#portfolio_hist_vatr").text("2.0");
-			$("#benchmark_last_vatr").text("3.0");
-			$("#benchmark_hist_vatr").text("4.0");
+			$("#portfolio_1day_vatr").text("1.0");
+			$("#portfolio_5day_vatr").text("2.0");
+			$("#benchmark_1day_vatr").text("3.0");
+			$("#benchmark_5day_vatr").text("4.0");
 		}
 
 	};
