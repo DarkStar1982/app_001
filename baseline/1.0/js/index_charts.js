@@ -590,6 +590,9 @@ var namespace_charts = (function () {
 							var b = compute_gauge_data(seriesOptions[1].data)
 							render_risk_gauge('container_chart5a', stored_data.portfolio_risk_gauge, a);
 							render_risk_gauge('container_chart5b', stored_data.benchmark_risk_gauge, b);
+							//part three - all wrong
+							//but will work for now
+							namespace_ui.render_risk_report(a,b);
 						}
                         		});
                 	});

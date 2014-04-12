@@ -256,11 +256,16 @@ var namespace_ui = (function () {
                                 i = i + 1;
                         });
                 	return list_positions;
-        	}
-		render_risk_report()
+        	},
+
+		render_risk_report: function(p_data_portfolio,p_data_benchmark)
 		{
 			//get last and max historical risk
-			//multiply by portfolio value
+			//multiply by portfoilio value
+			$("#portfolio_last_vatr").text("1.0");
+			$("#portfolio_hist_vatr").text("2.0");
+			$("#benchmark_last_vatr").text("3.0");
+			$("#benchmark_hist_vatr").text("4.0");
 		}
 
 	};
