@@ -1,4 +1,4 @@
-//////////////////////////////////   MATH functions module ///////////////////////////
+/*   MATH functions module */
 var math_util = (function (){
 	/*** private ****/
 	function extract_data(p_data)
@@ -121,7 +121,7 @@ var math_util = (function (){
 	};
 })();
 
-////////////////////////// DATE and TIME module ////////////////
+/* DATE and TIME module */
 
 var datetime_util = (function () {
 	
@@ -213,4 +213,13 @@ var datetime_util = (function () {
 	};
 }) ();
 
-
+/* Excel 2003 function equivalents module */
+var namespace_xls = (function (){
+	
+	return {
+		norminv: function(p, mu, sigma)
+		{
+			///to do later	
+		}	
+	}
+}) (); 
