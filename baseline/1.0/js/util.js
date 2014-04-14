@@ -217,9 +217,66 @@ var datetime_util = (function () {
 var namespace_xls = (function (){
 	
 	return {
+		/* Original algorithm by Peter John Acklam, 2003-2010 */
 		norminv: function(p, mu, sigma)
 		{
-			///to do later	
+			//polynomial approximation coefficients
+			var a1 = -39.6968302866538;
+        		var a2 = 220.946098424521;
+        		var a3 = -275.928510446969;
+        		var a4 = 138.357751867269;
+        		var a5 = -30.6647980661472;
+        		var a6 = 2.50662827745924;
+	
+        		var b1 = -54.4760987982241;
+        		var b2 = 161.585836858041;
+        		var b3 = -155.698979859887;
+        		var b4 = 66.8013118877197;
+        		var b5 = -13.2806815528857;
+
+        		var c1 = -7.78489400243029E-03;
+        		var c2 = -0.322396458041136;
+        		var c3 = -2.40075827716184;
+        		var c4 = -2.54973253934373;
+        		var c5 = 4.37466414146497;
+        		var c6 = 2.93816398269878;
+
+        		var d1 = 7.78469570904146E-03;
+        		var d2 = 0.32246712907004;
+        		var d3 = 2.445134137143;
+        		var d4 = 3.75440866190742;
+			
+			// define values 
+        		var pLow = 0.02425;
+        		var pHigh = 1.0 - pLow;
+        		var q;
+        		var x = 0;
+        		if (p <= 0.0) 
+            			p = pLow;
+        		if (p >= 1.0)
+            			p = pHigh;
+			//now compute
+        		if (p < pLow)
+        		{
+           			q = Math.Sqrt(-2.0 * Math.Log(p));
+            			x = (((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) / 
+					 ((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
+        		}
+        		else if (p <= pHigh)
+        		{
+            			q = p - 0.5;
+            			var r = q * q;
+            			x = (((((a1 * r + a2) * r + a3) * r + a4) * r + a5) * r + a6) * q /
+					(((((b1 * r + b2) * r + b3) * r + b4) * r + b5) * r + 1);
+        		}
+        		else if (p < 1.0)
+        		{
+            			q = Math.Sqrt(-2.0 * Math.Log(1 - p));
+            			x = -(((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) / 
+					((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
+        		}
+
+       			return (sigma*x + mu);
 		}	
 	}
 }) (); 
