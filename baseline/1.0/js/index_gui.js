@@ -260,10 +260,20 @@ var namespace_ui = (function () {
 
 		render_risk_report: function(p_data_portfolio,p_data_benchmark)
 		{
+			//step 1 - get sigma, and mean of that data
+			//get annualized stdev
+			//get annualized pnl
+			//get VAR percentage
 			//get last and max historical risk
+			var p = 0.95;
+			var a = $("#benchmark_annualized").text();	
+			var b = $("#benchmark_std").text();
+			var c = parseFloat(a.substring(0,a.length - 1));
+			var d = parseFloat(b.substring(0,b.length - 1));
 			//multiply by portfoilio value
-			$("#portfolio_1day_vatr").text("1.0");
-			$("#portfolio_5day_vatr").text("2.0");
+			var test = namespace_xls.norminv(p,c,d);
+			$("#portfolio_1day_vatr").text(test);
+			$("#portfolio_5day_vatr").text(test);
 			$("#benchmark_1day_vatr").text("3.0");
 			$("#benchmark_5day_vatr").text("4.0");
 		}
