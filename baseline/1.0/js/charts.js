@@ -592,7 +592,6 @@ var namespace_charts = (function () {
 							render_risk_gauge('container_chart5b', stored_data.benchmark_risk_gauge, b);
 							//part three - all wrong
 							//but will work for now
-							namespace_ui.render_risk_report(a,b);
 						}
                         		});
                 	});

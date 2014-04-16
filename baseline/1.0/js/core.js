@@ -191,6 +191,7 @@ function recompute_portfolio()
 	var net_positions = compute_net_positions(positions);	
 	namespace_ui.render_net_positions(net_positions);
 	namespace_ui.render_comparative_reports(net_positions);
+	//namespace_ui.render_risk_report();
 }
 
 

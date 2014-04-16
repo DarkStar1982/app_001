@@ -234,6 +234,7 @@ var namespace_ui = (function () {
                         		benchmark_report.std_dev = math_util.compute_stdev(data);
                         		portfolio_report.beta = math_util.compute_beta(storage, data);
                         		namespace_ui.update_net_reports(portfolio_report, benchmark_report);
+					namespace_ui.render_risk_report();
                 		});
         		});
 		},
@@ -258,24 +259,27 @@ var namespace_ui = (function () {
                 	return list_positions;
         	},
 
-		render_risk_report: function(p_data_portfolio,p_data_benchmark)
+		render_risk_report: function()
 		{
-			//step 1 - get sigma, and mean of that data
-			//get annualized stdev
-			//get annualized pnl
-			//get VAR percentage
-			//get last and max historical risk
-			var p = 0.95;
-			var a = $("#benchmark_annualized").text();	
-			var b = $("#benchmark_std").text();
-			var c = parseFloat(a.substring(0,a.length - 1));
-			var d = parseFloat(b.substring(0,b.length - 1));
-			//multiply by portfoilio value
-			var test = namespace_xls.norminv(p,c,d);
-			$("#portfolio_1day_vatr").text(test);
-			$("#portfolio_5day_vatr").text(test);
-			$("#benchmark_1day_vatr").text("3.0");
-			$("#benchmark_5day_vatr").text("4.0");
+			//get variable values
+			var p1 = 0.95;
+			var a1 = $("#benchmark_annualized").text();	
+			var b1 = $("#benchmark_std").text();
+			var a2 = $("#portfolio_annualized").text();
+			var b2 = $("#portfolio_std").text();
+			var c1 = parseFloat(a1.substring(0,a1.length - 1));
+			var d1 = parseFloat(b1.substring(0,b1.length - 1));
+			var c2 = parseFloat(a2.substring(0,a2.length - 1));
+			var d2 = parseFloat(b2.substring(0,b2.length - 1));
+			// get value at risk	
+			var vatr1 = namespace_xls.norminv(p1,c1,d1);
+			var vatr2 = namespace_xls.norminv(p1,c2,d2);
+			//console.log(vatr1);
+			//console.log(vatr2);
+			$("#benchmark_vatr_pc").text(vatr1);
+			$("#portfolio_vatr_pc").text(vatr2);
+			//$("#portfolio_5day_vatr").text(test);
+			//$("#benchmark_5day_vatr").text("4.0");
 		}
 
 	};
