@@ -242,6 +242,12 @@ var namespace_ui = (function () {
 			$.getJSON('data_api',{input_data:csv_summary,type:'value_profile',flags:'percent'},function(data){
 				//compute the time returns and momentum for each position???
 				//now create the rows and append
+				//get aggregated portfolio value series
+				//get 1d - 1y returns
+				//	get start date, get end difference, see the difference
+				//	input is [[date, value],...] array
+				//	output is single value
+				//for each position get 1d - 1y positions, weight adjusted
                 	});	
 			//$.getJSON('data_api', {input}
 		},
