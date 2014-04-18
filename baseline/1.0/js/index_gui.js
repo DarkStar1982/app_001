@@ -1,7 +1,21 @@
 var namespace_ui = (function () {
-        
 	/*** public ***/
 	return {
+		transform_to_csv : function (p_obj_dat)
+		{
+        		var xsummary = "";
+        		for (var i=0;i<p_obj_tlist.length;i++)
+        		{
+                		var csvline="";
+                		csvline = p_obj_tlist[i].volume + "," + p_obj_tlist[i].symbol + ","
+                                	+ p_obj_tlist[i].type + "," + p_obj_tlist[i].b_date + "," + p_obj_tlist[i].b_price + ","
+                                	+ p_obj_tlist[i].c_price;
+                		xsummary = xsummary + csvline +'|';
+        		}
+        		//remove trailing '|'
+			xsummary = xsummary.slice(0,-1);
+			return xsummary;
+                },
 		create_benchmark_data: function(p_start_date)
         	{
                 	var name_select = $("#benchmark_list").val();
@@ -224,7 +238,7 @@ var namespace_ui = (function () {
 			//var drow = namespace_ui.create_dashboard_row('Test','Test',obj_returns,obj_momentum);
 			//$("#dashboard_rows").append(drow);
 			var raw_data = namespace_ui.get_portfolio_transactions();
-        		var csv_summary = transform_to_csv(raw_data);
+        		var csv_summary = namespace_ui.transform_to_csv(raw_data);
 			$.getJSON('data_api',{input_data:csv_summary,type:'value_profile',flags:'percent'},function(data){
 				//compute the time returns and momentum for each position???
 				//now create the rows and append
@@ -241,7 +255,7 @@ var namespace_ui = (function () {
 		        var xpnl = p_net_data.total_pnl;
 		        var storage=new Array();
         		var raw_data = namespace_ui.get_portfolio_transactions();
-        		var csv_summary = transform_to_csv(raw_data);
+        		var csv_summary = namespace_ui.transform_to_csv(raw_data);
         		$.getJSON('data_api',{input_data:csv_summary,type:'value_profile',flags:'percent'},function(data){
                 		portfolio_report.percent_start = 100.0;
                 		portfolio_report.percent_end = math_util.aux_currency_round(end_totals / start_cash * 100.0);

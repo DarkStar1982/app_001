@@ -355,24 +355,6 @@ function validate_transaction(p_new_record)
 	return result;
 }
 
-//should be transform to json
-function transform_to_csv(p_obj_tlist)
-{
-	var xsummary = "";
-	for (var i=0;i<p_obj_tlist.length;i++)
-	{
-		var csvline="";
-		csvline = p_obj_tlist[i].volume + "," + p_obj_tlist[i].symbol + "," 
-				+ p_obj_tlist[i].type + "," + p_obj_tlist[i].b_date + "," + p_obj_tlist[i].b_price + ","
-				+ p_obj_tlist[i].c_price;
-		xsummary = xsummary + csvline +'|';
-	}
-	//remove trailing '|'
-	xsummary = xsummary.slice(0,-1);
-	//for every transaction date create portfolio snapshot
-	//Cash part, long position, short position:
-	return xsummary;
-}	
 //compute positions -  step 1
 function compute_positions(p_transactions)
 {
@@ -586,7 +568,7 @@ function draw_charts(p_mode)
 		var obj_tlist = namespace_ui.get_portfolio_transactions();
 		//get net positions 
 		var obj_plist = namespace_ui.get_net_position_summary();
-		var csv_summary = transform_to_csv(obj_tlist);
+		var csv_summary = namespace_ui.transform_to_csv(obj_tlist);
                 //draw all charts
 		var selected = $("#chart_select").val();
 		if (p_mode==0)
