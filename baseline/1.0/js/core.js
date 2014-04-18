@@ -184,6 +184,8 @@ function remove_row_action(param)
 }
 
 //////////////////////////////////COMPUTE PORTFOLIO PART ///////////////////
+// Step 1 - get data
+// Update
 function recompute_portfolio()
 {
 	var transactions = namespace_ui.get_portfolio_transactions();
@@ -191,6 +193,7 @@ function recompute_portfolio()
 	var net_positions = compute_net_positions(positions);	
 	namespace_ui.render_net_positions(net_positions);
 	namespace_ui.render_comparative_reports(net_positions);
+	namespace_ui.render_dashboard(net_positions);
 	//namespace_ui.render_risk_report();
 }
 

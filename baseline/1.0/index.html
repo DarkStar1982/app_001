@@ -151,32 +151,40 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
                                 </tr>
                         </table> 
 			</div>
-			<div class="tab-pane" id="Tab3"><table id="dashboard" class="table table-striped table-bordered">
-				<thead>
-					<th>Position</th>
-					<th>Info</th>
-					<th>1d &#37</th>
-					<th>1w &#37</th>
-					<th>1m &#37</th>
-					<th>3m &#37</th>
-					<th>6m &#37</th>
-					<th>1y &#37</th>
-					<th>50D-MA</th>
-					<th>200D-MA</th>
+			<div class="tab-pane" id="Tab3"><table id="dashboard" class="table table-bordered">
+				<thead>					
+					<tr>	
+						<th colspan=2>HOLDINGS</th>
+						<th colspan=6>RETURNS</th>
+						<th colspan=2>MOMENTUM</th>
+					</tr>
+					<tr>
+						<td>Position</td>
+						<td>Info</td>
+						<td>1d &#37</td>
+						<td>1w &#37</td>
+						<td>1m &#37</td>
+						<td>3m &#37</td>
+						<td>6m &#37</td>
+						<td>1y &#37</td>
+						<td>50D-MA</td>
+						<td>200D-MA</td>
+					</tr>
 				</thead>
 				<tbody id="dashboard_rows">
-					<tr>
-						<td>0.0</td>
+
+					<!--<tr>
+						<td>-</td>
+						<td>-</td>
 						<td>0.1</td>
 						<td>0.2</td>
 						<td>0.3</td>
 						<td>0.4</td>
 						<td>0.5</td>
 						<td>0.6</td>
-						<td>0.7</td>
-						<td>0.8</td>
-						<td>0.9</td>
-					</tr>
+						<td>None</td>
+						<td>None</td>
+					</tr>-->
 				</tbody>
 			</table></div>
          		<div class="tab-pane" id="Tab4">
@@ -288,7 +296,7 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
 							<td id="benchmark_vatr_pc">0.0</td>
 						</tr>
 						<tr>
-							<td id="label_vatr_abs">Value at risk - 5 day</td>
+							<td id="label_vatr_abs">Value at risk - Absolute</td>
 							<td id="portfolio_vatr_abs">0.0</td>
 							<td id="benchmark_vatr_abs">0.0</td>
 						</tr>

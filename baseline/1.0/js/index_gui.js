@@ -24,12 +24,26 @@ var namespace_ui = (function () {
                 	+ '</td><td class="buysell_label">' + p_buysell
                 	+ '</td><td class="volume_label">'+ p_vol
                 	+ '</td><td class="book_date">' + p_date
-                	+ '<td class="book_price">' + p_book_price
+                	+ '</td><td class="book_price">' + p_book_price
                 	+ '</td><td class="current_price">'+ p_cur_price
                 	+ '</td><td><button onclick="remove_row_action(this)" class="btn">Remove</button></td></tr>';
 			return new_row;
 		},
-
+		create_dashboard_row: function(p_asset, p_sector, p_returns, p_momentum)
+		{
+			var dash_row = '<tr><td>'+ p_asset
+                	+ '</td><td>' + p_sector 
+                	+ '</td><td>' + p_returns.ret_1d
+                	+ '</td><td>' + p_returns.ret_1w
+                	+ '</td><td>' + p_returns.ret_1m 
+                	+ '</td><td>' + p_returns.ret_3m
+			+ '</td><td>' + p_returns.ret_6m
+			+ '</td><td>' + p_returns.ret_1y
+			+ '</td><td>' + p_momentum.m_50d
+			+ '</td><td>' + p_momentum.m_200d
+                	+ '</td></tr>';
+			return dash_row;
+		},
         	create_summary_row: function(p_asset, p_vol, p_avgprice, p_book_val, p_cur_val, p_pnl)
         	{
                 	var x = p_asset.indexOf('_');
@@ -202,7 +216,14 @@ var namespace_ui = (function () {
         		$("#value_totals").text(math_util.aux_currency_round(p_net_positions.total_val));
 	        	$("#pnl_totals").text(math_util.aux_currency_round(p_net_positions.total_pnl));
 		},
-
+		render_dashboard: function(p_net_positions)
+		{
+			$("#dashboard_rows").empty();
+			var obj_returns = {ret_1d: 0.0, ret_1w : 1.0, ret_1m : 2.0, ret_3m : 3.0, ret_6m : 4.0, ret_1y: 5.0 }; 
+			var obj_momentum = {m_50d: 'TEST', m_200d: 'SO TEST'};
+			var drow = namespace_ui.create_dashboard_row('Test','Test',obj_returns,obj_momentum);
+			$("#dashboard_rows").append(drow);
+		},
 		render_comparative_reports: function(p_net_data)
 		{
 			var portfolio_report = new Object();
@@ -263,6 +284,7 @@ var namespace_ui = (function () {
 		{
 			//get variable values
 			var p1 = 0.95;
+			var p_val = $("#value_totals").text();
 			var a1 = $("#benchmark_annualized").text();	
 			var b1 = $("#benchmark_std").text();
 			var a2 = $("#portfolio_annualized").text();
@@ -272,12 +294,14 @@ var namespace_ui = (function () {
 			var c2 = parseFloat(a2.substring(0,a2.length - 1));
 			var d2 = parseFloat(b2.substring(0,b2.length - 1));
 			// get value at risk	
-			var vatr1 = namespace_xls.norminv(p1,c1,d1);
-			var vatr2 = namespace_xls.norminv(p1,c2,d2);
-			//console.log(vatr1);
-			//console.log(vatr2);
+			var vatr1 = math_util.aux_math_round(namespace_xls.norminv(p1,c1,d1),2);
+			var vatr2 = math_util.aux_math_round(namespace_xls.norminv(p1,c2,d2),2);
+			var vatr1_abs = math_util.aux_math_round(p_val*vatr1/100.0,2);
+			var vatr2_abs = math_util.aux_math_round(p_val*vatr2/100.0,2);
 			$("#benchmark_vatr_pc").text(vatr1);
 			$("#portfolio_vatr_pc").text(vatr2);
+			$("#portfolio_vatr_abs").text(vatr2_abs);
+			$("#benchmark_vatr_abs").text(vatr1_abs);
 			//$("#portfolio_5day_vatr").text(test);
 			//$("#benchmark_5day_vatr").text("4.0");
 		}
