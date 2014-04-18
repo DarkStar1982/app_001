@@ -65,6 +65,7 @@ $(function() {
 ////////////////////////////// ENTRY POINT /////////////////////////////////////////////
 function render_page()
 {
+	//get all data
 	recompute_portfolio()
 	draw_charts(0);
 }

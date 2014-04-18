@@ -219,10 +219,17 @@ var namespace_ui = (function () {
 		render_dashboard: function(p_net_positions)
 		{
 			$("#dashboard_rows").empty();
-			var obj_returns = {ret_1d: 0.0, ret_1w : 1.0, ret_1m : 2.0, ret_3m : 3.0, ret_6m : 4.0, ret_1y: 5.0 }; 
-			var obj_momentum = {m_50d: 'TEST', m_200d: 'SO TEST'};
-			var drow = namespace_ui.create_dashboard_row('Test','Test',obj_returns,obj_momentum);
-			$("#dashboard_rows").append(drow);
+			//var obj_returns = {ret_1d: 0.0, ret_1w : 1.0, ret_1m : 2.0, ret_3m : 3.0, ret_6m : 4.0, ret_1y: 5.0 }; 
+			//var obj_momentum = {m_50d: 'TEST', m_200d: 'SO TEST'};
+			//var drow = namespace_ui.create_dashboard_row('Test','Test',obj_returns,obj_momentum);
+			//$("#dashboard_rows").append(drow);
+			var raw_data = namespace_ui.get_portfolio_transactions();
+        		var csv_summary = transform_to_csv(raw_data);
+			$.getJSON('data_api',{input_data:csv_summary,type:'value_profile',flags:'percent'},function(data){
+				//compute the time returns and momentum for each position???
+				//now create the rows and append
+                	});	
+			//$.getJSON('data_api', {input}
 		},
 		render_comparative_reports: function(p_net_data)
 		{
