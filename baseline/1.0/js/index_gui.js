@@ -1,7 +1,7 @@
 var namespace_ui = (function () {
 	/*** public ***/
 	return {
-		transform_to_csv : function (p_obj_dat)
+		transform_to_csv : function (p_obj_tlist)
 		{
         		var xsummary = "";
         		for (var i=0;i<p_obj_tlist.length;i++)
