@@ -121,6 +121,36 @@ var math_util = (function (){
 	};
 })();
 
+var namespace_dashboard = ( function () {
+	/* public */
+	return {
+		get_return_series: function(p_input)
+		{
+			var offsets=[1, 5, 21, 63, 126, 252];
+			var series = [];
+			var last_index = p_input.length-1;
+			var last_value = p_input[last_index];
+			for var (i=0;i<offsets.length;i++)
+			{
+				var first_index = offsets[i];
+				if (first_index<=p_input.length)
+				{
+					var first_value = p_input[last_index - first_index];
+					series.push((1 - last_value / first_value) * 100.0);
+				}
+			}
+			return series;
+		},
+		get_momentum_series: function(p_input)
+		{
+			//return 50 days moving average
+			//return 200 days moving average
+		}
+		
+	};
+	
+})();
+
 /* DATE and TIME module */
 
 var datetime_util = (function () {

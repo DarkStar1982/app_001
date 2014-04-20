@@ -240,6 +240,8 @@ var namespace_ui = (function () {
 			var raw_data = namespace_ui.get_portfolio_transactions();
         		var csv_summary = namespace_ui.transform_to_csv(raw_data);
 			$.getJSON('data_api',{input_data:csv_summary,type:'value_profile',flags:'percent'},function(data){
+				//
+				//namespace_applof
 				//compute the time returns and momentum for each position???
 				//now create the rows and append
 				//get aggregated portfolio value series
