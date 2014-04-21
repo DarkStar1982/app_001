@@ -53,8 +53,8 @@ var namespace_ui = (function () {
                 	+ '</td><td>' + p_returns.ret_3m
 			+ '</td><td>' + p_returns.ret_6m
 			+ '</td><td>' + p_returns.ret_1y
-			+ '</td><td>' + p_momentum.m_50d
-			+ '</td><td>' + p_momentum.m_200d
+			+ '</td><td>' + p_momentum.p_50d
+			+ '</td><td>' + p_momentum.p_200d
                 	+ '</td></tr>';
 			return dash_row;
 		},
@@ -233,25 +233,15 @@ var namespace_ui = (function () {
 		render_dashboard: function(p_net_positions)
 		{
 			$("#dashboard_rows").empty();
-			//var obj_returns = {ret_1d: 0.0, ret_1w : 1.0, ret_1m : 2.0, ret_3m : 3.0, ret_6m : 4.0, ret_1y: 5.0 }; 
-			//var obj_momentum = {m_50d: 'TEST', m_200d: 'SO TEST'};
-			//var drow = namespace_ui.create_dashboard_row('Test','Test',obj_returns,obj_momentum);
-			//$("#dashboard_rows").append(drow);
 			var raw_data = namespace_ui.get_portfolio_transactions();
         		var csv_summary = namespace_ui.transform_to_csv(raw_data);
 			$.getJSON('data_api',{input_data:csv_summary,type:'value_profile',flags:'percent'},function(data){
-				//
-				//namespace_applof
-				//compute the time returns and momentum for each position???
-				//now create the rows and append
-				//get aggregated portfolio value series
-				//get 1d - 1y returns
-				//	get start date, get end difference, see the difference
-				//	input is [[date, value],...] array
-				//	output is single value
-				//for each position get 1d - 1y positions, weight adjusted
-                	});	
-			//$.getJSON('data_api', {input}
+				var dashboard_series = namespace_dashboard.get_return_series(data);
+				var momentum_data = namespace_dashboard.get_momentum_series(data);
+				//Show entire portfolio
+				var d_row =namespace_ui.create_dashboard_row('Net portfolio','-',dashboard_series,momentum_data);
+				$("#dashboard_rows").append(d_row);
+	           	});	
 		},
 		render_comparative_reports: function(p_net_data)
 		{
