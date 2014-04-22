@@ -155,7 +155,8 @@ var namespace_dashboard = ( function () {
 			if (p_input.length>199)
 			{
 				var sum200 = 0.0;
-				for (var i=p_input.length-1;i>-1;i--)
+				var end_point = p_input.length - 200;
+				for (var i=p_input.length - 1;i>end_point - 1;i--)
 				{
 					sum200 = sum200 + p_input[i][1];
 				}
@@ -171,7 +172,8 @@ var namespace_dashboard = ( function () {
 			if (p_input.length>49)
 			{
 				var total_sum = 0.0;
-				for (var i=p_input.length - 1;i>-1;i--)
+				var end_point = p_input.length - 50;
+				for (var i=p_input.length - 1;i>end_point - 1;i--)
 				{
 					total_sum = total_sum + p_input[i][1];
 				}

@@ -184,6 +184,27 @@ var namespace_ui = (function () {
         		});
         		return tr_list;
 		},
+		
+		get_net_position_summary: function()
+        	{
+                	var list_positions=[];
+                	var i=0;
+                	var prows = $("#net_rows").children("tr");
+                	prows.each(function(index){
+                                var new_record={};
+                                new_record.symbol = $(this).children(".sum_asset").text();
+                                new_record.value = $(this).children(".sum_pnl").text();
+                                new_record.volume = $(this).children(".sum_volume").text();
+                                var end_val = $(this).children(".sum_cur_val").text();
+                                var beg_val = $(this).children(".sum_book_val").text();
+                                var xpnl = (parseFloat(end_val)/parseFloat(beg_val) - 1.0)*100.0;
+                                new_record.xpnl = math_util.aux_currency_round(xpnl);
+                                list_positions[i] = new_record;
+                                i = i + 1;
+                        });
+                	return list_positions;
+        	},
+
 
 		update_net_reports: function(p_client_report, p_benchmark_report)
         	{
@@ -238,9 +259,16 @@ var namespace_ui = (function () {
 			$.getJSON('data_api',{input_data:csv_summary,type:'value_profile',flags:'percent'},function(data){
 				var dashboard_series = namespace_dashboard.get_return_series(data);
 				var momentum_data = namespace_dashboard.get_momentum_series(data);
-				//Show entire portfolio
+				//0. Show entire portfolio
 				var d_row =namespace_ui.create_dashboard_row('Net portfolio','-',dashboard_series,momentum_data);
 				$("#dashboard_rows").append(d_row);
+				//1. show each position
+				//2. show benchmark
+				//3. show oil
+				//4. show gold/silver/etc
+				//5. show BTC
+				//6. show commmoditty
+				//7. bonds, T-Bills
 	           	});	
 		},
 		render_comparative_reports: function(p_net_data)
@@ -278,26 +306,6 @@ var namespace_ui = (function () {
                 		});
         		});
 		},
-
-		get_net_position_summary: function()
-        	{
-                	var list_positions=[];
-                	var i=0;
-                	var prows = $("#net_rows").children("tr");
-                	prows.each(function(index){
-                                var new_record={};
-                                new_record.symbol = $(this).children(".sum_asset").text();
-                                new_record.value = $(this).children(".sum_pnl").text();
-                                new_record.volume = $(this).children(".sum_volume").text();
-                                var end_val = $(this).children(".sum_cur_val").text();
-                                var beg_val = $(this).children(".sum_book_val").text();
-                                var xpnl = (parseFloat(end_val)/parseFloat(beg_val) - 1.0)*100.0;
-                                new_record.xpnl = math_util.aux_currency_round(xpnl);
-                                list_positions[i] = new_record;
-                                i = i + 1;
-                        });
-                	return list_positions;
-        	},
 
 		render_risk_report: function()
 		{
