@@ -263,6 +263,20 @@ var namespace_ui = (function () {
 				var d_row =namespace_ui.create_dashboard_row('Net portfolio','-',dashboard_series,momentum_data);
 				$("#dashboard_rows").append(d_row);
 				//1. show each position
+				var net_positions = namespace_ui.get_net_position_summary();
+				for (i=0;i<net_positions.length;i++)
+				{
+					var h_symbol = net_positions[i].symbol;
+					var d1 =raw_data[0].b_date;
+					var d2 =datetime_util.adjust_date( new Date());
+					$.getJSON('data_api',{symbol:h_symbol,type:'price_history',start_date:d1,end_date:d2},
+						function(data)
+						{
+							var part1 = namespace_dashboard.get_return_series(data);
+							var part2 = namespace_dashboard.get_momentum_series(data);
+							var new_row = namespace_ui.create_dashboard_row(h_symbol,'-',part_1,part2);
+						});	
+				}	
 				//2. show benchmark
 				//3. show oil
 				//4. show gold/silver/etc
