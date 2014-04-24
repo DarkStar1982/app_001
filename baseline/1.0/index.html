@@ -151,42 +151,58 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
                                 </tr>
                         </table> 
 			</div>
-			<div class="tab-pane" id="Tab3"><table id="dashboard" class="table table-bordered">
-				<thead>					
-					<tr>	
-						<th colspan=2>HOLDINGS</th>
-						<th colspan=6>RETURNS</th>
-						<th colspan=2>MOMENTUM</th>
-					</tr>
-					<tr>
-						<td>Position</td>
-						<td>Info</td>
-						<td>1d &#37</td>
-						<td>1w &#37</td>
-						<td>1m &#37</td>
-						<td>3m &#37</td>
-						<td>6m &#37</td>
+			<div class="tab-pane" id="Tab3">
+				<h4> Portfolio positions breakdown</h4>
+				<table id="dashboard" class="table table-bordered">
+					<thead>					
+						<tr>	
+							<th colspan=2>HOLDINGS</th>
+							<th colspan=6>RETURNS</th>
+							<th colspan=2>MOMENTUM</th>
+						</tr>
+						<tr>
+							<td>Position</td>
+							<td>Info</td>
+							<td>1d &#37</td>
+							<td>1w &#37</td>
+							<td>1m &#37</td>
+							<td>3m &#37</td>
+							<td>6m &#37</td>
 						<td>1y &#37</td>
 						<td>50D-MA</td>
 						<td>200D-MA</td>
-					</tr>
-				</thead>
-				<tbody id="dashboard_rows">
+						</tr>
+					</thead>
+					<tbody id="dashboard_rows">
+						<!-- insert rows here -->
+					</tbody>
+				</table>
+				<table id="reference_dashboard">
+					<thead>					
+						<tr>	
+							<th colspan=2>HOLDINGS</th>
+							<th colspan=6>RETURNS</th>
+							<th colspan=2>MOMENTUM</th>
+						</tr>
+						<tr>
+							<td>Position</td>
+							<td>Info</td>
+							<td>1d &#37</td>
+							<td>1w &#37</td>
+							<td>1m &#37</td>
+							<td>3m &#37</td>
+							<td>6m &#37</td>
+						<td>1y &#37</td>
+						<td>50D-MA</td>
+						<td>200D-MA</td>
+						</tr>
+					</thead>
+					<tbody id="reference_rows">
+						<!-- insert rows here -->
+					</tbody>
 
-					<!--<tr>
-						<td>-</td>
-						<td>-</td>
-						<td>0.1</td>
-						<td>0.2</td>
-						<td>0.3</td>
-						<td>0.4</td>
-						<td>0.5</td>
-						<td>0.6</td>
-						<td>None</td>
-						<td>None</td>
-					</tr>-->
-				</tbody>
-			</table></div>
+				<table>
+			</div>
          		<div class="tab-pane" id="Tab4">
 				<select id="chart_select" onchange="draw_charts(2)">
 					<option value="pnl_chart">Profit or loss over time</option>

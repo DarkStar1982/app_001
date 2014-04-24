@@ -251,6 +251,7 @@ var namespace_ui = (function () {
         		$("#value_totals").text(math_util.aux_currency_round(p_net_positions.total_val));
 	        	$("#pnl_totals").text(math_util.aux_currency_round(p_net_positions.total_pnl));
 		},
+
 		render_dashboard: function(p_net_positions)
 		{
 			$("#dashboard_rows").empty();
@@ -263,18 +264,22 @@ var namespace_ui = (function () {
 				var d_row =namespace_ui.create_dashboard_row('Net portfolio','-',dashboard_series,momentum_data);
 				$("#dashboard_rows").append(d_row);
 				//1. show each position
+				var k = 0;
 				var net_positions = namespace_ui.get_net_position_summary();
-				for (i=0;i<net_positions.length;i++)
+				for (i=0;i<net_positions.length-1;i++)
 				{
 					var h_symbol = net_positions[i].symbol;
 					var d1 =raw_data[0].b_date;
 					var d2 =datetime_util.adjust_date( new Date());
-					$.getJSON('data_api',{symbol:h_symbol,type:'price_history',start_date:d1,end_date:d2},
-						function(data)
+					$.getJSON('data_api',{id:net_positions[i].symbol,
+						type:'price_history',start_date:d1,end_date:d2},function(data)
 						{
+							var h_symbol = net_positions[k].symbol;
 							var part1 = namespace_dashboard.get_return_series(data);
 							var part2 = namespace_dashboard.get_momentum_series(data);
-							var new_row = namespace_ui.create_dashboard_row(h_symbol,'-',part_1,part2);
+							var new_row = namespace_ui.create_dashboard_row(h_symbol,'-',part1,part2);
+							$("#dashboard_rows").append(new_row);
+							k = k + 1;
 						});	
 				}	
 				//2. show benchmark
@@ -285,6 +290,7 @@ var namespace_ui = (function () {
 				//7. bonds, T-Bills
 	           	});	
 		},
+
 		render_comparative_reports: function(p_net_data)
 		{
 			var portfolio_report = new Object();
