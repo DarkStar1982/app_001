@@ -301,7 +301,7 @@ var namespace_ui = (function () {
 				//4. show gold/silver/etc
 				//5. show BTC
 				//6. show commmoditty
-				//7. bonds, T-Bills
+				//7. bonds, T-Bills,etc
 			});
 		},
 
