@@ -252,7 +252,7 @@ var namespace_ui = (function () {
 	        	$("#pnl_totals").text(math_util.aux_currency_round(p_net_positions.total_pnl));
 		},
 
-		render_dashboard: function(p_net_positions)
+		render_dashboards: function()
 		{
 			$("#dashboard_rows").empty();
 			var raw_data = namespace_ui.get_portfolio_transactions();
@@ -264,6 +264,7 @@ var namespace_ui = (function () {
 				var d_row =namespace_ui.create_dashboard_row('Net portfolio','-',dashboard_series,momentum_data);
 				$("#dashboard_rows").append(d_row);
 				//1. show each position
+			}).done(function (){
 				var k = 0;
 				var net_positions = namespace_ui.get_net_position_summary();
 				for (i=0;i<net_positions.length-1;i++)
@@ -282,13 +283,26 @@ var namespace_ui = (function () {
 							k = k + 1;
 						});	
 				}	
-				//2. show benchmark
+	           	});	
+			//2. show benchmark
+			var xdate = $("#1").children(".book_date").text();
+			var benchmark = namespace_ui.create_benchmark_data(xdate);
+			$("#reference_rows").empty();
+                	$.getJSON('data_api',{input_data:benchmark,type:'value_profile',flags:'benchmark'},function(data)
+			{
+				var h_symbol = 'Benchmark';
+				var part1 = namespace_dashboard.get_return_series(data);
+				var part2 = namespace_dashboard.get_momentum_series(data);
+				var new_row = namespace_ui.create_dashboard_row(h_symbol,'-',part1,part2);
+				$("#reference_rows").append(new_row);
+			
+			}).done(function (){
 				//3. show oil
 				//4. show gold/silver/etc
 				//5. show BTC
 				//6. show commmoditty
 				//7. bonds, T-Bills
-	           	});	
+			});
 		},
 
 		render_comparative_reports: function(p_net_data)
