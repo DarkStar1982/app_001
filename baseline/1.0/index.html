@@ -152,9 +152,13 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
                         </table> 
 			<h4>...or upload a CSV file with your transactions</h4>
 			<p>
-				<input style="width:180px" type="text" id="file_upload" />
+				<form action="data_api" method="post" enctype="multipart/form-data">
+				File: <input type="file" name="file_name"/> <br/>
+                    		<input type="submit"/>
+                		</form>
+				<!--input style="width:180px" type="text" id="file_upload" />
 				<button onclick="process_file()" class="btn" style="margin-bottom:10px">Upload</button>
-				<button onclick="get_template()" class="btn" style="margin-bottom:10px">Download Template</button>
+				<button onclick="get_template()" class="btn" style="margin-bottom:10px">Download Template</button-->
 			</p>
 			</div>
 			<div class="tab-pane" id="Tab3">
