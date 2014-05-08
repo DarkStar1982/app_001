@@ -73,8 +73,14 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
         		<button onclick="deposit_cash()" id="cash_add" class="btn" style="margin-bottom:10px">Deposit</button>
         		<button onclick="withdraw_cash()" id="cash_remove" class="btn" style="margin-bottom:10px">Withdraw</button>
         		</p>
-			<h4>Add transaction history</h4>
-        		<!-- add new trade action -->
+			<div style="width:50%; float:left">
+			<h4>Add transaction history ...or upload a CSV file with your transactions</h4>
+			</div>
+			<div style="width:40%; float:left">	
+			<form action="upload" method="post" enctype="multipart/form-data">
+				<input  type="file" name="file_name"/><input class="btn" type="submit"/>
+                	</form>
+			</div>	
         		<table class="table"  cellpadding="0" cellspacing="0" cellpadding="0" border="0">
                 	<thead>
                         <tr>
@@ -149,17 +155,8 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
                                         <td><b>Net Value</b></td><td id="value_totals">0</td>
                                         <td><b>Profit or loss</b></td><td id="pnl_totals">0</td>
                                 </tr>
-                        </table> 
-			<h4>...or upload a CSV file with your transactions</h4>
-			<p>
-				<form action="upload" method="post" enctype="multipart/form-data">
-				File: <input type="file" name="file_name"/> <br/>
-                    		<input type="submit"/>
-                		</form>
-				<!--input style="width:180px" type="text" id="file_upload" />
-				<button onclick="process_file()" class="btn" style="margin-bottom:10px">Upload</button>
-				<button onclick="get_template()" class="btn" style="margin-bottom:10px">Download Template</button-->
-			</p>
+                        </table>
+			<p><button class="btn">Download Portfolio Report </button></p> 
 			</div>
 			<div class="tab-pane" id="Tab3">
 				<h4> Portfolio positions breakdown</h4>
