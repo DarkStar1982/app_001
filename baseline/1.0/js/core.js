@@ -60,7 +60,32 @@ $(function() {
 	});
 	//hide the parts that are not ready yet
 	namespace_ui.set_visibility(false);
-  });
+	//upload a file asynchronously
+	$("#submitFile").click(function() {
+        	$.ajax({
+                	url: "upload",
+                	type: "POST",
+                	contentType: false,
+                	processData: false,
+               	 	data: function() {
+                    		var data = new FormData();
+                    	//	data.append("fileDescription", jQuery("#desc").val());
+                    		data.append("chosenFile", jQuery("#chosenFile").get(0).files[0]);
+                    		return data;
+                    		// Or simply return new FormData(jQuery("form")[0]);
+                 	}(),
+                 	error: function(_, textStatus, errorThrown) {
+                 		alert("Error");
+                        	console.log(textStatus, errorThrown);
+                  	},
+                	success: function(response, textStatus) {
+                    		alert("Success");
+                   		console.log(response, textStatus);
+                	}
+            	});
+        });
+                                                                                                                                                                                    
+});
 
 ////////////////////////////// ENTRY POINT /////////////////////////////////////////////
 function render_page()
