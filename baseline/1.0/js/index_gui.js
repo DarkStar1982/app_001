@@ -365,7 +365,29 @@ var namespace_ui = (function () {
 			$("#benchmark_vatr_abs").text(vatr1_abs);
 			//$("#portfolio_5day_vatr").text(test);
 			//$("#benchmark_5day_vatr").text("4.0");
+		},
+		
+		process_row_list: function(p_row_data)
+		{
+			//create object out of the raw data
+			//append rows to the table
+			//if no rows, append starting from 1 
+			//else append starting with last index?
+			var transformed = JSON.parse(p_row_data);
+			$("#matrix").empty();
+			for (var i=0; i<transformed.length; i++)
+			{
+				var new_row = namespace_ui.create_table_row(i+1,
+									    transformed[i].Asset,
+									    transformed[i].Sector,
+									    transformed[i].BuySell,
+									    transformed[i].Volume,
+									    transformed[i].Date,
+									    transformed[i].BookPrice,
+								            transformed[i].LastPrice);
+				$("#matrix").append(new_row);			
+			}
+			//console.log(transformed);
 		}
-
 	};
 }) ();

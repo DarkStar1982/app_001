@@ -70,17 +70,20 @@ $(function() {
                	 	data: function() {
                     		var data = new FormData();
                     	//	data.append("fileDescription", jQuery("#desc").val());
-                    		data.append("chosenFile", jQuery("#chosenFile").get(0).files[0]);
+                    		data.append("chosenFile", $("#chosenFile").get(0).files[0]);
                     		return data;
                     		// Or simply return new FormData(jQuery("form")[0]);
                  	}(),
                  	error: function(_, textStatus, errorThrown) {
-                 		alert("Error");
+                 		alert("Error uploading file :: "+errorThrown);
                         	console.log(textStatus, errorThrown);
                   	},
                 	success: function(response, textStatus) {
-                    		alert("Success");
-                   		console.log(response, textStatus);
+                    		//alert("Success");
+                    		namespace_ui.process_row_list(response);
+                		namespace_ui.set_visibility(true);
+		   		render_page();
+				//console.log(response, textStatus);
                 	}
             	});
         });
