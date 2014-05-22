@@ -385,6 +385,7 @@ var namespace_ui = (function () {
 									    transformed[i].Date,
 									    transformed[i].BookPrice,
 								            transformed[i].LastPrice);
+				//here be the validation and consistency test - we can't just upload `
 				$("#matrix").append(new_row);			
 			}
 			//console.log(transformed);
