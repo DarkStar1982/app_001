@@ -580,7 +580,8 @@ var namespace_charts = (function () {
 										dataGrouping: {
 											approximation: 'high',
 											enabled: true
-										}
+										},
+									turboThreshold:10000
 									}
 								},
 								series : seriesOptions
