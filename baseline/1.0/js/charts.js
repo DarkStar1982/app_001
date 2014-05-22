@@ -390,7 +390,9 @@ var namespace_charts = (function () {
                                                                   		e.preventDefault();
                                                                 });
 							}
-						}
+						},
+						marginLeft:75,
+						marginRight:75
 					},
                         		rangeSelector : { selected : 5 },
                         		title : { text : 'Portfolio Aggregated Value'},
