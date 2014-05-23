@@ -358,12 +358,13 @@ var namespace_charts = (function () {
 		create_value_chart: function(p_aggregated, p_container_id)
 		{
                 	var mode_p = $("#perf_select").val();
-			var chart_flags = get_flag_data();
+			var flags_switch = $("#flags_selected").prop("checked");
 			var data_array = [[p_aggregated,mode_p]];
                 	$.getJSON('data_api',{input_data:p_aggregated,type:'value_profile',flags:mode_p}, function(data) {
 				stored_data.value_series = data;
-				chart_flags = check_flag_edges(data, chart_flags);
-                        	vChart = new Highcharts.StockChart({
+                        	var chart_flags = check_flag_edges(data, get_flag_data());
+                        	if (flags_switch==false) chart_flags=[];
+				vChart = new Highcharts.StockChart({
                         		chart : {
 						marginLeft:75,
 						marginRight:75,
@@ -430,12 +431,13 @@ var namespace_charts = (function () {
 		create_performance_chart: function(p_aggregated, p_container_id)
         	{
                 	var mode_p = $("#perf_select").val();
-			var chart_flags = get_flag_data();
+			var flags_switch = $("#flags_selected").prop("checked");
 			var data_array = [[p_aggregated,mode_p]];
                 	$.getJSON('data_api',{input_data:p_aggregated,type:'pnl_profile',flags:mode_p}, function(data) {
 				stored_data.pnl_series = data;
-				chart_flags = check_flag_edges(data, chart_flags);
-                        	ppChart = new Highcharts.StockChart({chart : { 
+				var chart_flags = check_flag_edges(data, get_flag_data());
+                        	if (flags_switch==false) chart_flags=[];
+				ppChart = new Highcharts.StockChart({chart : { 
 					renderTo : p_container_id,
 					marginLeft:75,
 					marginRight:75,		
