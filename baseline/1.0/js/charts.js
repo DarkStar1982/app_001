@@ -257,6 +257,11 @@ var namespace_charts = (function () {
 	function check_flag_edges(p_data, p_flags)
 	{
 		//if first flag exceeds p_data first value date
+		var li_flag = p_flags.length - 1;
+		var li_data = p_data.length - 1;
+		if (p_flags[0].x < p_data[0][0]) p_flags[0].x = p_data[1][0];
+		if (p_flags[li_flag].x > p_data[li_data][0]) p_flags[li_flag].x = p_data[li_data-1][0];
+		
 		//set it to first date in data series
 		//same for last flag
 		return p_flags;
@@ -429,6 +434,7 @@ var namespace_charts = (function () {
 			var data_array = [[p_aggregated,mode_p]];
                 	$.getJSON('data_api',{input_data:p_aggregated,type:'pnl_profile',flags:mode_p}, function(data) {
 				stored_data.pnl_series = data;
+				chart_flags = check_flag_edges(data, chart_flags);
                         	ppChart = new Highcharts.StockChart({chart : { 
 					renderTo : p_container_id,
 					marginLeft:75,
