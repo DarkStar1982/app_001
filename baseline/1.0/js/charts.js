@@ -254,6 +254,13 @@ var namespace_charts = (function () {
                 return flag_data;
 	}
 
+	function check_flag_edges(p_data, p_flags)
+	{
+		//if first flag exceeds p_data first value date
+		//set it to first date in data series
+		//same for last flag
+		return p_flags;
+	}
 	function format_hint(p_positions)
 	{
 		var str_hint='';
@@ -350,8 +357,11 @@ var namespace_charts = (function () {
 			var data_array = [[p_aggregated,mode_p]];
                 	$.getJSON('data_api',{input_data:p_aggregated,type:'value_profile',flags:mode_p}, function(data) {
 				stored_data.value_series = data;
+				chart_flags = check_flag_edges(data, chart_flags);
                         	vChart = new Highcharts.StockChart({
-                        		chart : { 
+                        		chart : {
+						marginLeft:75,
+						marginRight:75,
 						renderTo : p_container_id,
 						events:
 						{
@@ -390,9 +400,7 @@ var namespace_charts = (function () {
                                                                   		e.preventDefault();
                                                                 });
 							}
-						},
-						marginLeft:75,
-						marginRight:75
+						}
 					},
                         		rangeSelector : { selected : 5 },
                         		title : { text : 'Portfolio Aggregated Value'},
@@ -423,6 +431,8 @@ var namespace_charts = (function () {
 				stored_data.pnl_series = data;
                         	ppChart = new Highcharts.StockChart({chart : { 
 					renderTo : p_container_id,
+					marginLeft:75,
+					marginRight:75,		
 					events: {
 						load:	function (){
 								var chart = this,
