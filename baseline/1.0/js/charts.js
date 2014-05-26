@@ -235,6 +235,13 @@ var namespace_charts = (function () {
 	
 	function get_flag_data()
 	{
+		//flag click event
+		function flag_click(e)
+		{
+			//child window or table - do later
+			alert(this.title);
+		}
+		//entry point
 		var obj_flags = namespace_ui.get_portfolio_transactions();
 		var groups = group_transactions_labels(obj_flags);
                 var flag_data = new Array();
@@ -243,13 +250,15 @@ var namespace_charts = (function () {
                 	flag_data[i] = new Object();
                         var x_date = groups[i].start_date;
                         flag_data[i].x = x_date;
-			flag_data[i].title='';
+			flag_data[i].title='<p style="cursor: pointer">';
+			flag_data[i].events = { "click" : flag_click};
 			for (var k=0; k<groups[i].transactions.length; k++)
 			{
 				var label = groups[i].transactions[k].symbol+", "+groups[i].transactions[k].volume + " @"+
 					    groups[i].transactions[k].price;
                         	flag_data[i].title = flag_data[i].title + label+"<br>";
 			}
+			flag_data[i].title=flag_data[i].title+"</p>"
                 }
                 return flag_data;
 	}
