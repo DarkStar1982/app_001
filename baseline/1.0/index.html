@@ -14,7 +14,7 @@
         	<!-- page specific styles -->   
         	<link href="css/tabbed.css" rel="stylesheet">      
 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-        	<!-- jquery cdn imports -->
+		<!-- jquery cdn imports -->
         	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
         	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 		<!-- js libraries import -->
@@ -73,15 +73,15 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
         		<button onclick="deposit_cash()" id="cash_add" class="btn" style="margin-bottom:10px">Deposit</button>
         		<button onclick="withdraw_cash()" id="cash_remove" class="btn" style="margin-bottom:10px">Withdraw</button>
         		</p>
-			<div style="width:50%; float:left">
+			<div style="width:40%; float:left">
 			<h4>Add transaction history ...or upload a CSV file with your transactions</h4>
 			</div>
-			<div style="width:40%; float:left">	
+			<div style="width:50%; float:left">	
 			<!--form action="upload" method="post" enctype="multipart/form-data"-->
 			<form class="form-inline">
-				<!--button class="btn"> Download CSV template </button-->
-				<input id="chosenFile"  type="file" name="file_name"/>
-                		<input class="btn" id="submitFile" value="Submit File "type="button"/>
+				<input class="btn" id="submitFile" value="Submit" type="button"/>
+   				<input id="chosenFile"  type="file" name="file_name"/>
+				<button class="btn"> Download CSV template </button>
 			</form>
 			</div>	
         		<table class="table"  cellpadding="0" cellspacing="0" cellpadding="0" border="0">
