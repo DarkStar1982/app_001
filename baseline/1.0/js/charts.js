@@ -419,10 +419,21 @@ var namespace_charts = (function () {
 					},
                         		rangeSelector : { selected : 5 },
                         		title : { text : 'Portfolio Aggregated Value'},
+					plotOptions: {
+						area: {
+                    					fillColor: {
+                        					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                        					stops: [
+                            						[0, Highcharts.getOptions().colors[0]],
+                            				[1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+									]	
+                    					}
+						}
+					},
                         		series : [{
                                 			name : 'Your Portfolio',
                                 			data : data,
-							type : 'area', 
+							type : 'area',
                                 			id:'value_data',
                                 			tooltip: { valueDecimals: 2 }
                         			},
@@ -490,9 +501,22 @@ var namespace_charts = (function () {
 					},
                         		rangeSelector : {selected : 5},
     					title : { text : 'Portfolio Net Profit'},
+					plotOptions: {
+						area: {
+                    					fillColor: {
+                        					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                        					stops: [
+                            						[0, '#007F00'],
+									[0.5, '#7F7F00'],
+                            						[1, '#7F0000']
+									]	
+                    					}
+						}
+					},
                         		series : [{
                                 		name : 'Your Portfolio',
                                 		data : data,
+						type : 'area',
 						id: 'perf_data',
                                 		tooltip: {valueDecimals: 2}
                         		},
