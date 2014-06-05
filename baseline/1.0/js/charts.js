@@ -239,7 +239,8 @@ var namespace_charts = (function () {
 		function flag_click(e)
 		{
 			//child window or table - do later
-			alert(this.title);
+			//alert(this.title);
+			document.getElementById('detail_cell').innerHTML = this.title;	
 		}
 		//entry point
 		var obj_flags = namespace_ui.get_portfolio_transactions();
