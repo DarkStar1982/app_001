@@ -288,7 +288,7 @@ var namespace_ui = (function () {
 			var xdate = $("#1").children(".book_date").text();
 			var benchmark = namespace_ui.create_benchmark_data(xdate);
 			$("#reference_rows").empty();
-                	$.getJSON('data_api',{input_data:benchmark,type:'value_profile',flags:'benchmark'},function(data)
+         $.getJSON('data_api',{input_data:benchmark,type:'value_profile',flags:'benchmark'},function(data)
 			{
 				var h_symbol = 'Benchmark';
 				var part1 = namespace_dashboard.get_return_series(data);
@@ -297,6 +297,15 @@ var namespace_ui = (function () {
 				$("#reference_rows").append(new_row);
 			
 			}).done(function (){
+            obj_data = {};
+            obj_data.start_date = xdate;
+            obj_data.symbols='OIL'; 
+            json_data = JSON.stringify(obj_data);
+            $.getJSON('data_api', {input_data:json_data}, function (data)
+            {
+               //parse and plot it
+               console.log(data);
+            });
 				//3. show oil
 				//4. show gold/silver/etc
 				//5. show BTC
