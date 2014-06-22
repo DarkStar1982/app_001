@@ -299,15 +299,33 @@ var namespace_ui = (function () {
 			}).done(function (){
             obj_data = {};
             obj_data.start_date = xdate;
-            obj_data.symbols='OIL'; 
+            obj_data.symbol='OPEC/ORB'; 
             json_data = JSON.stringify(obj_data);
-            $.getJSON('data_api', {input_data:json_data}, function (data)
+            console.log(json_data);
+            $.getJSON('data_api', {type:'get_data', input_data:json_data}, function (data)
             {
-               //parse and plot it
-               console.log(data);
+               //Show oil
+               var h_symbol = 'OIL';
+				   var part1 = namespace_dashboard.get_return_series(data);
+				   var part2 = namespace_dashboard.get_momentum_series(data);
+				   var new_row = namespace_ui.create_dashboard_row(h_symbol,'OPEC/ORB',part1,part2);
+		   		$("#reference_rows").append(new_row);
+            }).done(function() {
+               obj_data = {};
+               obj_data.start_date = xdate;
+               obj_data.symbol='OFDP/FUTURE_GC1'; 
+               json_data = JSON.stringify(obj_data);
+               console.log(json_data);
+               $.getJSON('data_api', {type:'get_data', input_data:json_data}, function (data)
+               {
+               //Show gold
+                  var h_symbol = 'Gold';
+				      var part1 = namespace_dashboard.get_return_series(data);
+				      var part2 = namespace_dashboard.get_momentum_series(data);
+				      var new_row = namespace_ui.create_dashboard_row(h_symbol,'OFDP/FUTURE_GC1',part1,part2);
+		   		   $("#reference_rows").append(new_row);
+               });
             });
-				//3. show oil
-				//4. show gold/silver/etc
 				//5. show BTC
 				//6. show commmoditty
 				//7. bonds, T-Bills,etc
