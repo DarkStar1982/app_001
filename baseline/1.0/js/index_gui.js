@@ -326,6 +326,7 @@ var namespace_ui = (function () {
 		   		   $("#reference_rows").append(new_row);
                });
             });
+            //4. show sector benchmarks
 				//5. show BTC
 				//6. show commmoditty
 				//7. bonds, T-Bills,etc
