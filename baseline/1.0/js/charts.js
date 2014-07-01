@@ -191,6 +191,7 @@ var namespace_charts = (function () {
 					not_added = false;
 					group_list[k].transactions.push({symbol:p_transactions[i].symbol,
 									 volume:p_transactions[i].volume,
+                            buysell:p_transactions[i].type,
 									 price:p_transactions[i].b_price});
 				}
 				else 
@@ -202,6 +203,7 @@ var namespace_charts = (function () {
 						group_list[k].start_date = true_date;
 						group_list[k].transactions.push({symbol:p_transactions[i].symbol,
 									 	 volume:p_transactions[i].volume,
+                               buysell:p_transactions[i].type,
 									 	 price:p_transactions[i].b_price});
 					}
 					else if (datetime_util.date_distance(true_date, group_list[k].end_date)<max_distance)
@@ -210,6 +212,7 @@ var namespace_charts = (function () {
 						group_list[k].start_date = true_date;
 						group_list[k].transactions.push({symbol:p_transactions[i].symbol,
 									 	 volume:p_transactions[i].volume,
+                               buysell:p_transactions[i].type,
 									 	 price:p_transactions[i].b_price});
 					}
 				}
@@ -225,6 +228,7 @@ var namespace_charts = (function () {
 				group_list[j].transactions = new Array();
 				group_list[j].transactions.push({symbol:p_transactions[i].symbol,
 									 	 volume:p_transactions[i].volume,
+                               buysell:p_transactions[i].type,
 									 	 price:p_transactions[i].b_price});
 				console.log(group_list);
 					
@@ -240,28 +244,47 @@ var namespace_charts = (function () {
 		{
 			//child window or table - do later
 			//alert(this.title);
-			document.getElementById('detail_cell').innerHTML = this.title;	
+
+			var trim_string = this.title.replace(/@/g,',');
+         trim_string = trim_string.replace('<p style="cursor: pointer">','')
+			trim_string = trim_string.replace('</p>','')
+         var paragraph_data = trim_string.split('<br/>');
+         var strHTML='<table>';
+         for (i=0;i<paragraph_data.length-1;i++)
+         {
+               var list_data = paragraph_data[i].split(',');
+               var htmlData = "<tr>"
+               for (j=0;j<list_data.length;j++)
+               {
+                  htmlData = htmlData + '<td>'+list_data[j]+'</td>';
+               }
+               htmlData=htmlData +"</tr>";
+               strHTML=strHTML+htmlData;
+         }
+         console.log(strHTML);
+			document.getElementById('detail_cell').innerHTML = strHTML+"</table>";	
 		}
 		//entry point
 		var obj_flags = namespace_ui.get_portfolio_transactions();
 		var groups = group_transactions_labels(obj_flags);
-                var flag_data = new Array();
-                for (var i=0; i<groups.length; i++)
-                {
-                	flag_data[i] = new Object();
-                        var x_date = groups[i].start_date;
-                        flag_data[i].x = x_date;
-			flag_data[i].title='<p style="cursor: pointer">';
+      var flag_data = new Array();
+      for (var i=0; i<groups.length; i++)
+      {
+         flag_data[i] = new Object();
+         var x_date = groups[i].start_date;
+         flag_data[i].x = x_date;
+		   flag_data[i].title='<p style="cursor: pointer">';
 			flag_data[i].events = { "click" : flag_click};
 			for (var k=0; k<groups[i].transactions.length; k++)
 			{
-				var label = groups[i].transactions[k].symbol+", "+groups[i].transactions[k].volume + " @"+
-					    groups[i].transactions[k].price;
-                        	flag_data[i].title = flag_data[i].title + label+"<br>";
+		      var label = groups[i].transactions[k].symbol+", "
+            + groups[i].transactions[k].buysell+", "+groups[i].transactions[k].volume + " @"+
+			   groups[i].transactions[k].price;
+            flag_data[i].title = flag_data[i].title +label+"<br/>";
 			}
 			flag_data[i].title=flag_data[i].title+"</p>"
-                }
-                return flag_data;
+      }
+      return flag_data;
 	}
 
 	function check_flag_edges(p_data, p_flags)
@@ -436,7 +459,7 @@ var namespace_charts = (function () {
                                 			data : data,
 							type : 'area',
                                 			id:'value_data',
-                                			tooltip: { valueDecimals: 2 }
+                                			tooltip: { valueDecimals: 2, useHTML:true }
                         			},
 				                {
                                 			type: 'flags',
@@ -519,7 +542,7 @@ var namespace_charts = (function () {
                                 		data : data,
 						type : 'area',
 						id: 'perf_data',
-                                		tooltip: {valueDecimals: 2}
+                                		tooltip: {valueDecimals: 2,useHTML:true}
                         		},
 					{
                                 		type: 'flags',
