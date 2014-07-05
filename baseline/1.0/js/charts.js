@@ -40,12 +40,12 @@ var namespace_charts = (function () {
 	}
  
 	//add color to the data points 
-	function postprocess_data(p_data, p_color)
+	function postprocess_data(p_data, p_color, p_x_mul)
         {
                 var data_a = new Array;
                 for (var i = 0; i <p_data.length; i++)
                 {
-                        data_a[i] = {x:p_data[i][0],y:p_data[i][1],color:p_color};
+                        data_a[i] = {x:p_data[i][0],y:p_data[i][1]*p_x_mul,color:p_color};
                 }
                 return data_a;
         } 
@@ -555,7 +555,7 @@ var namespace_charts = (function () {
                 	});
         	},
 
-		create_positions_chart: function(p_data)
+		   create_positions_chart: function(p_data)
         	{
                 	var data_positions=[];
                 	var data_pnl = [];
@@ -610,7 +610,7 @@ var namespace_charts = (function () {
                 	});
         	},
 		
-		create_risk_chart: function(p_aggregated)
+		   create_risk_chart: function(p_aggregated)
         	{
                 	var xdate = $("#1").children(".book_date").text();
                 	var benchmark = namespace_ui.create_benchmark_data(xdate);
@@ -621,48 +621,82 @@ var namespace_charts = (function () {
                 	var seriesOptions=[];
                 	var counter = 0;
                 	$.each(chart_data, function (i, value){
-                        	$.getJSON('data_api',{input_data:value[0],type:'risk_profile',model:full_req,xflag:value[1]},
-					function(data){
-                                		seriesOptions[i]={
-                                			name: value[0],
-                                			data: data
-						};
-                                		counter++;
-                                		if (counter == chart_data.length)
-                                		{
-                                        		seriesOptions[0].data = postprocess_data(seriesOptions[0].data,'#0000FF');
-                                        		seriesOptions[1].data = postprocess_data(seriesOptions[1].data,'#000000');
-                                        		seriesOptions[0].type = 'column';
-                                        		seriesOptions[1].type = 'column';
-							// render risk chart
-							// render_risk_chart(data, chart_instance);
-                                        		window.chart = new Highcharts.StockChart({chart : {
-                                                        	renderTo : 'container_chart4',
-	                                        		backgroundColor: {
-                                                                		linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                                                                		stops: [
-                                                                        		[0, 'rgb(255,0,0)'],
-                                                                        		[0.5, 'rgb(255,211,0)'],
-                                                                        		[1, 'rgb(0,255,0)']
-                                                                		]
-                                                        		}
-                                                		},
-                                                		rangeSelector : { selected : 5},
-                                                		title : {text : 'Portfolio Risk Profile'},
-								navigator : { enabled:false },
-                                                		yAxis :{ offset:0},
-                                                		xAxis :{ offset:0},
-								plotOptions : {
-									series: {
-										dataGrouping: {
-											approximation: 'high',
-											enabled: true
-										},
-									turboThreshold:10000
-									}
-								},
-								series : seriesOptions
-                                        		});
+                     $.getJSON('data_api',{input_data:value[0],type:'risk_profile',model:full_req,xflag:value[1]},
+					         function(data){
+                           seriesOptions[i]={
+                              name: value[0],
+                              data: data
+						         };
+                           counter++;
+                           if (counter == chart_data.length)
+                           {
+                              seriesOptions[0].data = postprocess_data(seriesOptions[0].data,'#0000FF', 1.0);
+                              seriesOptions[1].data = postprocess_data(seriesOptions[1].data,'#000000', -1.0);
+                              seriesOptions[0].type = 'area';
+                              seriesOptions[0].fillColor =  {
+                                          linearGradient: { x1: 0, y1: 0, x2: 0, y2:1 },
+                                          stops: [
+                                             [0, 'rgb(255,0,0)'],
+                                             [0.7, 'rgb(255,211,0)'],
+                                             [1, 'rgb(0,255,0)']
+                                          ]
+                                       };
+                              seriesOptions[1].type = 'area';
+							         seriesOptions[1].fillColor =  {
+                                          linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                                          stops: [
+                                             [0, 'rgb(0,255,0)'],
+                                             [0.45, 'rgb(255,211,0)'],
+                                             [1, 'rgb(255,0,0)']
+                                          ]
+                                       };
+                              
+                              // render risk chart
+                              window.chart = new Highcharts.StockChart({
+                                 series : seriesOptions,
+                                 rangeSelector : { selected : 5 },
+                                 title : { text : 'Portfolio Risk Profile' },
+								         navigator : { enabled:false },
+                                 yAxis : { 
+                                       plotLines: [{
+                                          value: 0,
+                                          color: '#000000',
+                                          zIndex : 5,
+                                          width: 1
+                                       }],
+                                       labels:{
+                                          formatter: function()
+                                          {
+                                             return Math.abs(this.value)
+                                          }
+                                       }  
+                                 },
+                                 //:xAxis : { offset:5, lineWidth:10, lineColor:"#FF7F06"},
+                                 chart : {
+                                    renderTo : 'container_chart4',
+	                                 /* backgroundColor: {
+                                       linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                                       stops: [
+                                          [0, 'rgb(255,0,0)'],
+                                          [0.45, 'rgb(255,211,0)'],
+                                          [0.55, 'rgb(0,255,0)'],
+                                          [0.6, 'rgb(0,255,0)'],
+                                          [0.75, 'rgb(255,211,0)'],
+                                          [1, 'rgb(255,0,0)']
+                                       ]
+                                    } */
+                                 },
+                                 plotOptions : {
+									         series: {
+                                       //stacking: 'normal',
+                                       turboThreshold:10000,
+										         dataGrouping: {
+											         approximation: 'high',
+											         enabled: true
+										         }
+									         }
+           			               }
+                              });
 							//part two
 							var a = compute_gauge_data(seriesOptions[0].data)
 							var b = compute_gauge_data(seriesOptions[1].data)
