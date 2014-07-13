@@ -616,7 +616,7 @@ var namespace_charts = (function () {
                 	var benchmark = namespace_ui.create_benchmark_data(xdate);
                 	var chart_data= [[p_aggregated,'percent'],[benchmark,'benchmark']];
                 	var model_data = $("#model_select").val();
-               		var model_range= $("#range_select").val();
+                  var model_range= $("#range_select").val();
                 	var full_req = model_data+','+model_range+','+'LN_YES';
                 	var seriesOptions=[];
                 	var counter = 0;
@@ -630,6 +630,7 @@ var namespace_charts = (function () {
                            counter++;
                            if (counter == chart_data.length)
                            {
+                              var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
                               seriesOptions[0].data = postprocess_data(seriesOptions[0].data,'#0000FF', 1.0);
                               seriesOptions[1].data = postprocess_data(seriesOptions[1].data,'#000000', -1.0);
                               seriesOptions[0].type = 'area';
@@ -656,7 +657,27 @@ var namespace_charts = (function () {
                                  series : seriesOptions,
                                  rangeSelector : { selected : 5 },
                                  title : { text : 'Portfolio Risk Profile' },
-								         navigator : { enabled:false },
+								         navigator : {
+                                       series : {
+                                          type: 'area',
+                                          fillColor: '#AF0000',   
+                                          data: nav_data,
+                                          color: '#AF0000',
+                                          threshold: 0,
+                                          negativeColor: '#00AF00'
+                                       },
+                                       height:160,
+                                       yAxis : {
+                                          gridLineWidth:0,
+                                          labels : { enabled:true },
+                                          tickPixelInterval: 10,
+                                          tickWidth:1,
+                                          title: {
+                                                text: "Volatility Difference, %"
+								                  },
+                                          xAxis : { offset: -120 }
+                                        }
+                                 },
                                  yAxis : { 
                                        plotLines: [{
                                           value: 0,
@@ -789,7 +810,7 @@ var namespace_charts = (function () {
                                                        		tickWidth:1,
                                                         	title: {
                                                                 	text: "Performance Differencei, %"
-								},
+								                           },
                                                 	xAxis : {
                                                         	offset: -100
                                                         	}
