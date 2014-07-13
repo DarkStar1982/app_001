@@ -309,6 +309,15 @@ var namespace_charts = (function () {
 		return str_hint;
 	}
 
+   function render_risk_gauge_radial(p_container_id, p_chart_instance, p_data)
+   {
+        p_chart_instance = new Highcharts.Chart({
+            chart : {
+               renderTo: p_container_id,
+               type: 'solidgauge',
+            } 
+        });
+   }
 	function render_risk_gauge(p_container_id, p_chart_instance, p_data)
 	{
 		p_chart_instance = new Highcharts.Chart({
@@ -386,6 +395,7 @@ var namespace_charts = (function () {
 		}); 
 		//chart_data.benchmark_risk_gauge = new Highcharts.Char	
 	}
+
 	/*** public ***/
 	return {
 		create_value_chart: function(p_aggregated, p_container_id)
@@ -620,6 +630,7 @@ var namespace_charts = (function () {
                 	var full_req = model_data+','+model_range+','+'LN_YES';
                 	var seriesOptions=[];
                 	var counter = 0;
+                  //render risk chart
                 	$.each(chart_data, function (i, value){
                      $.getJSON('data_api',{input_data:value[0],type:'risk_profile',model:full_req,xflag:value[1]},
 					         function(data){
@@ -695,18 +706,7 @@ var namespace_charts = (function () {
                                  //:xAxis : { offset:5, lineWidth:10, lineColor:"#FF7F06"},
                                  chart : {
                                     renderTo : 'container_chart4',
-	                                 /* backgroundColor: {
-                                       linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
-                                       stops: [
-                                          [0, 'rgb(255,0,0)'],
-                                          [0.45, 'rgb(255,211,0)'],
-                                          [0.55, 'rgb(0,255,0)'],
-                                          [0.6, 'rgb(0,255,0)'],
-                                          [0.75, 'rgb(255,211,0)'],
-                                          [1, 'rgb(255,0,0)']
-                                       ]
-                                    } */
-                                 },
+	                             },
                                  plotOptions : {
 									         series: {
                                        //stacking: 'normal',
@@ -719,15 +719,13 @@ var namespace_charts = (function () {
            			               }
                               });
 							//part two
-							var a = compute_gauge_data(seriesOptions[0].data)
-							var b = compute_gauge_data(seriesOptions[1].data)
+							var a = compute_gauge_data(seriesOptions[0].data);
+							var b = compute_gauge_data(seriesOptions[1].data);
 							render_risk_gauge('container_chart5a', stored_data.portfolio_risk_gauge, a);
 							render_risk_gauge('container_chart5b', stored_data.benchmark_risk_gauge, b);
-							//part three - all wrong
-							//but will work for now
-						}
-                        		});
-                	});
+						   }
+               });
+         });
 		},
 		//create comparative charts to see performance difference
 		create_benchmark_chart: function(p_aggregated)
