@@ -311,7 +311,6 @@ var namespace_charts = (function () {
    
    function render_risk_gauge_radial(p_container_id, p_gauge_data)
    {
-      console.log(p_gauge_data);
       var p_chart_instance = new Highcharts.Chart({
             chart : {
                renderTo: p_container_id,
@@ -339,85 +338,56 @@ var namespace_charts = (function () {
             }]
       });
    }
-	function render_risk_gauge(p_container_id, p_chart_instance, p_data)
-	{
-		p_chart_instance = new Highcharts.Chart({
-			chart: {
-                		renderTo: p_container_id,
-                		defaultSeriesType: 'bar',
-      				plotBorderWidth: 2,
-				plotBackgroundColor: '#F5E6E6',
-                		plotBorderColor: '#D8D8D8',
-                		plotShadow: true,
-                		spacingBottom: 43,
-                		width: 500
-           		},
-            		credits: {enabled: false},
-            		xAxis: {
-                		labels: { enabled: false },
-                		tickLength: 0
-            		},
-            		title: { text: null },
-            		legend: {enabled: false},
-            		yAxis: {
-                		title: { text: null},
-                		labell: {y: 20},
-                		min: p_data.min_val,
-                		max: 1.0,
-                		tickInterval: 0.2,
-                		minorTickInterval: 0.1,
-                		tickWidth: 1,
-                		tickLength: 8,
-                		minorTickLength: 5,
-                		minorTickWidth: 1,
-                		minorGridLineWidth: 0
-            		},
-            		plotOptions: {
-				series: {
-					stacking: 'normal'
-				}
-			},
-            		series: [{
-                		borderColor: '#7070B8',
-                		borderRadius: 3,
-                		borderWidth: 1,
-                		color: {
-                    			linearGradient: { x1: 0, y1: 0, x2: 1, y2: 0},
-                    			stops: [ 
-						[0, '#D69999'],
-						[0.3, '#B84D4D'],
-                                        	[0.45, '#7A0000'],
-                                        	[0.55, '#7A0000'],
-                                        	[0.7, '#B84D4D'],
-                                        	[1, '#D69999']
-					]
-                		},
-               			pointWidth: 50,
-                		data: [p_data.max_val - p_data.last_val]
-			},
-			{
-				borderColor: '#7070B8',
-				borderRadius: 3,
-				borderWidth: 1,
-				color : {
-					linearGradient: { x1: 0, y1: 0, x2: 1, y2: 0},
-                    			stops: [ 
-						[0, '#99D9D9'],
-						[0.3, '#004D4D'],
-                                        	[0.45, '#007F7F'],
-                                        	[0.55, '#007F7F'],
-                                        	[0.7, '#004D4D'],
-                                        	[1, '#99D9D9']
-					]
-				},
-				pointWidth: 50,
-				data : [p_data.last_val]
-			}]
-		}); 
-		//chart_data.benchmark_risk_gauge = new Highcharts.Char	
-	}
-
-	/*** public ***/
+   
+   //render risk chart
+   function render_risk_chart(seriesOptions, nav_data)
+   {
+      window.chart = new Highcharts.StockChart({
+         series : seriesOptions,
+         chart : { renderTo : 'container_chart4' },
+         rangeSelector : { selected : 5 },
+         title : { text : 'Portfolio Risk Profile' },
+         navigator : {
+               heigh:160,
+               series : {
+                  type: 'area',
+                  fillColor: '#AF0000',   
+                  data: nav_data,
+                  color: '#AF0000',
+                  threshold: 0,
+                  negativeColor: '#00AF00'
+               },
+               yAxis : {
+                  gridLineWidth:0,
+                  tickPixelInterval: 10,
+                  tickWidth:1,
+                  labels : { enabled:true },
+                  title: { text: "Volatility Difference, %" },
+                  xAxis : { offset: -120 }
+               }
+         },
+         yAxis : {
+            labels : { formatter: function() { return Math.abs(this.value) } },  
+            plotLines: [{
+               value: 0,
+               color: '#000000',
+               zIndex : 5,
+               width: 1
+            }],
+         },
+         plotOptions : {
+	            series : {
+                  turboThreshold :10000,
+                  dataGrouping : {
+						   approximation: 'high',
+                     enabled: true
+						}
+            }
+         }
+      });
+   }	
+  	
+   /*** public ***/
 	return {
 		create_value_chart: function(p_aggregated, p_container_id)
 		{
@@ -651,10 +621,10 @@ var namespace_charts = (function () {
                 	var full_req = model_data+','+model_range+','+'LN_YES';
                 	var seriesOptions=[];
                 	var counter = 0;
-                  //render risk chart
+                  //get data for  risk chart
                 	$.each(chart_data, function (i, value){
                      $.getJSON('data_api',{input_data:value[0],type:'risk_profile',model:full_req,xflag:value[1]},
-					         function(data){
+					         function(data) {
                            seriesOptions[i]={
                               name: value[0],
                               data: data
@@ -684,67 +654,13 @@ var namespace_charts = (function () {
                                              [0.45, 'rgb(255,211,0)'],
                                              [1, 'rgb(255,0,0)']
                                           ]
-                                       };
+                               };
+                              //part one
+                              render_risk_chart(seriesOptions, nav_data);
                               //part two
 							         render_risk_gauge_radial('container_chart5a', a);
                               render_risk_gauge_radial('container_chart5b', b);
-						  
-                              // render risk chart
-                              window.chart = new Highcharts.StockChart({
-                                 series : seriesOptions,
-                                 rangeSelector : { selected : 5 },
-                                 title : { text : 'Portfolio Risk Profile' },
-								         navigator : {
-                                       series : {
-                                          type: 'area',
-                                          fillColor: '#AF0000',   
-                                          data: nav_data,
-                                          color: '#AF0000',
-                                          threshold: 0,
-                                          negativeColor: '#00AF00'
-                                       },
-                                       height:160,
-                                       yAxis : {
-                                          gridLineWidth:0,
-                                          labels : { enabled:true },
-                                          tickPixelInterval: 10,
-                                          tickWidth:1,
-                                          title: {
-                                                text: "Volatility Difference, %"
-								                  },
-                                          xAxis : { offset: -120 }
-                                        }
-                                 },
-                                 yAxis : { 
-                                       plotLines: [{
-                                          value: 0,
-                                          color: '#000000',
-                                          zIndex : 5,
-                                          width: 1
-                                       }],
-                                       labels:{
-                                          formatter: function()
-                                          {
-                                             return Math.abs(this.value)
-                                          }
-                                       }  
-                                 },
-                                 //:xAxis : { offset:5, lineWidth:10, lineColor:"#FF7F06"},
-                                 chart : {
-                                    renderTo : 'container_chart4',
-	                             },
-                                 plotOptions : {
-									         series: {
-                                       //stacking: 'normal',
-                                       turboThreshold:10000,
-										         dataGrouping: {
-											         approximation: 'high',
-											         enabled: true
-										         }
-									         }
-           			               }
-                              });
-							 }
+					      }
                });
          });
 		},
