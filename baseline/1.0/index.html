@@ -13,21 +13,24 @@
         	<link href="css/bootstrap-responsive.css" rel="stylesheet">
         	<!-- page specific styles -->   
         	<link href="css/tabbed.css" rel="stylesheet">      
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+		   <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 		<!-- jquery cdn imports -->
         	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
         	<script src="http://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
 		<!-- js libraries import -->
-		<script src="js/aux/highstock.js"></script>
-        	<script src="js/aux/exporting.js"></script>
-		<!--script src="js/aux/chart_theme.js"></script-->
-               	<script src="js/aux/bootstrap.js"></script>
+         <script src="js/aux/highstock.js"></script>
+         <!--script src="http://code.highcharts.com/3.0.9/highcharts.js"></script-->
+         <script src="http://code.highcharts.com/stock/1.3.9/highcharts-more.js"></script>
+         <script src="js/aux/exporting.js"></script>
+      	<script src="http://code.highcharts.com/modules/solid-gauge.src.js"></script>
+      	<!--script src="js/aux/chart_theme.js"></script-->
+       	<script src="js/aux/bootstrap.js"></script>
         	<!--application code -->
         	<script src="js/core.js"></script>
-		<script src="js/index_gui.js"></script>
-		<script src="js/util.js"></script>
-		<script src="js/charts.js"></script>
-	</head>
+   		<script src="js/index_gui.js"></script>
+	   	<script src="js/util.js"></script>
+		   <script src="js/charts.js"></script>
+	   </head>
 	<body>
 		<!-- top menu -->
         	<div class="navbar navbar-inverse navbar-fixed-top"><div class="navbar-inner">
@@ -350,16 +353,14 @@ Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Devia
 				</div>
                         	<div id="container_chart4" style="width:80%; height:600px">
                        	 	</div>
-					            <div id="container_chart4b" style="width:80%; height:400px">
-                       	   </div>
-				<div style="width:50%; float:left; height:160px">
+				<div style="width:45%; float:left; height:160px">
 					<h4>Present Portfolio Volatility</h4>
-					<div id="container_chart5a" style="width:100%; float:left; height:120px;">
+					<div id="container_chart5a" style="width:45%; height:120px;">
 					</div>
 				</div>
-				<div style="width:50%; float:left; height:160px">
+				<div style="width:45%; float:left; height:160px">
 						<h4>Present Benchmark Volatility</h4>
-                        			<div id="container_chart5b" style="width:100%; float:left; height:120px;">
+                  <div id="container_chart5b" style="width:45%; height:120px;">
 						</div>
 					</div>
 			</div>

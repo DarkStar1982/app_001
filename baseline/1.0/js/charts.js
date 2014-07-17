@@ -28,13 +28,11 @@ var namespace_charts = (function () {
 		ret_obj.min_val = 0.0;
 		ret_obj.max_val = 0.0;
 		ret_obj.last_val = 0.0;
-		console.log(p_series_data);
 		for (var i=0; i<p_series_data.length; i++)
 		{
 			if (p_series_data[i].y>ret_obj.max_val) ret_obj.max_val = math_util.aux_math_round(p_series_data[i].y,3);
 			if (p_series_data[i].y<ret_obj.min_val) ret_obj.min_val = math_util.aux_math_round(p_series_data[i].y,3);
 		}
-		console.log(ret_obj);	
 		ret_obj.last_val = p_series_data[p_series_data.length-1].y;
 		return ret_obj;
 	}
@@ -309,14 +307,34 @@ var namespace_charts = (function () {
 		return str_hint;
 	}
 
-   function render_risk_gauge_radial(p_container_id, p_chart_instance, p_data)
+   function render_risk_gauge_radial(p_container_id)
    {
-        p_chart_instance = new Highcharts.Chart({
+        var p_chart_instance = new Highcharts.Chart({
             chart : {
                renderTo: p_container_id,
                type: 'solidgauge',
-            } 
-        });
+            }, 
+            pane: {
+               center: ['50%', '85%'],
+               size: '140%',
+               startAngle: -90,
+               endAngle: 90,
+               background: {
+                  backgroundColor:  '#7E7E0E',
+                  innerRadius: '60%',
+                  outerRadius: '100%',
+                  shape: 'arc'
+               }
+            },
+            yAxis: {
+               min: 0,
+               max: 5, 
+            },
+            series : [{
+               name : 'TEST',
+               data : [2.5]
+            }]
+      });
    }
 	function render_risk_gauge(p_container_id, p_chart_instance, p_data)
 	{
@@ -721,8 +739,10 @@ var namespace_charts = (function () {
 							//part two
 							var a = compute_gauge_data(seriesOptions[0].data);
 							var b = compute_gauge_data(seriesOptions[1].data);
-							render_risk_gauge('container_chart5a', stored_data.portfolio_risk_gauge, a);
-							render_risk_gauge('container_chart5b', stored_data.benchmark_risk_gauge, b);
+						   render_risk_gauge_radial('container_chart5a');
+                     render_risk_gauge_radial('container_chart5b');
+                     //render_risk_gauge('container_chart5a', stored_data.portfolio_risk_gauge, a);
+						   //render_risk_gauge('container_chart5b', stored_data.benchmark_risk_gauge, b);
 						   }
                });
          });
