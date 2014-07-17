@@ -1,6 +1,6 @@
 var namespace_charts = (function () {
 	/*** private data ***/
-	var stored_data = {
+   var stored_data = {
 		value_series : {},
 		pnl_series : {},
 		benchmark_series : [],
@@ -25,28 +25,30 @@ var namespace_charts = (function () {
 	function compute_gauge_data(p_series_data)
 	{
 		var ret_obj = new Object();
-		ret_obj.min_val = 0.0;
+		console.log(p_series_data);
+      ret_obj.min_val = 0.0;
 		ret_obj.max_val = 0.0;
 		ret_obj.last_val = 0.0;
 		for (var i=0; i<p_series_data.length; i++)
 		{
-			if (p_series_data[i].y>ret_obj.max_val) ret_obj.max_val = math_util.aux_math_round(p_series_data[i].y,3);
-			if (p_series_data[i].y<ret_obj.min_val) ret_obj.min_val = math_util.aux_math_round(p_series_data[i].y,3);
+			if (p_series_data[i][1]>ret_obj.max_val) ret_obj.max_val = math_util.aux_math_round(p_series_data[i][1],3);
+			if (p_series_data[i][1]<ret_obj.min_val) ret_obj.min_val = math_util.aux_math_round(p_series_data[i][1],3);
 		}
-		ret_obj.last_val = p_series_data[p_series_data.length-1].y;
+		ret_obj.last_val = math_util.aux_math_round(p_series_data[p_series_data.length-1][1],3);
 		return ret_obj;
 	}
  
 	//add color to the data points 
+	//also can invert the values for navigator series
 	function postprocess_data(p_data, p_color, p_x_mul)
-        {
+   {
                 var data_a = new Array;
                 for (var i = 0; i <p_data.length; i++)
                 {
                         data_a[i] = {x:p_data[i][0],y:p_data[i][1]*p_x_mul,color:p_color};
                 }
                 return data_a;
-        } 
+   } 
 
         function rescale_data(p_data)
         {
@@ -306,33 +308,34 @@ var namespace_charts = (function () {
 		}
 		return str_hint;
 	}
-
-   function render_risk_gauge_radial(p_container_id)
+   
+   function render_risk_gauge_radial(p_container_id, p_gauge_data)
    {
-        var p_chart_instance = new Highcharts.Chart({
+      console.log(p_gauge_data);
+      var p_chart_instance = new Highcharts.Chart({
             chart : {
                renderTo: p_container_id,
                type: 'solidgauge',
             }, 
             pane: {
                center: ['50%', '85%'],
-               size: '140%',
+               size: '200%',
                startAngle: -90,
                endAngle: 90,
                background: {
-                  backgroundColor:  '#7E7E0E',
+                  backgroundColor:  '#F700F7',
                   innerRadius: '60%',
                   outerRadius: '100%',
                   shape: 'arc'
                }
             },
             yAxis: {
-               min: 0,
-               max: 5, 
+               min: p_gauge_data.min_val,
+               max: p_gauge_data.max_val, 
             },
             series : [{
-               name : 'TEST',
-               data : [2.5]
+               name : 'Volatility',
+               data : [p_gauge_data.last_val]
             }]
       });
    }
@@ -660,6 +663,8 @@ var namespace_charts = (function () {
                            if (counter == chart_data.length)
                            {
                               var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
+                              var a = compute_gauge_data(seriesOptions[0].data);
+							         var b = compute_gauge_data(seriesOptions[1].data);
                               seriesOptions[0].data = postprocess_data(seriesOptions[0].data,'#0000FF', 1.0);
                               seriesOptions[1].data = postprocess_data(seriesOptions[1].data,'#000000', -1.0);
                               seriesOptions[0].type = 'area';
@@ -680,7 +685,10 @@ var namespace_charts = (function () {
                                              [1, 'rgb(255,0,0)']
                                           ]
                                        };
-                              
+                              //part two
+							         render_risk_gauge_radial('container_chart5a', a);
+                              render_risk_gauge_radial('container_chart5b', b);
+						  
                               // render risk chart
                               window.chart = new Highcharts.StockChart({
                                  series : seriesOptions,
@@ -736,14 +744,7 @@ var namespace_charts = (function () {
 									         }
            			               }
                               });
-							//part two
-							var a = compute_gauge_data(seriesOptions[0].data);
-							var b = compute_gauge_data(seriesOptions[1].data);
-						   render_risk_gauge_radial('container_chart5a');
-                     render_risk_gauge_radial('container_chart5b');
-                     //render_risk_gauge('container_chart5a', stored_data.portfolio_risk_gauge, a);
-						   //render_risk_gauge('container_chart5b', stored_data.benchmark_risk_gauge, b);
-						   }
+							 }
                });
          });
 		},
