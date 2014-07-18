@@ -611,7 +611,7 @@ var namespace_charts = (function () {
                 	});
         	},
 		
-		   create_risk_chart: function(p_aggregated)
+		   create_risk_charts: function(p_aggregated)
         	{
                 	var xdate = $("#1").children(".book_date").text();
                 	var benchmark = namespace_ui.create_benchmark_data(xdate);

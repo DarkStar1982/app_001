@@ -597,7 +597,7 @@ function draw_charts(p_mode)
 		//get net positions 
 		var obj_plist = namespace_ui.get_net_position_summary();
 		var csv_summary = namespace_ui.transform_to_csv(obj_tlist);
-                //draw all charts
+      //draw all charts
 		var selected = $("#chart_select").val();
 		if (p_mode==0)
 		{
@@ -611,12 +611,12 @@ function draw_charts(p_mode)
 			}
 			namespace_charts.create_positions_chart(obj_plist);
 			namespace_charts.create_benchmark_chart(csv_summary);
-			namespace_charts.create_risk_chart(csv_summary);
+			namespace_charts.create_risk_charts(csv_summary);
 			namespace_charts.create_sector_chart();
 		}
 		if (p_mode==1)
 		{
-			namespace_charts.create_risk_chart(csv_summary);
+			namespace_charts.create_risk_charts(csv_summary);
 		}
 		if (p_mode==2)
 		{
