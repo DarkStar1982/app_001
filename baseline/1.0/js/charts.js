@@ -311,13 +311,13 @@ var namespace_charts = (function () {
    
    function render_risk_gauge_radial(p_container_id, p_gauge_data)
    {
-      var p_chart_instance = new Highcharts.Chart({
+      var p_a= new Highcharts.Chart({
             chart : {
                renderTo: p_container_id,
                type: 'solidgauge',
             }, 
             pane: {
-               center: ['50%', '85%'],
+               center: ['50%', '100%'],
                size: '200%',
                startAngle: -90,
                endAngle: 90,
@@ -348,7 +348,7 @@ var namespace_charts = (function () {
          rangeSelector : { selected : 5 },
          title : { text : 'Portfolio Risk Profile' },
          navigator : {
-               heigh:160,
+               height:160,
                series : {
                   type: 'area',
                   fillColor: '#AF0000',   
