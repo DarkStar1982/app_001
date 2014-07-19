@@ -15,9 +15,9 @@ var namespace_ui = (function () {
         		//remove trailing '|'
 			xsummary = xsummary.slice(0,-1);
 			return xsummary;
-                },
+      },
 		create_benchmark_data: function(p_start_date)
-        	{
+      {
                 	var name_select = $("#benchmark_list").val();
                 	if (name_select.search('500')!=-1)
                         	var symbol = '^GSPC';
@@ -29,7 +29,7 @@ var namespace_ui = (function () {
                 	var csvline="";
                 	csvline = "1" + "," + symbol+ "," +"Buy" + "," + p_start_date + ","+ '1.0' + ","+ '1,0';
                 	return csvline
-        	},
+      },
 
 		create_table_row: function (p_id,p_asset,p_sector,p_buysell,p_vol,p_date,p_book_price,p_cur_price)
 		{
@@ -43,7 +43,8 @@ var namespace_ui = (function () {
                 	+ '</td><td><button onclick="remove_row_action(this)" class="btn">Remove</button></td></tr>';
 			return new_row;
 		},
-		create_dashboard_row: function(p_asset, p_sector, p_returns, p_momentum)
+		
+      create_dashboard_row: function(p_asset, p_sector, p_returns, p_momentum)
 		{
 			var dash_row = '<tr><td>'+ p_asset
                 	+ '</td><td>' + p_sector 

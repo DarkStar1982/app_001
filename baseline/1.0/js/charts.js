@@ -338,6 +338,106 @@ var namespace_charts = (function () {
             }]
       });
    }
+ 
+   function get_risk_pnl_data()
+   {
+      var summary_data = {};
+      summary_data.portfolio_pnl = 0.15;
+      summary_data.portfolio_risk = 0.24;
+      summary_data.benchmark_pnl = 0.55;
+      summary_data.benchmark_risk = 0.22;
+      return summary_data;
+   } 
+   //render risk vs return porfolio
+   function render_risk_pnl_bubble(p_values)
+   {
+      var bubble_chart = new Highcharts.Chart({
+         title: {
+            text: 'Risk vs Return'
+         },
+         chart: {
+            renderTo: 'container_chart4b',
+            type: 'bubble',
+            zoom: 'xy',
+         },
+         series: [{
+            data: [{x:10, y:10, z:p_values.benchmark_pnl}, 
+                   {x:10, y: 5, z:p_values.benchmark_risk}, 
+                   {x:5,y:10,z:p_values.portfolio_pnl}, 
+                   {x:5,y:5, z:p_values.portfolio_risk}],
+            dataLabels: {
+                        enabled: true
+                    }
+         }],
+         yAxis: {
+            min: 2.5,
+            max: 12.5,
+            lineWidth: 0,
+            gridLineWidth: 0,
+            minorGridLineWidth: 0,
+            minorTickLength: 0,
+            tickLength: 0,
+            labels: {
+               enabled: false
+            },
+            plotLines : [{ 
+                  value: 7.5,
+                  color: 'black',
+                  width: 2
+                }]
+         },
+         xAxis: {
+            min: 0,
+            max: 15,
+            lineWidth: 0,
+            gridLineWidth: 0,
+            minorGridLineWidth: 0,
+            minorTickLength: 0,
+            tickLength: 0,
+            labels: {
+               enabled: false
+            },
+            plotLines : [{ 
+                 value: 7.5,
+                 color: 'black', 
+                 width: 2  
+               }]   
+         }
+      },
+      function(chart) 
+      {
+         var text1 = chart.renderer.text(
+            'Portfolio Return', 
+             chart.plotLeft + 100, 
+             chart.plotTop + 10
+         ).attr({
+            zIndex: 5
+        }).add();
+        var text2 = chart.renderer.text(
+                'Benchmark  Return', 
+                chart.plotLeft + 800, 
+                chart.plotTop + 10
+            ).attr({
+                zIndex: 5
+            }).add();
+      var text3 = chart.renderer.text(
+                'Portfolio Risk', 
+                chart.plotLeft + 100, 
+                chart.plotTop + 300
+            ).attr({
+                zIndex: 5
+            }).add();
+      var text4 = chart.renderer.text(
+                'Benchmark Risk', 
+                chart.plotLeft + 800, 
+                chart.plotTop + 300
+            ).attr({
+                zIndex: 5
+            }).add();
+
+
+      });
+   } 
    
    //render risk chart
    function render_risk_chart(seriesOptions, nav_data)
@@ -633,6 +733,7 @@ var namespace_charts = (function () {
                            if (counter == chart_data.length)
                            {
                               var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
+                              var bubble_data = get_risk_pnl_data();
                               var a = compute_gauge_data(seriesOptions[0].data);
 							         var b = compute_gauge_data(seriesOptions[1].data);
                               seriesOptions[0].data = postprocess_data(seriesOptions[0].data,'#0000FF', 1.0);
@@ -660,6 +761,8 @@ var namespace_charts = (function () {
                               //part two
 							         render_risk_gauge_radial('container_chart5a', a);
                               render_risk_gauge_radial('container_chart5b', b);
+                              // part threee
+                              render_risk_pnl_bubble(bubble_data);
 					      }
                });
          });
