@@ -104,8 +104,7 @@ function deposit_cash()
 {
     var value = $("#portfolio_cash").val();
     var rawdate = $("#portfolio_date").datepicker("getDate");
-    //convert raw date into "YYYY-MM-DD" formate
-        var sdate = datetime_util.adjust_date(rawdate);
+    var sdate = datetime_util.adjust_date(rawdate);
     var index=namespace_ui.get_cash_position_index();
     if (index>-1) {
         var last_id=$("#matrix").children("tr").last().attr('id');
