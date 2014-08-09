@@ -1,8 +1,9 @@
 function boot_loader()
 {
     /* Initialize UI */
+    $("#portfolio_date").datepicker();
     /* bind event handlers */
-    $r("#cash_add").on('click', namespace_events.deposit_cash)
+    $("#cash_add").on('click', namespace_events.deposit_cash)
     /* load page data */
     /* create page state */
     /* create business logic objects */

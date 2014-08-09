@@ -2,12 +2,13 @@ var namespace_events = (function () {
     return {
         deposit_cash: function()
         {
-            var action = {
-                //cash_value: $("#portfolio_cash").val(), 
-                //deposit_date: $("#portfolio_date").datepicker("getDate"),
-                type = "cash_deposit"
+            var new_transaction = {
+                cash_value: $("#portfolio_cash").val(), 
+                deposit_date: datetime_util.adjust_date($("#portfolio_date").datepicker("getDate")),
+                type: "cash_deposit",
+                flags: ['first']
             };
-            namespace_gui.render_page(namespace_portfolio.update_state(action)); 
+            namespace_gui.render_page(namespace_portfolio.update_state(new_transaction)); 
         }
     };
 }) ();
