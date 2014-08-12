@@ -4,7 +4,9 @@ var namespace_portfolio = (function()
     var state = {
         transactions: [],
         positions: [],
-        net_positions: []
+        net_positions: [],
+        dashboard_rows: []
+        derived_values: []
     };
 
     /* Private methods */
@@ -16,9 +18,15 @@ var namespace_portfolio = (function()
 
     /* Public methods */
     return {
+        initialize :function ()
+        {
+            //load page data 
+            namespace_gui.init_page();
+        },
         //data assumed to be clean
         update_state: function (p_action)
         {
+            //validate transactions
             //recompute and return state
             //if transaction is valid
             //add to portfolio and recompute
@@ -28,7 +36,7 @@ var namespace_portfolio = (function()
             //state.positions = compute_positions();
             //state.net_positions = compute_net_positions(transactions);
             //update_net values
-            return state;
+            namespace_gui.render_page(state);
         }
     };
 }) ();
@@ -63,6 +71,11 @@ var namespace_gui = (function() {
             //add net positions
             //render charts and dashboard
             //alert (portfolio_object.cash_value);
+        },
+        /* Initialize user interface elements */
+        init_page: function()
+        {
+                $("#portfolio_date").datepicker();
         }
     };
 }) ();
