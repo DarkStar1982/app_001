@@ -5,7 +5,7 @@ var namespace_portfolio = (function()
         transactions: [],
         positions: [],
         net_positions: [],
-        dashboard_rows: []
+        dashboard_rows: [],
         derived_values: []
     };
 
