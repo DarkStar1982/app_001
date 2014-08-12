@@ -13,6 +13,10 @@ var namespace_events = (function () {
                 flags: ['first']
             };
             namespace_gui.render_page(namespace_portfolio.update_state(new_transaction)); 
+        },
+        //load symbol lists, etc
+        load_page_data: function ()
+        {
         }
     };
 }) ();
