@@ -20,10 +20,25 @@ var namespace_portfolio = (function()
     return {
         initialize :function ()
         {
-            //load page data 
+            //load page data
+            $.get("data_api", { type:"stock_list" }, function (data) 
+            {
+               /* var test = data.split(',');
+                for (var i=0;i<test.length;i++)
+                {
+                    test[i] = test[i].replace(/\'/g,'');
+                    var x_item = new Object();
+                    var split_test = test[i].split(':');
+                    x_item.label=split_test[1];
+                    x_item.value=split_test[0].trim();
+                    test[i]=x_item;
+                } */
+            });        
+            //once done, update the UI
             namespace_gui.init_page();
         },
-        //data assumed to be clean
+
+        /* data assumed to be clean */
         update_state: function (p_action)
         {
             //validate transactions
@@ -72,10 +87,29 @@ var namespace_gui = (function() {
             //render charts and dashboard
             //alert (portfolio_object.cash_value);
         },
+    
         /* Initialize user interface elements */
-        init_page: function()
+        init_page: function(page_data)
         {
-                $("#portfolio_date").datepicker();
+            /* create GUI objects */            
+            $("#portfolio_date").datepicker();
+                
+            /* Populate them with data */
+            $("#instrument_entry").autocomplete({
+            /*    source: page_data.instrument_list,
+                select: function(event, ui) {
+                    var tdate = $("#date_entry").datepicker("getDate");
+                    if (tdate!=null)
+                    {
+                        var xdate = datetime_util.adjust_date($("#date_entry").datepicker("getDate"));
+                        var symbol = ui.item.value;
+                        $.get("data_api",{id:symbol, type:"quote", qdate:xdate}, function(data)
+                        {
+                            $("#price_entry").val(data);
+                        });
+                    }
+                } */
+            }); 
         }
     };
 }) ();
