@@ -21,8 +21,9 @@ var namespace_portfolio = (function()
         initialize :function ()
         {
             //load page data
-            $.get("data_api", { type:"stock_list" }, function (data) 
+            $.getJSON("/data_api/:2000", { call:"stock_list" }, function (data) 
             {
+                alert(data);
                /* var test = data.split(',');
                 for (var i=0;i<test.length;i++)
                 {
