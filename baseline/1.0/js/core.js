@@ -23,7 +23,7 @@ var namespace_portfolio = (function()
             //load page data
             $.getJSON("/data_api/:2000", { call:"stock_list" }, function (data) 
             {
-                alert(data);
+                console.log(data);
                /* var test = data.split(',');
                 for (var i=0;i<test.length;i++)
                 {
