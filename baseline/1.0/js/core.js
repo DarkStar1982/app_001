@@ -1,7 +1,14 @@
 var namespace_portfolio = (function()
 {
-    /* Private dataa */
+    
+    /* Constants */
+    var API_URL = "/data_api/:2000";
+    var DATA_LOAD_STATES  = ["loading","loading", "ready"];
+    /* Private Data */
     var state = {
+        load_state: 1,
+        list_instruments: [],
+        list_benchmarks: [],
         transactions: [],
         positions: [],
         net_positions: [],
@@ -16,27 +23,26 @@ var namespace_portfolio = (function()
         //now co
     }
 
+    function init_gui_if_ready()
+    {
+        console.log(state.load_state);
+        if (DATA_LOAD_STATES[state.load_state] == "ready")
+        {
+            console.log(state.list_instruments);
+            namespace_gui.init_page(state);
+        }
+    }
     /* Public methods */
     return {
         initialize :function ()
         {
             //load page data
-            $.getJSON("/data_api/:2000", { call:"stock_list" }, function (data) 
+            $.getJSON(API_URL, { call:"stock_list" }, function (data) 
             {
-                console.log(data);
-               /* var test = data.split(',');
-                for (var i=0;i<test.length;i++)
-                {
-                    test[i] = test[i].replace(/\'/g,'');
-                    var x_item = new Object();
-                    var split_test = test[i].split(':');
-                    x_item.label=split_test[1];
-                    x_item.value=split_test[0].trim();
-                    test[i]=x_item;
-                } */
-            });        
-            //once done, update the UI
-            namespace_gui.init_page();
+                state.list_instruments = data;
+                state.load_state = state.load_state+1 ;     
+                init_gui_if_ready();
+            });
         },
 
         /* data assumed to be clean */
@@ -90,7 +96,7 @@ var namespace_gui = (function() {
         },
     
         /* Initialize user interface elements */
-        init_page: function(page_data)
+        init_page: function(page_state)
         {
             /* create GUI objects */            
             $("#portfolio_date").datepicker();
@@ -110,7 +116,20 @@ var namespace_gui = (function() {
                         });
                     }
                 } */
-            }); 
+            });
+ 
+            //load instrument_list
+            $("#instrument_entry").autocomplete({
+                    source:page_state.list_instruments,
+                    select:function(event, ui) {
+                            var tdate = $("#date_entry").datepicker("getDate");
+                            if (tdate!=null){
+                                var xdate = datetime_util.adjust_date($("#date_entry").datepicker("getDate"));
+                                var symbol = ui.item.value;
+                                console.log(symbol);
+                            }
+                    }            
+                }); 
         }
     };
 }) ();
