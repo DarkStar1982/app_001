@@ -25,10 +25,8 @@ var namespace_portfolio = (function()
 
     function init_gui_if_ready()
     {
-        console.log(state.load_state);
         if (DATA_LOAD_STATES[state.load_state] == "ready")
         {
-            console.log(state.list_instruments);
             namespace_gui.init_page(state);
         }
     }
@@ -65,7 +63,8 @@ var namespace_portfolio = (function()
 
 // GUI update code
 var namespace_gui = (function() {
-    /* Private */
+    var API_URL = "/data_api/:2000";
+     /* Private */
     function create_transaction_row(obj)
     {
         var new_row = '<tr><td class="asset_name">'+ obj.asset
@@ -77,6 +76,18 @@ var namespace_gui = (function() {
             + '</td><td class="current_price">'+ obj.last_price
             + '</td><td><button onclick="remove_row_action(this)" class="btn">Remove</button></td></tr>';
        return new_row;
+    }
+
+    function update_price_entry(p_symbol)
+    {
+        var xdate = datetime_util.adjust_date($("#date_entry").datepicker("getDate"));
+        $.getJSON(API_URL, {instrument:p_symbol, call:"quote", datetime:xdate}, function(data)
+        {
+            if (data.header.error_code == 0)
+                $("#price_entry").val(math_util.aux_math_round(data.contents.price,2));
+            else 
+                console.log(data);
+        });
     }
     /* Public */ 
     return {
@@ -103,33 +114,21 @@ var namespace_gui = (function() {
                 
             /* Populate them with data */
             $("#instrument_entry").autocomplete({
-            /*    source: page_data.instrument_list,
+                source:page_state.list_instruments,
                 select: function(event, ui) {
                     var tdate = $("#date_entry").datepicker("getDate");
-                    if (tdate!=null)
-                    {
-                        var xdate = datetime_util.adjust_date($("#date_entry").datepicker("getDate"));
-                        var symbol = ui.item.value;
-                        $.get("data_api",{id:symbol, type:"quote", qdate:xdate}, function(data)
-                        {
-                            $("#price_entry").val(data);
-                        });
-                    }
-                } */
+                    var symbol = ui.item.value;
+                    if (tdate!=null) update_price_entry(symbol);
+                } 
             });
- 
-            //load instrument_list
-            $("#instrument_entry").autocomplete({
-                    source:page_state.list_instruments,
-                    select:function(event, ui) {
-                            var tdate = $("#date_entry").datepicker("getDate");
-                            if (tdate!=null){
-                                var xdate = datetime_util.adjust_date($("#date_entry").datepicker("getDate"));
-                                var symbol = ui.item.value;
-                                console.log(symbol);
-                            }
-                    }            
-                }); 
+
+            /* init instrument entry datetime picker" */
+            $("#date_entry").datepicker({
+                onSelect: function(dateText, inst) {
+                    var symbol = $("#instrument_entry").val();
+                    update_price_entry(symbol);
+                }
+            });
         }
     };
 }) ();

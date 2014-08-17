@@ -4,6 +4,7 @@ $(document).ready(function(){
     namespace_portfolio.initialize();
     /* bind event handlers */
     $("#cash_add").on('click', namespace_events.deposit_cash)
+    $("#transaction_add").on('click', namespace_events.add_trade_row)
 });
 
 var namespace_events = (function () {
@@ -21,6 +22,12 @@ var namespace_events = (function () {
                 flags: ['first']
             };
             namespace_portfolio.update_state(new_transaction);
+        },
+        add_trade_row: function()
+        {
+            alert("Test");
+            var new_transaction={};
+            //namespace_portfolio.update_state(_new_transaction);
         }
     }
 }) ();
