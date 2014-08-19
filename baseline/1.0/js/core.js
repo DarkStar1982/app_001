@@ -23,6 +23,34 @@ var namespace_portfolio = (function()
         //now co
     }
 
+    function postprocess_transaction(p_action, function_call)
+    {
+        var last_date = datetime_util.adjust_date(datetime_util.get_yesterday_date());
+        $.getJSON(API_URL, {instrument:p_action.asset, call:"quote", datetime:last_date}, function(data)
+        {
+            if (data.header.error_code == 0)
+            {
+                p_action.last_price = math_util.aux_math_round(data.contents.price,2);
+                $.getJSON(API_URL, {instrument:p_action.asset, call:"sector"}, function(data)
+                {
+                    if (data.header.error_code == 0)
+                    {
+                        p_action.sector = data.contents.sector_data;
+                        state.transactions.push(p_action);
+                        function_call(state);
+                    }
+                    else {
+                        console.log(data);
+                    }
+                });
+            }
+            else {
+                console.log(data);
+            }
+        });
+        return "ZZZ"
+    }
+
     function init_gui_if_ready()
     {
         if (DATA_LOAD_STATES[state.load_state] == "ready")
@@ -32,9 +60,9 @@ var namespace_portfolio = (function()
     }
     /* Public methods */
     return {
+        /* Load required page data */
         initialize :function ()
         {
-            //load page data
             $.getJSON(API_URL, { call:"stock_list" }, function (data) 
             {
                 state.list_instruments = data;
@@ -43,20 +71,27 @@ var namespace_portfolio = (function()
             });
         },
 
-        /* data assumed to be clean */
+        /* add transaction to porfolio
+         * 1. check transaction - can have incompete information, so load missing data
+         * 2. verify that portfolio is consistent if this transaction is added  
+         * 3. recompute entire portfolio and redraw page
+         *  3.1 update positions
+         *  3.2 update net values
+         *  3.3 update derived data 
+         * 4. update page DOM
+         * 5. draw charts */
         update_state: function (p_action)
         {
-            //validate transactions
-            //recompute and return state
-            //if transaction is valid
-            //add to portfolio and recompute
-            //else pop an error message
-            state.transactions.push(p_action);
-            //update positions
-            //state.positions = compute_positions();
-            //state.net_positions = compute_net_positions(transactions);
-            //update_net values
-            namespace_gui.render_page(state);
+            switch (p_action.type)
+            {
+                case "Deposit":
+                    state.transactions.push(p_action);
+                    namespace_gui.render_page(state);
+                    break;
+                case "Buy":
+                    postprocess_transaction(p_action, namespace_gui.render_page); 
+                    break;
+            }
         }
     };
 }) ();

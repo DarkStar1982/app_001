@@ -18,16 +18,22 @@ var namespace_events = (function () {
                 asset: "Cash",
                 sector: "-",
                 book_price: 1.0,
-                last_price: 1.0,
-                flags: ['first']
+                last_price: 1.0
             };
             namespace_portfolio.update_state(new_transaction);
         },
         add_trade_row: function()
         {
-            alert("Test");
-            var new_transaction={};
-            //namespace_portfolio.update_state(_new_transaction);
+            var new_transaction = {
+                volume: $("#amount_entry").val(),
+                book_date: datetime_util.adjust_date($("#date_entry").datepicker("getDate")),
+                type: $("#trade_type").val(),
+                asset: $("#instrument_entry").val(),
+                sector: undefined,
+                book_price: $("#price_entry").val(),
+                last_price: undefined,
+            };
+            namespace_portfolio.update_state(new_transaction);
         }
     }
 }) ();
