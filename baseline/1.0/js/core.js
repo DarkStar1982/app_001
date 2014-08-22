@@ -7,6 +7,7 @@ var namespace_portfolio = (function()
     /* Private Data */
     var state = {
         load_state: 1,
+        next_id: 0,
         list_instruments: [],
         list_benchmarks: [],
         transactions: [],
@@ -17,39 +18,63 @@ var namespace_portfolio = (function()
     };
 
     /* Private methods */
-    function compute_positions()
-    {
+    function recompute_portfolio()
+    {                                
         //sort transactions
-        //now co
+        namespace_gui.render_page(state);
     }
 
-    function postprocess_transaction(p_action, function_call)
+    function get_next_id()
     {
-        var last_date = datetime_util.adjust_date(datetime_util.get_yesterday_date());
-        $.getJSON(API_URL, {instrument:p_action.asset, call:"quote", datetime:last_date}, function(data)
+        state.next_id = state.next_id + 1;
+        return state.next_id;
+    }
+    /* postprocess transaction if neccessary*/
+    function add_transaction(p_action, function_call)
+    {
+        p_action.gui_id = get_next_id();
+        console.log(p_action);
+        switch (p_action.type)
         {
-            if (data.header.error_code == 0)
-            {
-                p_action.last_price = math_util.aux_math_round(data.contents.price,2);
-                $.getJSON(API_URL, {instrument:p_action.asset, call:"sector"}, function(data)
+            case "Buy":
+            case "Sell":
+            case "Short":
+            case "Cover":
+                var last_date = datetime_util.adjust_date(datetime_util.get_yesterday_date());
+                $.getJSON(API_URL, {instrument:p_action.asset, call:"quote", datetime:last_date}, function(data)
                 {
                     if (data.header.error_code == 0)
                     {
-                        p_action.sector = data.contents.sector_data;
-                        state.transactions.push(p_action);
-                        function_call(state);
+                        p_action.last_price = math_util.aux_math_round(data.contents.price,2);
+                        $.getJSON(API_URL, {instrument:p_action.asset, call:"sector"}, function(data)
+                        {
+                            if (data.header.error_code == 0)
+                            {
+                                p_action.sector = data.contents.sector_data;
+                                state.transactions.push(p_action);
+                                function_call();
+                            }
+                            else {
+                                console.log(data);
+                            }
+                        });
                     }
                     else {
                         console.log(data);
                     }
                 });
-            }
-            else {
-                console.log(data);
-            }
-        });
-        return "ZZZ"
+                break;
+            case "Deposit":
+            case "Withdraw":
+                state.transactions.push(p_action);
+                function_call();
+                break;
+        }
     }
+
+    function remove_transaction(p_action, function_call)
+    {
+    } 
 
     function init_gui_if_ready()
     {
@@ -80,20 +105,19 @@ var namespace_portfolio = (function()
          *  3.3 update derived data 
          * 4. update page DOM
          * 5. draw charts */
-        update_state: function (p_action)
+        update_state: function (p_verb, p_data)
         {
-            switch (p_action.type)
+            switch (p_verb)
             {
-                case "Deposit":
-                    state.transactions.push(p_action);
-                    namespace_gui.render_page(state);
+                case "add_record":
+                    add_transaction(p_data, recompute_portfolio); 
                     break;
-                case "Buy":
-                    postprocess_transaction(p_action, namespace_gui.render_page); 
+                case "remove_record":
+                    remove_transaction(p_data, recompute_portfolio);
                     break;
             }
         }
-    };
+    }
 }) ();
 
 // GUI update code
@@ -102,14 +126,15 @@ var namespace_gui = (function() {
      /* Private */
     function create_transaction_row(obj)
     {
-        var new_row = '<tr><td class="asset_name">'+ obj.asset
+        var new_row = '<tr id="' + obj.gui_id 
+            + '"><td class="asset_name">'+ obj.asset
             + '</td><td class="sector_label">' + obj.sector 
             + '</td><td class="buysell_label">' + obj.type
             + '</td><td class="volume_label">'+ obj.volume
             + '</td><td class="book_date">' + obj.book_date
             + '</td><td class="book_price">' + obj.book_price
             + '</td><td class="current_price">'+ obj.last_price
-            + '</td><td><button onclick="remove_row_action(this)" class="btn">Remove</button></td></tr>';
+            + '</td><td><button onclick="namespace_events.remove_trade_row(this)" class="btn">Remove</button></td></tr>';
        return new_row;
     }
 

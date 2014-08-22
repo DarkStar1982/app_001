@@ -20,7 +20,7 @@ var namespace_events = (function () {
                 book_price: 1.0,
                 last_price: 1.0
             };
-            namespace_portfolio.update_state(new_transaction);
+            namespace_portfolio.update_state("add_record", new_transaction);
         },
         add_trade_row: function()
         {
@@ -33,7 +33,19 @@ var namespace_events = (function () {
                 book_price: $("#price_entry").val(),
                 last_price: undefined,
             };
-            namespace_portfolio.update_state(new_transaction);
+            namespace_portfolio.update_state("add_record", new_transaction);
+        },
+        remove_trade_row: function(node)
+        {
+            namespace_portfolio.update_state("remove_record", transaction_info);
+           /* var tr = node.parentNode.parentNode;
+            var id = "#"+tr.id;
+            $(id).remove();
+            if (id=="#1")
+            {
+                namespace_ui.set_visibility(false);
+            }
+            render_page(); */
         }
     }
 }) ();
