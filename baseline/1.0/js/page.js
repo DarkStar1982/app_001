@@ -37,15 +37,8 @@ var namespace_events = (function () {
         },
         remove_trade_row: function(node)
         {
-            namespace_portfolio.update_state("remove_record", transaction_info);
-           /* var tr = node.parentNode.parentNode;
-            var id = "#"+tr.id;
-            $(id).remove();
-            if (id=="#1")
-            {
-                namespace_ui.set_visibility(false);
-            }
-            render_page(); */
+            var tr_id = node.parentNode.parentNode.id;
+            namespace_portfolio.update_state("remove_record", tr_id);
         }
     }
 }) ();

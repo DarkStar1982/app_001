@@ -1,9 +1,9 @@
 var namespace_portfolio = (function()
 {
-    
     /* Constants */
     var API_URL = "/data_api/:2000";
     var DATA_LOAD_STATES  = ["loading","loading", "ready"];
+    
     /* Private Data */
     var state = {
         load_state: 1,
@@ -19,16 +19,139 @@ var namespace_portfolio = (function()
 
     /* Private methods */
     function recompute_portfolio()
-    {                                
+    {
+        //now I have list of transaction...                                
+        //  1. compute position values
+        var positions  = compute_positions();
+        //  2. net values
+        //  3. dashboard and derived values
+        //  4. risk and volatility series
         //sort transactions
         namespace_gui.render_page(state);
     }
 
+    function compute_positions()
+    {
+    var raw_data = p_transactions;
+    var portfolio_summary = new Array();
+    var total_cash = 0.0
+    var start_cash = 0.0;
+    var net_data = new Object();
+    for (var i=0;i<raw_data.length;i++)
+    {
+        if (raw_data[i].type=="Deposit")
+        {
+            var b_val = parseFloat(raw_data[i].volume)*parseFloat(raw_data[i].b_price);
+            total_cash = total_cash + b_val;
+            start_cash = total_cash;
+        }
+        if (raw_data[i].type=="Withdraw")
+        {
+            var b_val = parseFloat(raw_data[i].volume)*parseFloat(raw_data[i].b_price);
+            total_cash = total_cash - b_val;
+        }
+        if (raw_data[i].type=="Buy")
+        {
+            var b_val = parseFloat(raw_data[i].volume)*parseFloat(raw_data[i].b_price);
+            var c_val = parseFloat(raw_data[i].volume)*parseFloat(raw_data[i].c_price);
+            total_cash =  total_cash - b_val;
+            hash_index = raw_data[i].symbol+'_B';
+            if (net_data[hash_index]==undefined)
+            {
+                net_data[hash_index] = new Array();
+                net_data[hash_index][0] = raw_data[i].volume;
+                net_data[hash_index][1] = b_val;
+                net_data[hash_index][2] = c_val;
+            }
+            else
+            {
+
+                net_data[hash_index][0] = parseInt(net_data[hash_index][0]) + parseInt(raw_data[i].volume);
+                net_data[hash_index][1] = parseFloat(net_data[hash_index][1] + b_val);
+                net_data[hash_index][2] = parseFloat(net_data[hash_index][2] + c_val);
+                }
+            }
+        if (raw_data[i].type=="Sell")
+        {
+            var b_val = parseFloat(raw_data[i].volume)*parseFloat(raw_data[i].b_price);
+            hash_index = raw_data[i].symbol+'_B';
+            if (net_data[hash_index]==undefined)
+            {
+            }
+            else
+            {
+                var c_price = parseFloat(net_data[hash_index][2]/net_data[hash_index][0]);
+                var b_price = parseFloat(net_data[hash_index][1]/net_data[hash_index][0]);
+                var vol_diff = parseInt(net_data[hash_index][0]) - parseInt(raw_data[i].volume);
+                if (vol_diff>=0)
+                {
+                    net_data[hash_index][0] = vol_diff;
+                    net_data[hash_index][1] = parseFloat(net_data[hash_index][0] * b_price);
+                    total_cash = total_cash + b_val;
+                    net_data[hash_index][2] = parseFloat(net_data[hash_index][0] * c_price);
+                }
+                else
+                {
+                }
+            }
+
+        }
+        if (raw_data[i].type=="Short")
+        {
+            var b_val = parseFloat(raw_data[i].volume)*parseFloat(raw_data[i].b_price);
+            var c_val = parseFloat(raw_data[i].volume)*parseFloat(raw_data[i].c_price);
+            total_cash =  total_cash - b_val;
+            hash_index = raw_data[i].symbol+'_S';
+            if (net_data[hash_index]==undefined)
+            {
+                net_data[hash_index] = new Array();
+                net_data[hash_index][0] = raw_data[i].volume;
+                net_data[hash_index][1] = b_val;
+                net_data[hash_index][2] = c_val;
+            }
+            else
+            {
+                net_data[hash_index][0] = parseInt(net_data[hash_index][0]) + parseInt(raw_data[i].volume);
+                net_data[hash_index][1] = parseFloat(net_data[hash_index][1] + b_val);
+                net_data[hash_index][2] = parseFloat(net_data[hash_index][2] + c_val);
+            }
+        }
+        if (raw_data[i].type=="Cover")
+        {
+            hash_index = raw_data[i].symbol+'_S';
+            if (net_data[hash_index]==undefined)
+            {
+            }
+            else
+            {
+                var c_price = parseFloat(net_data[hash_index][2]/net_data[hash_index][0]);
+                var b_price = parseFloat(net_data[hash_index][1]/net_data[hash_index][0]);
+                var vol_diff = parseInt(net_data[hash_index][0]) - parseInt(raw_data[i].volume);
+                var b_val = raw_data[i].volume*b_price;
+                if (vol_diff>=0)
+                {
+                    net_data[hash_index][0] = vol_diff;
+                    net_data[hash_index][1] = parseFloat(net_data[hash_index][0] * b_price);
+                    total_cash = total_cash + b_val -raw_data[i].volume*(raw_data[i].b_price - b_price);
+                    net_data[hash_index][2] = parseFloat(net_data[hash_index][0] * c_price);
+                }
+            }
+
+        }
+    }
+    var positions_data = new Object();
+    positions_data.net_data = net_data;
+    positions_data.total_cash = total_cash;
+    positions_data.start_cash = start_cash;
+    return positions_data;
+    }
+    
     function get_next_id()
     {
         state.next_id = state.next_id + 1;
         return state.next_id;
     }
+
     /* postprocess transaction if neccessary*/
     function add_transaction(p_action, function_call)
     {
@@ -72,8 +195,18 @@ var namespace_portfolio = (function()
         }
     }
 
-    function remove_transaction(p_action, function_call)
+    /* received transaction gui id and  then attempt deletion */
+    function remove_transaction(p_id, function_call)
     {
+        var delete_index = -1; 
+        for (var i = 0; i<state.transactions.length; i++)
+        {
+            if (state.transactions[i].gui_id == p_id)
+                delete_index=i;
+        }
+        if (delete_index != -1) 
+            state.transactions.splice(delete_index, 1);
+        function_call();
     } 
 
     function init_gui_if_ready()
