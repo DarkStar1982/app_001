@@ -1,3 +1,49 @@
+/* Page code entry point */
+$(document).ready(function(){
+    /* Initialize */
+    namespace_portfolio.initialize();
+    /* bind event handlers */
+    $("#cash_add").on('click', namespace_events.deposit_cash)
+    $("#transaction_add").on('click', namespace_events.add_trade_row)
+});
+
+var namespace_events = (function () {
+    return {
+        deposit_cash: function()
+        {
+            var new_transaction = {
+                volume: $("#portfolio_cash").val(),
+                book_date: datetime_util.adjust_date($("#portfolio_date").datepicker("getDate")),
+                type: "Deposit",
+                asset: "Cash",
+                sector: "-",
+                book_price: 1.0,
+                last_price: 1.0
+            };
+            namespace_portfolio.update_state("add_record", new_transaction);
+        },
+        add_trade_row: function()
+        {
+            var new_transaction = {
+                volume: $("#amount_entry").val(),
+                book_date: datetime_util.adjust_date($("#date_entry").datepicker("getDate")),
+                type: $("#trade_type").val(),
+                asset: $("#instrument_entry").val(),
+                sector: undefined,
+                book_price: $("#price_entry").val(),
+                last_price: undefined,
+            };
+            namespace_portfolio.update_state("add_record", new_transaction);
+        },
+        remove_trade_row: function(node)
+        {
+            var tr_id = node.parentNode.parentNode.id;
+            namespace_portfolio.update_state("remove_record", tr_id);
+        }
+    }
+}) ();
+
+
 var namespace_portfolio = (function()
 {
     /* Constants */
@@ -19,9 +65,15 @@ var namespace_portfolio = (function()
     /* Private methods */
     function recompute_portfolio()
     {
-        // step 1. aggregate transactions
+        //sort transactions before processing
+        state.transactions.sort(function (a,b){
+            if (a.book_date > b.book_date) return 1;
+            if (a.book_date < b.book_date) return -1;
+            return 0;
+        });
+        // step 1. aggregate transaction data
         var position_data = compute_position_data();
-        // step 2 - compute position rows
+        // step 2 - compute position rows and net values
         state.positions = compute_net_positions(position_data); 
         //  3. net values
         console.log(state.positions);
@@ -122,6 +174,8 @@ var namespace_portfolio = (function()
         return { "net_positions" : net_data, "total_cash": total_cash, "start_cash" : start_cash };
     }
    
+    // part 1 - calculate average price for positions and assemble final positions
+    // part 2 - get cash nets
     function compute_net_positions(position_data) //net_data
     {
         var total_cash = position_data.total_cash;
@@ -133,7 +187,6 @@ var namespace_portfolio = (function()
         var total_pnl = 0.0;
         var net_value = 0.0;
         var net_data = position_data.net_positions;
-        //part 1 - calculate average price for positions and assemble final positions
         for (var k in net_data)
         {
             if (net_data.hasOwnProperty(k))
@@ -156,13 +209,12 @@ var namespace_portfolio = (function()
                                         "price_avg":avg_price,
                                         "book_value":net_data[k][1],
                                         "value_current":net_data[k][2],
-                                        "pnl": profit_or_loss,
+                                        "pnl": profit_or_loss
                     });
                 }
                 total_pnl = total_pnl + profit_or_loss;
              }
         }
-        // part 2 get cash nets
         if (position_list.length == 0)   
         {
             var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": cash_change };
