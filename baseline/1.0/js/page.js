@@ -57,7 +57,7 @@ var namespace_portfolio = (function()
         list_instruments: [],
         list_benchmarks: [],
         transactions: [],
-        positions: {},
+        net_data: {},
         dashboard_rows: [],
         derived_values: []
     };
@@ -74,9 +74,9 @@ var namespace_portfolio = (function()
         // step 1. aggregate transaction data
         var position_data = compute_position_data();
         // step 2 - compute position rows and net values
-        state.positions = compute_net_positions(position_data); 
+        state.net_data = compute_net_data(position_data); 
         //  3. net values
-        console.log(state.positions);
+        //console.log(state.positions);
         //  4. dashboard and derived values
         //  5. risk and volatility series
         namespace_gui.render_page(state);
@@ -174,9 +174,9 @@ var namespace_portfolio = (function()
         return { "net_positions" : net_data, "total_cash": total_cash, "start_cash" : start_cash };
     }
    
-    // part 1 - calculate average price for positions and assemble final positions
-    // part 2 - get cash nets
-    function compute_net_positions(position_data) //net_data
+    /* part 1 - calculate average price for positions and assemble final positions
+     * part 2 - get cash nets */
+    function compute_net_data(position_data)
     {
         var total_cash = position_data.total_cash;
         var start_cash = position_data.start_cash;
@@ -206,9 +206,9 @@ var namespace_portfolio = (function()
                 {
                     position_list.push({"symbol": k, 
                                         "volume": net_data[k][0], 
-                                        "price_avg":avg_price,
-                                        "book_value":net_data[k][1],
-                                        "value_current":net_data[k][2],
+                                        "price_avg": avg_price,
+                                        "book_value": net_data[k][1],
+                                        "last_value": net_data[k][2],
                                         "pnl": profit_or_loss
                     });
                 }
@@ -336,7 +336,7 @@ var namespace_portfolio = (function()
     }
 }) ();
 
-// GUI update code
+// GUI interactions code
 var namespace_gui = (function() {
     var API_URL = "/data_api/:2000";
      /* Private */
@@ -354,6 +354,28 @@ var namespace_gui = (function() {
        return new_row;
     }
 
+    function create_summary_row(obj)
+    {
+        var instrument = obj.symbol;       
+        var position_type = "-";
+        var type_dict = { "B":"Long", "S":"Short" }
+        var split_index = obj.symbol.indexOf('_');
+        if (split_index != -1)
+        {
+            var instrument = obj.symbol.substring(0, split_index);
+            var position_type = type_dict[obj.symbol.substring(split_index+1)];
+        }
+        var summary_row = '<tr><td class="sum_asset">'+ instrument
+            + '</td><td class="order_type">' + position_type
+            + '</td><td class="sum_volume">'+ obj.volume
+            + '<td class="avg_price">' + obj.price_avg
+            + '</td><td class="sum_book_val">'+ obj.book_value
+            + '<td class="sum_cur_val">' + obj.last_value
+            + '</td><td class="sum_pnl">'+obj.pnl
+            + '</td></tr>';
+        return summary_row;
+     }
+
     function update_price_entry(p_symbol)
     {
         var xdate = datetime_util.adjust_date($("#date_entry").datepicker("getDate"));
@@ -365,43 +387,36 @@ var namespace_gui = (function() {
                 console.log(data);
         });
     }
-    /* Public */ 
+
+    /* Public Interface */ 
     return {
         render_page: function(portfolio)
         {
             //render trades
             $("#matrix").empty();
-            for (var i=0; i <portfolio.transactions.length; i++)
+            for (var i=0; i <portfolio.transactions.length; i++) 
             {
-                  var str_row = create_transaction_row(portfolio.transactions[i]);
-                  $("#matrix").append(str_row);
+                $("#matrix").append(create_transaction_row(portfolio.transactions[i]));
             }
             //add net positions
             $("#net_rows").empty();
-            /* var net_rows = portfolio.positions.net_positions)
+            var net_rows = portfolio.net_data.positions;
             for (var x in net_rows)
             {
                 if (net_rows.hasOwnProperty(x))
-                        {
-                                var asset = p_net_positions.positions[x].symbol;
-                                var vol = p_net_positions.positions[x].volume;
-                                var price = p_net_positions.positions[x].avg_price;
-                                var book_val = p_net_positions.positions[x].book_val;
-                                var cur_val = p_net_positions.positions[x].cur_val;
-                                var pnl = p_net_positions.positions[x].pnl;
-                                var prow = namespace_ui.create_summary_row(asset, vol, price, book_val, cur_val, pnl);
-                                $("#net_rows").append(prow);
-                        }
-                }
-                var c = p_net_positions.cash_net;
-                var crow = namespace_ui.create_summary_row('Cash', '-', '-',c.start_cash,c.total_cash, c.cash_change);
-                $("#net_rows").append(crow);
-                $("#value_totals").text(math_util.aux_currency_round(p_net_positions.total_val));
-                $("#pnl_totals").text(math_util.aux_currency_round(p_net_positions.total_pnl));
-            */
-            //add net value
+                    $("#net_rows").append(create_summary_row(net_rows[x]));      
+            } 
+            //append cash row and net values
+            $("#net_rows").append(create_summary_row({"symbol": "Cash", 
+                                           "volume": "-", 
+                                           "price_avg": "-",
+                                           "book_value":portfolio.net_data.net_cash_row.start_cash,
+                                           "last_value":portfolio.net_data.net_cash_row.total_cash, 
+                                           "pnl": portfolio.net_data.net_cash_row.cash_change}));
+            $("#value_totals").text(portfolio.net_data.total_value);
+            $("#pnl_totals").text(portfolio.net_data.total_pnl);
+            
             //render charts and dashboard
-            //alert (portfolio_object.cash_value);
         },
     
         /* Initialize user interface elements */
