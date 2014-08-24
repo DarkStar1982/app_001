@@ -75,10 +75,8 @@ var namespace_portfolio = (function()
         var position_data = compute_position_data();
         // step 2 - compute position rows and net values
         state.net_data = compute_net_data(position_data); 
-        //  3. net values
-        //console.log(state.positions);
-        //  4. dashboard and derived values
-        //  5. risk and volatility series
+        //  step 3. dashboard and derived values
+        //  step 4. load profit, risk risk and volatility series
         namespace_gui.render_page(state);
     }
 
@@ -171,7 +169,7 @@ var namespace_portfolio = (function()
                     break;
             }
         }
-        return { "net_positions" : net_data, "total_cash": total_cash, "start_cash" : start_cash };
+        return { "net_positions" : net_data, "total_cash": math_util.aux_math_round(total_cash,2), "start_cash" : start_cash };
     }
    
     /* part 1 - calculate average price for positions and assemble final positions
@@ -206,10 +204,10 @@ var namespace_portfolio = (function()
                 {
                     position_list.push({"symbol": k, 
                                         "volume": net_data[k][0], 
-                                        "price_avg": avg_price,
-                                        "book_value": net_data[k][1],
-                                        "last_value": net_data[k][2],
-                                        "pnl": profit_or_loss
+                                        "price_avg": math_util.aux_math_round(avg_price,2),
+                                        "book_value": math_util.aux_math_round(net_data[k][1],2),
+                                        "last_value": math_util.aux_math_round(net_data[k][2],2),
+                                        "pnl": math_util.aux_math_round(profit_or_loss,2)
                     });
                 }
                 total_pnl = total_pnl + profit_or_loss;
@@ -224,9 +222,9 @@ var namespace_portfolio = (function()
         else
         {
             var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-" };
-            var end_totals = total_cash + net_value;
+            var end_totals = math_util.aux_math_round(total_cash + net_value,2);
         }       
-        return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": total_pnl};
+        return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": math_util.aux_math_round(total_pnl,2)};
     }
  
     function get_next_id()
