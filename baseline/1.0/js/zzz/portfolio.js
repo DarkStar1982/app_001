@@ -566,7 +566,6 @@ function compute_net_positions(p_net_data)
         cash_row.start_cash = start_cash;
         cash_row.total_cash = total_cash;
         cash_row.cash_change = cash_change;
-        //$("#net_rows").append(cash_row);
         end_totals = total_cash;
     }
     else 
@@ -575,7 +574,6 @@ function compute_net_positions(p_net_data)
         cash_row.start_cash = start_cash;
         cash_row.total_cash = total_cash;
         cash_row.cash_change = '-';
-        //$("#net_rows").append(cash_row);
         end_totals = total_cash + net_positions;
     }
     //part 3 - update net value and net profit
