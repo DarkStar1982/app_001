@@ -1,4 +1,4 @@
-/* Page code entry point */
+/* ENTRY POINT */
 $(document).ready(function(){
     /* Initialize */
     namespace_portfolio.initialize();
@@ -7,6 +7,7 @@ $(document).ready(function(){
     $("#transaction_add").on('click', namespace_events.add_trade_row)
 });
 
+/* GUI ACTIONS */ 
 var namespace_events = (function () {
     return {
         deposit_cash: function()
@@ -43,7 +44,7 @@ var namespace_events = (function () {
     }
 }) ();
 
-
+/* BUSINESS LOGIC */
 var namespace_portfolio = (function()
 {
     /* Constants */
@@ -63,6 +64,20 @@ var namespace_portfolio = (function()
     };
 
     /* Private methods */
+    function get_next_id()
+    {
+        state.next_id = state.next_id + 1;
+        return state.next_id;
+    }
+
+    function get_first_date()
+    {
+        if (state.transactions.length>0)
+            return state.transactions[0].book_date;
+        else
+            return datetime_util.adjust_date(new Date(50, 0, 1));
+    }
+
     function recompute_portfolio()
     {
         //sort transactions before processing
@@ -169,6 +184,7 @@ var namespace_portfolio = (function()
                     break;
             }
         }
+        console.log("start cash is "+  start_cash);
         return { "net_positions" : net_data, "total_cash": math_util.aux_math_round(total_cash,2), "start_cash" : start_cash };
     }
    
@@ -226,53 +242,69 @@ var namespace_portfolio = (function()
         }       
         return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": math_util.aux_math_round(total_pnl,2)};
     }
- 
-    function get_next_id()
-    {
-        state.next_id = state.next_id + 1;
-        return state.next_id;
-    }
 
+    /* This one definitely needs unit testing */ 
+    function check_transaction(p_action)
+    {
+        /* var curreddnt_list = namespace_ui.get_portfolio_transactions(); */
+        var valid_flag = true;
+        var message = "No error";
+        
+        /* Part 1  - basec validation and sanity check */
+        if (p_action.asset==null || p_action.asset==undefined || p_action.asset=='') 
+            message = "Incorrect symbol";
+        if (p_action.volume <=0 || p_action.volume==null || p_action.volume=='')
+            message = "Transaction volume can't be undefined, zero or negative";
+        if (p_action.book_price<=0 || p_action.book_price==null || p_action.book_price =='' || p_action.last_price<0)
+            message = "Transaction price can't be undefined or negative";
+        
+        /* Part 2 - check transaction dates */
+        var last_date = datetime_util.adjust_date(new Date()); 
+        var first_date = get_first_date();
+        if (p_action.book_date > last_date || p_action.book_date < first_date)
+            message = "Transaction date is outside the valid range betwen " + first_date + " and " + last_date;
+        
+        /* Part 3 - check Withdraw transactions */
+        if (p_action.type == "Withdraw" && state.net_data != {} && state.net_data.cash_row.total_cash < p_action.volume)
+            message = "Insufficient cash to withdraw"; 
+        return { "valid": valid_flag, "error_message": message };
+    }
+    
     /* postprocess transaction if neccessary*/
     function add_transaction(p_action, function_call)
     {
         p_action.gui_id = get_next_id();
-        console.log(p_action);
-        switch (p_action.type)
+        if (p_action.type == "Deposit" || p_action.type == "Widthdraw")
         {
-            case "Buy":
-            case "Sell":
-            case "Short":
-            case "Cover":
-                var last_date = datetime_util.adjust_date(datetime_util.get_yesterday_date());
-                $.getJSON(API_URL, {instrument:p_action.asset, call:"quote", datetime:last_date}, function(data)
+            state.transactions.push(p_action);
+            function_call();
+        }
+        else 
+        {
+            var last_date = datetime_util.adjust_date(datetime_util.get_yesterday_date());
+            $.getJSON(API_URL, {instrument:p_action.asset, call:"quote", datetime:last_date}, function(data)
+            {
+                if (data.header.error_code == 0)
                 {
-                    if (data.header.error_code == 0)
+                    p_action.last_price = math_util.aux_math_round(data.contents.price,2);
+                    $.getJSON(API_URL, {instrument:p_action.asset, call:"sector"}, function(data)
                     {
-                        p_action.last_price = math_util.aux_math_round(data.contents.price,2);
-                        $.getJSON(API_URL, {instrument:p_action.asset, call:"sector"}, function(data)
+                        if (data.header.error_code == 0)
                         {
-                            if (data.header.error_code == 0)
-                            {
                                 p_action.sector = data.contents.sector_data;
+                                //check transaction before committing
                                 state.transactions.push(p_action);
                                 function_call();
-                            }
-                            else {
-                                console.log(data);
-                            }
-                        });
-                    }
-                    else {
-                        console.log(data);
-                    }
-                });
-                break;
-            case "Deposit":
-            case "Withdraw":
-                state.transactions.push(p_action);
-                function_call();
-                break;
+                        }
+                        else {
+                            console.log(data);
+                        }
+                    });
+                }
+                else {
+                    console.log(data);
+                }
+            });
         }
     }
 
@@ -396,21 +428,22 @@ var namespace_gui = (function() {
             {
                 $("#matrix").append(create_transaction_row(portfolio.transactions[i]));
             }
-            //add net positions
             $("#net_rows").empty();
-            var net_rows = portfolio.net_data.positions;
-            for (var x in net_rows)
-            {
-                if (net_rows.hasOwnProperty(x))
-                    $("#net_rows").append(create_summary_row(net_rows[x]));      
-            } 
-            //append cash row and net values
+            //append cash row first and net values
             $("#net_rows").append(create_summary_row({"symbol": "Cash", 
                                            "volume": "-", 
                                            "price_avg": "-",
                                            "book_value":portfolio.net_data.net_cash_row.start_cash,
                                            "last_value":portfolio.net_data.net_cash_row.total_cash, 
                                            "pnl": portfolio.net_data.net_cash_row.cash_change}));
+            //append net positions
+            var net_rows = portfolio.net_data.positions;
+            for (var x in net_rows)
+            {
+                if (net_rows.hasOwnProperty(x))
+                    $("#net_rows").append(create_summary_row(net_rows[x]));      
+            } 
+            
             $("#value_totals").text(portfolio.net_data.total_value);
             $("#pnl_totals").text(portfolio.net_data.total_pnl);
             
