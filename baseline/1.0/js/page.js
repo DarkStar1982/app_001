@@ -59,8 +59,8 @@ var namespace_portfolio = (function()
         list_benchmarks: [],
         transactions: [],
         net_data: {},
-        dashboard_rows: [],
-        derived_values: []
+        time_series: {},
+        derived_values: {}
     };
 
     /* Private methods */
@@ -90,6 +90,7 @@ var namespace_portfolio = (function()
         var position_data = compute_position_data();
         // step 2 - compute position rows and net values
         state.net_data = compute_net_data(position_data); 
+        state.time_series = compute_time_series();
         //  step 3. dashboard and derived values
         //  step 4. load profit, risk risk and volatility series
         namespace_gui.render_page(state);
@@ -241,6 +242,11 @@ var namespace_portfolio = (function()
             var end_totals = math_util.aux_math_round(total_cash + net_value,2);
         }       
         return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": math_util.aux_math_round(total_pnl,2)};
+    }
+
+    function compute_time_series()
+    {
+            return {};
     }
 
     /* This one definitely needs unit testing */ 
