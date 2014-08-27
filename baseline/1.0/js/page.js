@@ -143,9 +143,9 @@ var namespace_portfolio = (function()
                             net_data[hash_value][1] = parseFloat(net_data[hash_value][0] * book_price);
                             net_data[hash_value][2] = parseFloat(net_data[hash_value][0] * last_price);
                         }
-                        else console.log("not a valid action - can't sell more then you hold");
+                        else namespace_gui.send_log_message("not a valid action - can't sell more then you hold", "System");
                     }
-                    else console.log("not a valid action - can't sell what you don't have");
+                    else namespace_gui.send_log_message("not a valid action - can't sell what you don't have", "System");
                     break;
                 case "Short":
                     var book_value = parseFloat(row_data.volume)*parseFloat(row_data.book_price);
@@ -178,13 +178,13 @@ var namespace_portfolio = (function()
                             total_cash = total_cash + book_value - row_data.volume*(row_data.book_price - book_price);
                             net_data[hash_value][2] = parseFloat(net_data[hash_value][0] * last_price);
                         }
-                        else console.log("Can't cover more than you have in a short position");
+                        else namespace_gui.send_log_message("Can't cover more than you have in a short position", "System");
                     }
-                    else console.log("No short position found to cover");
+                    else namespace_gui.send_log_message("No short position found to cover", "System");
                     break;
             }
         }
-        console.log("start cash is "+  start_cash);
+        namespace_gui.send_log_message("start cash is "+  start_cash, "Info");
         return { "net_positions" : net_data, "total_cash": math_util.aux_math_round(total_cash,2), "start_cash" : start_cash };
     }
    
@@ -246,7 +246,6 @@ var namespace_portfolio = (function()
     /* This one definitely needs unit testing */ 
     function check_transaction(p_action)
     {
-        /* var curreddnt_list = namespace_ui.get_portfolio_transactions(); */
         var valid_flag = true;
         var valid_message = "No error";
         var message = "No error";
@@ -363,16 +362,16 @@ var namespace_portfolio = (function()
     }
     
     function push_and_recompute(p_action, function_call)
+    {
+        var check_result = check_transaction(p_action);
+        if (check_result.valid) 
         {
-            var check_result = check_transaction(p_action);
-            if (check_result.valid) 
-            {
-                p_action.gui_id = get_next_id();
-                state.transactions.push(p_action);
-                function_call();
-            }
-            else alert(check_result.error_message);
+            p_action.gui_id = get_next_id();
+            state.transactions.push(p_action);
+            function_call();
         }
+        else namespace_gui.send_log_message(check_result.error_message, "User");
+   }
         
 
     /* postprocess transaction if neccessary*/
@@ -398,12 +397,14 @@ var namespace_portfolio = (function()
                             push_and_recompute(p_action, function_call); 
                         }
                         else {
-                            console.log(data);
+                           namespace_gui.send_log_message("Failed to load sector data, see responce data below", "System");
+                           namespace_gui.send_log_message(data, "System");
                         }
                     });
                 }
                 else {
-                    console.log(data);
+                    namespace_gui.send_log_message("Failed to load quote data, see raw responce below", "System");
+                    namespace_gui.send_log_message(data, "System");
                 }
             });
         }
@@ -529,7 +530,9 @@ var namespace_gui = (function() {
             if (data.header.error_code == 0)
                 $("#price_entry").val(math_util.aux_math_round(data.contents.price,2));
             else 
-                console.log(data);
+                
+                namespace_gui.send_log_message("Failed to load quote data, see raw responce data below", "System");           
+                namespace_gui.send_log_message(data, "System");
         });
     }
 
@@ -588,6 +591,17 @@ var namespace_gui = (function() {
                     update_price_entry(symbol);
                 }
             });
+        },
+        send_log_message: function(message, p_severity)
+        {
+            //... with fall-through!
+            switch(p_severity)
+            {
+                case "User":
+                    alert(message);
+                default:
+                    console.log(message);
+            }
         }
     };
 }) ();
