@@ -248,6 +248,7 @@ var namespace_portfolio = (function()
     {
         /* var curreddnt_list = namespace_ui.get_portfolio_transactions(); */
         var valid_flag = true;
+        var valid_message = "No error";
         var message = "No error";
         
         /* Part 1  - basec validation and sanity check */
@@ -265,19 +266,121 @@ var namespace_portfolio = (function()
             message = "Transaction date is outside the valid range betwen " + first_date + " and " + last_date;
         
         /* Part 3 - check Withdraw transactions */
-        if (p_action.type == "Withdraw" && state.net_data != {} && state.net_data.cash_row.total_cash < p_action.volume)
+        if (p_action.type == "Withdraw"  && state.net_data.net_cash_row.total_cash < p_action.volume)
             message = "Insufficient cash to withdraw"; 
+       
+        /* Part 4 - buy validation */
+        if (p_action.type == "Buy") 
+        {
+            //Rule B1
+            if (state.net_data.net_cash_row.total_cash < p_action.volume*p_action.book_price)
+                message = "Insufficient cash to buy position";
+            //Rule B2 - can't buy if open short position exixts
+            var search_str = p_action.asset +"_S";
+            for (var i=0;i< state.net_data.positions.length; i++)
+            {   
+                if (state.net_data.positions[i].symbol == search_str && state.net_data.positions[i].volume>0)
+                {
+                    message = "Cannot buy same stock with open short position";
+                    break;
+                }
+            }
+        }
+        /* Part 5 - sell validation 
+         * S1 Can't sell if no long position or insufficient quantity of long position
+         * S2 ...Or sell before buy! */
+        if (p_action.type == "Sell") 
+        {
+            var search_str = p_action.asset +"_B";
+            var found = false;
+            for (var i=0;i< state.net_data.positions.length; i++)
+            {   
+                if (state.net_data.positions[i].symbol == search_str)
+                {
+                    if (p_action.volume > state.net_data.positions[i].volume)
+                    {
+                        found = true;
+                        message = "Cannot sell more then you hold";
+                        break;
+                    }
+                    else found = true;
+                }
+            }
+            if (!found)
+            {
+                message = "No long position to sell";
+            }
+        }
+        /* Short validation */
+        if (p_action.type == "Short") 
+        {
+            //Rule SS1 - check cash
+            if (state.net_data.net_cash_row.total_cash < p_action.volume*p_action.book_price)
+                message = "Insufficient cash to borrow position";
+            //Rule SS2 - can't buy if open long position exixts
+            var search_str = p_action.asset +"_B";
+            for (var i=0;i< state.net_data.positions.length; i++)
+            {   
+                if (state.net_data.positions[i].symbol == search_str && state.net_data.positions[i].volume>0)
+                {
+                    message = "Cannot short stock if there is a long position in the same stock";
+                    break;
+                }
+            }
+        }
+
+        /* Cover validation 
+         * Rule C1 - Can't cover if no short position to cover
+         * Rule C2 - Can't cover more then short position */
+        if (p_action.type == "Cover") 
+        {
+            var search_str = p_action.asset +"_S";
+            var found = false;
+            for (var i=0;i< state.net_data.positions.length; i++)
+            {   
+                if (state.net_data.positions[i].symbol == search_str)
+                {
+                    if (p_action.volume > state.net_data.positions[i].volume)
+                    {
+                        found = true;
+                        message = "Cannot cover more then you have borrowed";
+                        break;
+                    }
+                    else found = true;
+                }
+            }
+            if (!found)
+            {
+                message = "No short position to cover";
+            }
+        }
+
+        /* Set result flag */
+        if (message != valid_message)
+            valid_flag = false;
+
         return { "valid": valid_flag, "error_message": message };
     }
     
+    function push_and_recompute(p_action, function_call)
+        {
+            var check_result = check_transaction(p_action);
+            if (check_result.valid) 
+            {
+                p_action.gui_id = get_next_id();
+                state.transactions.push(p_action);
+                function_call();
+            }
+            else alert(check_result.error_message);
+        }
+        
+
     /* postprocess transaction if neccessary*/
     function add_transaction(p_action, function_call)
     {
-        p_action.gui_id = get_next_id();
         if (p_action.type == "Deposit" || p_action.type == "Widthdraw")
         {
-            state.transactions.push(p_action);
-            function_call();
+            push_and_recompute(p_action, function_call);
         }
         else 
         {
@@ -291,10 +394,8 @@ var namespace_portfolio = (function()
                     {
                         if (data.header.error_code == 0)
                         {
-                                p_action.sector = data.contents.sector_data;
-                                //check transaction before committing
-                                state.transactions.push(p_action);
-                                function_call();
+                            p_action.sector = data.contents.sector_data;
+                            push_and_recompute(p_action, function_call); 
                         }
                         else {
                             console.log(data);
@@ -331,7 +432,10 @@ var namespace_portfolio = (function()
     }
     /* Public methods */
     return {
-        /* Load required page data */
+        /* Load required page data:
+        * - Instruments list
+        * - Benchmarks list  
+        * -Set values for empty portfolio  */
         initialize :function ()
         {
             $.getJSON(API_URL, { call:"stock_list" }, function (data) 
@@ -340,6 +444,17 @@ var namespace_portfolio = (function()
                 state.load_state = state.load_state+1 ;     
                 init_gui_if_ready();
             });
+            //create empty portfolio
+            state.net_data = {
+                "net_cash_row": {
+                    "start_cash" : 0.0,
+                    "total_cash" : 0.0,
+                    "cash_chage" : 0.0,
+                },
+                "positions" :[],
+                "total_value" : 0.0,
+                "total_pnl" : 0.0
+            }
         },
 
         /* add transaction to porfolio
