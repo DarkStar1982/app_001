@@ -246,7 +246,17 @@ var namespace_portfolio = (function()
 
     function compute_time_series()
     {
-            return {};
+            //send transaction list 
+            var transaction_list = JSON.stringify(state.transactions);
+            //get time series for value, profit or loss and risk 
+            $.getJSON(API_URL, {call:"value_series", transactions: transaction_list}, function(data)
+            {
+                if (data.header.error_code == 0)
+                {
+                    console.log(data);
+                    return '';
+                }
+            });
     }
 
     /* This one definitely needs unit testing */ 
