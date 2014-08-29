@@ -246,14 +246,16 @@ var namespace_portfolio = (function()
 
     function compute_time_series()
     {
-            //send transaction list 
+            //send transaction list
+            console.log(state.transactions);
             var transaction_list = JSON.stringify(state.transactions);
             //get time series for value, profit or loss and risk 
-            $.getJSON(API_URL, {call:"value_series", transactions: transaction_list}, function(data)
+            $.post('/data_api/', {call:"value_series", transactions: transaction_list}, function(data)
             {
-                if (data.header.error_code == 0)
-                {
-                    console.log(data);
+                var json_data = JSON.parse(data);    
+                if (json_data.header.error_code == 0)
+                {   
+                    console.log(json_data);
                     return '';
                 }
             });
