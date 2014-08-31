@@ -258,6 +258,7 @@ var namespace_portfolio = (function()
                     console.log(json_data);
                     return '';
                 }
+                else console.log(json_data);
             });
     }
 
