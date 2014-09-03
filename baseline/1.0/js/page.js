@@ -246,10 +246,11 @@ var namespace_portfolio = (function()
                 var json_data = JSON.parse(data);    
                 if (json_data.header.error_code == 0)
                 {
+                    state.time_series["value_series"] = json_data.value_series;
                     // save data to portfolio state....
                     // do all the computations
                     // draw charts   
-                    //console.log(json_data);
+                    namespace_gui.render_derived(state);
                     namespace_gui.render_charts(state);
                 }
                 else 
@@ -556,6 +557,15 @@ var namespace_gui = (function() {
     /* Public Interface */ 
     return {
         render_charts: function(chart_data)
+        {
+            //chart_data.time_series.value_series
+            var display_mode = $("#perf_select").val();
+            var flag_mode = $("#flags_selected").prop("checked");
+            namespace_graphs.render_value_chart(chart_data.time_series.value_series, "#container_chart1", display_mode, flag_mode)
+        },
+
+        //dashboard and analytics
+        render_derived: function(derived_data)
         {
         },
 
