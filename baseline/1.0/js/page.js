@@ -78,24 +78,6 @@ var namespace_portfolio = (function()
             return datetime_util.adjust_date(new Date(50, 0, 1));
     }
 
-    function recompute_portfolio()
-    {
-        //sort transactions before processing
-        state.transactions.sort(function (a,b){
-            if (a.book_date > b.book_date) return 1;
-            if (a.book_date < b.book_date) return -1;
-            return 0;
-        });
-        // step 1. aggregate transaction data
-        var position_data = compute_position_data();
-        // step 2 - compute position rows and net values
-        state.net_data = compute_net_data(position_data); 
-        state.time_series = compute_time_series();
-        //  step 3. dashboard and derived values
-        //  step 4. load profit, risk risk and volatility series
-        namespace_gui.render_page(state);
-    }
-
     function compute_position_data()
     {
         var total_cash = 0.0;
@@ -243,22 +225,38 @@ var namespace_portfolio = (function()
         }       
         return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": math_util.aux_math_round(total_pnl,2)};
     }
-
-    function compute_time_series()
+     
+    function recompute_and_render()
     {
-            //send transaction list
-            console.log(state.transactions);
+            //sort transactions before processing
+            state.transactions.sort(function (a,b){
+                if (a.book_date > b.book_date) return 1;
+                if (a.book_date < b.book_date) return -1;
+                return 0;
+            });
+            // step 1. aggregate transaction data and compute position rows and net values
+            // also render immediately
+            state.net_data = compute_net_data(compute_position_data()); 
+            namespace_gui.render_tables(state.net_data, state.transactions);
+            // step 2. load profit, risk risk and volatility series, then compute 
+            // dashboard and derived values and render portfolio tables and charts
             var transaction_list = JSON.stringify(state.transactions);
-            //get time series for value, profit or loss and risk 
-            $.post('/data_api/', {call:"value_series", transactions: transaction_list}, function(data)
+            $.post('/data_api/', {call:"time_series", transactions: transaction_list}, function(data)
             {
                 var json_data = JSON.parse(data);    
                 if (json_data.header.error_code == 0)
-                {   
-                    console.log(json_data);
-                    return '';
+                {
+                    // save data to portfolio state....
+                    // do all the computations
+                    // draw charts   
+                    //console.log(json_data);
+                    namespace_gui.render_charts(state);
                 }
-                else console.log(json_data);
+                else 
+                {
+                    namespace_gui.send_log_message("Failed to receive portfolio time series data", "System");
+                    namespace_gui.send_log_message(json_data, "System");
+                }
             });
     }
 
@@ -491,10 +489,10 @@ var namespace_portfolio = (function()
             switch (p_verb)
             {
                 case "add_record":
-                    add_transaction(p_data, recompute_portfolio); 
+                    add_transaction(p_data, recompute_and_render); 
                     break;
                 case "remove_record":
-                    remove_transaction(p_data, recompute_portfolio);
+                    remove_transaction(p_data, recompute_and_render);
                     break;
             }
         }
@@ -557,32 +555,36 @@ var namespace_gui = (function() {
 
     /* Public Interface */ 
     return {
-        render_page: function(portfolio)
+        render_charts: function(chart_data)
+        {
+        },
+
+        render_tables: function(net_data, transactions)
         {
             //render trades
             $("#matrix").empty();
-            for (var i=0; i <portfolio.transactions.length; i++) 
+            for (var i=0; i <transactions.length; i++) 
             {
-                $("#matrix").append(create_transaction_row(portfolio.transactions[i]));
+                $("#matrix").append(create_transaction_row(transactions[i]));
             }
             $("#net_rows").empty();
             //append cash row first and net values
             $("#net_rows").append(create_summary_row({"symbol": "Cash", 
                                            "volume": "-", 
                                            "price_avg": "-",
-                                           "book_value":portfolio.net_data.net_cash_row.start_cash,
-                                           "last_value":portfolio.net_data.net_cash_row.total_cash, 
-                                           "pnl": portfolio.net_data.net_cash_row.cash_change}));
+                                           "book_value":net_data.net_cash_row.start_cash,
+                                           "last_value":net_data.net_cash_row.total_cash, 
+                                           "pnl": net_data.net_cash_row.cash_change}));
             //append net positions
-            var net_rows = portfolio.net_data.positions;
+            var net_rows = net_data.positions;
             for (var x in net_rows)
             {
                 if (net_rows.hasOwnProperty(x))
                     $("#net_rows").append(create_summary_row(net_rows[x]));      
             } 
             
-            $("#value_totals").text(portfolio.net_data.total_value);
-            $("#pnl_totals").text(portfolio.net_data.total_pnl);
+            $("#value_totals").text(net_data.total_value);
+            $("#pnl_totals").text(net_data.total_pnl);
             
             //render charts and dashboard
         },
@@ -611,6 +613,7 @@ var namespace_gui = (function() {
                 }
             });
         },
+        
         send_log_message: function(message, p_severity)
         {
             //... with fall-through!
