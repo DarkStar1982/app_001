@@ -4,8 +4,6 @@ var namespace_graphs = (function () {
         render_value_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode)
         {
             var chart_flags = [];
-            console.log("entered  chart code");
-            console.log(p_series_data);   
         /* if (p_flag_mode) 
                 chart_flags = check_flag_edges(data, get_flag_data());
            */ 
@@ -42,7 +40,6 @@ var namespace_graphs = (function () {
                         }*/
                     
             });
-            console.log ("Finished processing chart");
         }
     };
 }) ();

@@ -225,7 +225,11 @@ var namespace_portfolio = (function()
         }       
         return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": math_util.aux_math_round(total_pnl,2)};
     }
-     
+    
+    function compute_derived_values()
+    {
+    }
+
     function recompute_and_render()
     {
             //sort transactions before processing
@@ -247,9 +251,13 @@ var namespace_portfolio = (function()
                 if (json_data.header.error_code == 0)
                 {
                     state.time_series["value_series"] = json_data.value_series;
+                    state.time_series["pnl_series"] = json_data.pnl_series;
                     // save data to portfolio state....
                     // do all the computations
-                    // draw charts   
+                    // draw charts
+                    //
+                    console.log(json_data); 
+                    state.derived_values = compute_derived_values(); 
                     namespace_gui.render_derived(state);
                     namespace_gui.render_charts(state);
                 }
@@ -561,7 +569,7 @@ var namespace_gui = (function() {
             //chart_data.time_series.value_series
             var display_mode = $("#perf_select").val();
             var flag_mode = $("#flags_selected").prop("checked");
-            namespace_graphs.render_value_chart(chart_data.time_series.value_series, "#container_chart1", display_mode, flag_mode)
+            namespace_graphs.render_value_chart(chart_data.time_series.pnl_series, "#container_chart1", display_mode, flag_mode)
         },
 
         //dashboard and analytics
