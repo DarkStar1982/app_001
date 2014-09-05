@@ -228,6 +228,7 @@ var namespace_portfolio = (function()
     
     function compute_derived_values()
     {
+        //state portfolio value, pnl and benchmark series 
     }
 
     function recompute_and_render()
