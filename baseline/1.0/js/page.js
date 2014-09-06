@@ -5,7 +5,7 @@ $(document).ready(function(){
     /* bind event handlers */
     $("#cash_add").on('click', namespace_gui.deposit_cash);
     $("#transaction_add").on('click', namespace_gui.add_trade_row);
-    $("#benchmark_add").on('click', namespace_gui.add_dashboard_benchmark);
+    $("#benchmark_add").on('click', namespace_gui.add_dashboard_benchmark_row);
 });
 
 /* GUI ACTIONS  interactions code */
@@ -72,8 +72,13 @@ var namespace_gui = (function() {
             namespace_graphs.render_value_chart(chart_data.portfolio_series.pnl_series, "#container_chart1", display_mode, flag_mode)
         },
 
-        //dashboard and analytics
+        //analytics
         render_derived: function(derived_data)
+        {
+        },
+
+        //dashboard values for portfolio and benchmark
+        render_dashboard: function(dashboard_data, p_mode)
         {
         },
 
@@ -170,11 +175,10 @@ var namespace_gui = (function() {
             namespace_portfolio.update_state("remove_record", tr_id);
         },
         
-        add_dashboard_benchmark: function()
+        add_dashboard_benchmark_row: function()
         {
             var new_benchmark = $("#benchmark_entry").val();
-            namespace_portfolio.update_state("add_dashboard_row", new_benchmark);
-        
+            namespace_portfolio.update_state("add_dashboard_benchmark", new_benchmark);
         },
      
         send_log_message: function(message, p_severity)
@@ -372,6 +376,32 @@ var namespace_portfolio = (function()
         }       
         return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": math_util.aux_math_round(total_pnl,2)};
     }
+    
+    function get_returns_data(p_input)
+    {
+        var offsets=[1, 5, 21, 63, 126, 252];
+        var series = [];
+        var last_index = p_input.length-1;
+        var last_value = p_input[last_index][1];
+        for (var i=0;i<offsets.length;i++)
+        {
+            var first_index = offsets[i];
+            if (first_index<=p_input.length)
+            {
+                var first_value = p_input[last_index - first_index][1];
+                series.push(math_util.aux_currency_round((last_value / first_value - 1) * 100.0));
+            }
+            else series.push('-');
+        }
+        var dashboard_returns = {};
+        dashboard_returns.ret_1d = series[0];
+        dashboard_returns.ret_1w = series[1];
+        dashboard_returns.ret_1m = series[2];
+        dashboard_returns.ret_3m = series[3];
+        dashboard_returns.ret_6m = series[4];
+        dashboard_returns.ret_1y = series[5];
+        return dashboard_returns;
+    }    
     
     function compute_derived_values()
     {
@@ -609,7 +639,9 @@ var namespace_portfolio = (function()
             if (data.header.error_code == 0)
             {
                 //apply momentum calculation and other
-                //create a dashboard row
+                //create a dashboard data
+                
+                namespace_gui.render_dashboard(state, "benchmark");
             }
         });
         //gui add dashboard row
@@ -622,6 +654,7 @@ var namespace_portfolio = (function()
             namespace_gui.init_page(state);
         }
     }
+    
     /* Public methods */
     return {
         /* Load required page data:
