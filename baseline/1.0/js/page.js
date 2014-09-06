@@ -78,7 +78,7 @@ var namespace_gui = (function() {
         },
 
         //dashboard values for portfolio and benchmark
-        render_dashboard: function(dashboard_data, p_mode)
+        append_dashboard_row: function(dashboard_data, p_mode)
         {
         },
 
@@ -402,6 +402,42 @@ var namespace_portfolio = (function()
         dashboard_returns.ret_1y = series[5];
         return dashboard_returns;
     }    
+
+    function get_momentum_data(p_input)
+    {
+        var momentum_data={};
+        if (p_input.length>199)
+        {
+            var sum200 = 0.0;
+            var end_point = p_input.length - 200;
+            for (var i=p_input.length - 1;i>end_point - 1;i--)
+            {
+                sum200 = sum200 + p_input[i][1];
+            }
+            if ((sum200/200.0)<p_input[p_input.length-1][1])
+            {
+                momentum_data.p_200d = 'BULLISH';
+            }
+            else momentum_data.p_200d = 'BEARISH';
+        }
+        else momentum_data.p_200d = '-';
+        if (p_input.length>49)
+        {
+            var total_sum = 0.0;
+            var end_point = p_input.length - 50;
+            for (var i=p_input.length - 1;i>end_point - 1;i--)
+            {
+                total_sum = total_sum + p_input[i][1];
+            }
+            if ((total_sum/50.0)<p_input[p_input.length-1][1])
+            {
+                momentum_data.p_50d = 'BULLISH';
+            }
+            else momentum_data.p_50d = 'BEARISH';
+        }
+        else momentum_data.p_50d = '-';
+        return momentum_data;
+    }
     
     function compute_derived_values()
     {
@@ -640,8 +676,11 @@ var namespace_portfolio = (function()
             {
                 //apply momentum calculation and other
                 //create a dashboard data
-                
-                namespace_gui.render_dashboard(state, "benchmark");
+                row_data = get_returns_data(data.norm_value_series);
+                momentum_data = get_momentum_data(data.norm_value_series);
+                console.log(momentum_data);
+                console.log(row_data);
+                namespace_gui.append_dashboard_row(row_data, "benchmark");
             }
         });
         //gui add dashboard row
