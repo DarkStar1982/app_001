@@ -98,27 +98,25 @@
             
             <!-- Trades tab (need rework) -->
             <div class="tab-pane" id="Tab2">
-                <h4>Set initial cash position</h4>
-                <p>Value: <input type="text" id="portfolio_cash" value="0"/> 
-                    Start date: <input type="text" id="portfolio_date" />
-                    <button id="cash_add" class="btn" style="margin-bottom:10px">Deposit</button>
-                    <button onclick="withdraw_cash()" id="cash_remove" class="btn" style="margin-bottom:10px">Withdraw</button>
-                </p>
-                <div style="width:40%; float:left">
-                    <h4>Add transaction history ...or upload a CSV file with your transactions</h4>
-                </div>
-                <div style="width:50%; float:left"> 
+                <div style="width:100%; float:left">
                     <form class="form-inline">      
-                        <a class="btn" href="/lib/template.csv" target="_self">Download CSV Template</a>
+                        <strong><span style="font-size:18px">Upload a history of your transactions as .csv file</span></strong>
                         <input id="chosenFile"  type="file" name="file_name"/>
                         <input class="btn" id="submitFile" value="Submit" type="button"/>
-                    </form>
+                        <a class="btn" href="/lib/template.csv" target="_self">Download CSV Template</a>
+                        </form>
                 </div>
                 <!-- Enter trades table --> 
+                <h4>...or build your portfolio from scratch</h4>
+                <p>Value: <input type="text" id="portfolio_cash" value="0"/> 
+                    Date: <input type="text" id="portfolio_date" />
+                    <button id="cash_add" class="btn" style="margin-bottom:10px">Deposit Cash</button>
+                    <button onclick="withdraw_cash()" id="cash_remove" class="btn" style="margin-bottom:10px">Withdraw Cash</button>
+                </p>
                 <table class="table"  cellpadding="0" cellspacing="0" cellpadding="0" border="0">
                     <thead>
                         <tr>
-                            <th>Type</th><th>Symbol</th><th>Date</th><th>Price</th><th>Volume</th>
+                            <th>Trade Type</th><th>Symbol</th><th>Book Date</th><th>Book Price</th><th>Book Volume</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -140,7 +138,7 @@
                                 <input style="width:90%" type ="text" value="0" id="amount_entry"/>
                            </td>
                            <td style="border-top:0px">
-                                <button id="transaction_add" class="btn">Add</button>
+                                <button id="transaction_add" class="btn">Add Trade</button>
                            </td>
                         </tr>
                     </tbody>
