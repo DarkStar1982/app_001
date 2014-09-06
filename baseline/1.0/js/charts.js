@@ -1,6 +1,10 @@
 var namespace_graphs = (function () {
     /* PUBLIC */
     return {
+        render_pnl_chart: function()
+        {
+        },
+
         render_value_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode)
         {
             var chart_flags = [];

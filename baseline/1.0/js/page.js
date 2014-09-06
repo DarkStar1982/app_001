@@ -67,10 +67,9 @@ var namespace_gui = (function() {
     return {
         render_charts: function(chart_data)
         {
-            //chart_data.time_series.value_series
             var display_mode = $("#perf_select").val();
             var flag_mode = $("#flags_selected").prop("checked");
-            namespace_graphs.render_value_chart(chart_data.time_series.pnl_series, "#container_chart1", display_mode, flag_mode)
+            namespace_graphs.render_value_chart(chart_data.portfolio_series.pnl_series, "#container_chart1", display_mode, flag_mode)
         },
 
         //dashboard and analytics
@@ -173,6 +172,9 @@ var namespace_gui = (function() {
         
         add_dashboard_benchmark: function()
         {
+            var new_benchmark = $("#benchmark_entry").val();
+            namespace_portfolio.update_state("add_dashboard_row", new_benchmark);
+        
         },
      
         send_log_message: function(message, p_severity)
@@ -188,7 +190,7 @@ var namespace_gui = (function() {
         }
     };
 }) ();
-/* GUI ACTIONS */ 
+
 /* BUSINESS LOGIC */
 var namespace_portfolio = (function()
 {
@@ -204,7 +206,7 @@ var namespace_portfolio = (function()
         list_benchmarks: [],
         transactions: [],
         net_data: {},
-        time_series: {},
+        portfolio_series: {},
         derived_values: {}
     };
 
@@ -391,13 +393,13 @@ var namespace_portfolio = (function()
             // step 2. load profit, risk risk and volatility series, then compute 
             // dashboard and derived values and render portfolio tables and charts
             var transaction_list = JSON.stringify(state.transactions);
-            $.post('/data_api/', {call:"time_series", transactions: transaction_list}, function(data)
+            $.post('/data_api/', {call:"portfolio_series", transactions: transaction_list}, function(data)
             {
                 var json_data = JSON.parse(data);    
                 if (json_data.header.error_code == 0)
                 {
-                    state.time_series["value_series"] = json_data.value_series;
-                    state.time_series["pnl_series"] = json_data.pnl_series;
+                    state.portfolio_series["value_series"] = json_data.value_series;
+                    state.portfolio_series["pnl_series"] = json_data.pnl_series;
                     // save data to portfolio state....
                     // do all the computations
                     // draw charts
@@ -595,6 +597,23 @@ var namespace_portfolio = (function()
             state.transactions.splice(delete_index, 1);
         function_call();
     } 
+    
+    /* load benchmark series for the duration of portfolio
+     * then apply the derived data computation
+     * and render dashboard benchmark row
+    */    
+    function add_dashboard_benchmark(p_benchmark)
+    {
+        $.getJSON(API_URL, {call:"benchmark_series", symbol: p_benchmark, start_date: get_first_date()}, function(data)
+        {
+            if (data.header.error_code == 0)
+            {
+                //apply momentum calculation and other
+                //create a dashboard row
+            }
+        });
+        //gui add dashboard row
+    }
 
     function init_gui_if_ready()
     {
@@ -653,6 +672,9 @@ var namespace_portfolio = (function()
                     break;
                 case "remove_record":
                     remove_transaction(p_data, recompute_and_render);
+                    break;
+                case "add_dashboard_benchmark":
+                    add_dashboard_benchmark(p_data);
                     break;
             }
         }
