@@ -3,13 +3,140 @@ $(document).ready(function(){
     /* Initialize */
     namespace_portfolio.initialize();
     /* bind event handlers */
-    $("#cash_add").on('click', namespace_events.deposit_cash)
-    $("#transaction_add").on('click', namespace_events.add_trade_row)
+    $("#cash_add").on('click', namespace_gui.deposit_cash);
+    $("#transaction_add").on('click', namespace_gui.add_trade_row);
+    $("#benchmark_add").on('click', namespace_gui.add_dashboard_benchmark);
 });
 
-/* GUI ACTIONS */ 
-var namespace_events = (function () {
+/* GUI ACTIONS  interactions code */
+var namespace_gui = (function() {
+    // PRIVATE DATA
+    var API_URL = "/data_api/:2000";
+    // Implementation
+    function create_transaction_row(obj)
+    {
+        var new_row = '<tr id="' + obj.gui_id 
+            + '"><td class="asset_name">'+ obj.asset
+            + '</td><td class="sector_label">' + obj.sector 
+            + '</td><td class="buysell_label">' + obj.type
+            + '</td><td class="volume_label">'+ obj.volume
+            + '</td><td class="book_date">' + obj.book_date
+            + '</td><td class="book_price">' + obj.book_price
+            + '</td><td class="current_price">'+ obj.last_price
+            + '</td><td><button onclick="namespace_gui.remove_trade_row(this)" class="btn">Remove</button></td></tr>';
+       return new_row;
+    }
+
+    function create_summary_row(obj)
+    {
+        var instrument = obj.symbol;       
+        var position_type = "-";
+        var type_dict = { "B":"Long", "S":"Short" }
+        var split_index = obj.symbol.indexOf('_');
+        if (split_index != -1)
+        {
+            var instrument = obj.symbol.substring(0, split_index);
+            var position_type = type_dict[obj.symbol.substring(split_index+1)];
+        }
+        var summary_row = '<tr><td class="sum_asset">'+ instrument
+            + '</td><td class="order_type">' + position_type
+            + '</td><td class="sum_volume">'+ obj.volume
+            + '<td class="avg_price">' + obj.price_avg
+            + '</td><td class="sum_book_val">'+ obj.book_value
+            + '<td class="sum_cur_val">' + obj.last_value
+            + '</td><td class="sum_pnl">'+obj.pnl
+            + '</td></tr>';
+        return summary_row;
+     }
+
+    function update_price_entry(p_symbol)
+    {
+        var xdate = datetime_util.adjust_date($("#date_entry").datepicker("getDate"));
+        $.getJSON(API_URL, {instrument:p_symbol, call:"quote", datetime:xdate}, function(data)
+        {
+            if (data.header.error_code == 0)
+                $("#price_entry").val(math_util.aux_math_round(data.contents.price,2));
+            else 
+                
+                namespace_gui.send_log_message("Failed to load quote data, see raw responce data below", "System");           
+                namespace_gui.send_log_message(data, "System");
+        });
+    }
+
+    /* Public Interface */ 
     return {
+        render_charts: function(chart_data)
+        {
+            //chart_data.time_series.value_series
+            var display_mode = $("#perf_select").val();
+            var flag_mode = $("#flags_selected").prop("checked");
+            namespace_graphs.render_value_chart(chart_data.time_series.pnl_series, "#container_chart1", display_mode, flag_mode)
+        },
+
+        //dashboard and analytics
+        render_derived: function(derived_data)
+        {
+        },
+
+        render_tables: function(net_data, transactions)
+        {
+            //render trades
+            $("#matrix").empty();
+            for (var i=0; i <transactions.length; i++) 
+            {
+                $("#matrix").append(create_transaction_row(transactions[i]));
+            }
+            $("#net_rows").empty();
+            //append cash row first and net values
+            $("#net_rows").append(create_summary_row({"symbol": "Cash", 
+                                           "volume": "-", 
+                                           "price_avg": "-",
+                                           "book_value":net_data.net_cash_row.start_cash,
+                                           "last_value":net_data.net_cash_row.total_cash, 
+                                           "pnl": net_data.net_cash_row.cash_change}));
+            //append net positions
+            var net_rows = net_data.positions;
+            for (var x in net_rows)
+            {
+                if (net_rows.hasOwnProperty(x))
+                    $("#net_rows").append(create_summary_row(net_rows[x]));      
+            } 
+            
+            $("#value_totals").text(net_data.total_value);
+            $("#pnl_totals").text(net_data.total_pnl);
+            
+            //render charts and dashboard
+        },
+    
+        /* Initialize user interface elements */
+        init_page: function(page_state)
+        {
+            /* create GUI objects */            
+            $("#portfolio_date").datepicker();
+                
+            /* Populate them with data */
+            $("#instrument_entry").autocomplete({
+                source:page_state.list_instruments,
+                select: function(event, ui) {
+                    var tdate = $("#date_entry").datepicker("getDate");
+                    var symbol = ui.item.value;
+                    if (tdate!=null) update_price_entry(symbol);
+                } 
+            });
+            $("#benchmark_entry").autocomplete({
+                source:page_state.list_benchmarks
+            });
+
+
+            /* init instrument entry datetime picker" */
+            $("#date_entry").datepicker({
+                onSelect: function(dateText, inst) {
+                    var symbol = $("#instrument_entry").val();
+                    update_price_entry(symbol);
+                }
+            });
+        },
+        
         deposit_cash: function()
         {
             var new_transaction = {
@@ -23,6 +150,7 @@ var namespace_events = (function () {
             };
             namespace_portfolio.update_state("add_record", new_transaction);
         },
+        
         add_trade_row: function()
         {
             var new_transaction = {
@@ -36,14 +164,31 @@ var namespace_events = (function () {
             };
             namespace_portfolio.update_state("add_record", new_transaction);
         },
+        
         remove_trade_row: function(node)
         {
             var tr_id = node.parentNode.parentNode.id;
             namespace_portfolio.update_state("remove_record", tr_id);
+        },
+        
+        add_dashboard_benchmark: function()
+        {
+        },
+     
+        send_log_message: function(message, p_severity)
+        {
+            //... with fall-through!
+            switch(p_severity)
+            {
+                case "User":
+                    alert(message);
+                default:
+                    console.log(message);
+            }
         }
-    }
+    };
 }) ();
-
+/* GUI ACTIONS */ 
 /* BUSINESS LOGIC */
 var namespace_portfolio = (function()
 {
@@ -468,9 +613,14 @@ var namespace_portfolio = (function()
         {
             $.getJSON(API_URL, { call:"stock_list" }, function (data) 
             {
-                state.list_instruments = data;
-                state.load_state = state.load_state+1 ;     
-                init_gui_if_ready();
+                if (data.header.error_code == 0)
+                {
+                    state.list_instruments = data.contents.stocks;
+                    state.list_benchmarks = data.contents.benchmarks;
+                    state.load_state = state.load_state+1;     
+                    console.log(data);
+                    init_gui_if_ready();
+                }
             });
             //create empty portfolio
             state.net_data = {
@@ -509,140 +659,3 @@ var namespace_portfolio = (function()
     }
 }) ();
 
-// GUI interactions code
-var namespace_gui = (function() {
-    var API_URL = "/data_api/:2000";
-     /* Private */
-    function create_transaction_row(obj)
-    {
-        var new_row = '<tr id="' + obj.gui_id 
-            + '"><td class="asset_name">'+ obj.asset
-            + '</td><td class="sector_label">' + obj.sector 
-            + '</td><td class="buysell_label">' + obj.type
-            + '</td><td class="volume_label">'+ obj.volume
-            + '</td><td class="book_date">' + obj.book_date
-            + '</td><td class="book_price">' + obj.book_price
-            + '</td><td class="current_price">'+ obj.last_price
-            + '</td><td><button onclick="namespace_events.remove_trade_row(this)" class="btn">Remove</button></td></tr>';
-       return new_row;
-    }
-
-    function create_summary_row(obj)
-    {
-        var instrument = obj.symbol;       
-        var position_type = "-";
-        var type_dict = { "B":"Long", "S":"Short" }
-        var split_index = obj.symbol.indexOf('_');
-        if (split_index != -1)
-        {
-            var instrument = obj.symbol.substring(0, split_index);
-            var position_type = type_dict[obj.symbol.substring(split_index+1)];
-        }
-        var summary_row = '<tr><td class="sum_asset">'+ instrument
-            + '</td><td class="order_type">' + position_type
-            + '</td><td class="sum_volume">'+ obj.volume
-            + '<td class="avg_price">' + obj.price_avg
-            + '</td><td class="sum_book_val">'+ obj.book_value
-            + '<td class="sum_cur_val">' + obj.last_value
-            + '</td><td class="sum_pnl">'+obj.pnl
-            + '</td></tr>';
-        return summary_row;
-     }
-
-    function update_price_entry(p_symbol)
-    {
-        var xdate = datetime_util.adjust_date($("#date_entry").datepicker("getDate"));
-        $.getJSON(API_URL, {instrument:p_symbol, call:"quote", datetime:xdate}, function(data)
-        {
-            if (data.header.error_code == 0)
-                $("#price_entry").val(math_util.aux_math_round(data.contents.price,2));
-            else 
-                
-                namespace_gui.send_log_message("Failed to load quote data, see raw responce data below", "System");           
-                namespace_gui.send_log_message(data, "System");
-        });
-    }
-
-    /* Public Interface */ 
-    return {
-        render_charts: function(chart_data)
-        {
-            //chart_data.time_series.value_series
-            var display_mode = $("#perf_select").val();
-            var flag_mode = $("#flags_selected").prop("checked");
-            namespace_graphs.render_value_chart(chart_data.time_series.pnl_series, "#container_chart1", display_mode, flag_mode)
-        },
-
-        //dashboard and analytics
-        render_derived: function(derived_data)
-        {
-        },
-
-        render_tables: function(net_data, transactions)
-        {
-            //render trades
-            $("#matrix").empty();
-            for (var i=0; i <transactions.length; i++) 
-            {
-                $("#matrix").append(create_transaction_row(transactions[i]));
-            }
-            $("#net_rows").empty();
-            //append cash row first and net values
-            $("#net_rows").append(create_summary_row({"symbol": "Cash", 
-                                           "volume": "-", 
-                                           "price_avg": "-",
-                                           "book_value":net_data.net_cash_row.start_cash,
-                                           "last_value":net_data.net_cash_row.total_cash, 
-                                           "pnl": net_data.net_cash_row.cash_change}));
-            //append net positions
-            var net_rows = net_data.positions;
-            for (var x in net_rows)
-            {
-                if (net_rows.hasOwnProperty(x))
-                    $("#net_rows").append(create_summary_row(net_rows[x]));      
-            } 
-            
-            $("#value_totals").text(net_data.total_value);
-            $("#pnl_totals").text(net_data.total_pnl);
-            
-            //render charts and dashboard
-        },
-    
-        /* Initialize user interface elements */
-        init_page: function(page_state)
-        {
-            /* create GUI objects */            
-            $("#portfolio_date").datepicker();
-                
-            /* Populate them with data */
-            $("#instrument_entry").autocomplete({
-                source:page_state.list_instruments,
-                select: function(event, ui) {
-                    var tdate = $("#date_entry").datepicker("getDate");
-                    var symbol = ui.item.value;
-                    if (tdate!=null) update_price_entry(symbol);
-                } 
-            });
-
-            /* init instrument entry datetime picker" */
-            $("#date_entry").datepicker({
-                onSelect: function(dateText, inst) {
-                    var symbol = $("#instrument_entry").val();
-                    update_price_entry(symbol);
-                }
-            });
-        },
-        
-        send_log_message: function(message, p_severity)
-        {
-            //... with fall-through!
-            switch(p_severity)
-            {
-                case "User":
-                    alert(message);
-                default:
-                    console.log(message);
-            }
-        }
-    };
-}) ();
