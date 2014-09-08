@@ -63,6 +63,12 @@ var namespace_gui = (function() {
         });
     }
 
+    //dashboard_row = ...
+    function create_dashboard_row(data_record)
+    {
+        return "";
+    }
+
     /* Public Interface */ 
     return {
         render_charts: function(chart_data)
@@ -79,6 +85,11 @@ var namespace_gui = (function() {
 
         render_portfolio_dashboard: function(dashboard_data)
         {
+            $("#dashboard_rows").empty();
+            for (var i=0; i<dashboard_data.length; i++)
+            {
+                $("#dashboard_rows").append(create_dashboard_row(dashboard_data[i]);          
+            }
         },
         //dashboard values for portfolio and benchmark
         append_dashboard_row: function(dashboard_data, p_mode)
@@ -480,7 +491,7 @@ var namespace_portfolio = (function()
                     //
                     //state.derived_values = compute_derived_values(); 
                     //namespace_gui.render_derived(state);
-                    namespace_gui.render_portofolio_dashboard(dashboard_data);     
+                    namespace_gui.render_portfolio_dashboard([dashboard_data]);     
                     namespace_gui.render_charts(state);
                 }
                 else 
