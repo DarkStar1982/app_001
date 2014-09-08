@@ -77,9 +77,15 @@ var namespace_gui = (function() {
         {
         },
 
+        render_portfolio_dashboard: function(dashboard_data)
+        {
+        },
         //dashboard values for portfolio and benchmark
         append_dashboard_row: function(dashboard_data, p_mode)
         {
+            if (p_mode == "benchmark")
+            {
+            }
         },
 
         render_tables: function(net_data, transactions)
@@ -466,13 +472,15 @@ var namespace_portfolio = (function()
                 {
                     state.portfolio_series["value_series"] = json_data.value_series;
                     state.portfolio_series["pnl_series"] = json_data.pnl_series;
-                    // save data to portfolio state....
+                    state.portfolio_series["norm_pnl_series"] = json_data.norm_pnl_series;
+                    state.portfolio_series["norm_value_series"] = json_data.norm_pnl_series;
+                    dashboard_data = get_returns_data(state.portfolio_series["norm_pnl_series"]);
                     // do all the computations
                     // draw charts
                     //
-                    console.log(json_data); 
-                    state.derived_values = compute_derived_values(); 
-                    namespace_gui.render_derived(state);
+                    //state.derived_values = compute_derived_values(); 
+                    //namespace_gui.render_derived(state);
+                    namespace_gui.render_portofolio_dashboard(dashboard_data);     
                     namespace_gui.render_charts(state);
                 }
                 else 
