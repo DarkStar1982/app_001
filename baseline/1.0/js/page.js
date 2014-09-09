@@ -66,7 +66,17 @@ var namespace_gui = (function() {
     //dashboard_row = ...
     function create_dashboard_row(data_record)
     {
-        return "";
+        var dashboard_row = '<tr><td>'+data_record.asset + '</td>'
+            + '<td>'+data_record.info + '</td>'
+            + '<td>'+data_record.ret_1d+'</td>'
+            + '<td>'+data_record.ret_1w+'</td>'
+            + '<td>'+data_record.ret_1m+'</td>'
+            + '<td>'+data_record.ret_3m+'</td>'
+            + '<td>'+data_record.ret_6m+'</td>'
+            + '<td>'+data_record.ret_1y+'</td>'
+            + '<td>'+data_record.m_200d+'</td>'
+            + '<td>'+data_record.m_50d +'</td>';
+        return dashboard_row;
     }
 
     /* Public Interface */ 
@@ -393,7 +403,20 @@ var namespace_portfolio = (function()
         }       
         return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": math_util.aux_math_round(total_pnl,2)};
     }
-    
+   
+    function get_dashboard_data(data)
+    {
+        var dashboard_row ={};
+        dashboard_row.portfolio_returns = get_returns_data(data.portfolio_series["norm_pnl_series"]);
+        dashboard_row.portfolio_momentum = get_momentum_data(data.portfolio_series["norm_pnl_series"]);
+        dashboard_row.asset = "Portfolio";
+        dashboard_row.info = "-";
+        // compute full portfolio row
+        //compute each position row
+        //return aggregated data
+        return [dashboard_row];
+    }
+ 
     function get_returns_data(p_input)
     {
         var offsets=[1, 5, 21, 63, 126, 252];
@@ -485,13 +508,15 @@ var namespace_portfolio = (function()
                     state.portfolio_series["pnl_series"] = json_data.pnl_series;
                     state.portfolio_series["norm_pnl_series"] = json_data.norm_pnl_series;
                     state.portfolio_series["norm_value_series"] = json_data.norm_pnl_series;
-                    dashboard_data = get_returns_data(state.portfolio_series["norm_pnl_series"]);
+                    //compute dashboard data
+                    dashboard_data = get_dashboard_data(state);
+                     
                     // do all the computations
                     // draw charts
                     //
                     //state.derived_values = compute_derived_values(); 
                     //namespace_gui.render_derived(state);
-                    namespace_gui.render_portfolio_dashboard([dashboard_data]);     
+                    namespace_gui.render_portfolio_dashboard(dashboard_data);     
                     namespace_gui.render_charts(state);
                 }
                 else 
