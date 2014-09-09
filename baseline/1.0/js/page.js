@@ -68,14 +68,14 @@ var namespace_gui = (function() {
     {
         var dashboard_row = '<tr><td>'+data_record.asset + '</td>'
             + '<td>'+data_record.info + '</td>'
-            + '<td>'+data_record.ret_1d+'</td>'
-            + '<td>'+data_record.ret_1w+'</td>'
-            + '<td>'+data_record.ret_1m+'</td>'
-            + '<td>'+data_record.ret_3m+'</td>'
-            + '<td>'+data_record.ret_6m+'</td>'
-            + '<td>'+data_record.ret_1y+'</td>'
-            + '<td>'+data_record.m_200d+'</td>'
-            + '<td>'+data_record.m_50d +'</td>';
+            + '<td>'+data_record.portfolio_returns.ret_1d+'</td>'
+            + '<td>'+data_record.portfolio_returns.ret_1w+'</td>'
+            + '<td>'+data_record.portfolio_returns.ret_1m+'</td>'
+            + '<td>'+data_record.portfolio_returns.ret_3m+'</td>'
+            + '<td>'+data_record.portfolio_returns.ret_6m+'</td>'
+            + '<td>'+data_record.portfolio_returns.ret_1y+'</td>'
+            + '<td>'+data_record.portfolio_momentum.p_200d+'</td>'
+            + '<td>'+data_record.portfolio_momentum.p_50d +'</td>';
         return dashboard_row;
     }
 
@@ -98,15 +98,17 @@ var namespace_gui = (function() {
             $("#dashboard_rows").empty();
             for (var i=0; i<dashboard_data.length; i++)
             {
-                $("#dashboard_rows").append(create_dashboard_row(dashboard_data[i]);          
+                $("#dashboard_rows").append(create_dashboard_row(dashboard_data[i]));          
             }
         },
         //dashboard values for portfolio and benchmark
-        append_dashboard_row: function(dashboard_data, p_mode)
+        append_dashboard_row: function(dashboard_data)
         {
-            if (p_mode == "benchmark")
+            for (var i=0; i<dashboard_data.length; i++)
             {
+                $("#reference_rows").append(create_dashboard_row(dashboard_data[i]));          
             }
+
         },
 
         render_tables: function(net_data, transactions)
@@ -404,13 +406,14 @@ var namespace_portfolio = (function()
         return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": math_util.aux_math_round(total_pnl,2)};
     }
    
-    function get_dashboard_data(data)
+    function get_dashboard_data(data, p_label, p_info)
     {
         var dashboard_row ={};
-        dashboard_row.portfolio_returns = get_returns_data(data.portfolio_series["norm_pnl_series"]);
-        dashboard_row.portfolio_momentum = get_momentum_data(data.portfolio_series["norm_pnl_series"]);
-        dashboard_row.asset = "Portfolio";
-        dashboard_row.info = "-";
+        dashboard_row.portfolio_returns = get_returns_data(data);
+        dashboard_row.portfolio_momentum = get_momentum_data(data);
+        dashboard_row.asset = p_label;
+        dashboard_row.info = p_info;
+        //do it for each position:w
         // compute full portfolio row
         //compute each position row
         //return aggregated data
@@ -509,7 +512,7 @@ var namespace_portfolio = (function()
                     state.portfolio_series["norm_pnl_series"] = json_data.norm_pnl_series;
                     state.portfolio_series["norm_value_series"] = json_data.norm_pnl_series;
                     //compute dashboard data
-                    dashboard_data = get_dashboard_data(state);
+                    dashboard_data = get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-");
                      
                     // do all the computations
                     // draw charts
@@ -720,11 +723,8 @@ var namespace_portfolio = (function()
             {
                 //apply momentum calculation and other
                 //create a dashboard data
-                row_data = get_returns_data(data.norm_value_series);
-                momentum_data = get_momentum_data(data.norm_value_series);
-                console.log(momentum_data);
-                console.log(row_data);
-                namespace_gui.append_dashboard_row(row_data, "benchmark");
+                row_data = get_dashboard_data(data["norm_value_series"], "Benchmark", "-");
+                namespace_gui.append_dashboard_row(row_data);
             }
         });
         //gui add dashboard row
