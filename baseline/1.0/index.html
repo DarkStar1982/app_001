@@ -224,14 +224,14 @@
             <!-- Portfolio charts contents tab -->
             <div class="tab-pane" id="Tab4">
                 <!-- Select chart type - profit or loss / value over time -->
-                <select id="chart_select" onchange="draw_charts(2)">
+                <select id="chart_select">
                     <option value="pnl_chart">Profit or loss over time</option><option value="val_chart">Value over time</option>
                 <select>
                 <!-- Select relative (0 - 100%) or absolute values --> 
-                <select id="perf_select" onchange="draw_charts(2)">
+                <select id="perf_select">
                     <option value="absolute">Absolute</option><option value="percent">Percentage</option>
                 </select>
-                <input type="checkbox" onclick="draw_charts(2)" id="flags_selected" 
+                <input type="checkbox" id="flags_selected" 
                     class="checkbox" style="margin-left:10px" checked=true> 
                     Show transaction labels
                 </input>

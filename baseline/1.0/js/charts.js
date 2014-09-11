@@ -1,16 +1,64 @@
 var namespace_graphs = (function () {
+    /* PRIVATE */
+    function get_flag_data()
+    {
+        //flag click event
+        function flag_click(e)
+        {
+            var trim_string = this.title.replace(/@/g,',');
+            trim_string = trim_string.replace('<p style="cursor: pointer">','')
+            trim_string = trim_string.replace('</p>','')
+            var paragraph_data = trim_string.split('<br/>');
+            var strHTML='<table>';
+            for (i=0;i<paragraph_data.length-1;i++)
+            {
+                var list_data = paragraph_data[i].split(',');
+                var htmlData = "<tr>"
+                for (j=0;j<list_data.length;j++)
+                {
+                    htmlData = htmlData + '<td>'+list_data[j]+'</td>';
+                }
+                htmlData=htmlData +"</tr>";
+                strHTML=strHTML+htmlData;
+            }
+            document.getElementById('detail_cell').innerHTML = strHTML+"</table>";  
+        }
+
+        //entry point
+        var obj_flags = namespace_ui.get_portfolio_transactions();
+        var groups = group_transactions_labels(obj_flags);
+        var flag_data = new Array();
+        for (var i=0; i<groups.length; i++)
+        {
+            flag_data[i] = new Object();
+            var x_date = groups[i].start_date;
+            flag_data[i].x = x_date;
+            flag_data[i].title='<p style="cursor: pointer">';
+            flag_data[i].events = { "click" : flag_click};
+            for (var k=0; k<groups[i].transactions.length; k++)
+            {
+                var label = groups[i].transactions[k].symbol+", "
+                + groups[i].transactions[k].buysell+", "+groups[i].transactions[k].volume + " @"+
+                groups[i].transactions[k].price;
+                flag_data[i].title = flag_data[i].title +label+"<br/>";
+            }
+            flag_data[i].title=flag_data[i].title+"</p>"
+      }
+      return flag_data;
+    }
+
+
+
     /* PUBLIC */
     return {
-        render_pnl_chart: function()
-        {
-        },
 
-        render_value_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode)
+        draw_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode, p_chart_mode)
         {
             var chart_flags = [];
-        /* if (p_flag_mode) 
-                chart_flags = check_flag_edges(data, get_flag_data());
-           */ 
+            if (p_flag_mode) 
+            {
+                //    chart_flags = check_flag_edges(data, get_flag_data());
+            } 
             $(p_container_id).highcharts('StockChart', {
                     marginLeft:75,
                     marginRight:75,

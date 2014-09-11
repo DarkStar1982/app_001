@@ -6,12 +6,15 @@ $(document).ready(function(){
     $("#cash_add").on('click', namespace_gui.deposit_cash);
     $("#transaction_add").on('click', namespace_gui.add_trade_row);
     $("#benchmark_add").on('click', namespace_gui.add_dashboard_benchmark_row);
+    $("#perf_select").on('change', namespace_gui.update_val_pnl_chart);
+    $("#chart_select").on('change',namespace_gui.update_val_pnl_chart);
 });
 
 /* GUI ACTIONS  interactions code */
 var namespace_gui = (function() {
     // PRIVATE DATA
     var API_URL = "/data_api/:2000";
+    var local_chart_data = {};
     // Implementation
     function create_transaction_row(obj)
     {
@@ -79,15 +82,40 @@ var namespace_gui = (function() {
         return dashboard_row;
     }
 
+    function render_val_pnl_chart()
+    {
+        var display_mode = $("#perf_select").val();
+        var flag_mode = $("#flags_selected").prop("checked");
+        var chart_mode = $("#chart_select").val();
+        if (chart_mode == "pnl_chart")
+        {
+            if (display_mode == "absolute")
+                series_data = local_chart_data["pnl_series"];
+            if (display_mode == "percent")
+                series_data = local_chart_data["norm_pnl_series"];
+        }
+        if (chart_mode == "val_chart")
+        {
+            if (display_mode == "absolute")
+                series_data = local_chart_data["value_series"];
+            if (display_mode == "percent")
+                series_data = local_chart_data["norm_value_series"];
+        }
+        namespace_graphs.draw_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode);
+    }
     /* Public Interface */ 
     return {
-        render_charts: function(chart_data)
+        render_charts: function(p_chart_data)
         {
-            var display_mode = $("#perf_select").val();
-            var flag_mode = $("#flags_selected").prop("checked");
-            namespace_graphs.render_value_chart(chart_data.portfolio_series.pnl_series, "#container_chart1", display_mode, flag_mode)
+            //update local data
+            //update charts
+            local_chart_data = p_chart_data;
+            render_val_pnl_chart();
         },
-
+        update_val_pnl_chart: function ()
+        {
+            render_val_pnl_chart();
+        },
         //analytics
         render_derived: function(derived_data)
         {
@@ -520,7 +548,7 @@ var namespace_portfolio = (function()
                     //state.derived_values = compute_derived_values(); 
                     //namespace_gui.render_derived(state);
                     namespace_gui.render_portfolio_dashboard(dashboard_data);     
-                    namespace_gui.render_charts(state);
+                    namespace_gui.render_charts(state.portfolio_series);
                 }
                 else 
                 {
