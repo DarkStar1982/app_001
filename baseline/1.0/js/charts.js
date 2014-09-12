@@ -51,8 +51,40 @@ var namespace_graphs = (function () {
 
     /* PUBLIC */
     return {
+        // Here by each position profit or loss 
+        render_position_chart: function(p_series_data, p_container_id, p_display_mode)
+        {
+            /* 
+            chart : {
+                renderTo : 'container_chart2b',
+                type: 'column'
+            },
+            title : { text : 'Positions profit or loss'},
+            xAxis: { categories : data_positions},
+            plotOptions: {
+                column : {
+                         color:'green',
+                         negativeColor:'red',
+                         pointWidth:20
+                      }
+            },
+            legend : {display:false},
+             tooltip : {
+              formatter: function() {
+                if (mode_p == 'absolute')
+                var end_char = '$';
+               else if (mode_p == 'percent')
+                         var end_char = '%';
+                          return "Symbol: "+ this.x 
+                        + "<br/>Volume: " + hash_table[this.x].volume 
+                        + "<br/>PnL: "+hash_table[this.x].xpnl+end_char;
+                   }
+              },
+            series: [{data: data_pnl}]
+            */
+        },
 
-        draw_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode, p_chart_mode)
+        render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode, p_chart_mode)
         {
             var chart_flags = [];
             if (p_flag_mode) 
