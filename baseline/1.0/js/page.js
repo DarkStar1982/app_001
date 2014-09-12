@@ -89,7 +89,7 @@ var namespace_gui = (function() {
         {
             //update local data
             portfolio_chart_data = p_chart_data.portfolio_series;
-            positions_data = p_chart_data.net_data;
+            positions_data = p_chart_data.net_data.positions;
             //update charts
             namespace_gui.refresh_val_pnl_chart();
             namespace_gui.refresh_position_chart();
@@ -458,6 +458,7 @@ var namespace_portfolio = (function()
     {
         var offsets=[1, 5, 21, 63, 126, 252];
         var series = [];
+        console.log(p_input);
         var last_index = p_input.length-1;
         var last_value = p_input[last_index][1];
         for (var i=0;i<offsets.length;i++)

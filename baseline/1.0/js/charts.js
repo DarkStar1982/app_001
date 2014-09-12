@@ -54,7 +54,30 @@ var namespace_graphs = (function () {
         // Here by each position profit or loss 
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
-            /* 
+            var data_list=[];
+            var data_positions=[];
+            for (var i=0;i<p_series_data.length;i++)
+            {
+                data_list.push(p_series_data[i].pnl);
+                data_positions.push(p_series_data[i].symbol);
+            }
+            console.log(data_list);
+            $(p_container_id).highcharts('Chart', {
+                title : { text : 'Positions profit or loss'},
+                xAxis: { categories : data_positions},
+                plotOptions: {
+                    column : {
+                         color:'green',
+                         negativeColor:'red',
+                         pointWidth:20
+                      }
+                },
+               
+                series: [{
+                    type:'column',
+                    data: data_list}]
+             });
+        /* 
             chart : {
                 renderTo : 'container_chart2b',
                 type: 'column'
@@ -94,7 +117,7 @@ var namespace_graphs = (function () {
             $(p_container_id).highcharts('StockChart', {
                     marginLeft:75,
                     marginRight:75,
-                    renderTo : p_container_id,
+                    /* renderTo : p_container_id, */
                     rangeSelector : { selected : 5 },
                     title : { text : 'Portfolio Aggregated Value'},
                     /*plotOptions: {
