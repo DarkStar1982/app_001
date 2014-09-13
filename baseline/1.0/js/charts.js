@@ -54,17 +54,9 @@ var namespace_graphs = (function () {
         // Here by each position profit or loss 
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
-            var data_list=[];
-            var data_positions=[];
-            for (var i=0;i<p_series_data.length;i++)
-            {
-                data_list.push(p_series_data[i].pnl);
-                data_positions.push(p_series_data[i].symbol);
-            }
-            console.log(data_list);
             $(p_container_id).highcharts('Chart', {
                 title : { text : 'Positions profit or loss'},
-                xAxis: { categories : data_positions},
+                xAxis: { categories : p_series_data.data_positions},
                 plotOptions: {
                     column : {
                          color:'green',
@@ -75,7 +67,7 @@ var namespace_graphs = (function () {
                
                 series: [{
                     type:'column',
-                    data: data_list}]
+                    data: p_series_data.data_list}]
              });
         /* 
             chart : {
@@ -147,7 +139,122 @@ var namespace_graphs = (function () {
                         }*/
                     
             });
-        }
+        },
+        render_sector_chart: function(p_series_data, p_container_id)
+        {
+            $(p_container_id).highcharts('Chart', {
+                title : { text : 'Portfolio Industry Sectors'},
+                plotOptions: { 
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#FF0000',
+                        borderColor : '#000000',
+                        borderWidth : 1,
+                        style: {
+                            fontWeight: 'bold' , fontSize: 10
+                        }
+                    }
+                }                  
+             },
+             tooltip : { formatter: function() {
+                //var hint_str = format_hint(hint_positions[this.key]);
+                return "hint_str";
+                }
+              },
+              series: [{
+                       type: 'pie',
+                       name: 'Portfolio structure',
+                       data: p_series_data
+                      }]
+             });
+            /* 
+            var prows=$("#net_rows").children("tr");
+            var table=new Object;
+            var net_value=0.0;
+            var s=0;
+            var aa=[];
+            i = 0;
+            var xtable = new Array;
+            var tooltip_data = [];
+            //get positions
+                    prows.each(function(index)
+                    {
+                            symbol = $(this).children(".sum_asset").text();
+                            xvalue = $(this).children(".sum_cur_val").text();
+                            xtable[i] = [symbol,xvalue];
+                            i = i + 1;
+                            net_value = net_value + parseFloat(xvalue);
+                    });
+                    //get sector data   
+                    var positions = {};
+            $.each(xtable, function (i, value){ $.get("data_api",{id:value[0], type:"sector"},function(data) {
+                                sector = data;
+                                if (table[sector]==undefined) {
+                                        table[sector] = value[1];
+                                        positions[sector] = [];
+                                       positions[sector].push([value[0],value[1]]);
+                                }
+                                else
+                                {
+                                        positions[sector].push([value[0],value[1]]);
+                                        table[sector] = parseFloat(table[sector]) + parseFloat(value[1]);
+                                }
+                                s = s+1;
+                                if (s == xtable.length)
+                                {
+                                        var final_table = new Array;
+                                        var j=0;
+                                        var hint_positions  = {};
+                                        for (var k in table)
+                                        {
+                                                if (table.hasOwnProperty(k))
+                                                {
+                                                    test_array=new Array;
+                                                        test_array[1]=table[k]/net_value;
+                                                        test_array[0] = k + " : "
+                                                                + math_util.aux_currency_round(test_array[1]*100.0)+"%";
+                                                        final_table[j]=test_array;
+                                                        hint_positions[test_array[0]] = positions[k];
+                                                        j = j + 1;
+                                                }
+                                        }
+                                        stored_data.sector_chart = new Highcharts.Chart({ chart : {
+                                                        renderTo : 'container_chart0',
+                                                        type: 'pie'
+                                                },
+                                                title : { text : 'Portfolio Industry Sectors'},
+                                                plotOptions: { 
+                                pie: {
+                                                                    allowPointSelect: true,
+                                                                    cursor: 'pointer',
+                                                                    dataLabels: {
+                                                                            enabled: true,
+                                                                            color: '#000000',
+                                                                            connectorColor: '#FF0000',
+                                                                            borderColor : '#000000',
+                                                                            borderWidth : 1,
+                                                                            style: {fontWeight: 'bold' , fontSize: 10}
+                                                                    }
+                                }                  
+                                    },
+                                                tooltip : { formatter: function() {
+                                var hint_str = format_hint(hint_positions[this.key]);
+                                return hint_str;
+                                                        }
+                                                },
+                        series: [{
+                                                        type: 'pie',
+                                                        name: 'Portfolio structure',
+                                                        data: final_table
+                                                }]
+                                        });
+                                }
+                        });}) */
+            }
     };
 }) ();
 

@@ -15,7 +15,9 @@ var namespace_gui = (function() {
     // PRIVATE DATA
     var API_URL = "/data_api/:2000";
     var portfolio_chart_data = {};
-    var position_data = {};
+    var positions_data = {};
+    var m_sector_data ={};
+
     // Implementation
     function create_transaction_row(obj)
     {
@@ -89,10 +91,12 @@ var namespace_gui = (function() {
         {
             //update local data
             portfolio_chart_data = p_chart_data.portfolio_series;
-            positions_data = p_chart_data.net_data.positions;
+            positions_data = p_chart_data.position_chart_data;
+            m_sector_data = p_chart_data.sector_chart_data;
             //update charts
             namespace_gui.refresh_val_pnl_chart();
             namespace_gui.refresh_position_chart();
+            namespace_gui.refresh_sector_chart();
         },
         
         refresh_val_pnl_chart: function ()
@@ -121,6 +125,11 @@ var namespace_gui = (function() {
         {
             namespace_graphs.render_position_chart(positions_data, "#container_chart2b");
         }, 
+
+        refresh_sector_chart: function()
+        {
+            namespace_graphs.render_sector_chart(m_sector_data, "#container_chart0");
+        },
 
         //analytics
         render_derived: function(derived_data)
@@ -316,7 +325,7 @@ var namespace_portfolio = (function()
                     var hash_value = row_data.asset+'_B';
                     if (net_data[hash_value]==undefined)
                     {
-                        net_data[hash_value] = [row_data.volume, book_value, last_value];
+                        net_data[hash_value] = [row_data.volume, book_value, last_value, row_data.sector];
                     }
                     else
                     {
@@ -351,7 +360,7 @@ var namespace_portfolio = (function()
                     total_cash =  total_cash - book_value;
                     if (net_data[hash_value]==undefined)
                     {
-                        net_data[hash_value]= [row_data.volume, book_value, last_value];
+                        net_data[hash_value]= [row_data.volume, book_value, last_value, row_data.sector];
                     }
                     else
                     {
@@ -420,7 +429,8 @@ var namespace_portfolio = (function()
                                         "price_avg": math_util.aux_math_round(avg_price,2),
                                         "book_value": math_util.aux_math_round(net_data[k][1],2),
                                         "last_value": math_util.aux_math_round(net_data[k][2],2),
-                                        "pnl": math_util.aux_math_round(profit_or_loss,2)
+                                        "pnl": math_util.aux_math_round(profit_or_loss,2),
+                                        "sector":net_data[k][3]
                     });
                 }
                 total_pnl = total_pnl + profit_or_loss;
@@ -458,7 +468,6 @@ var namespace_portfolio = (function()
     {
         var offsets=[1, 5, 21, 63, 126, 252];
         var series = [];
-        console.log(p_input);
         var last_index = p_input.length-1;
         var last_value = p_input[last_index][1];
         for (var i=0;i<offsets.length;i++)
@@ -516,7 +525,52 @@ var namespace_portfolio = (function()
         else momentum_data.p_50d = '-';
         return momentum_data;
     }
-    
+
+    function get_position_chart_data(p_series_data)
+    {
+        var data_list=[];
+        var data_positions=[];
+        for (var i=0;i<p_series_data.length;i++)
+        {
+            data_list.push(p_series_data[i].pnl);
+            data_positions.push(p_series_data[i].symbol);
+        }
+        return {"data_list":data_list, "data_positions":data_positions};
+    } 
+
+    function get_sector_chart_data(p_net_data)
+    {
+        var chart_data=[];
+        console.log(p_net_data);
+        var hash_table = {};
+        for (var i=0; i<p_net_data.positions.length; i++)
+        {
+            var sector = p_net_data.positions[i].sector;
+            //if there is a sector value defined, add to that sector accumulated 
+            //if there is not a sector value, create a sector 
+            if (hash_table[sector] == undefined)
+            {
+                hash_table[sector]=p_net_data.positions[i].last_value;
+            }
+            else
+            {
+                //if short, subtract?
+                 hash_table[sector]= hash_table[sector]+p_net_data.positions[i].last_value;
+            }
+       }
+       hash_table["Cash"] = p_net_data.net_cash_row.total_cash;
+       //iterate over each row, and get percentage value for each sector
+       for (var x in hash_table)
+       {
+            if (hash_table.hasOwnProperty(x))
+            {
+                var percentage_value = (hash_table[x] / p_net_data.total_value) * 100; 
+                chart_data.push([x, percentage_value]);
+            }
+       } 
+       return chart_data;
+    }    
+
     function compute_derived_values()
     {
         //state portfolio value, pnl and benchmark series 
@@ -546,9 +600,10 @@ var namespace_portfolio = (function()
                     state.portfolio_series["pnl_series"] = json_data.pnl_series;
                     state.portfolio_series["norm_pnl_series"] = json_data.norm_pnl_series;
                     state.portfolio_series["norm_value_series"] = json_data.norm_pnl_series;
-                    //compute dashboard data
+                    //compute derived data for dashboard and charts
                     dashboard_data = get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-");
-                     
+                    state.position_chart_data = get_position_chart_data(state.net_data.positions);  
+                    state.sector_chart_data = get_sector_chart_data(state.net_data);
                     // do all the computations
                     // draw charts
                     //
@@ -788,7 +843,6 @@ var namespace_portfolio = (function()
                     state.list_instruments = data.contents.stocks;
                     state.list_benchmarks = data.contents.benchmarks;
                     state.load_state = state.load_state+1;     
-                    console.log(data);
                     init_gui_if_ready();
                 }
             });
