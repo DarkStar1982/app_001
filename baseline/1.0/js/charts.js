@@ -43,8 +43,8 @@ var namespace_graphs = (function () {
                 flag_data[i].title = flag_data[i].title +label+"<br/>";
             }
             flag_data[i].title=flag_data[i].title+"</p>"
-      }
-      return flag_data;
+        }
+        return flag_data;
     }
 
 
@@ -140,6 +140,7 @@ var namespace_graphs = (function () {
                     
             });
         },
+
         render_sector_chart: function(p_series_data, p_container_id)
         {
             $(p_container_id).highcharts('Chart', {
@@ -254,8 +255,41 @@ var namespace_graphs = (function () {
                                         });
                                 }
                         });}) */
+            },
+            
+            render_performance_chart: function(p_series_data, p_container_id)
+            {
+                $(p_container_id).highcharts('StockChart', {
+                    marginLeft:75,
+                    marginRight:75,
+                    /* renderTo : p_container_id, */
+                    rangeSelector : { selected : 5 },
+                    title : { text : 'Portfolio Performance'},
+                    /*plotOptions: {
+                        area: {
+                            fillColor: {
+                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                                    stops: [
+                                        [0, Highcharts.getOptions().colors[0]],
+                                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                    ]   
+                                }
+                        }
+                    }, */
+                    series : p_series_data
+                    /*,
+                        {
+                            type: 'flags',
+                            name: 'Flags on series',
+                            data: chart_flags,
+                            onSeries: 'value_data',
+                            shape: 'squarepin'
+                        }*/
+                    
+                });
+    
             }
-    };
+        };
 }) ();
 
 var namespace_charts = (function () {

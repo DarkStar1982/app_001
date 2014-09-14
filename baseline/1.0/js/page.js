@@ -93,10 +93,14 @@ var namespace_gui = (function() {
             portfolio_chart_data = p_chart_data.portfolio_series;
             positions_data = p_chart_data.position_chart_data;
             m_sector_data = p_chart_data.sector_chart_data;
-            //update charts
+            m_benchmark_data = p_chart_data.m_benchmark_series;
+            //update charts for portfolio only
             namespace_gui.refresh_val_pnl_chart();
             namespace_gui.refresh_position_chart();
             namespace_gui.refresh_sector_chart();
+            //update_charts for portfolio + benchmarks
+            namespace_gui.refresh_performance_chart();
+            namespace_gui.refresh_risk_chart();
         },
         
         refresh_val_pnl_chart: function ()
@@ -107,16 +111,16 @@ var namespace_gui = (function() {
             if (chart_mode == "pnl_chart")
             {
                 if (display_mode == "absolute")
-                    series_data = portfolio_chart_data["pnl_series"];
+                    var series_data = portfolio_chart_data["pnl_series"];
                 if (display_mode == "percent")
-                    series_data = portfolio_chart_data["norm_pnl_series"];
+                    var series_data = portfolio_chart_data["norm_pnl_series"];
             }
             if (chart_mode == "val_chart")
             {
                 if (display_mode == "absolute")
-                    series_data = portfolio_chart_data["value_series"];
+                    var series_data = portfolio_chart_data["value_series"];
                 if (display_mode == "percent")
-                    series_data = portfolio_chart_data["norm_value_series"];
+                    var series_data = portfolio_chart_data["norm_value_series"];
             }
             namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode);
         },
@@ -129,6 +133,24 @@ var namespace_gui = (function() {
         refresh_sector_chart: function()
         {
             namespace_graphs.render_sector_chart(m_sector_data, "#container_chart0");
+        },
+
+        refresh_performance_chart: function()
+        {
+            var series_data = [{name:'Portfolio',data:portfolio_chart_data["norm_pnl_series"], type:'line'}];
+            for (var k in m_benchmark_data)
+            {
+                if (m_benchmark_data.hasOwnProperty(k))
+                {
+                    series_data.push({name: k, data:m_benchmark_data[k]["norm_value_series"], type:'line'});
+                }
+            }
+            console.log(series_data);
+            namespace_graphs.render_performance_chart(series_data, "#container_chart3");
+        },
+
+        refresh_risk_chart: function()
+        {
         },
 
         //analytics
@@ -151,7 +173,7 @@ var namespace_gui = (function() {
             {
                 $("#reference_rows").append(create_dashboard_row(dashboard_data[i]));          
             }
-
+            //update charts (performance, risk, bubble, risk percentage etc)
         },
 
         render_tables: function(net_data, transactions)
@@ -283,6 +305,7 @@ var namespace_portfolio = (function()
         transactions: [],
         net_data: {},
         portfolio_series: {},
+        m_benchmark_series: [],
         derived_values: {}
     };
 
@@ -599,7 +622,7 @@ var namespace_portfolio = (function()
                     state.portfolio_series["value_series"] = json_data.value_series;
                     state.portfolio_series["pnl_series"] = json_data.pnl_series;
                     state.portfolio_series["norm_pnl_series"] = json_data.norm_pnl_series;
-                    state.portfolio_series["norm_value_series"] = json_data.norm_pnl_series;
+                    state.portfolio_series["norm_value_series"] = json_data.norm_value_series;
                     //compute derived data for dashboard and charts
                     dashboard_data = get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-");
                     state.position_chart_data = get_position_chart_data(state.net_data.positions);  
@@ -811,10 +834,13 @@ var namespace_portfolio = (function()
         {
             if (data.header.error_code == 0)
             {
+                //append data to data list
+                state.m_benchmark_series[p_benchmark]= {"norm_value_series": data["norm_value_series"]};
                 //apply momentum calculation and other
-                //create a dashboard data
+                //create a dashboard data - maybe refresh charts 
                 row_data = get_dashboard_data(data["norm_value_series"], "Benchmark", "-");
                 namespace_gui.append_dashboard_row(row_data);
+                namespace_gui.refresh_performance_chart();
             }
         });
         //gui add dashboard row
