@@ -229,6 +229,9 @@ var namespace_gui = (function() {
                     update_price_entry(symbol);
                 }
             });
+
+            var portfolio_defaults = {"risk_interval": $("#range_select").val() };
+            namespace_portfolio.load_portfolio_defaults(portfolio_defaults); 
         },
         
         deposit_cash: function()
@@ -304,7 +307,7 @@ var namespace_portfolio = (function()
         m_benchmark_series: [],
         derived_values: {}
     };
-
+    
     /* Private methods */
     function get_next_id()
     {
@@ -609,8 +612,8 @@ var namespace_portfolio = (function()
             namespace_gui.render_tables(state.net_data, state.transactions);
             // step 2. load profit, risk risk and volatility series, then compute 
             // dashboard and derived values and render portfolio tables and charts
-            var transaction_list = JSON.stringify(state.transactions);
-            $.post('/data_api/', {call:"portfolio_series", transactions: transaction_list}, function(data)
+            var post_data = JSON.stringify({"transactions":state.transactions,"options":state.risk_interval});
+            $.post('/data_api/', {call:"portfolio_series", data: post_data}, function(data)
             {
                 var json_data = JSON.parse(data);    
                 if (json_data.header.error_code == 0)
@@ -879,6 +882,11 @@ var namespace_portfolio = (function()
                 "total_value" : 0.0,
                 "total_pnl" : 0.0
             }
+        },
+        /* default risk interval and such */
+        load_portfolio_defaults: function(p_data)
+        {
+            state.risk_interval = p_data["risk_interval"];
         },
 
         /* add transaction to porfolio
