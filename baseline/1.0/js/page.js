@@ -15,8 +15,6 @@ var namespace_gui = (function() {
     // PRIVATE DATA
     var API_URL = "/data_api/:2000";
     var portfolio_chart_data = {};
-    var positions_data = {};
-    var m_sector_data ={};
 
     // Implementation
     function create_transaction_row(obj)
@@ -91,8 +89,6 @@ var namespace_gui = (function() {
         {
             //update local data
             portfolio_chart_data = p_chart_data.portfolio_series;
-            positions_data = p_chart_data.position_chart_data;
-            m_sector_data = p_chart_data.sector_chart_data;
             m_benchmark_data = p_chart_data.m_benchmark_series;
             //update charts for portfolio only
             namespace_gui.refresh_val_pnl_chart();
@@ -127,12 +123,12 @@ var namespace_gui = (function() {
 
         refresh_position_chart: function()
         {
-            namespace_graphs.render_position_chart(positions_data, "#container_chart2b");
+            namespace_graphs.render_position_chart(portfolio_chart_data["positions_chart_data"], "#container_chart2b");
         }, 
 
         refresh_sector_chart: function()
         {
-            namespace_graphs.render_sector_chart(m_sector_data, "#container_chart0");
+            namespace_graphs.render_sector_chart(portfolio_chart_data["sector_chart_data"], "#container_chart0");
         },
 
         refresh_performance_chart: function()
@@ -624,15 +620,15 @@ var namespace_portfolio = (function()
                     state.portfolio_series["norm_pnl_series"] = json_data.norm_pnl_series;
                     state.portfolio_series["norm_value_series"] = json_data.norm_value_series;
                     //compute derived data for dashboard and charts
-                    dashboard_data = get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-");
-                    state.position_chart_data = get_position_chart_data(state.net_data.positions);  
-                    state.sector_chart_data = get_sector_chart_data(state.net_data);
+                    state.portfolio_series["dashboard_data"] = get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-");
+                    state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions);  
+                    state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
                     // do all the computations
                     // draw charts
                     //
                     //state.derived_values = compute_derived_values(); 
                     //namespace_gui.render_derived(state);
-                    namespace_gui.render_portfolio_dashboard(dashboard_data);     
+                    namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);     
                     namespace_gui.update_charts(state);
                 }
                 else 
