@@ -288,6 +288,9 @@ var namespace_graphs = (function () {
                     
                 });
     
+            },
+            render_risk_chart: function(portfolio_risk_series)
+            {
             }
         };
 }) ();

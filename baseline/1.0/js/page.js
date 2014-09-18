@@ -123,7 +123,7 @@ var namespace_gui = (function() {
 
         refresh_position_chart: function()
         {
-            namespace_graphs.render_position_chart(portfolio_chart_data["positions_chart_data"], "#container_chart2b");
+            namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b");
         }, 
 
         refresh_sector_chart: function()
@@ -147,6 +147,8 @@ var namespace_gui = (function() {
 
         refresh_risk_chart: function()
         {
+            //modify
+            namespace_graphs.render_risk_chart(portfolio_chart_data["risk_series"]);
         },
 
         //analytics
@@ -598,6 +600,35 @@ var namespace_portfolio = (function()
         //state portfolio value, pnl and benchmark series 
     }
 
+    /* TODO - Port the python code into js */
+    function compute_local_risk_series(p_series, p_interval)
+    {
+    /*
+        var list_intermediate=[];
+        while (var i<p_series.length-1)
+        {
+            if (p_series[i][1] == 0.0)
+                var s = 0.0;
+            else
+                var s = p_series[i+1][1] / p_series[i][1] - 1.0
+            list_intermediate.push([p_series[i+1][0],s]);
+            i = i + 1;
+        }
+        var frame_start = 0;
+        var frame_end = p_interval;
+        var list_result = [];
+        while (frame_end<=list_intermediate.length)
+        {
+            var new_list = aux_list_slice(list_intermediate, frame_start, frame_end)
+            var val = aux_std_dev(new_list)*sqrt(252)
+            list_result.push([list_intermediate[frame_start][0],val])
+            frame_start = frame_start + 1
+            frame_end = frame_end + 1
+        }
+        return list_result */
+        return [];
+    }
+
     function recompute_and_render()
     {
             //sort transactions before processing
@@ -626,6 +657,7 @@ var namespace_portfolio = (function()
                     state.portfolio_series["dashboard_data"] = get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-");
                     state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions);  
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
+                    state.portfolio_series["risk_chart_data"] = compute_local_risk_series() //was json_data.risk_series
                     // do all the computations
                     // draw charts
                     //
