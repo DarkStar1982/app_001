@@ -365,9 +365,6 @@ var namespace_portfolio = (function()
             frame_start = frame_start + 1;
             frame_end = frame_end + 1;
         }
-        console.log(list_intermediate.length);
-        console.log(p_interval);
-        console.log(list_result);
         return list_result 
     }
 
@@ -400,17 +397,15 @@ var namespace_portfolio = (function()
                     state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions);  
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
                     state.portfolio_series["risk_chart_data"] = compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
-                    // do all the computations
-                    // draw charts
-                    //
                     //state.derived_values = compute_derived_values(); 
+                    // draw all the charts and dashboards
                     //namespace_gui.render_derived(state);
                     namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);     
                     namespace_gui.update_charts(state);
                 }
                 else 
                 {
-                    namespace_gui.send_log_message("Failed to receive portfolio time series data", "System");
+                    namespace_gui.send_log_message("Failed to receive correct portfolio time series data", "System");
                     namespace_gui.send_log_message(json_data, "System");
                 }
             });

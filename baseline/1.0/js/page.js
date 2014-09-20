@@ -152,7 +152,7 @@ var namespace_gui = (function() {
         refresh_risk_chart: function()
         {
             //modify
-            namespace_graphs.render_risk_chart(portfolio_chart_data["risk_series"]);
+            namespace_graphs.render_risk_chart(portfolio_chart_data["risk_series"], "#container_chart4");
         },
 
         //analytics
