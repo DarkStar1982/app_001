@@ -163,8 +163,7 @@ var namespace_gui = (function() {
                     if (k == current_benchmark)
                     {    
                         series_data = m_benchmark_data[k]["risk_chart_data"];
-                        console.log(series_data);
-                        namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"],series_data, "#container_chart4");
+                        namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"], series_data, "#container_chart4");
                     }
                 }
             }

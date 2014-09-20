@@ -61,7 +61,6 @@ var namespace_graphs = (function () {
     function compute_gauge_data(p_series_data)
     {
         var ret_obj = new Object();
-        console.log(p_series_data);
         ret_obj.min_val = 0.0;
         ret_obj.max_val = 0.0;
         ret_obj.last_val = 0.0;
@@ -98,7 +97,7 @@ var namespace_graphs = (function () {
 
     function render_risk_chart(seriesOptions, nav_data, p_container_id)
     {
-        console.log("Rendering attempt..." +p_container_id);
+       // console.log("Rendering attempt..." +p_container_id);
         $(p_container_id).highcharts('StockChart', {
             series : seriesOptions,
             rangeSelector : { selected : 5 },
@@ -388,7 +387,6 @@ var namespace_graphs = (function () {
             {
                 //assuming we have the data
                 var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
-                console.log(seriesOptions);
                 var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
                 var bubble_data = get_risk_pnl_data();
                 var a = compute_gauge_data(seriesOptions[0].data);
@@ -452,7 +450,6 @@ var namespace_charts = (function () {
     function compute_gauge_data(p_series_data)
     {
         var ret_obj = new Object();
-        console.log(p_series_data);
       ret_obj.min_val = 0.0;
         ret_obj.max_val = 0.0;
         ret_obj.last_val = 0.0;
@@ -648,7 +645,6 @@ var namespace_charts = (function () {
             {
                 //create new group
                 j = k;  
-                console.log(j);
                 group_list[j] = new Object();
                 group_list[j].start_date = true_date;
                 group_list[j].end_date = true_date;
@@ -657,7 +653,6 @@ var namespace_charts = (function () {
                                          volume:p_transactions[i].volume,
                                buysell:p_transactions[i].type,
                                          price:p_transactions[i].b_price});
-                console.log(group_list);
                     
             }
         }
@@ -688,7 +683,6 @@ var namespace_charts = (function () {
                htmlData=htmlData +"</tr>";
                strHTML=strHTML+htmlData;
          }
-         console.log(strHTML);
             document.getElementById('detail_cell').innerHTML = strHTML+"</table>";  
         }
         //entry point

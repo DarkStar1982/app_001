@@ -333,16 +333,17 @@ var namespace_portfolio = (function()
         var i = 0;
         while (i<p_list.length)
         {
-            p_list[i] = (p_list[i]-mean)*(p_list[i]-mean);
+            p_list[i] = Math.pow((p_list[i]-mean), 2);
             i = i + 1;
         }
-        var std_dev = Math.sqrt(list_sum/(p_list.length-1));
+        var std_dev = Math.sqrt(sum(p_list)/(p_list.length-1));
         return std_dev;
     }
 
     /* TODO - Port the python code into js */
     function compute_local_risk_series(p_series, p_interval)
     {
+        console.log(p_series);
         var list_intermediate=[];
         var i=0;
         while (i<p_series.length-1)
@@ -350,10 +351,11 @@ var namespace_portfolio = (function()
             if (p_series[i][1] == 0.0)
                 var s = 0.0;
             else
-                var s = p_series[i+1][1] / p_series[i][1] - 1.0
+                var s = p_series[i+1][1] / p_series[i][1] - 1.0;
             list_intermediate.push([p_series[i+1][0],s]);
             i = i + 1;
         }
+        console.log(list_intermediate);
         var frame_start = 0;
         var frame_end = p_interval;
         var list_result = [];
@@ -365,6 +367,7 @@ var namespace_portfolio = (function()
             frame_start = frame_start + 1;
             frame_end = frame_end + 1;
         }
+        console.log(list_result);
         return list_result 
     }
 
