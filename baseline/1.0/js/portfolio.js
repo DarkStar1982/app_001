@@ -273,7 +273,6 @@ var namespace_portfolio = (function()
     function get_sector_chart_data(p_net_data)
     {
         var chart_data=[];
-        console.log(p_net_data);
         var hash_table = {};
         for (var i=0; i<p_net_data.positions.length; i++)
         {
@@ -308,12 +307,45 @@ var namespace_portfolio = (function()
         //state portfolio value, pnl and benchmark series 
     }
 
+    function aux_list_slice(p_list, p_start, p_end)
+    {
+        var res_list = [];
+        for (var i=p_start; i<p_end; i++)
+        {
+            res_list.push(p_list[i][1]);
+        }
+        return res_list;
+    }
+
+    function aux_std_dev(p_list)
+    {
+        function sum(a_list)
+        {
+            var a_sum = 0.0;
+            for (var k=0;k < a_list.length; k++)
+            {
+                a_sum = a_sum + a_list[k];
+            }
+            return a_sum;
+        };
+        var list_sum = sum(p_list);
+        var mean  = list_sum/p_list.length;
+        var i = 0;
+        while (i<p_list.length)
+        {
+            p_list[i] = (p_list[i]-mean)*(p_list[i]-mean);
+            i = i + 1;
+        }
+        var std_dev = Math.sqrt(list_sum/(p_list.length-1));
+        return std_dev;
+    }
+
     /* TODO - Port the python code into js */
     function compute_local_risk_series(p_series, p_interval)
     {
-    /*
         var list_intermediate=[];
-        while (var i<p_series.length-1)
+        var i=0;
+        while (i<p_series.length-1)
         {
             if (p_series[i][1] == 0.0)
                 var s = 0.0;
@@ -327,14 +359,16 @@ var namespace_portfolio = (function()
         var list_result = [];
         while (frame_end<=list_intermediate.length)
         {
-            var new_list = aux_list_slice(list_intermediate, frame_start, frame_end)
-            var val = aux_std_dev(new_list)*sqrt(252)
-            list_result.push([list_intermediate[frame_start][0],val])
-            frame_start = frame_start + 1
-            frame_end = frame_end + 1
+            var new_list = aux_list_slice(list_intermediate, frame_start, frame_end);
+            var val = aux_std_dev(new_list)*Math.sqrt(252);
+            list_result.push([list_intermediate[frame_start][0],val]);
+            frame_start = frame_start + 1;
+            frame_end = frame_end + 1;
         }
-        return list_result */
-        return [];
+        console.log(list_intermediate.length);
+        console.log(p_interval);
+        console.log(list_result);
+        return list_result 
     }
 
     function recompute_and_render()
@@ -351,7 +385,7 @@ var namespace_portfolio = (function()
             namespace_gui.render_tables(state.net_data, state.transactions);
             // step 2. load profit, risk risk and volatility series, then compute 
             // dashboard and derived values and render portfolio tables and charts
-            var post_data = JSON.stringify({"transactions":state.transactions,"options":state.risk_interval});
+            var post_data = JSON.stringify({"transactions":state.transactions});
             $.post('/data_api/', {call:"portfolio_series", data: post_data}, function(data)
             {
                 var json_data = JSON.parse(data);    
@@ -365,7 +399,7 @@ var namespace_portfolio = (function()
                     state.portfolio_series["dashboard_data"] = get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-");
                     state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions);  
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
-                    state.portfolio_series["risk_chart_data"] = compute_local_risk_series() //was json_data.risk_series
+                    state.portfolio_series["risk_chart_data"] = compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
                     // do all the computations
                     // draw charts
                     //

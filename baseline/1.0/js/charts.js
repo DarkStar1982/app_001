@@ -289,8 +289,9 @@ var namespace_graphs = (function () {
                 });
     
             },
-            render_risk_chart: function(portfolio_risk_series)
+            render_risk_chart: function(p_series_data, p_container_id)
             {
+                
             }
         };
 }) ();

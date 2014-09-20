@@ -83,6 +83,11 @@ var namespace_gui = (function() {
         return dashboard_row;
     }
 
+    function safe_get_integer(p_unsafe_value)
+    {
+        return parseInt(p_unsafe_value);
+    }
+
     /* Public Interface */ 
     return {
         update_charts: function(p_chart_data)
@@ -141,7 +146,6 @@ var namespace_gui = (function() {
                     series_data.push({name: k, data:m_benchmark_data[k]["norm_value_series"], type:'line'});
                 }
             }
-            console.log(series_data);
             namespace_graphs.render_performance_chart(series_data, "#container_chart3");
         },
 
@@ -232,7 +236,7 @@ var namespace_gui = (function() {
                 }
             });
 
-            var portfolio_defaults = {"risk_interval": $("#range_select").val() };
+            var portfolio_defaults = {"risk_interval": safe_get_integer($("#range_select").val()) };
             namespace_portfolio.load_portfolio_defaults(portfolio_defaults); 
         },
         
