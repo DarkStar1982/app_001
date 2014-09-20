@@ -141,7 +141,6 @@ var namespace_gui = (function() {
         {
             var series_data = [{name:'Portfolio',data:portfolio_chart_data["norm_pnl_series"], type:'line'}];
             var current_benchmark = $("#benchmark_list :selected").text();
-            console.log(current_benchmark);
             for (var k in m_benchmark_data)
             {
                 if (m_benchmark_data.hasOwnProperty(k))
@@ -155,9 +154,22 @@ var namespace_gui = (function() {
 
         refresh_risk_chart: function()
         {
+            var current_benchmark = $("#benchmark_list :selected").text();
             //select benchmark from the list
-            namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_series"],[], "#container_chart4");
-        },
+            for (var k in m_benchmark_data)
+            {
+                if (m_benchmark_data.hasOwnProperty(k))
+                {
+                    if (k == current_benchmark)
+                    {    
+                        series_data = m_benchmark_data[k]["risk_chart_data"];
+                        console.log(series_data);
+                        namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"],series_data, "#container_chart4");
+                    }
+                }
+            }
+           
+       },
 
         //analytics
         render_derived: function(derived_data)

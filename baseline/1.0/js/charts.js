@@ -53,7 +53,7 @@ var namespace_graphs = (function () {
         var min_length = math_util.aux_compute_min(p_data1.length, p_data2.length);
         for (var i=0; i<min_length;i++)
         {
-            r_data[i] = [p_data[i][0], p_data1[i][1] - p_data2[i][1]];
+            r_data[i] = [p_data1[i][0], p_data1[i][1] - p_data2[i][1]];
         }
         return r_data;
     }
@@ -98,6 +98,7 @@ var namespace_graphs = (function () {
 
     function render_risk_chart(seriesOptions, nav_data, p_container_id)
     {
+        console.log("Rendering attempt..." +p_container_id);
         $(p_container_id).highcharts('StockChart', {
             series : seriesOptions,
             rangeSelector : { selected : 5 },
@@ -386,7 +387,8 @@ var namespace_graphs = (function () {
             render_risk_chart_group: function(p_series_data, p_benchmark_data, p_container_id)
             {
                 //assuming we have the data
-                var seriesOptions = [p_series_data, p_benchmark_data];
+                var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
+                console.log(seriesOptions);
                 var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
                 var bubble_data = get_risk_pnl_data();
                 var a = compute_gauge_data(seriesOptions[0].data);
