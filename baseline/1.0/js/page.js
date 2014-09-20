@@ -8,6 +8,7 @@ $(document).ready(function(){
     $("#benchmark_add").on('click', namespace_gui.add_dashboard_benchmark_row);
     $("#perf_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#chart_select").on('change', namespace_gui.refresh_val_pnl_chart);
+    $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart)
 });
 
 /* GUI ACTIONS  interactions code */
@@ -139,11 +140,14 @@ var namespace_gui = (function() {
         refresh_performance_chart: function()
         {
             var series_data = [{name:'Portfolio',data:portfolio_chart_data["norm_pnl_series"], type:'line'}];
+            var current_benchmark = $("#benchmark_list :selected").text();
+            console.log(current_benchmark);
             for (var k in m_benchmark_data)
             {
                 if (m_benchmark_data.hasOwnProperty(k))
                 {
-                    series_data.push({name: k, data:m_benchmark_data[k]["norm_value_series"], type:'line'});
+                    if (k == current_benchmark)
+                        series_data.push({name: k, data:m_benchmark_data[k]["norm_value_series"], type:'line'});
                 }
             }
             namespace_graphs.render_performance_chart(series_data, "#container_chart3");
@@ -151,8 +155,8 @@ var namespace_gui = (function() {
 
         refresh_risk_chart: function()
         {
-            //modify
-            namespace_graphs.render_risk_chart(portfolio_chart_data["risk_series"], "#container_chart4");
+            //select benchmark from the list
+            namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_series"],[], "#container_chart4");
         },
 
         //analytics
@@ -277,9 +281,16 @@ var namespace_gui = (function() {
         add_dashboard_benchmark_row: function()
         {
             var new_benchmark = $("#benchmark_entry").val();
+            //now update the dropdown list
             namespace_portfolio.update_state("add_dashboard_benchmark", new_benchmark);
         },
-     
+    
+        update_benchmark_selector: function(p_benchmark)
+        {
+            $("#benchmark_list").append('<option value=1>'+p_benchmark+'</option>');
+
+        },
+ 
         send_log_message: function(message, p_severity)
         {
             //... with fall-through!

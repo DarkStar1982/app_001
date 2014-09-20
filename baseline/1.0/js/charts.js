@@ -47,8 +47,100 @@ var namespace_graphs = (function () {
         return flag_data;
     }
 
+    function get_benchmark_difference(p_data1, p_data2)
+    {
+        var r_data = new Array();
+        var min_length = math_util.aux_compute_min(p_data1.length, p_data2.length);
+        for (var i=0; i<min_length;i++)
+        {
+            r_data[i] = [p_data[i][0], p_data1[i][1] - p_data2[i][1]];
+        }
+        return r_data;
+    }
+    
+    function compute_gauge_data(p_series_data)
+    {
+        var ret_obj = new Object();
+        console.log(p_series_data);
+        ret_obj.min_val = 0.0;
+        ret_obj.max_val = 0.0;
+        ret_obj.last_val = 0.0;
+        for (var i=0; i<p_series_data.length; i++)
+        {
+            if (p_series_data[i][1]>ret_obj.max_val) ret_obj.max_val = math_util.aux_math_round(p_series_data[i][1],3);
+            if (p_series_data[i][1]<ret_obj.min_val) ret_obj.min_val = math_util.aux_math_round(p_series_data[i][1],3);
+        }
+        ret_obj.last_val = math_util.aux_math_round(p_series_data[p_series_data.length-1][1],3);
+        return ret_obj;
+    }
+ 
+    function get_risk_pnl_data()
+    {
+        var summary_data = {};
+        summary_data.portfolio_pnl = 0.15;
+        summary_data.portfolio_risk = 0.24;
+        summary_data.benchmark_pnl = 0.55;
+        summary_data.benchmark_risk = 0.22;
+        return summary_data;
+     }  
+    
+     //add color to the data points 
+    //also can invert the values for navigator series
+    function postprocess_data(p_data, p_color, p_x_mul)
+    {
+        var data_a = new Array;
+        for (var i = 0; i <p_data.length; i++)
+        {
+            data_a[i] = {x:p_data[i][0],y:p_data[i][1]*p_x_mul,color:p_color};
+        }
+        return data_a;
+    } 
 
-
+    function render_risk_chart(seriesOptions, nav_data, p_container_id)
+    {
+        $(p_container_id).highcharts('StockChart', {
+            series : seriesOptions,
+            rangeSelector : { selected : 5 },
+            title : { text : 'Portfolio Risk Profile' },
+            navigator : {
+                height:160,
+                series : {
+                    type: 'area',
+                    fillColor: '#AF0000',   
+                    data: nav_data,
+                    color: '#AF0000',
+                    threshold: 0,
+                   negativeColor: '#00AF00'
+                },
+                yAxis : {
+                    gridLineWidth:0,
+                    tickPixelInterval: 10,
+                    tickWidth:1,
+                    labels : { enabled:true },
+                    title: { text: "Volatility Difference, %" },
+                    xAxis : { offset: -120 }
+                }
+            },
+           yAxis : {
+            labels : { formatter: function() { return Math.abs(this.value) } },  
+            plotLines: [{
+               value: 0,
+               color: '#000000',
+               zIndex : 5,
+               width: 1
+            }],
+         },
+         plotOptions : {
+                series : {
+                  turboThreshold :10000,
+                  dataGrouping : {
+                           approximation: 'high',
+                     enabled: true
+                        }
+            }
+         }
+      });
+    }
     /* PUBLIC */
     return {
         // Here by each position profit or loss 
@@ -289,10 +381,45 @@ var namespace_graphs = (function () {
                 });
     
             },
-            render_risk_chart: function(p_series_data, p_container_id)
+                 
+            
+            render_risk_chart_group: function(p_series_data, p_benchmark_data, p_container_id)
             {
-                
-            }
+                //assuming we have the data
+                var seriesOptions = [p_series_data, p_benchmark_data];
+                var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
+                var bubble_data = get_risk_pnl_data();
+                var a = compute_gauge_data(seriesOptions[0].data);
+                var b = compute_gauge_data(seriesOptions[1].data);
+                seriesOptions[0].data = postprocess_data(seriesOptions[0].data,'#0000FF', 1.0);
+                seriesOptions[1].data = postprocess_data(seriesOptions[1].data,'#000000', -1.0);
+                seriesOptions[0].type = 'area';
+                seriesOptions[0].fillColor =  {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2:1 },
+                        stops: [
+                               [0, 'rgb(255,0,0)'],
+                               [0.7, 'rgb(255,211,0)'],
+                               [1, 'rgb(0,255,0)']
+                        ]
+                };
+                seriesOptions[1].type = 'area';
+                seriesOptions[1].fillColor =  {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                                 stops: [
+                                             [0, 'rgb(0,255,0)'],
+                                             [0.45, 'rgb(255,211,0)'],
+                                             [1, 'rgb(255,0,0)']
+                                          ]
+                };
+                //part one
+                render_risk_chart(seriesOptions, nav_data, p_container_id); 
+                //part two
+  
+/*              render_risk_gauge_radial('container_chart5a', a);
+                render_risk_gauge_radial('container_chart5b', b);
+  */            //part threee
+    /*            render_risk_pnl_bubble(bubble_data);
+      */      }
         };
 }) ();
 
@@ -646,7 +773,8 @@ var namespace_charts = (function () {
       summary_data.benchmark_risk = 0.22;
       return summary_data;
    } 
-   //render risk vs return porfolio
+   
+    //render risk vs return porfolio
    function render_risk_pnl_bubble(p_values)
    {
       var bubble_chart = new Highcharts.Chart({
@@ -789,10 +917,10 @@ var namespace_charts = (function () {
     return {
         create_value_chart: function(p_aggregated, p_container_id)
         {
-                    var mode_p = $("#perf_select").val();
+            var mode_p = $("#perf_select").val();
             var flags_switch = $("#flags_selected").prop("checked");
             var data_array = [[p_aggregated,mode_p]];
-                    $.getJSON('data_api',{input_data:p_aggregated,type:'value_profile',flags:mode_p}, function(data) {
+            $.getJSON('data_api',{input_data:p_aggregated,type:'value_profile',flags:mode_p}, function(data) {
                 stored_data.value_series = data;
                             var chart_flags = check_flag_edges(data, get_flag_data());
                             if (flags_switch==false) chart_flags=[];

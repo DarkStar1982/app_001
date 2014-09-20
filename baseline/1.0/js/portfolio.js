@@ -607,6 +607,7 @@ var namespace_portfolio = (function()
                 //apply momentum calculation and other
                 //create a dashboard data - maybe refresh charts 
                 row_data = get_dashboard_data(data["norm_value_series"], "Benchmark", "-");
+                namespace_gui.update_benchmark_selector(p_benchmark);
                 namespace_gui.append_dashboard_row(row_data);
                 namespace_gui.refresh_performance_chart();
             }
