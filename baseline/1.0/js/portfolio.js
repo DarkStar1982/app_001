@@ -603,7 +603,7 @@ var namespace_portfolio = (function()
             if (data.header.error_code == 0)
             {
                 //append data to data list
-                var risk_data = compute_local_risk_series(data["norm_value_series"], parseInt(state.risk_interval));
+                var risk_data = compute_local_risk_series(data["norm_value_series"], state.risk_interval);
                 state.m_benchmark_series[p_benchmark]= {"norm_value_series": data["norm_value_series"], "risk_chart_data":risk_data};
                 //apply momentum calculation and other
                 //create a dashboard data - maybe refresh charts 
