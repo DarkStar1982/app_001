@@ -302,9 +302,15 @@ var namespace_portfolio = (function()
        return chart_data;
     }    
 
-    function compute_derived_values()
+    function compute_derived_values(p_data)
     {
-        //state portfolio value, pnl and benchmark series 
+        var derived_values = {};
+        derived_values["value_end"] = p_data.pop()[1];
+        derived_values["value_start"] = 100.0;
+        derived_values["diff_percent"] = p_data.pop()[1] - p_data[0][1];
+        derived_values["annualized"] = math_util.compute_annualized(derived_values["diff_percent"], get_first_date());
+        derived_values["std_dev"] = math_util.compute_stdev(p_data);
+        return derived_values; 
     }
 
     function aux_list_slice(p_list, p_start, p_end)
@@ -400,7 +406,7 @@ var namespace_portfolio = (function()
                     state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions);  
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
                     state.portfolio_series["risk_chart_data"] = compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
-                    //state.derived_values = compute_derived_values(); 
+                    state.portfolio_series["derived_values"] = compute_derived_values(json_data.norm_pnl_series); 
                     // draw all the charts and dashboards
                     //namespace_gui.render_derived(state);
                     namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);     
@@ -605,15 +611,18 @@ var namespace_portfolio = (function()
         {
             if (data.header.error_code == 0)
             {
-                //append data to data list
                 var risk_data = compute_local_risk_series(data["norm_value_series"], state.risk_interval);
-                state.m_benchmark_series[p_benchmark]= {"norm_value_series": data["norm_value_series"], "risk_chart_data":risk_data};
-                //apply momentum calculation and other
-                //create a dashboard data - maybe refresh charts 
+                var derived_data = compute_derived_values(data["norm_value_series"]);
+                state.m_benchmark_series[p_benchmark]= {"norm_value_series": data["norm_value_series"], 
+                                                        "risk_chart_data": risk_data,
+                                                        "derived_values": derived_data};
                 row_data = get_dashboard_data(data["norm_value_series"], "Benchmark", "-");
+               // calculate benchmark derived data
+               // update portfolio derived data = partial (beta, etc) 
+                
                 namespace_gui.update_benchmark_selector(p_benchmark);
                 namespace_gui.append_dashboard_row(row_data);
-                namespace_gui.refresh_performance_chart();
+                namespace_gui.refresh_performance_chart_and_tab();
             }
         });
         //gui add dashboard row

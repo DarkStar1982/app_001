@@ -8,7 +8,7 @@ $(document).ready(function(){
     $("#benchmark_add").on('click', namespace_gui.add_dashboard_benchmark_row);
     $("#perf_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#chart_select").on('change', namespace_gui.refresh_val_pnl_chart);
-    $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart)
+    $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab)
 });
 
 /* GUI ACTIONS  interactions code */
@@ -89,6 +89,31 @@ var namespace_gui = (function() {
         return parseInt(p_unsafe_value);
     }
 
+    function update_derived_value_tabs(p_client_report, p_benchmark_report)
+    {
+        console.log(p_benchmark_report);
+        console.log(p_client_report);
+        $("#portfolio_net_pnl").text(p_client_report.diff_percent+"%");
+        $("#portfolio_value").text(p_client_report.value_start+"%");
+        $("#benchmark_value").text(p_benchmark_report.value_start+"%");
+        $("#portfolio_final_pv").text(p_client_report.value_end+"%");
+        $("#benchmark_final_pv").text(p_benchmark_report.value_end+"%");
+        $("#benchmark_net_pnl").text(p_benchmark_report.diff_percent+"%");
+        $("#portfolio_annualized").text(p_client_report.annualized+"%");
+        $("#benchmark_annualized").text(p_benchmark_report.annualized+"%");
+        $("#portfolio_std").text(p_client_report.std_dev+"%");
+        $("#benchmark_std").text(p_benchmark_report.std_dev+"%");
+        $("#portfolio_beta").text("0.0");//p_client_report.beta);
+        $("#benchmark_beta").text("-");
+        $("#portfolio_jensen_alpha").text("0.0");
+        $("#benchmark_jensen_alpha").text("0.0");
+        $("#portfolio_treynor").text("0.0");
+        $("#benchmark_treynor").text("0.0");
+        $("#portfolio_sharpe").text("0.0");
+        $("#benchmark_sharpe").text("0.0");
+         
+    }
+        
     /* Public Interface */ 
     return {
         update_charts: function(p_chart_data)
@@ -101,7 +126,7 @@ var namespace_gui = (function() {
             namespace_gui.refresh_position_chart();
             namespace_gui.refresh_sector_chart();
             //update_charts for portfolio + benchmarks
-            namespace_gui.refresh_performance_chart();
+            namespace_gui.refresh_performance_chart_and_tab();
             namespace_gui.refresh_risk_chart();
         },
         
@@ -137,7 +162,7 @@ var namespace_gui = (function() {
             namespace_graphs.render_sector_chart(portfolio_chart_data["sector_chart_data"], "#container_chart0");
         },
 
-        refresh_performance_chart: function()
+        refresh_performance_chart_and_tab: function()
         {
             var series_data = [{name:'Portfolio',data:portfolio_chart_data["norm_pnl_series"], type:'line'}];
             var current_benchmark = $("#benchmark_list :selected").text();
@@ -145,8 +170,10 @@ var namespace_gui = (function() {
             {
                 if (m_benchmark_data.hasOwnProperty(k))
                 {
-                    if (k == current_benchmark)
+                    if (k == current_benchmark){
                         series_data.push({name: k, data:m_benchmark_data[k]["norm_value_series"], type:'line'});
+                        update_derived_value_tabs(portfolio_chart_data["derived_values"],m_benchmark_data[k]["derived_values"]);
+                        }
                 }
             }
             namespace_graphs.render_performance_chart(series_data, "#container_chart3");
