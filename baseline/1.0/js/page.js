@@ -91,8 +91,6 @@ var namespace_gui = (function() {
 
     function update_derived_value_tabs(p_client_report, p_benchmark_report)
     {
-        console.log(p_benchmark_report);
-        console.log(p_client_report);
         $("#portfolio_net_pnl").text(p_client_report.diff_percent+"%");
         $("#portfolio_value").text(p_client_report.value_start+"%");
         $("#benchmark_value").text(p_benchmark_report.value_start+"%");
@@ -111,7 +109,24 @@ var namespace_gui = (function() {
         $("#benchmark_treynor").text("0.0");
         $("#portfolio_sharpe").text("0.0");
         $("#benchmark_sharpe").text("0.0");
-         
+        var p1 = 0.95;
+        var p_val = $("#value_totals").text();
+        var a1 = $("#benchmark_annualized").text();
+        var b1 = $("#benchmark_std").text();
+        var a2 = $("#portfolio_annualized").text();
+        var b2 = $("#portfolio_std").text();
+        var c1 = parseFloat(a1.substring(0,a1.length - 1));
+        var d1 = parseFloat(b1.substring(0,b1.length - 1));
+        var c2 = parseFloat(a2.substring(0,a2.length - 1));
+        var d2 = parseFloat(b2.substring(0,b2.length - 1));
+        var vatr1 = math_util.aux_math_round(namespace_xls.norminv(p1,c1,d1),2);
+        var vatr2 = math_util.aux_math_round(namespace_xls.norminv(p1,c2,d2),2);
+        var vatr1_abs = math_util.aux_math_round(p_val*vatr1/100.0,2);
+        var vatr2_abs = math_util.aux_math_round(p_val*vatr2/100.0,2);
+        $("#benchmark_vatr_pc").text(vatr1);
+        $("#portfolio_vatr_pc").text(vatr2);
+        $("#portfolio_vatr_abs").text(vatr2_abs);
+        $("#benchmark_vatr_abs").text(vatr1_abs);
     }
         
     /* Public Interface */ 
