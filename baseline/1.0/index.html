@@ -64,8 +64,8 @@
             <ul class="nav nav-tabs">
                 <li><a href="#Tab1" data-toggle="tab">Introduction</a></li>
                 <li><a href="#Tab2" data-toggle="tab">Positions</a></li>
-                <li><a href="#Tab3" data-toggle="tab">Dashboard</a></li>
-                <li><a href="#Tab4" data-toggle="tab">Charts</a></li>
+                <li><a href="#Tab3" data-toggle="tab">Charts</a></li>
+                <li><a href="#Tab4" data-toggle="tab">Dashboard</a></li>
                 <li><a href="#Tab5" data-toggle="tab">Performance</a></li>
                 <li><a href="#Tab6" data-toggle="tab">Analysis</a></li>
             </ul>
@@ -176,8 +176,45 @@
                 </table>
             </div>
 
-            <!-- Dashboard tab (need rework) -->
+            <!-- Portfolio charts contents tab -->
             <div class="tab-pane" id="Tab3">
+                <!-- Select chart type - profit or loss / value over time -->
+                <select id="chart_select">
+                    <option value="pnl_chart">Profit or loss over time</option><option value="val_chart">Value over time</option>
+                <select>
+                <!-- Select relative (0 - 100%) or absolute values --> 
+                <select id="perf_select">
+                    <option value="absolute">Absolute</option><option value="percent">Percentage</option>
+                </select>
+                <input type="checkbox" id="flags_selected" 
+                    class="checkbox" style="margin-left:10px" checked=true> 
+                    Show transaction labels
+                </input>
+                <div id="container_chart1" style="float:left; width:60%; height:400px">
+                    <!-- chart 1 container  -->
+                </div>
+                <!-- chart 1 sidebar for transaction labels -->
+                <div id="sidebar1" style="float:left; width:20%; margin-left:50px; height:400px">
+                    <table class="table table-bordered span2" style="margin-top:75px">
+                        <thead>
+                            <tr>
+                                <th>Assset</th><th>Action</th><th>Volume</th><th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody id ="detail_cell">
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Position performance charts -->
+                <div id="container_chart2b" style="width:40%; float:left; height:400px;">
+                </div>
+                <!-- Sectors distribution -->
+                <div id ="container_chart0" style="width:40%; float:left; height:400px;">
+                </div>
+            </div>
+
+            <!-- Dashboard tab (need rework) -->
+            <div class="tab-pane" id="Tab4">
                 <!-- Positions returns and momentum -->
                 <h4> Portfolio positions breakdown</h4>
                 <table id="dashboard" class="table table-bordered">
@@ -221,43 +258,6 @@
                 </table>
             </div>
 
-            <!-- Portfolio charts contents tab -->
-            <div class="tab-pane" id="Tab4">
-                <!-- Select chart type - profit or loss / value over time -->
-                <select id="chart_select">
-                    <option value="pnl_chart">Profit or loss over time</option><option value="val_chart">Value over time</option>
-                <select>
-                <!-- Select relative (0 - 100%) or absolute values --> 
-                <select id="perf_select">
-                    <option value="absolute">Absolute</option><option value="percent">Percentage</option>
-                </select>
-                <input type="checkbox" id="flags_selected" 
-                    class="checkbox" style="margin-left:10px" checked=true> 
-                    Show transaction labels
-                </input>
-                <div id="container_chart1" style="float:left; width:60%; height:400px">
-                    <!-- chart 1 container  -->
-                </div>
-                <!-- chart 1 sidebar for transaction labels -->
-                <div id="sidebar1" style="float:left; width:20%; margin-left:50px; height:400px">
-                    <table class="table table-bordered span2" style="margin-top:75px">
-                        <thead>
-                            <tr>
-                                <th>Assset</th><th>Action</th><th>Volume</th><th>Price</th>
-                            </tr>
-                        </thead>
-                        <tbody id ="detail_cell">
-                        </tbody>
-                    </table>
-                </div>
-                <!-- Position performance charts -->
-                <div id="container_chart2b" style="width:40%; float:left; height:400px;">
-                </div>
-                <!-- Sectors distribution -->
-                <div id ="container_chart0" style="width:40%; float:left; height:400px;">
-                </div>
-            </div>
-
             <!--- Comparison to benchmark tab -->
             <div class="tab-pane" id="Tab5">
                 <h4 style="margin-left:69px">Select benchmark to compare: 
@@ -298,9 +298,27 @@
                     </table><br/>
                 </div>
                 <!-- Portofiol vs benchmark performance chart -->    
-                <div id="container_chart3" style="width:80%; height:600px;">
+                <div id="container_chart3" style="width:40%; height:500px; float:left">
                 </div>
-            </div>
+                <!-- Risk performance chart container: portfolio vs benchmark -->    
+                <div id="container_chart4" style="width:40%; height:500px; float:left">
+                </div>
+                <!-- Bubbles chart container -->
+                <div id="container_chart4b" style="width:40%; float: left; height:400px">
+                </div>
+                <!--Risk gauges containers --> 
+                <div style="width:40%; float:left; height:200px">
+                    <h4>Present Portfolio Volatility</h4>
+                    <div id="container_chart5a" style="width:45%; height:160px;">
+                    </div>
+                </div>
+                <div style="width:50%; float:left; height:200px">
+                    <h4>Present Benchmark Volatility</h4>
+                    <div id="container_chart5b" style="width:45%; height:160px;">
+                    </div>
+                </div>
+   
+         </div>
 
             <!-- Analysis tab -->
             <div class="tab-pane" id="Tab6">
@@ -330,24 +348,7 @@
                         </tbody>
                     </table>
                 </div>
-                <!-- Risk performance chart container: portfolio vs benchmark -->    
-                <div id="container_chart4" style="width:80%; height:600px">
-                </div>
-                <!-- Bubbles chart container -->
-                <div id="container_chart4b" style="width:80%; height:600px">
-                </div>
-                <!--Risk gauges containers --> 
-                <div style="width:50%; float:left; height:200px">
-                    <h4>Present Portfolio Volatility</h4>
-                    <div id="container_chart5a" style="width:45%; height:160px;">
-                    </div>
-                </div>
-                <div style="width:50%; float:left; height:200px">
-                    <h4>Present Benchmark Volatility</h4>
-                    <div id="container_chart5b" style="width:45%; height:160px;">
-                    </div>
-                </div>
-            </div>
+             </div>
         </div>      
     </body>
 </html>
