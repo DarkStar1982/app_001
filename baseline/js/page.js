@@ -28,7 +28,7 @@ var namespace_gui = (function() {
             + '</td><td class="book_date">' + obj.book_date
             + '</td><td class="book_price">' + obj.book_price
             + '</td><td class="current_price">'+ obj.last_price
-            + '</td><td><button onclick="namespace_gui.remove_trade_row(this)" class="btn">Remove</button></td></tr>';
+            + '</td><td><button onclick="namespace_gui.remove_trade_row(this)" class="btn btn-default">Remove</button></td></tr>';
        return new_row;
     }
 
