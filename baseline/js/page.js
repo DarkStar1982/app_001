@@ -43,14 +43,16 @@ var namespace_gui = (function() {
             var instrument = obj.symbol.substring(0, split_index);
             var position_type = type_dict[obj.symbol.substring(split_index+1)];
         }
-        if (obj.pnl>=0) var iii=2; 
+        if (obj.pnl=='-') var cell_color ='';
+        else if (obj.pnl>=0) var cell_color ='style="background-color:green;"';
+        else var cell_color ='style="background-color:red;"';
         var summary_row = '<tr><td class="sum_asset">'+ instrument
             + '</td><td class="order_type">' + position_type
             + '</td><td class="sum_volume">'+ obj.volume
             + '<td class="avg_price">' + obj.price_avg
             + '</td><td class="sum_book_val">'+ obj.book_value
             + '<td class="sum_cur_val">' + obj.last_value
-            + '</td><td class="sum_pnl">'+obj.pnl
+            + '</td><td class="sum_pnl "'+cell_color+'>'+obj.pnl
             + '</td></tr>';
         return summary_row;
      }
@@ -262,8 +264,8 @@ var namespace_gui = (function() {
             
             $("#value_totals").text(net_data.total_value);
             $("#pnl_totals").text(net_data.total_pnl);
-            
-            //render charts and dashboard
+            if (net_data.total_pnl >=0)  $("#pnl_totals").css( "background-color","green");
+            else  $("#pnl_totals").css( "background-color","red");  
         },
     
         /* Initialize user interface elements */

@@ -54,7 +54,7 @@
                 <li><a href="#Tab5" role="tab" data-toggle="tab">Performance</a></li>
                 <li><a href="#Tab6" role="tab" data-toggle="tab">Analysis</a></li>
             </ul>
-            <!-- Tab panes -->
+            <!-- Top level tab panes -->
             <div class="tab-content"><div class="tab-pane active" id="Tab1">
                 <h4>Welcome</h4>
                 <p>RiskPlus Ltd. is an innovative company, offering high-quality investment decision support tools for retail and professional investors.
@@ -80,70 +80,86 @@
                       Beta, Jensen’s Alpha, Treynor Ratio, Sharpe Ratio, Value at Risk (VaR).  Historical Risk (Standard Deviation) Profile.
                 </p>
             </div>
-                    <!-- Trades tab (need rework) -->
+            <!-- Positions builder tab -->
             <div class="tab-pane" id="Tab2">
+                <!-- Create positions selector menu -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="active"><a href="#TabX1" role="tab" data-toggle="tab">Add positions manually</a></li>
                     <li><a href="#TabX2" role="tab" data-toggle="tab">Upload a positions file</a></li>
                 </ul>
+                <!-- Content tab for position selector -->
                 <div class="tab-content">
-                <div class="tab-pane" id="TabX1"> 
-                 <!-- Enter trades table -->
-                    <div class="row">
-                        <div class="col-md-5">
-                            <table class="table">
+                    <div class="tab-pane active" id="TabX1"> 
+                        <div class="row">
+                            <div class="col-md-5">
+                                <table class="table">
+                                    <thead>
+                                        <tr><th> Amount</th><th>Date</dt></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><input type="text" style="width:90%" id="portfolio_cash" value="0"/></td>
+                                            <td><input type="text" style="width:90%" id="portfolio_date" /></td>
+                                            <td><button id="cash_add" class="btn btn-default">Deposit Cash</button></td>
+                                            <td><button onclick="withdraw_cash()" id="cash_remove" class="btn btn-default">Withdraw</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-7">
+                                <table class="table"  cellpadding="0" cellspacing="0" cellpadding="0" border="0">
                                 <thead>
-                                    <tr><th> Amount</th><th>Date</dt></tr>
+                                    <tr><th>Type</th><th>Symbol</th><th>Book Date</th><th>Book Price</th><th>Book Volume</th></tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td><input type="text" style="width:90%" id="portfolio_cash" value="0"/></td>
-                                        <td><input type="text" style="width:90%" id="portfolio_date" /></td>
-                                        <td><button id="cash_add" class="btn btn-default">Deposit Cash</button></td>
-                                        <td><button onclick="withdraw_cash()" id="cash_remove" class="btn btn-default">Withdraw</button></td>
+                                        <td style="border-top:0px">
+                                            <select id="trade_type" style="width:110%">
+                                                <option>Buy</option><option>Sell</option><option>Short</option><option>Cover</option>
+                                            </select>
+                                        </td>
+                                        <td style="border-top:0px">
+                                            <input style="width:90%" type="text" id="instrument_entry"/>
+                                        </td>
+                                        <td style="border-top:0px">
+                                            <input style="width:90%" type ="text" id="date_entry"/>
+                                        </td>
+                                        <td style="border-top:0px">
+                                            <input style="width:90%" type ="text" value="0" id="price_entry"/>
+                                        </td>
+                                        <td style="border-top:0px">
+                                            <input style="width:90%" type ="text" value="0" id="amount_entry"/>
+                                        </td>
+                                        <td style="border-top:0px">
+                                            <button id="transaction_add" class="btn btn-default">Add trade</button>
+                                        </td>
                                     </tr>
                                 </tbody>
-                             </table>
-                        </div>
-                        <div class="col-md-7">
-                            <table class="table"  cellpadding="0" cellspacing="0" cellpadding="0" border="0">
-                            <thead>
-                                <tr><th>Type</th><th>Symbol</th><th>Book Date</th><th>Book Price</th><th>Book Volume</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                <td style="border-top:0px">
-                                    <select id="trade_type" style="width:110%">
-                                        <option>Buy</option><option>Sell</option><option>Short</option><option>Cover</option>
-                                    </select>
-                                </td>
-                                <td style="border-top:0px">
-                                    <input style="width:90%" type="text" id="instrument_entry"/>
-                                </td>
-                                <td style="border-top:0px">
-                                    <input style="width:90%" type ="text" id="date_entry"/>
-                                </td>
-                                <td style="border-top:0px">
-                                    <input style="width:90%" type ="text" value="0" id="price_entry"/></td>
-                                <td style="border-top:0px">
-                                    <input style="width:90%" type ="text" value="0" id="amount_entry"/>
-                                </td>
-                                <td style="border-top:0px">
-                                    <button id="transaction_add" class="btn btn-default">Add trade</button>
-                                </td>
-                                </tr>
-                            </tbody>
-                            </table>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="tab-pane" id="TabX2">
-                    <!--form class="form-inline">       
-                    <a class="btn" href="/lib/csv/template.csv" target="_self">Download CSV Template</a>
-                    <input id="chosenFile"  type="file" name="file_name"/>
-                    <input class="btn" id="submitFile" value="Submit" type="button"/>
-                    </form-->
-                </div></div> 
+                    <!-- Automated processing of transaction list --->
+                    <div class="tab-pane" id="TabX2">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td><p> You can batch upload your positions instead of entering them manually. 
+                                            Download a template file and populate it with your transaction history: 
+                                            <a class="btn" href="/lib/csv/template.csv" target="_self">Download CSV Template</a>
+                                            </p></td>
+                                            <td>Then upload your file here: </td>
+                                            <td><input id="chosenFile"  type="file" name="file_name"/></td>
+                                            <td><input class="btn btn-default" id="submitFile" value="Submit" type="button"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
                 <!-- Trade history -->
                 <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered">
                     <thead>
