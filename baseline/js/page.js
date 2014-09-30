@@ -43,6 +43,7 @@ var namespace_gui = (function() {
             var instrument = obj.symbol.substring(0, split_index);
             var position_type = type_dict[obj.symbol.substring(split_index+1)];
         }
+        if (obj.pnl>=0) var iii=2; 
         var summary_row = '<tr><td class="sum_asset">'+ instrument
             + '</td><td class="order_type">' + position_type
             + '</td><td class="sum_volume">'+ obj.volume
