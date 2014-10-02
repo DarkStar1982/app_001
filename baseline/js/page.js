@@ -4,6 +4,7 @@ $(document).ready(function(){
     namespace_portfolio.initialize();
     /* bind event handlers */
     $("#cash_add").on('click', namespace_gui.deposit_cash);
+    $("#cash_remove").on('click', namespace_gui.remove_cash);
     $("#transaction_add").on('click', namespace_gui.add_trade_row);
     $("#benchmark_add").on('click', namespace_gui.add_dashboard_benchmark_row);
     $("#perf_select").on('change', namespace_gui.refresh_val_pnl_chart);
@@ -313,7 +314,22 @@ var namespace_gui = (function() {
             };
             namespace_portfolio.update_state("add_record", new_transaction);
         },
+
+        remove_cash: function()
+        {
+            var new_transaction = {
+                volume: $("#portfolio_cash").val(),
+                book_date: datetime_util.adjust_date($("#portfolio_date").datepicker("getDate")),
+                type: "Withdraw",
+                asset: "Cash",
+                sector: "-",
+                book_price: 1.0,
+                last_price: 1.0
+            };
+            namespace_portfolio.update_state("add_record", new_transaction);
+        },
         
+
         add_trade_row: function()
         {
             var new_transaction = {

@@ -170,7 +170,7 @@ var namespace_portfolio = (function()
         }
         if (position_list.length == 0)   
         {
-            var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": cash_change };
+            var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-"};
             var end_totals = total_cash;
             total_pnl = cash_change;
         }
@@ -554,7 +554,7 @@ var namespace_portfolio = (function()
     /* postprocess transaction if neccessary*/
     function add_transaction(p_action, function_call)
     {
-        if (p_action.type == "Deposit" || p_action.type == "Widthdraw")
+        if (p_action.type == "Deposit" || p_action.type == "Withdraw")
         {
             push_and_recompute(p_action, function_call);
         }

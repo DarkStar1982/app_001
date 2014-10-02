@@ -102,7 +102,7 @@
                                             <td><input type="text" style="width:90%" id="portfolio_cash" value="0"/></td>
                                             <td><input type="text" style="width:90%" id="portfolio_date" /></td>
                                             <td><button id="cash_add" class="btn btn-default">Deposit Cash</button></td>
-                                            <td><button onclick="withdraw_cash()" id="cash_remove" class="btn btn-default">Withdraw</button></td>
+                                            <td><button id="cash_remove" class="btn btn-default">Withdraw</button></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -147,11 +147,13 @@
                                 <table class="table">
                                     <tbody>
                                         <tr>
-                                            <td><p> You can batch upload your positions instead of entering them manually. 
-                                            Download a template file and populate it with your transaction history: 
-                                            <a class="btn" href="/lib/csv/template.csv" target="_self">Download CSV Template</a>
-                                            </p></td>
-                                            <td>Then upload your file here: </td>
+                                            <th colspan="3"> You can batch upload your positions instead of entering them manually in 2 easy steps</th>
+                                            </tr>
+                                        <tr>
+                                            <td>1. Download a template file and populate it with your transaction history: </td>
+                                            <td><a class="btn" href="/lib/csv/template.csv" target="_self">Download CSV Template</a>
+                                            </td>
+                                            <td>2. Then upload your file here: </td>
                                             <td><input id="chosenFile"  type="file" name="file_name"/></td>
                                             <td><input class="btn btn-default" id="submitFile" value="Submit" type="button"/></td>
                                         </tr>
@@ -160,38 +162,45 @@
                             </div>
                         </div>
                     </div>
-                </div> 
-                <!-- Trade history -->
-                <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Asset name</th><th>Sector</th><th>BuySell</th><th>Volume</th><th>Book date</th>
-                            <th>Book Price</th><th>Current Price</th><th>Actions</th>
-                        </tr>
-                    </thead>
-                    <!-- trade history rows container-->
-                    <tbody id="matrix">
-                    </tbody>
-                </table>
-                <!-- Net positions -->
-                <h4 id="step3">Net positions</h4>
-                <table id="summary_table" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
-                    <thead>
-                        <tr>
-                            <th>Symbol</th><th>Position</th><th>Quantity</th><th>Avg. Price</th><th>Book Value</th><th>Current Value</th><th>PnL</th>
-                        </tr>
-                    </head>
-                    <!-- row container -->
-                    <tbody id="net_rows">
-                    </tbody>
-                </table>
-                <!-- Portfolio summary -->
-                <h4 id="step3x1">Portfolio summary</h4>
-                <table id="net_portfolio" class="table table-bordered" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td><b>Net Value</b></td><td id="value_totals">0</td><td><b>Profit or loss</b></td><td id="pnl_totals">0</td>
-                    </tr>
-                </table>
+                </div>
+                <div class="row">
+                <!-- Trade history -->          
+                    <div class="col-md-12">                 
+                        <h4 id="step2.5"> Transaction history</h4>      
+                        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Asset name</th><th>Sector</th><th>BuySell</th><th>Volume</th><th>Book date</th>
+                                    <th>Book Price</th><th>Current Price</th><th>Actions</th>
+                               </tr>
+                            </thead>
+                        <!-- trade history rows container-->
+                            <tbody id="matrix">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-md-12">
+                    <!-- Net positions -->
+                        <h4 id="step3">Net positions</h4>
+                        <table id="summary_table" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
+                            <thead>
+                                <tr>
+                                    <th>Symbol</th><th>Position</th><th>Quantity</th><th>Avg. Price</th><th>Book Value</th><th>Current Value</th><th>PnL</th>
+                                </tr>
+                            </head>
+                            <!-- row container -->
+                            <tbody id="net_rows">
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Portfolio summary -->
+                    <div class="col-md-12">
+                        <h4 id="step3x1">Portfolio summary</h4>
+                        <table id="net_portfolio" class="table table-bordered" cellspacing="0" cellpadding="0">
+                            <tr><td><b>Net Value</b></td><td id="value_totals">0</td><td><b>Profit or loss</b></td><td id="pnl_totals">0</td></tr>
+                        </table>
+                    </div>
+                </div>
             </div>
           <!-- Portfolio charts contents tab -->
             <div class="tab-pane" id="Tab3">
