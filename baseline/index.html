@@ -204,38 +204,46 @@
             </div>
           <!-- Portfolio charts contents tab -->
             <div class="tab-pane" id="Tab3">
-                <!-- Select chart type - profit or loss / value over time -->
-                <select id="chart_select">
-                    <option value="pnl_chart">Profit or loss over time</option><option value="val_chart">Value over time</option>
-                <select>
-                <!-- Select relative (0 - 100%) or absolute values -->
-                <select id="perf_select">
-                    <option value="absolute">Absolute</option><option value="percent">Percentage</option>
-                </select>
-                <input type="checkbox" id="flags_selected" 
-                    class="checkbox" style="margin-left:10px" checked=true>
-                    Show transaction labels
-                </input>
-                <div id="container_chart1" style="float:left; width:60%; height:400px">
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- Select chart type - profit or loss / value over time -->
+                        <select id="chart_select">
+                            <option value="pnl_chart">Profit or loss over time</option><option value="val_chart">Value over time</option>
+                        <select>
+                        <!-- Select relative (0 - 100%) or absolute values -->
+                        <select id="perf_select">
+                            <option value="absolute">Absolute</option><option value="percent">Percentage</option>
+                        </select>
+                        <input style="display:inline" type="checkbox" id="flags_selected" 
+                            class="checkbox" style="margin-left:10px" checked=true>
+                            Show transaction labels
+                       </input>
+                    </div>
+                </div>
+                <div class="row">
                     <!-- chart 1 container  -->
+                    <div class="col-md-9">
+                        <div id="container_chart1"></div>
+                    </div>
+                    <!-- chart 1 sidebar for transaction labels -->
+                    <div class="col-md-3">
+                        <!--div id="sidebar1" style="float:left; width:20%; margin-left:50px; height:400px"-->
+                            <table class="table table-bordered">
+                                <thead><tr><th>Assset</th><th>Action</th><th>Volume</th><th>Price</th></tr></thead>
+                                <tbody id ="detail_cell"></tbody>
+                            </table>
+                        <!--/div-->
+                    </div>
                 </div>
-                <!-- chart 1 sidebar for transaction labels -->
-                <div id="sidebar1" style="float:left; width:20%; margin-left:50px; height:400px">
-                    <table class="table table-bordered span2" style="margin-top:75px">
-                        <thead>
-                            <tr>
-                                <th>Assset</th><th>Action</th><th>Volume</th><th>Price</th>
-                            </tr>
-                        </thead>
-                        <tbody id ="detail_cell">
-                        </tbody>
-                    </table>
-                </div>
-                <!-- Position performance charts -->
-                <div id="container_chart2b" style="width:40%; float:left; height:400px;">
-                </div>
-                <!-- Sectors distribution -->
-                <div id ="container_chart0" style="width:40%; float:left; height:400px;">
+                <div class="row">
+                    <!-- Position performance charts -->
+                    <div class="col-md-6">
+                        <div id="container_chart2b"></div>
+                    </div>
+                     <!-- Sectors distribution -->
+                    <div class="col-md-6">
+                        <div id ="container_chart0"></div>
+                    </div>
                 </div>
               </div>
       <!-- Dashboard tab (need rework) -->

@@ -316,8 +316,8 @@ var namespace_graphs = (function () {
                 //    chart_flags = check_flag_edges(data, get_flag_data());
             } 
             $(p_container_id).highcharts('StockChart', {
-                    marginLeft:75,
-                    marginRight:75,
+                    //marginLeft:75,
+                    //marginRight:75,
                     /* renderTo : p_container_id, */
                     rangeSelector : { selected : 5 },
                     title : { text : 'Portfolio Aggregated Value'},
