@@ -9,7 +9,7 @@ $(document).ready(function(){
     $("#benchmark_add").on('click', namespace_gui.add_dashboard_benchmark_row);
     $("#perf_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#chart_select").on('change', namespace_gui.refresh_val_pnl_chart);
-    $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab)
+    $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab);
 });
 
 /* GUI ACTIONS  interactions code */
@@ -169,8 +169,19 @@ var namespace_gui = (function() {
                     var series_data = portfolio_chart_data["norm_value_series"];
             }
             namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode);
+            //workaround to allow the chart match container size
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode);
+               /* var chart = $("#container_chart1").highcharts();
+                var height = $("#container_chart1").height();
+                var width  = $("#container_chart1").width();
+                chart.setSize(width, height); */
+          });
         },
-
+        redraw_charts: function()
+        {
+            alert('test');
+        },
         refresh_position_chart: function()
         {
             namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b");
@@ -213,8 +224,7 @@ var namespace_gui = (function() {
                     }
                 }
             }
-           
-       },
+        },
 
         //analytics
         render_derived: function(derived_data)

@@ -317,11 +317,12 @@ var namespace_graphs = (function () {
             } 
             $(p_container_id).highcharts('StockChart', {
                     //marginLeft:75,
-                    //marginRight:75,
-                    /* renderTo : p_container_id, */
+                    //marginRight:75, 
+                    // renderTo : p_container_id,
                     rangeSelector : { selected : 5 },
                     title : { text : 'Portfolio Aggregated Value'},
-                    /*plotOptions: {
+                    plotOptions: {
+                        animation: false,
                         area: {
                             fillColor: {
                                 linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
@@ -331,11 +332,12 @@ var namespace_graphs = (function () {
                                     ]   
                                 }
                         }
-                    }, */
+                    }, 
                     series : [{
                             name : 'Your Portfolio',
                             data : p_series_data,
                             type : 'area',
+                            animation: false,
                             id:'value_data',
                             tooltip: { valueDecimals: 2, useHTML:true }
                         }] /*,
