@@ -181,7 +181,60 @@ var namespace_portfolio = (function()
         }       
         return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": math_util.aux_math_round(total_pnl,2)};
     }
-   
+  
+    function cluster_transaction_events()
+    {         
+        var groups=[];     
+        var max_distance=3; 
+        for (var i=0; i<state.transactions.length; i++)
+        {
+            var added = false;
+            for (var k=0; k <groups.length; k++)
+            {
+                if (state.transactions[i].book_date >=groups[k]["start_date"] && state.transactions[i].book_date <=groups[k]["end_date"])
+                {
+                    added=true;                    
+                }
+                else if (datetime_util.date_distance(state.transactions[i].book_date, groups[k].start_date)<max_distance)
+                {   
+                    //extend left edge
+                    added=true;
+                    groups[k]["start_date"] = state_transactions[i].book_date;
+                }
+                else if (datetime_util.date_distance(state.transactions[i].book_date, groups[k].end_date)<max_distance)
+                {
+                    //extend right edge
+                    added=true;
+                    groups[k]["end_date"] = state_transactions[i].book_date;
+                }
+                if (added)
+                {
+                    //add to group
+                    groups[k]["transactions"].push({
+                        "symbol": state.transactions[i].asset,
+                        "volume": state.transactions[i].volume,
+                        "action": state.transactions[i].type,
+                        "price": state.transactions[i].book_price
+                    });
+                }
+            }
+            if (!added)
+            {
+                groups.push ({
+                 "start_date": state.transactions[i].book_date,
+                 "end_date": state.transactions[i].book_date,
+                 "transactions":[{
+                                "symbol": state.transactions[i].asset,
+                                "volume": state.transactions[i].volume,
+                                "action": state.transactions[i].type,
+                                "price": state.transactions[i].book_price
+                                }]     
+                });
+             }
+        } 
+        return groups;   
+    }
+ 
     function get_dashboard_data(data, p_label, p_info)
     {
         var dashboard_row ={};
@@ -349,7 +402,6 @@ var namespace_portfolio = (function()
     /* TODO - Port the python code into js */
     function compute_local_risk_series(p_series, p_interval)
     {
-        console.log(p_series);
         var list_intermediate=[];
         var i=0;
         while (i<p_series.length-1)
@@ -361,7 +413,6 @@ var namespace_portfolio = (function()
             list_intermediate.push([p_series[i+1][0],s]);
             i = i + 1;
         }
-        console.log(list_intermediate);
         var frame_start = 0;
         var frame_end = p_interval;
         var list_result = [];
@@ -373,7 +424,6 @@ var namespace_portfolio = (function()
             frame_start = frame_start + 1;
             frame_end = frame_end + 1;
         }
-        console.log(list_result);
         return list_result 
     }
 
@@ -407,6 +457,7 @@ var namespace_portfolio = (function()
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
                     state.portfolio_series["risk_chart_data"] = compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
                     state.portfolio_series["derived_values"] = compute_derived_values(json_data.norm_pnl_series); 
+                    state.portfolio_series["transaction_clusters"] = cluster_transaction_events();
                     // draw all the charts and dashboards
                     //namespace_gui.render_derived(state);
                     namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);     

@@ -258,6 +258,16 @@ var namespace_graphs = (function () {
 
     }
 
+    function check_flag_edges(p_data, p_flags)
+    {
+        var li_flag = p_flags.length - 1;
+        var li_data = p_data.length - 1;
+        if (p_flags[0].x < p_data[0][0]) p_flags[0].x = p_data[1][0];
+        if (p_flags[li_flag].x > p_data[li_data][0]) p_flags[li_flag].x = p_data[li_data-1][0];
+
+        return p_flags;
+    }
+
     /* PUBLIC */
     return {
         // Here by each position profit or loss 
@@ -308,17 +318,17 @@ var namespace_graphs = (function () {
             */
         },
 
-        render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode, p_chart_mode)
+        render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode, p_chart_mode, p_flag_data)
         {
-            var chart_flags = [];
+            console.log(p_flag_data);
             if (p_flag_mode) 
             {
-                //    chart_flags = check_flag_edges(data, get_flag_data());
-            } 
+                var chart_flags = check_flag_edges(p_series_data, p_flag_data);
+            }
+            else var chart_flags = []; 
             $(p_container_id).highcharts('StockChart', {
-                    //marginLeft:75,
-                    //marginRight:75, 
-                    // renderTo : p_container_id,
+                    marginLeft:75,
+                    marginRight:75, 
                     rangeSelector : { selected : 5 },
                     title : { text : 'Portfolio Aggregated Value'},
                     plotOptions: {
@@ -340,14 +350,14 @@ var namespace_graphs = (function () {
                             animation: false,
                             id:'value_data',
                             tooltip: { valueDecimals: 2, useHTML:true }
-                        }] /*,
+                        },
                         {
                             type: 'flags',
                             name: 'Flags on series',
                             data: chart_flags,
                             onSeries: 'value_data',
                             shape: 'squarepin'
-                        }*/
+                        }]
                     
             });
         },

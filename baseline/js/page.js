@@ -132,7 +132,50 @@ var namespace_gui = (function() {
         $("#portfolio_vatr_abs").text(vatr2_abs);
         $("#benchmark_vatr_abs").text(vatr1_abs);
     }
-        
+
+    function format_flag_data(groups)
+    {
+        function flag_click(e)
+        {
+            var trim_string = this.title.replace(/@/g,',');
+            trim_string = trim_string.replace('<p style="cursor: pointer">','')
+            trim_string = trim_string.replace('</p>','')
+            var paragraph_data = trim_string.split('<br/>');
+            var strHTML='<table>';
+            for (i=0;i<paragraph_data.length-1;i++)
+            {
+                var list_data = paragraph_data[i].split(',');
+                var htmlData = "<tr>"
+                for (j=0;j<list_data.length;j++)
+                {
+                    htmlData = htmlData + '<td>'+list_data[j]+'</td>';
+                }
+                htmlData=htmlData +"</tr>";
+                strHTML=strHTML+htmlData;
+            }
+            document.getElementById('detail_cell').innerHTML = strHTML+"</table>";  
+        }
+    
+        var flag_data = [];
+        for (var i=0; i<groups.length; i++)
+        {
+            flag_data[i] = new Object();
+            var x_date = groups[i].start_date;
+            flag_data[i].x = x_date;
+            flag_data[i].title='<p style="cursor: pointer">';
+            flag_data[i].events = { "click" : flag_click};
+            for (var k=0; k<groups[i].transactions.length; k++)
+            {
+              var label = groups[i].transactions[k].symbol+", "
+                + groups[i].transactions[k].buysell+", "+groups[i].transactions[k].volume + " @"+
+               groups[i].transactions[k].price;
+                flag_data[i].title = flag_data[i].title +label+"<br/>";
+            }
+            flag_data[i].title=flag_data[i].title+"</p>"
+        }
+        return flag_data;
+    }
+
     /* Public Interface */ 
     return {
         update_charts: function(p_chart_data)
@@ -168,20 +211,14 @@ var namespace_gui = (function() {
                 if (display_mode == "percent")
                     var series_data = portfolio_chart_data["norm_value_series"];
             }
-            namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode);
+            var flags = format_flag_data(portfolio_chart_data["transaction_clusters"]); 
+            namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
             //workaround to allow the chart match container size
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode);
-               /* var chart = $("#container_chart1").highcharts();
-                var height = $("#container_chart1").height();
-                var width  = $("#container_chart1").width();
-                chart.setSize(width, height); */
+                namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
           });
         },
-        redraw_charts: function()
-        {
-            alert('test');
-        },
+        
         refresh_position_chart: function()
         {
             namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b");
