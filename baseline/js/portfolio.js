@@ -184,28 +184,38 @@ var namespace_portfolio = (function()
   
     function cluster_transaction_events()
     {         
+        function format_date_extra(s_date)
+        {
+            var year = s_date.substring(0,4);
+            var month = s_date.substring(5,7);
+            var datex = s_date.substring(8,10);
+            var true_data1= new Date(parseInt(year),parseInt(month)-1, parseInt(datex));
+            return true_data1;
+        }
+
         var groups=[];     
         var max_distance=3; 
         for (var i=0; i<state.transactions.length; i++)
         {
             var added = false;
+            var t_date = format_date_extra(state.transactions[i].book_date)
             for (var k=0; k <groups.length; k++)
             {
-                if (state.transactions[i].book_date >=groups[k]["start_date"] && state.transactions[i].book_date <=groups[k]["end_date"])
+                if (t_date >=groups[k]["start_date"] && t_date <=groups[k]["end_date"])
                 {
                     added=true;                    
                 }
-                else if (datetime_util.date_distance(state.transactions[i].book_date, groups[k].start_date)<max_distance)
+                else if (datetime_util.date_distance(t_date, groups[k].start_date)<max_distance)
                 {   
                     //extend left edge
                     added=true;
-                    groups[k]["start_date"] = state_transactions[i].book_date;
+                    groups[k]["start_date"] = t_date;
                 }
-                else if (datetime_util.date_distance(state.transactions[i].book_date, groups[k].end_date)<max_distance)
+                else if (datetime_util.date_distance(t_date, groups[k].end_date)<max_distance)
                 {
                     //extend right edge
                     added=true;
-                    groups[k]["end_date"] = state_transactions[i].book_date;
+                    groups[k]["end_date"] = t_date;
                 }
                 if (added)
                 {
@@ -221,8 +231,8 @@ var namespace_portfolio = (function()
             if (!added)
             {
                 groups.push ({
-                 "start_date": state.transactions[i].book_date,
-                 "end_date": state.transactions[i].book_date,
+                 "start_date": t_date,
+                 "end_date": t_date,
                  "transactions":[{
                                 "symbol": state.transactions[i].asset,
                                 "volume": state.transactions[i].volume,

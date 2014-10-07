@@ -38,7 +38,7 @@ var namespace_graphs = (function () {
             for (var k=0; k<groups[i].transactions.length; k++)
             {
                 var label = groups[i].transactions[k].symbol+", "
-                + groups[i].transactions[k].buysell+", "+groups[i].transactions[k].volume + " @"+
+                + groups[i].transactions[k].action+", "+groups[i].transactions[k].volume + " @"+
                 groups[i].transactions[k].price;
                 flag_data[i].title = flag_data[i].title +label+"<br/>";
             }
@@ -264,7 +264,6 @@ var namespace_graphs = (function () {
         var li_data = p_data.length - 1;
         if (p_flags[0].x < p_data[0][0]) p_flags[0].x = p_data[1][0];
         if (p_flags[li_flag].x > p_data[li_data][0]) p_flags[li_flag].x = p_data[li_data-1][0];
-
         return p_flags;
     }
 
@@ -320,16 +319,17 @@ var namespace_graphs = (function () {
 
         render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode, p_chart_mode, p_flag_data)
         {
-            console.log(p_flag_data);
             if (p_flag_mode) 
             {
-                var chart_flags = check_flag_edges(p_series_data, p_flag_data);
+                 var chart_flags = check_flag_edges(p_series_data, p_flag_data);
             }
             else var chart_flags = []; 
             $(p_container_id).highcharts('StockChart', {
-                    marginLeft:75,
-                    marginRight:75, 
-                    rangeSelector : { selected : 5 },
+                chart : {
+                    marginLeft: 75,
+                    marginRight: 75
+                },
+                rangeSelector : { selected : 5 },
                     title : { text : 'Portfolio Aggregated Value'},
                     plotOptions: {
                         animation: false,

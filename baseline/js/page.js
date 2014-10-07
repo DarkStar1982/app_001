@@ -167,7 +167,7 @@ var namespace_gui = (function() {
             for (var k=0; k<groups[i].transactions.length; k++)
             {
               var label = groups[i].transactions[k].symbol+", "
-                + groups[i].transactions[k].buysell+", "+groups[i].transactions[k].volume + " @"+
+                + groups[i].transactions[k].action+", "+groups[i].transactions[k].volume + " @"+
                groups[i].transactions[k].price;
                 flag_data[i].title = flag_data[i].title +label+"<br/>";
             }
