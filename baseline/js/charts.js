@@ -273,6 +273,9 @@ var namespace_graphs = (function () {
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
             $(p_container_id).highcharts('Chart', {
+                chart: {
+                    marginLeft: 75
+                },
                 title : { text : 'Positions profit or loss'},
                 xAxis: { categories : p_series_data.data_positions},
                 plotOptions: {
@@ -282,38 +285,23 @@ var namespace_graphs = (function () {
                          pointWidth:20
                       }
                 },
-               
+                legend : {enabled:false},
                 series: [{
                     type:'column',
                     data: p_series_data.data_list}]
              });
         /* 
-            chart : {
-                renderTo : 'container_chart2b',
-                type: 'column'
-            },
-            title : { text : 'Positions profit or loss'},
-            xAxis: { categories : data_positions},
-            plotOptions: {
-                column : {
-                         color:'green',
-                         negativeColor:'red',
-                         pointWidth:20
-                      }
-            },
-            legend : {display:false},
-             tooltip : {
+            tooltip : {
               formatter: function() {
-                if (mode_p == 'absolute')
+                if (p_display_mode == 'absolute')
                 var end_char = '$';
-               else if (mode_p == 'percent')
+               else if (p_display_mode == 'percent')
                          var end_char = '%';
                           return "Symbol: "+ this.x 
                         + "<br/>Volume: " + hash_table[this.x].volume 
                         + "<br/>PnL: "+hash_table[this.x].xpnl+end_char;
                    }
               },
-            series: [{data: data_pnl}]
             */
         },
 

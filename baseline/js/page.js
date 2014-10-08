@@ -10,6 +10,7 @@ $(document).ready(function(){
     $("#perf_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#chart_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab);
+    $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
 });
 
 /* GUI ACTIONS  interactions code */
@@ -197,6 +198,10 @@ var namespace_gui = (function() {
             var display_mode = $("#perf_select").val();
             var flag_mode = $("#flags_selected").prop("checked");
             var chart_mode = $("#chart_select").val();
+            if (!flag_mode)
+            {
+                $("#detail_cell").empty();
+            }
             if (chart_mode == "pnl_chart")
             {
                 if (display_mode == "absolute")
@@ -221,7 +226,11 @@ var namespace_gui = (function() {
         
         refresh_position_chart: function()
         {
-            namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b");
+            var display_mode = $("#perf_select").val();
+            namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b", display_mode);
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+             namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b", display_mode);
+          }); 
         }, 
 
         refresh_sector_chart: function()
