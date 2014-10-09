@@ -18,7 +18,8 @@ var namespace_gui = (function() {
     // PRIVATE DATA
     var API_URL = "/data_api/:2000";
     var portfolio_chart_data = {};
-
+    var m_benchmark_data ={};
+    var m_start_date = undefined; 
     // Implementation
     function create_transaction_row(obj)
     {
@@ -179,9 +180,15 @@ var namespace_gui = (function() {
 
     /* Public Interface */ 
     return {
+        get_start_date : function ()
+        {
+            if (m_start_date !=undefined ) return m_start_date;
+            else datetime_util.adjust_date(new Date(50, 0, 1));
+        },
         update_charts: function(p_chart_data)
         {
             //update local data
+            m_start_date = p_chart_data.transactions[0].book_date;
             portfolio_chart_data = p_chart_data.portfolio_series;
             m_benchmark_data = p_chart_data.m_benchmark_series;
             //update charts for portfolio only

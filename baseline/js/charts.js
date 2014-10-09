@@ -1,5 +1,7 @@
 var namespace_graphs = (function () {
     /* PRIVATE */
+    var m_local_data = {};
+
     function get_flag_data()
     {
         //flag click event
@@ -307,6 +309,7 @@ var namespace_graphs = (function () {
 
         render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode, p_chart_mode, p_flag_data)
         {
+            m_local_data["chart_val_pnl"] = p_series_data;
             if (p_flag_mode) 
             {
                  var chart_flags = check_flag_edges(p_series_data, p_flag_data);
@@ -314,6 +317,25 @@ var namespace_graphs = (function () {
             else var chart_flags = []; 
             $(p_container_id).highcharts('StockChart', {
                 chart : {
+                    events: {
+                        load: function (){
+                            var chart = this,
+                            buttons = chart.rangeSelector.buttons;
+                            var date_shifts = [1,3,6,0,12];
+                            for (var i=0;i<buttons.length;i++)
+                            {
+                                buttons[i].on('click', function(e) {
+                                    if (i==buttons.length-1)
+                                        var st_date = namespace_gui.get_start_date();
+                                    else 
+                                        var st_date = datetime_util.get_date_shifted(date_shifts[i]);
+                                    //update_val_pnl_chart(chart,st_date,0,data_array);
+                                   alert(i);
+                                   e.preventDefault();
+                                });
+                            }
+                        }
+                    },
                     marginLeft: 75,
                     marginRight: 75
                 },
