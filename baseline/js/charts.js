@@ -269,6 +269,47 @@ var namespace_graphs = (function () {
         return p_flags;
     }
 
+    function trim_data(p_data, date_start)
+    {
+        var p_new_data = [];
+        for (var i=0;i<p_data.length; i++)
+        {
+            if (p_data[i][0] > date_start) p_new_data.push(p_data[i]);
+        }
+        return p_new_data;
+    }
+
+    function rescale_data(p_data)
+    {
+        var start_value = p_data[0][1];
+        var return_data=[];
+        for (var i = 0; i<p_data.length; i++)
+            return_data[i] = [p_data[i][0], (p_data[i][1] / start_value)* 100.0];
+        return return_data;
+    }
+
+    function update_val_pnl_chart(p_chart, p_index, p_series, p_mode)
+    {
+        var date_shifts = [1,3,6,0,12];
+        if (p_index==5) 
+            var date_shifted = namespace_gui.get_start_date();
+        else
+            var date_shifted = datetime_util.get_date_shifted(date_shifts[p_index]);
+        var date_start = datetime_util.convert_date_to_ms(date_shifted);
+        //alert(date_start);
+        //trim data by date
+        if (p_mode == "percent")
+            var new_data = rescale_data(trim_data(p_series, date_start));
+        else
+            var new_data = trim_data(p_series, date_start);
+        console.log(new_data);
+        p_chart.series[0].setData(new_data);
+        var axis = p_chart.xAxis[0];
+        var edata = axis.getExtremes();
+        var start_datum = xdata[0][0];
+        axis.setExtremes(start_datum, edata.dataMax);
+    }
+
     /* PUBLIC */
     return {
         // Here by each position profit or loss 
@@ -319,28 +360,20 @@ var namespace_graphs = (function () {
                 chart : {
                     events: {
                         load: function (){
-                            var chart = this,
-                            buttons = chart.rangeSelector.buttons;
-                            var date_shifts = [1,3,6,0,12];
-                            for (var i=0;i<buttons.length;i++)
-                            {
-                                buttons[i].on('click', function(e) {
-                                    if (i==buttons.length-1)
-                                        var st_date = namespace_gui.get_start_date();
-                                    else 
-                                        var st_date = datetime_util.get_date_shifted(date_shifts[i]);
-                                    //update_val_pnl_chart(chart,st_date,0,data_array);
-                                   alert(i);
-                                   e.preventDefault();
-                                });
-                            }
+                            var chart = this;
+                            $.each(chart.rangeSelector.buttons, function(index, value) {
+                                value.on('click', function (e) { 
+                                    update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
+                                    e.preventDefault();
+                                }); 
+                            });
                         }
                     },
                     marginLeft: 75,
                     marginRight: 75
                 },
                 rangeSelector : { selected : 5 },
-                    title : { text : 'Portfolio Aggregated Value'},
+                title : { text : 'Portfolio Aggregated Value'},
                     plotOptions: {
                         animation: false,
                         area: {
@@ -356,7 +389,7 @@ var namespace_graphs = (function () {
                     series : [{
                             name : 'Your Portfolio',
                             data : p_series_data,
-                            type : 'area',
+                            type : 'line',
                             animation: false,
                             id:'value_data',
                             tooltip: { valueDecimals: 2, useHTML:true }
