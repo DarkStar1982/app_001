@@ -75,8 +75,12 @@ var namespace_gui = (function() {
     }
 
     //dashboard_row = ...
+    //apply colors to positive or negative values
     function create_dashboard_row(data_record)
     {
+        //else if (obj.pnl>=0) var cell_color ='style="background-color:green;"';
+       // else var cell_color ='style="background-color:red;"';
+        
         var dashboard_row = '<tr><td>'+data_record.asset + '</td>'
             + '<td>'+data_record.info + '</td>'
             + '<td>'+data_record.portfolio_returns.ret_1d+'</td>'
@@ -193,7 +197,6 @@ var namespace_gui = (function() {
             m_benchmark_data = p_chart_data.m_benchmark_series;
             //update charts for portfolio only
             namespace_gui.refresh_val_pnl_chart();
-            namespace_gui.refresh_position_chart();
             namespace_gui.refresh_sector_chart();
             //update_charts for portfolio + benchmarks
             namespace_gui.refresh_performance_chart_and_tab();
@@ -225,6 +228,7 @@ var namespace_gui = (function() {
             }
             var flags = format_flag_data(portfolio_chart_data["transaction_clusters"]); 
             namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
+            namespace_gui.refresh_position_chart();
             //workaround to allow the chart match container size
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);

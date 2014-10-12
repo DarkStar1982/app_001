@@ -315,6 +315,10 @@ var namespace_graphs = (function () {
         // Here by each position profit or loss 
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
+            if (p_display_mode == 'absolute')
+                var val_data = p_series_data.abs_list;
+            else if (p_display_mode == 'percent')
+                var val_data = p_series_data.rel_list;
             $(p_container_id).highcharts('Chart', {
                 chart: {
                     marginLeft: 75
@@ -331,21 +335,24 @@ var namespace_graphs = (function () {
                 legend : {enabled:false},
                 series: [{
                     type:'column',
-                    data: p_series_data.data_list}]
-             });
-        /* 
-            tooltip : {
-              formatter: function() {
-                if (p_display_mode == 'absolute')
-                var end_char = '$';
-               else if (p_display_mode == 'percent')
-                         var end_char = '%';
-                          return "Symbol: "+ this.x 
-                        + "<br/>Volume: " + hash_table[this.x].volume 
-                        + "<br/>PnL: "+hash_table[this.x].xpnl+end_char;
+                    data: val_data}],
+                tooltip : {
+                    formatter: function() {
+                        if (p_display_mode == 'absolute')
+                        {
+                            var end_char = '$';
+                            return "Symbol: "+ this.x + "<br/>Volume: " + p_series_data.hash_table[this.x].volume 
+                            + "<br/>Abs. PnL: " + p_series_data.hash_table[this.x].xpnl+end_char;
+                        }
+                        else if (p_display_mode == 'percent')
+                        {
+                            var end_char = '%';
+                            return "Symbol: "+ this.x + "<br/>Volume: " + p_series_data.hash_table[this.x].volume 
+                            + "<br/>Pc. PnL: " + p_series_data.hash_table[this.x].rpnl+end_char;
+                       }
                    }
-              },
-            */
+                },
+            });
         },
 
         render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode, p_chart_mode, p_flag_data)

@@ -162,6 +162,7 @@ var namespace_portfolio = (function()
                                         "book_value": math_util.aux_math_round(net_data[k][1],2),
                                         "last_value": math_util.aux_math_round(net_data[k][2],2),
                                         "pnl": math_util.aux_math_round(profit_or_loss,2),
+                                        "pnl_rel":math_util.aux_math_round(profit_or_loss / net_data[k][1] * 100.0, 2),
                                         "sector":net_data[k][3]
                     });
                 }
@@ -323,14 +324,22 @@ var namespace_portfolio = (function()
 
     function get_position_chart_data(p_series_data)
     {
-        var data_list=[];
+        var abs_list=[];
+        var rel_list=[];
+        var info_obj = {};
         var data_positions=[];
         for (var i=0;i<p_series_data.length;i++)
         {
-            data_list.push(p_series_data[i].pnl);
+            abs_list.push(p_series_data[i].pnl);
+            rel_list.push(p_series_data[i].pnl_rel);
             data_positions.push(p_series_data[i].symbol);
+            info_obj[p_series_data[i].symbol] = {
+                "volume": p_series_data[i].volume, 
+                "xpnl": p_series_data[i].pnl, 
+                "rpnl": p_series_data[i].pnl_rel
+            };
         }
-        return {"data_list":data_list, "data_positions":data_positions};
+        return {"abs_list":abs_list, "rel_list":rel_list, "data_positions": data_positions, "hash_table":info_obj};
     } 
 
     function get_sector_chart_data(p_net_data)
