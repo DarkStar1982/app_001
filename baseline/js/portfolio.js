@@ -460,16 +460,18 @@ var namespace_portfolio = (function()
             namespace_gui.render_tables(state.net_data, state.transactions);
             // step 2. load profit, risk risk and volatility series, then compute 
             // dashboard and derived values and render portfolio tables and charts
-            var post_data = JSON.stringify({"transactions":state.transactions});
+            var post_data = JSON.stringify({"transactions":state.transactions, "positions": state.net_data["positions"]});
             $.post('/data_api/', {call:"portfolio_series", data: post_data}, function(data)
             {
                 var json_data = JSON.parse(data);    
                 if (json_data.header.error_code == 0)
                 {
+                    //aggregated portfolio series
                     state.portfolio_series["value_series"] = json_data.value_series;
                     state.portfolio_series["pnl_series"] = json_data.pnl_series;
                     state.portfolio_series["norm_pnl_series"] = json_data.norm_pnl_series;
                     state.portfolio_series["norm_value_series"] = json_data.norm_value_series;
+                    state_portfolio_series["position_value_series"] = json_data.position_value_series;
                     //compute derived data for dashboard and charts
                     state.portfolio_series["dashboard_data"] = get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-");
                     state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions);  
