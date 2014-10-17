@@ -257,7 +257,7 @@ var namespace_portfolio = (function()
         // compute full portfolio row
         //compute each position row
         //return aggregated data
-        return [dashboard_row];
+        return dashboard_row;
     }
  
     function get_returns_data(p_input)
@@ -471,9 +471,19 @@ var namespace_portfolio = (function()
                     state.portfolio_series["pnl_series"] = json_data.pnl_series;
                     state.portfolio_series["norm_pnl_series"] = json_data.norm_pnl_series;
                     state.portfolio_series["norm_value_series"] = json_data.norm_value_series;
-                    state_portfolio_series["position_value_series"] = json_data.position_value_series;
+                    state.portfolio_series["position_value_series"] = json_data.position_value_series;
                     //compute derived data for dashboard and charts
-                    state.portfolio_series["dashboard_data"] = get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-");
+                    var dashboard_rows = [get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-")];
+                    for (var i=0; i<state.portfolio_series["position_value_series"].length;i++)
+                    {
+
+                        var xrow = get_dashboard_data(
+                            state.portfolio_series["position_value_series"][i]["series"],
+                            state.portfolio_series["position_value_series"][i]["symbol"],"-");
+                        dashboard_rows.push(xrow);
+                    }
+                    console.log(dashboard_rows);
+                    state.portfolio_series["dashboard_data"] = dashboard_rows;
                     state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions);  
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
                     state.portfolio_series["risk_chart_data"] = compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
