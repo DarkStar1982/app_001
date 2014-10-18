@@ -703,7 +703,7 @@ var namespace_portfolio = (function()
                // update portfolio derived data = partial (beta, etc) 
                 
                 namespace_gui.update_benchmark_selector(p_benchmark);
-                namespace_gui.append_dashboard_row(row_data);
+                namespace_gui.append_dashboard_row([row_data]);
                 namespace_gui.refresh_performance_chart_and_tab();
             }
         });

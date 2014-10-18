@@ -78,18 +78,23 @@ var namespace_gui = (function() {
     //apply colors to positive or negative values
     function create_dashboard_row(data_record)
     {
+        function format_value_to_cell(p_val)
+        {
+            if (p_val<0) return '<td style="background-color:red">'+p_val+'</td>'
+            else return '<td style="background-color:green">'+p_val+'</td>'
+        }
         //else if (obj.pnl>=0) var cell_color ='style="background-color:green;"';
        // else var cell_color ='style="background-color:red;"';
         
         var dashboard_row = '<tr><td>'+data_record.asset + '</td>'
             + '<td>'+data_record.info + '</td>'
-            + '<td>'+data_record.portfolio_returns.ret_1d+'</td>'
-            + '<td>'+data_record.portfolio_returns.ret_1w+'</td>'
-            + '<td>'+data_record.portfolio_returns.ret_1m+'</td>'
-            + '<td>'+data_record.portfolio_returns.ret_3m+'</td>'
-            + '<td>'+data_record.portfolio_returns.ret_6m+'</td>'
-            + '<td>'+data_record.portfolio_returns.ret_1y+'</td>'
-            + '<td>'+data_record.portfolio_momentum.p_200d+'</td>'
+            + format_value_to_cell(data_record.portfolio_returns.ret_1d)
+            + format_value_to_cell(data_record.portfolio_returns.ret_1w)
+            + format_value_to_cell(data_record.portfolio_returns.ret_1m)
+            + format_value_to_cell(data_record.portfolio_returns.ret_3m)
+            + format_value_to_cell(data_record.portfolio_returns.ret_6m)
+            + format_value_to_cell(data_record.portfolio_returns.ret_1y)
+            + '<td>'+data_record.portfolio_momentum.p_200d +'</td>'
             + '<td>'+data_record.portfolio_momentum.p_50d +'</td>';
         return dashboard_row;
     }
