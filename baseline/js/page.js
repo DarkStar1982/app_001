@@ -7,6 +7,7 @@ $(document).ready(function(){
     $("#cash_remove").on('click', namespace_gui.remove_cash);
     $("#transaction_add").on('click', namespace_gui.add_trade_row);
     $("#benchmark_add").on('click', namespace_gui.add_dashboard_benchmark_row);
+    $("#clear_benchmarks").on('click', namespace_gui.clear_dashboard_benchmarks);
     $("#perf_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#chart_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab);
@@ -428,11 +429,26 @@ var namespace_gui = (function() {
             //now update the dropdown list
             namespace_portfolio.update_state("add_dashboard_benchmark", new_benchmark);
         },
-    
+  
+        clear_dashboard_benchmark_rows: function()
+        {
+            $("#reference_rows").empty();
+        },
+ 
+        clear_dashboard_benchmarks: function ()
+        {
+            namespace_portfolio.update_state("clear_dashboard_benchmarks");
+        },
+ 
         update_benchmark_selector: function(p_benchmark)
         {
             $("#benchmark_list").append('<option value=1>'+p_benchmark+'</option>');
 
+        },
+
+        clear_benchmark_selector: function()
+        {
+            $("#benchmark_list").empty();
         },
  
         send_log_message: function(message, p_severity)

@@ -710,6 +710,15 @@ var namespace_portfolio = (function()
         //gui add dashboard row
     }
 
+    function clear_dashboard_benchmarks()
+    {
+        //zero out benchmarks
+        state.m_benchmark_series = {};
+        namespace_gui.clear_benchmark_selector();
+        namespace_gui.clear_dashboard_benchmark_rows();
+        namespace_gui.refresh_performance_chart_and_tab();
+    }
+
     function init_gui_if_ready()
     {
         if (DATA_LOAD_STATES[state.load_state] == "ready")
@@ -775,6 +784,9 @@ var namespace_portfolio = (function()
                     break;
                 case "add_dashboard_benchmark":
                     add_dashboard_benchmark(p_data);
+                    break;
+                case "clear_dashboard_benchmarks":
+                    clear_dashboard_benchmarks();
                     break;
             }
         }
