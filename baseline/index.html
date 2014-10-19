@@ -291,97 +291,117 @@
                     <tbody>
                 </table>
             </div>
- 
  <!--- Comparison to benchmark tab -->
             <div class="tab-pane" id="Tab5">
-                <h4 style="margin-left:69px">Select benchmark to compare: 
-                    <select id="benchmark_list"></select>
-                </h4>
-                <!-- comparison data -->
-                <div id = "step4" style="width:80%; margin-left:69px;  height:300px;">
-                    <table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
-                        <thead>
-                            <th>Total Period Stats</th><th>Your portfolio</th><th>Benchmark</th>
-                        </thead>
-                        </tbody>
-                            <tr>
-                                <td id="label_value">Initial PV</td><td id="portfolio_value">0</td><td id="benchmark_value">0</td>
-                            </tr>
-                            <tr>
-                                <td id="label_final_pv">Final PV</td><td id="portfolio_final_pv">0</td><td id="benchmark_final_pv">0</td>
-                            </tr>
-                            <tr>
-                                <td id="label_net_pnl">Net Profit/Loss</td><td id="portfolio_net_pnl">0</td><td id="benchmark_net_pnl">0</td>
-                            </tr>
-                            <tr>
-                                <td id="label_annualized">Annualized</td><td id="portfolio_annualized">0</td><td id="benchmark_annualized">0</td>
-                            </tr>
-                            <tr>
-                                <td id="label_std">STD</td><td id="portfolio_std">0</td><td id="benchmark_std">0</td>
-                            </tr>
-                            <tr>
-                                <td id="label_beta">Beta</td><td id="portfolio_beta">0</td><td id="benchmark_beta">0</td>
-                            </tr>
-                                           <!--tr>
-                            <td id="label_jensen_alpha">Jensen's Alpha</td>
-                            <td id="label_treynor">Treynor Ratio</td>
-                            <td id="label_sharpe">Sharpe Ratio</td>
-                            <td id="label_var">VAR</td>
-                            </tr-->
-                        </tbody>
-                    </table><br/>
-                </div>
-                <!-- Portofiol vs benchmark performance chart -->
-                <div id="container_chart3" style="width:40%; height:500px; float:left">
-                </div>
-                <!-- Risk performance chart container: portfolio vs benchmark -->
-                <div id="container_chart4" style="width:40%; height:500px; float:left">
-                </div>
-                <!-- Bubbles chart container -->
-                <div id="container_chart4b" style="width:40%; float: left; height:400px">
-                </div>
-                <!--Risk gauges containers -->
-                <div style="width:40%; float:left; height:200px">
-                    <h4>Present Portfolio Volatility</h4>
-                    <div id="container_chart5a" style="width:45%; height:160px;">
+                <br/>
+                <div class="row">
+                    <div class="col-md-3">
+                        <p>Select benchmark to compare: <select id="benchmark_list"></select></p>
+                    </div>
+                    <div class="col-md-9">
+                        <p id="risk_info">
+                        Select risk model:
+                        <select id="model_select" onchange="draw_charts(1)">
+                            <option value="STD_DEV">Standard Deviation</option><option value="STD_DEV_CMT">Cumulative Standard Deviation</option>
+                        </select>
+                        Select  measurement range:
+                        <input type="number" id = "range_select" min="2" max="30" value="5" onchange="draw_charts(1)"/>
+                        </p>
                     </div>
                 </div>
-                <div style="width:50%; float:left; height:200px">
-                    <h4>Present Benchmark Volatility</h4>
-                    <div id="container_chart5b" style="width:45%; height:160px;">
+            
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="active"><a href="#TabY1" role="tab" data-toggle="tab">View as charts</a></li>
+                    <li><a href="#TabY2" role="tab" data-toggle="tab">View as tabulated data</a></li>
+                </ul>
+            <!-- comparison data -->
+                                    <!-- Content tab for position selector -->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="TabY1">
+                        <div class="row">
+                            <!-- Portofio vs benchmark performance chart -->
+                            <div id="container_chart3" class="col-md-6">
+                            </div>
+                            <!-- Risk performance chart container: portfolio vs benchmark -->
+                            <div id="container_chart4" style="col-md-6">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!-- Bubbles chart container -->
+                            <div id="container_chart4b" class="col-md-6">
+                            </div>
+                            <!--Risk gauges containers -->
+                            <div class="col-md-6">
+                                <h4>Present Portfolio Volatility</h4>
+                                <div id="container_chart5a" style="width:45%; height:160px;">
+                                </div>
+                                <h4>Present Benchmark Volatility</h4>
+                                <div id="container_chart5b" style="width:45%; height:160px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="TabY2">
+                        <div class="row">
+                            <div id = "step4" class="col-md-6">
+                            <h4> Performance metrics </h4>
+                            <table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+                                <thead>
+                                    <th>Total Period Stats</th><th>Your portfolio</th><th>Benchmark</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td id="label_value">Initial PV</td><td id="portfolio_value">0</td><td id="benchmark_value">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="label_final_pv">Final PV</td><td id="portfolio_final_pv">0</td><td id="benchmark_final_pv">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="label_net_pnl">Net Profit/Loss</td><td id="portfolio_net_pnl">0</td><td id="benchmark_net_pnl">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="label_annualized">Annualized</td><td id="portfolio_annualized">0</td><td id="benchmark_annualized">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="label_std">STD</td><td id="portfolio_std">0</td><td id="benchmark_std">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td id="label_beta">Beta</td><td id="portfolio_beta">0</td><td id="benchmark_beta">0</td>
+                                    </tr>
+                                           <!--tr>
+                                <td id="label_jensen_alpha">Jensen's Alpha</td>
+                                <td id="label_treynor">Treynor Ratio</td>
+                                <td id="label_sharpe">Sharpe Ratio</td>
+                                <td id="label_var">VAR</td>
+                                </tr-->
+                                </tbody>
+                            </table>
+                            </div>
+                            <!-- risk model section -->
+                            <div id ="risk_table" class="col-md-6">
+                            <h4>Analysis and risk estimation</h4>
+                            <table id = "risk_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+                                <thead>
+                                <th>Parameter name</th><th>Portfolio</th><th>Benchmark</th>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                <td id="label_vatr_pc">Value at risk - Percent</td><td id="portfolio_vatr_pc">0.0</td><td id="benchmark_vatr_pc">0.0</td>
+                            </tr>
+                            <tr>
+                                <td id="label_vatr_abs">Value at risk - Absolute</td><td id="portfolio_vatr_abs">0.0</td><td id="benchmark_vatr_abs">0.0</td>
+                            </tr>
+                            </tbody>
+                            </table>
+                            </div>          
+                        </div>
                     </div>
                 </div>
 
          </div>
             <!-- Analysis tab -->
             <div class="tab-pane" id="Tab6">
-                <h4>Analysis and risk estimation</h4>
-                <!-- risk model section -->
-                <p id="risk_info">
-                    Select risk model:
-                    <select id="model_select" onchange="draw_charts(1)">
-                        <option value="STD_DEV">Standard Deviation</option><option value="STD_DEV_CMT">Cumulative Standard Deviation</option>
-                    </select>
-                    Select  measurement range:
-                    <input type="number" id = "range_select" min="2" max="30" value="5" onchange="draw_charts(1)"/>
-                </p>
-                <!-- computed risk values -->
-                <div id ="risk_table" style="width:89%;  height:150px;">
-                    <table id = "risk_values" class="table table-bordered" cellspacing="0" cellpadding="0">
-                        <thead>
-                            <th>Parameter name</th><th>Portfolio</th><th>Benchmark</th>
-                        </thead>
-                            <tbody>
-                            <tr>
-                                <td id="label_vatr_pc">Value at risk - Percent</td><td id="portfolio_vatr_pc">0.0</td><td id="benchmark_vatr_pc">0.0</td>
-                            </tr>
-                            <tr>
-                                <td id="label_vatr_abs">Value at risk - Absolute</td><td id="portfolio_vatr_abs">0.0</td><td id="benchmark_vatr_abs">0.0</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-             </div>
+                             </div>
         
             </div>
         </div>
