@@ -12,6 +12,8 @@ $(document).ready(function(){
     $("#chart_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab);
     $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
+    /*  make the page */
+    namespace_gui.set_visibility(0);
 });
 
 /* GUI ACTIONS  interactions code */
@@ -294,6 +296,26 @@ var namespace_gui = (function() {
         {
         },
 
+        set_visibility: function(p_level)
+        {
+            //0 hide all but the positions
+            if (p_level == 0) 
+            {
+                $("#tab_container3").hide();
+                //$("#Tab4").hide();
+                //$("#Tab5").hide();
+                //$("#Tab6").hide();
+            }
+            else if (p_level == 1)
+            {
+                $("#tab_container3").show();
+               // $("#Tab4").show();
+            } 
+            //1 show positions, performance and add benchmark tab only
+            //2 show everything
+            
+        },
+
         render_portfolio_dashboard: function(dashboard_data)
         {
             $("#dashboard_rows").empty();
@@ -401,7 +423,6 @@ var namespace_gui = (function() {
             };
             namespace_portfolio.update_state("add_record", new_transaction);
         },
-        
 
         add_trade_row: function()
         {

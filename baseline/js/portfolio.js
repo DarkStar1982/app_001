@@ -461,7 +461,7 @@ var namespace_portfolio = (function()
             // step 2. load profit, risk risk and volatility series, then compute 
             // dashboard and derived values and render portfolio tables and charts
             var post_data = JSON.stringify({"transactions":state.transactions, "positions": state.net_data["positions"]});
-            $.post('/data_api/', {call:"portfolio_series", data: post_data}, function(data)
+            if (state.transactions.length>0) $.post('/data_api/', {call:"portfolio_series", data: post_data}, function(data)
             {
                 var json_data = JSON.parse(data);    
                 if (json_data.header.error_code == 0)
@@ -500,6 +500,7 @@ var namespace_portfolio = (function()
                     namespace_gui.send_log_message(json_data, "System");
                 }
             });
+            else namespace_gui.set_visibility(0);
     }
 
     /* This one definitely needs unit testing */ 
@@ -636,6 +637,7 @@ var namespace_portfolio = (function()
     /* postprocess transaction if neccessary*/
     function add_transaction(p_action, function_call)
     {
+        namespace_gui.set_visibility(1);
         if (p_action.type == "Deposit" || p_action.type == "Withdraw")
         {
             push_and_recompute(p_action, function_call);
@@ -680,7 +682,7 @@ var namespace_portfolio = (function()
         }
         if (delete_index != -1) 
             state.transactions.splice(delete_index, 1);
-        function_call();
+       function_call();
     } 
     
     /* load benchmark series for the duration of portfolio

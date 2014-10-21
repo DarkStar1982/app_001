@@ -51,12 +51,13 @@
                 <li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Introduction</a></li>
                 <li><a href="#Tab2" role="tab" data-toggle="tab">Edit positions</a></li>
                 <li><a href="#Tab3" role="tab" data-toggle="tab">Observe performance</a></li>
-                <li><a href="#Tab4" role="tab" data-toggle="tab">Compare with benchmark</a></li>
+                <li><a href="#Tab4" role="tab" data-toggle="tab">Add benchmarks to compare</a></li>
                 <li><a href="#Tab5" role="tab" data-toggle="tab">See risk and return</a></li>
-                <li><a href="#Tab6" role="tab" data-toggle="tab">Save and share</a></li>
+                <li><a href="#Tab6" role="tab" data-toggle="tab">Save or share</a></li>
             </ul>
             <!-- Top level tab panes -->
-            <div class="tab-content"><div class="tab-pane active" id="Tab1">
+            <div class="tab-content">
+            <div class="tab-pane active" id="Tab1">
                 <h4>Welcome</h4>
                 <p>RiskPlus Ltd. is an innovative company, offering high-quality investment decision support tools for retail and professional investors.
                    We view ourselves as partners with our customers, aiming to make available all the latest cutting edge metrics used by finance
@@ -204,6 +205,7 @@
             </div>
           <!-- Portfolio charts contents tab -->
             <div class="tab-pane" id="Tab3">
+              <div id="tab_container3">
                 <div class="row">
                     <div class="col-md-8">
                         <!-- Select chart type - profit or loss / value over time -->
@@ -245,7 +247,8 @@
                         <div id ="container_chart0"></div>
                     </div>
                 </div>
-              </div>
+                </div>
+            </div>
       <!-- Dashboard tab (need rework) -->
             <div class="tab-pane" id="Tab4">
                 <!-- Positions returns and momentum -->
@@ -309,13 +312,12 @@
                         </p>
                     </div>
                 </div>
-            
+                <!--- tab menu -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="active"><a href="#TabY1" role="tab" data-toggle="tab">View as charts</a></li>
                     <li><a href="#TabY2" role="tab" data-toggle="tab">View as tabulated data</a></li>
                 </ul>
-            <!-- comparison data -->
-                                    <!-- Content tab for position selector -->
+                <!-- chart tab -->
                 <div class="tab-content">
                     <div class="tab-pane active" id="TabY1">
                         <div class="row">
@@ -341,11 +343,12 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Tables tab -->
                     <div class="tab-pane" id="TabY2">
                         <div class="row">
                             <div id = "step4" class="col-md-6">
-                            <h4> Performance metrics </h4>
-                            <table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+                                <h4> Performance metrics </h4>
+                                <table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
                                 <thead>
                                     <th>Total Period Stats</th><th>Your portfolio</th><th>Benchmark</th>
                                 </thead>
@@ -368,41 +371,43 @@
                                     <tr>
                                         <td id="label_beta">Beta</td><td id="portfolio_beta">0</td><td id="benchmark_beta">0</td>
                                     </tr>
-                                           <!--tr>
-                                <td id="label_jensen_alpha">Jensen's Alpha</td>
-                                <td id="label_treynor">Treynor Ratio</td>
-                                <td id="label_sharpe">Sharpe Ratio</td>
-                                <td id="label_var">VAR</td>
-                                </tr-->
+                                    <!--tr>
+                                    <td id="label_jensen_alpha">Jensen's Alpha</td>
+                                    <td id="label_treynor">Treynor Ratio</td>
+                                    <td id="label_sharpe">Sharpe Ratio</td>
+                                    <td id="label_var">VAR</td>
+                                    </tr-->
                                 </tbody>
-                            </table>
+                                </table>
                             </div>
                             <!-- risk model section -->
                             <div id ="risk_table" class="col-md-6">
-                            <h4>Analysis and risk estimation</h4>
-                            <table id = "risk_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+                                <h4>Analysis and risk estimation</h4>
+                                <table id = "risk_values" class="table table-bordered" cellspacing="0" cellpadding="0">
                                 <thead>
                                 <th>Parameter name</th><th>Portfolio</th><th>Benchmark</th>
                                 </thead>
                                 <tbody>
                                 <tr>
                                 <td id="label_vatr_pc">Value at risk - Percent</td><td id="portfolio_vatr_pc">0.0</td><td id="benchmark_vatr_pc">0.0</td>
-                            </tr>
-                            <tr>
+                                </tr>
+                                <tr>
                                 <td id="label_vatr_abs">Value at risk - Absolute</td><td id="portfolio_vatr_abs">0.0</td><td id="benchmark_vatr_abs">0.0</td>
-                            </tr>
-                            </tbody>
-                            </table>
-                            </div>          
+                                </tr>
+                                </tbody>
+                                </table>
+                             </div>          
                         </div>
                     </div>
                 </div>
-
-         </div>
-            <!-- Analysis tab -->
+            </div>
+            <!-- Save or share tab -->
             <div class="tab-pane" id="Tab6">
-                             </div>
-        
+                <h4>Save portfolio state as a PDF document</h4>
+                <p> This action will create a snapshot of current portfolio state that can used as stand-alone document</p> 
+                <h4>Share as a link</h4>
+                <p> This action will persistent link to this portfolio that will automatically update with latest market data and can be edited later</p> 
+                </div>
             </div>
         </div>
     </body>
