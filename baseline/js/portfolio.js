@@ -706,6 +706,7 @@ var namespace_portfolio = (function()
                 
                 namespace_gui.update_benchmark_selector(p_benchmark);
                 namespace_gui.append_dashboard_row([row_data]);
+                namespace_gui.set_visibility(2);
                 namespace_gui.refresh_performance_chart_and_tab();
             }
         });
@@ -718,6 +719,7 @@ var namespace_portfolio = (function()
         state.m_benchmark_series = {};
         namespace_gui.clear_benchmark_selector();
         namespace_gui.clear_dashboard_benchmark_rows();
+        namespace_gui.set_visibility(3);
         namespace_gui.refresh_performance_chart_and_tab();
     }
 

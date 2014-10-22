@@ -272,6 +272,7 @@ var namespace_gui = (function() {
                 }
             }
             namespace_graphs.render_performance_chart(series_data, "#container_chart3");
+            namespace_gui.refresh_risk_chart();
         },
 
         refresh_risk_chart: function()
@@ -302,6 +303,9 @@ var namespace_gui = (function() {
             if (p_level == 0) 
             {
                 $("#tab_container3").hide();
+                $("#tab_container4").hide();
+                $("#tab_container5").hide(); 
+                $("#tab_container6").hide(); 
                 //$("#Tab4").hide();
                 //$("#Tab5").hide();
                 //$("#Tab6").hide();
@@ -309,7 +313,19 @@ var namespace_gui = (function() {
             else if (p_level == 1)
             {
                 $("#tab_container3").show();
+                $("#tab_container4").show();
+                
                // $("#Tab4").show();
+            }
+            else if (p_level == 2)
+            {
+                $("#tab_container5").show(); 
+                $("#tab_container6").show(); 
+            }
+            else if (p_level == 3)
+            {
+                $("#tab_container5").hide();
+                $("#tab_container6").hide();
             } 
             //1 show positions, performance and add benchmark tab only
             //2 show everything
@@ -464,7 +480,6 @@ var namespace_gui = (function() {
         update_benchmark_selector: function(p_benchmark)
         {
             $("#benchmark_list").append('<option value=1>'+p_benchmark+'</option>');
-
         },
 
         clear_benchmark_selector: function()

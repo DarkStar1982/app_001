@@ -251,6 +251,7 @@
             </div>
       <!-- Dashboard tab (need rework) -->
             <div class="tab-pane" id="Tab4">
+                <div id="tab_container4">
                 <!-- Positions returns and momentum -->
                 <h4> Portfolio positions breakdown</h4>
                 <table id="dashboard" class="table table-bordered">
@@ -293,9 +294,11 @@
                         <tr>
                     <tbody>
                 </table>
+                </div>
             </div>
  <!--- Comparison to benchmark tab -->
             <div class="tab-pane" id="Tab5">
+                <div id="tab_container5">
                 <br/>
                 <div class="row">
                     <div class="col-md-3">
@@ -322,24 +325,25 @@
                     <div class="tab-pane active" id="TabY1">
                         <div class="row">
                             <!-- Portofio vs benchmark performance chart -->
-                            <div id="container_chart3" class="col-md-6">
+                            <div class="col-md-6">
+                                <div id="container_chart3"> </div> 
                             </div>
                             <!-- Risk performance chart container: portfolio vs benchmark -->
-                            <div id="container_chart4" style="col-md-6">
+                            <div class="col-md-6">
+                               <div id="container_chart4"></div> 
                             </div>
                         </div>
                         <div class="row">
                             <!-- Bubbles chart container -->
-                            <div id="container_chart4b" class="col-md-6">
+                            <div class="col-md-6">
+                                <div id="container_chart4b"></div>
                             </div>
                             <!--Risk gauges containers -->
                             <div class="col-md-6">
                                 <h4>Present Portfolio Volatility</h4>
-                                <div id="container_chart5a" style="width:45%; height:160px;">
-                                </div>
+                                <div id="container_chart5a" style="width:45%; height:160px;"></div>
                                 <h4>Present Benchmark Volatility</h4>
-                                <div id="container_chart5b" style="width:45%; height:160px;">
-                                </div>
+                                <div id="container_chart5b" style="width:45%; height:160px;"></div>
                             </div>
                         </div>
                     </div>
@@ -400,13 +404,16 @@
                         </div>
                     </div>
                 </div>
+                </div>
             </div>
             <!-- Save or share tab -->
             <div class="tab-pane" id="Tab6">
+                <div id="tab_container6">
                 <h4>Save portfolio state as a PDF document</h4>
                 <p> This action will create a snapshot of current portfolio state that can used as stand-alone document</p> 
                 <h4>Share as a link</h4>
                 <p> This action will persistent link to this portfolio that will automatically update with latest market data and can be edited later</p> 
+                </div>
                 </div>
             </div>
         </div>
