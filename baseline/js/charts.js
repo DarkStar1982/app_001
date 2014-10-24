@@ -103,7 +103,7 @@ var namespace_graphs = (function () {
         $(p_container_id).highcharts('StockChart', {
             series : seriesOptions,
             rangeSelector : { selected : 5 },
-            title : { text : 'Portfolio Risk Profile' },
+            title : { text : 'Volatility Risk: Portfolio vs Benchmark' },
             navigator : {
                 height:160,
                 series : {
@@ -147,7 +147,7 @@ var namespace_graphs = (function () {
     function render_risk_pnl_bubble(p_container_id, p_values)
     {
         $(p_container_id).highcharts('Chart', {
-            title: { text: 'Risk vs Return' },
+            title: { text: 'Risk and Return: Portfolio vs Benchmark' },
             chart: { type: 'bubble', zoom: 'xy',
          },
          series: [{
@@ -535,7 +535,7 @@ var namespace_graphs = (function () {
                     marginRight:75,
                     /* renderTo : p_container_id, */
                     rangeSelector : { selected : 5 },
-                    title : { text : 'Portfolio Performance'},
+                    title : { text : 'Performance: Portfolio vs Benchmark'},
                     /*plotOptions: {
                         area: {
                             fillColor: {
@@ -562,7 +562,7 @@ var namespace_graphs = (function () {
             },
                  
             
-            render_risk_chart_group: function(p_series_data, p_benchmark_data, p_container_id)
+            render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id)
             {
                 //assuming we have the data
                 var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];

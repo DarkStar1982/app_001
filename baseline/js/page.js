@@ -197,12 +197,13 @@ var namespace_gui = (function() {
             if (m_start_date !=undefined ) return m_start_date;
             else datetime_util.adjust_date(new Date(50, 0, 1));
         },
-        update_charts: function(p_chart_data)
+        update_charts: function(p_data)
         {
             //update local data
-            m_start_date = p_chart_data.transactions[0].book_date;
-            portfolio_chart_data = p_chart_data.portfolio_series;
-            m_benchmark_data = p_chart_data.m_benchmark_series;
+            m_start_date = p_data.transactions[0].book_date;
+            portfolio_chart_data = p_data.portfolio_series;
+            m_benchmark_data = p_data.m_benchmark_series;
+            
             //update charts for portfolio only
             namespace_gui.refresh_val_pnl_chart();
             namespace_gui.refresh_sector_chart();
@@ -285,8 +286,13 @@ var namespace_gui = (function() {
                 {
                     if (k == current_benchmark)
                     {    
-                        series_data = m_benchmark_data[k]["risk_chart_data"];
-                        namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"], series_data, "#container_chart4");
+                        benchmark_series_data = m_benchmark_data[k]["risk_chart_data"];
+                        benchmark_derived_data = m_benchmark_data[k]["derived_values"]
+                        namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"], 
+                                                                 portfolio_chart_data["derived_values"],
+                                                                 benchmark_series_data, 
+                                                                 benchmark_derived_data,
+                                                                 "#container_chart4");
                     }
                 }
             }
