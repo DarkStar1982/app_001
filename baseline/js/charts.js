@@ -75,13 +75,13 @@ var namespace_graphs = (function () {
         return ret_obj;
     }
  
-    function get_risk_pnl_data()
+    function get_bubble_chart_data(p_portfolio_data, p_benchmark_data)
     {
         var summary_data = {};
-        summary_data.portfolio_pnl = 0.15;
-        summary_data.portfolio_risk = 0.24;
-        summary_data.benchmark_pnl = 0.55;
-        summary_data.benchmark_risk = 0.22;
+        summary_data.portfolio_pnl = p_portfolio_data["diff_percent"]; //diff.n;
+        summary_data.portfolio_risk = p_portfolio_data["std_dev"];
+        summary_data.benchmark_pnl = p_benchmark_data["diff_percent"];
+        summary_data.benchmark_risk = p_benchmark_data["std_dev"]; 
         return summary_data;
      }  
     
@@ -146,17 +146,49 @@ var namespace_graphs = (function () {
     //render risk vs return porfolio
     function render_risk_pnl_bubble(p_container_id, p_values)
     {
+        function get_color(value)
+        {
+            if (value>0) return '#00FF00';
+            else return '#FF0000';
+        }
+       
+        function get_size(value, type)
+        {
+            bubble_sizes = [4, 5, 6];
+            sizes_return = [3,9];
+            sizes_volatility = [15,25];
+            if (type == 'return')
+            {
+                 if (value<=sizes_return[0])
+                    return bubble_sizes[0];
+                else if (value>sizes_return[0] && value<=sizes_return[1])   
+                    return bubble_sizes[1];
+                else if (value>sizes_return[1])
+                    return bubble_sizes[2];
+               
+            }
+            else if (type == 'risk') 
+            {
+                if (value<=sizes_volatility[0])
+                    return bubble_sizes[0];
+                else if (value>sizes_volatility[0] && value<=sizes_volatility[1])   
+                    return bubble_sizes[1];
+                else if (value>sizes_volatility[1])
+                    return bubble_sizes[2];
+            }
+        }
+ 
         $(p_container_id).highcharts('Chart', {
             title: { text: 'Risk and Return: Portfolio vs Benchmark' },
             chart: { type: 'bubble', zoom: 'xy',
          },
          series: [{
-            data: [{x:10, y:10, z:p_values.benchmark_pnl}, 
-                   {x:10, y: 5, z:p_values.benchmark_risk}, 
-                   {x:5,y:10,z:p_values.portfolio_pnl}, 
-                   {x:5,y:5, z:p_values.portfolio_risk}],
+            data: [{x:10, y:10, z:get_size(Math.abs(p_values.benchmark_pnl),'return'), color: get_color(p_values.benchmark_pnl)}, 
+                   {x:10, y: 5, z:get_size(Math.abs(p_values.benchmark_risk),'risk'), color: get_color(p_values.benchmark_risk) }, 
+                   {x: 5, y:10, z:get_size(Math.abs(p_values.portfolio_pnl), 'return'), color: get_color(p_values.portfolio_pnl)}, 
+                   {x: 5, y: 5, z:get_size(Math.abs(p_values.portfolio_risk),'risk'), color: get_color(p_values.portfolio_risk)}],
             dataLabels: {
-                        enabled: true
+                        enabled: false
                     }
          }],
          yAxis: {
@@ -224,8 +256,6 @@ var namespace_graphs = (function () {
             ).attr({
                 zIndex: 5
             }).add();
-
-
       });
    } 
    
@@ -560,14 +590,13 @@ var namespace_graphs = (function () {
                 });
     
             },
-                 
             
             render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id)
             {
                 //assuming we have the data
                 var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
                 var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
-                var bubble_data = get_risk_pnl_data();
+                var bubble_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
                 var a = compute_gauge_data(seriesOptions[0].data);
                 var b = compute_gauge_data(seriesOptions[1].data);
                 seriesOptions[0].data = postprocess_data(seriesOptions[0].data,'#0000FF', 1.0);
@@ -593,10 +622,9 @@ var namespace_graphs = (function () {
                 //part one
                 render_risk_chart(seriesOptions, nav_data, p_container_id); 
                 //part two
-  
-             render_risk_gauge_radial('#container_chart5a', a);
-             render_risk_gauge_radial('#container_chart5b', b);
-             render_risk_pnl_bubble('#container_chart4b', bubble_data);
+                render_risk_gauge_radial('#container_chart5a', a);
+                render_risk_gauge_radial('#container_chart5b', b);
+                render_risk_pnl_bubble('#container_chart4b', bubble_data);
             }
         };
 }) ();
