@@ -143,6 +143,29 @@ var namespace_graphs = (function () {
          }
       });
     }
+
+    function render_risk_pnl_heatmap(p_container_id, p_values)
+    {
+        $(p_container_id).highcharts('Chart', {
+            title: { text: 'Risk and Return: Portfolio vs Benchmark' },
+            chart: { type: 'heatmap'},
+            series: [{
+                data: [[0,0, p_values.benchmark_pnl],
+                       [0,1,p_values.benchmark_risk], 
+                       [1,0,p_values.portfolio_pnl], 
+                       [1,1,p_values.portfolio_risk]],
+                dataLabels: {
+                        enabled: false
+                    },
+            }],
+            colorAxis: {
+                min: 0,
+                minColor: '#FFFFFF',
+                maxColor: Highcharts.getOptions().colors[0]
+            }
+        });
+    }
+
     //render risk vs return porfolio
     function render_risk_pnl_bubble(p_container_id, p_values)
     {
@@ -189,7 +212,8 @@ var namespace_graphs = (function () {
                    {x: 5, y: 5, z:get_size(Math.abs(p_values.portfolio_risk),'risk'), color: get_color(p_values.portfolio_risk)}],
             dataLabels: {
                         enabled: false
-                    }
+                    },
+            sizeBy:'width'
          }],
          yAxis: {
             min: 2.5,
@@ -226,6 +250,7 @@ var namespace_graphs = (function () {
                }]   
          }
       },
+
       function(chart) 
       {
          var text1 = chart.renderer.text(
@@ -601,7 +626,7 @@ var namespace_graphs = (function () {
                 var b = compute_gauge_data(seriesOptions[1].data);
                 seriesOptions[0].data = postprocess_data(seriesOptions[0].data,'#0000FF', 1.0);
                 seriesOptions[1].data = postprocess_data(seriesOptions[1].data,'#000000', -1.0);
-                seriesOptions[0].type = 'area';
+                seriesOptions[0].type = 'column';
                 seriesOptions[0].fillColor =  {
                     linearGradient: { x1: 0, y1: 0, x2: 0, y2:1 },
                         stops: [
@@ -610,7 +635,7 @@ var namespace_graphs = (function () {
                                [1, 'rgb(0,255,0)']
                         ]
                 };
-                seriesOptions[1].type = 'area';
+                seriesOptions[1].type = 'column';
                 seriesOptions[1].fillColor =  {
                     linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
                                  stops: [
@@ -624,7 +649,7 @@ var namespace_graphs = (function () {
                 //part two
                 render_risk_gauge_radial('#container_chart5a', a);
                 render_risk_gauge_radial('#container_chart5b', b);
-                render_risk_pnl_bubble('#container_chart4b', bubble_data);
+                render_risk_pnl_heatmap('#container_chart4b', bubble_data);
             }
         };
 }) ();
