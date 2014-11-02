@@ -150,19 +150,68 @@ var namespace_graphs = (function () {
             title: { text: 'Risk and Return: Portfolio vs Benchmark' },
             chart: { type: 'heatmap'},
             series: [{
-                data: [[0,0, p_values.benchmark_pnl],
-                       [0,1,p_values.benchmark_risk], 
-                       [1,0,p_values.portfolio_pnl], 
-                       [1,1,p_values.portfolio_risk]],
+                data: [[0,1, p_values.benchmark_pnl],
+                       [0,0,p_values.benchmark_risk], 
+                       [1,1,p_values.portfolio_pnl], 
+                       [1,0,p_values.portfolio_risk]],
                 dataLabels: {
-                        enabled: false
+                        enabled: true,
+                        color: 'white',
+                      //  format:'{point.value:.2f}',
+                        formatter: function ()
+                        {
+                            var x_labels=["Benchmark ", "Portfolio "];
+                            var y_labels=["Risk", "Return"];
+                            return x_labels[this.point.x] + y_labels[this.point.y]+": "+ math_util.aux_math_round(this.point.value,2);
+                        },
+                        style: { fontFamily: 'sans-serif', lineHeight: '18px', fontSize: '17px' }
                     },
             }],
+            yAxis: 
+            {
+                title:{
+                    text:null
+                },
+                labels: {
+                    formatter : function()
+                    {
+                        var str_list = ['Risk', 'Return'];
+                        return str_list[this.value];
+                    }
+                }
+            },
+            xAxis: 
+            {
+                labels: {
+                    formatter : function()
+                    {
+                        var str_list = ['Benchmark', 'Portfolio'];
+                        return str_list[this.value];
+                    }
+                }
+            },
             colorAxis: {
-                min: 0,
-                minColor: '#FFFFFF',
-                maxColor: Highcharts.getOptions().colors[0]
-            }
+                min: -1.0,
+                max: 1.0,
+                stops: [
+                    [0.0, '#7F0000'],
+                    [0.25, '#3F0000'],
+                    [0.45, '#1F0000'],
+                    [0.5,'#1F1F1F'],
+                    [0.55, '#001F00'],
+                    [0.75,'#003F00'],
+                    [1.0,'#007F00']
+                ]
+            },
+            plotOptions: {
+                series: {
+                    states: {
+                        hover: {
+                            enabled: false
+                        }
+                    }
+                }
+            },
         });
     }
 
