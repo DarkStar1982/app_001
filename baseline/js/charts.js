@@ -74,6 +74,15 @@ var namespace_graphs = (function () {
         ret_obj.last_val = math_util.aux_math_round(p_series_data[p_series_data.length-1][1],3);
         return ret_obj;
     }
+
+    function compute_rank_gauge_data(last_value, p_series_data)
+    {
+        var res_obj = {};
+        res_obj.min_val = 1;
+        res_obj.max_val = p_series_data.length -1;
+        res_obj.last_val = namespace_xls.rank(last_value, p_series_data);
+        return res_obj;
+    }
  
     function get_bubble_chart_data(p_portfolio_data, p_benchmark_data)
     {
@@ -87,16 +96,6 @@ var namespace_graphs = (function () {
     
      //add color to the data points 
     //also can invert the values for navigator series
-    function postprocess_data(p_data, p_color, p_x_mul)
-    {
-        var data_a = new Array;
-        for (var i = 0; i <p_data.length; i++)
-        {
-            data_a[i] = {x:p_data[i][0],y:p_data[i][1]*p_x_mul,color:p_color};
-        }
-        return data_a;
-    } 
-
     function render_risk_chart(seriesOptions, nav_data, p_container_id)
     {
        // console.log("Rendering attempt..." +p_container_id);
@@ -673,8 +672,7 @@ var namespace_graphs = (function () {
                 var bubble_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
                 var a = compute_gauge_data(seriesOptions[0].data);
                 var b = compute_gauge_data(seriesOptions[1].data);
-                seriesOptions[0].data = postprocess_data(seriesOptions[0].data,'#0000FF', 1.0);
-                seriesOptions[1].data = postprocess_data(seriesOptions[1].data,'#000000', -1.0);
+               
                 seriesOptions[0].type = 'column';
                 seriesOptions[0].fillColor =  {
                     linearGradient: { x1: 0, y1: 0, x2: 0, y2:1 },
@@ -684,7 +682,7 @@ var namespace_graphs = (function () {
                                [1, 'rgb(0,255,0)']
                         ]
                 };
-                seriesOptions[1].type = 'column';
+                seriesOptions[1].type = 'line';
                 seriesOptions[1].fillColor =  {
                     linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
                                  stops: [

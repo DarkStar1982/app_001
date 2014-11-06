@@ -446,6 +446,16 @@ var namespace_portfolio = (function()
         return list_result 
     }
 
+    function postprocess_data(p_data, p_color, p_x_mul)
+    {
+        var data_a = new Array;
+        for (var i = 0; i <p_data.length; i++)
+        {
+            data_a[i] = {x:p_data[i][0],y:p_data[i][1]*p_x_mul,color:p_color};
+        }
+        return data_a;
+    }
+
     function recompute_and_render()
     {
             //sort transactions before processing
@@ -482,7 +492,6 @@ var namespace_portfolio = (function()
                             state.portfolio_series["position_value_series"][i]["symbol"],"-");
                         dashboard_rows.push(xrow);
                     }
-                    console.log(dashboard_rows);
                     state.portfolio_series["dashboard_data"] = dashboard_rows;
                     state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions);  
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);

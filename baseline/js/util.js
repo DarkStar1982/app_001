@@ -214,8 +214,24 @@ var datetime_util = (function () {
 
 /* Excel 2003 function equivalents module */
 var namespace_xls = (function (){
+
+    function index_search(list, item)
+    {
+        for (var i=0;i<list.length;i++)
+        {
+            if (item>=list[i])
+            return i;
+        }
+        return -1;
+    }
 	
 	return {
+        /* as specified in Excel */
+        rank: function (num, ref)
+        {
+            ref.sort(function (a,b) { return b-a});
+            return index_search(ref, num);
+        },
 		/* Original algorithm by Peter John Acklam, 2003-2010 */
 		norminv: function(p, mu, sigma)
 		{
