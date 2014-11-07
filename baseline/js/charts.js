@@ -78,9 +78,14 @@ var namespace_graphs = (function () {
     function compute_rank_gauge_data(last_value, p_series_data)
     {
         var res_obj = {};
+        var data =[]
+        for (var i=0; i<p_series_data.length; i++)
+        {
+            data[i] = p_series_data[i][1];
+        }
         res_obj.min_val = 1;
         res_obj.max_val = p_series_data.length -1;
-        res_obj.last_val = namespace_xls.rank(last_value, p_series_data);
+        res_obj.last_val = namespace_xls.rank(last_value, data);
         return res_obj;
     }
  
@@ -696,6 +701,8 @@ var namespace_graphs = (function () {
                 //part two
                 render_risk_gauge_radial('#container_chart5a', a);
                 render_risk_gauge_radial('#container_chart5b', b);
+                render_risk_gauge_radial('#container_chart5c', compute_rank_gauge_data(a.last_val, seriesOptions[0].data));
+                render_risk_gauge_radial('#container_chart5d', compute_rank_gauge_data(b.last_val, seriesOptions[1].data));
                 render_risk_pnl_heatmap('#container_chart4b', bubble_data);
             }
         };
