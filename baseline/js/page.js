@@ -236,22 +236,15 @@ var namespace_gui = (function() {
                     var series_data = portfolio_chart_data["norm_value_series"];
             }
             var flags = format_flag_data(portfolio_chart_data["transaction_clusters"]); 
-            namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
-            namespace_gui.refresh_position_chart();
+            //::namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
+            //::namespace_gui.refresh_position_chart();
             //workaround to allow the chart match container size
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
+                namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b", display_mode);
           });
         },
         
-        refresh_position_chart: function()
-        {
-            var display_mode = $("#perf_select").val();
-            namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b", display_mode);
-            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-             namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b", display_mode);
-          }); 
-        }, 
 
         refresh_sector_chart: function()
         {
@@ -279,7 +272,6 @@ var namespace_gui = (function() {
         refresh_risk_chart: function()
         {
             var current_benchmark = $("#benchmark_list :selected").text();
-            //select benchmark from the list
             for (var k in m_benchmark_data)
             {
                 if (m_benchmark_data.hasOwnProperty(k))
@@ -296,6 +288,27 @@ var namespace_gui = (function() {
                     }
                 }
             }
+            /* $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var current_benchmark = $("#benchmark_list :selected").text();
+                //select benchmark from the list
+                for (var k in m_benchmark_data)
+                {
+                    if (m_benchmark_data.hasOwnProperty(k))
+                    {
+                        if (k == current_benchmark)
+                        {    
+                            benchmark_series_data = m_benchmark_data[k]["risk_chart_data"];
+                            benchmark_derived_data = m_benchmark_data[k]["derived_values"]
+                            namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"], 
+                                                                 portfolio_chart_data["derived_values"],
+                                                                 benchmark_series_data, 
+                                                                 benchmark_derived_data,
+                                                                 "#container_chart4");
+                        }
+                    }
+                }
+            });
+        */
         },
 
         //analytics
