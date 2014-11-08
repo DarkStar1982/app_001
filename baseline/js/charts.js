@@ -150,14 +150,44 @@ var namespace_graphs = (function () {
 
     function render_risk_pnl_heatmap(p_container_id, p_values)
     {
+        function format_value_colors(p_value_1, p_value_2)
+        {
+            if (p_value_1>=0 && p_value_2>=0)
+            {
+                if (p_value_1>p_value_2)
+                    return ["#00FF00", "#007F00"];
+                else if (p_value_1<p_value_2)
+                    return ["#007F00", "#00FF00"];
+                else return ["#007F00", "#007F00"];
+            }
+            else if (p_value_1<0 && p_value_2<0)
+            {
+                if (p_value_1>p_value_2)
+                    return ["#7F0000", "#FF0000"];
+                else if (p_value_1<p_value_2)
+                    return ["#FF0000", "#7F0000"];
+                else return ["#7F0000", "#7F0000"];
+            }
+            else 
+            {
+                var colors = ["",""];
+                if (p_value_1>=0) colors[0]="#007F00";
+                else colors[0]="#7F0000";
+                if (p_value_2>=0) colors[1]="#007F00";
+                else colors[1] = "#7F0000";
+                return colors;
+            }
+        }
+        var colors_pnl = format_value_colors(p_values.benchmark_pnl, p_values.portfolio_pnl);
+        var colors_risk = format_value_colors(p_values.benchmark_risk, p_values.portfolio_risk);
         $(p_container_id).highcharts('Chart', {
             title: { text: 'Risk and Return: Portfolio vs Benchmark' },
             chart: { type: 'heatmap'},
             series: [{
-                data: [[0,1, p_values.benchmark_pnl],
-                       [0,0,p_values.benchmark_risk], 
-                       [1,1,p_values.portfolio_pnl], 
-                       [1,0,p_values.portfolio_risk]],
+                data: [{"x": 0, "y": 1, "z": p_values.benchmark_pnl, "color": colors_pnl[0]},
+                       {"x": 0, "y": 0, "z": p_values.benchmark_risk, "color": colors_risk[0]}, 
+                       {"x": 1, "y": 1, "z": p_values.portfolio_pnl, "color": colors_pnl[1]}, 
+                       {"x": 1, "y": 0, "z": p_values.portfolio_risk, "color":colors_risk[1]}],
                 dataLabels: {
                         enabled: true,
                         color: 'white',
@@ -166,7 +196,7 @@ var namespace_graphs = (function () {
                         {
                             var x_labels=["Benchmark ", "Portfolio "];
                             var y_labels=["Risk", "Return"];
-                            return x_labels[this.point.x] + y_labels[this.point.y]+": "+ math_util.aux_math_round(this.point.value,2);
+                            return x_labels[this.point.x] + y_labels[this.point.y]+": "+ math_util.aux_math_round(this.point.z,2);
                         },
                         style: { fontFamily: 'sans-serif', lineHeight: '18px', fontSize: '17px' }
                     },
