@@ -150,15 +150,23 @@ var namespace_graphs = (function () {
 
     function render_risk_pnl_heatmap(p_container_id, p_values)
     {
-        function format_value_colors(p_value_1, p_value_2)
+        function format_value_colors(p_value_1, p_value_2, inverted_compare)
         {
             if (p_value_1>=0 && p_value_2>=0)
             {
-                if (p_value_1>p_value_2)
-                    return ["#00FF00", "#007F00"];
-                else if (p_value_1<p_value_2)
-                    return ["#007F00", "#00FF00"];
-                else return ["#007F00", "#007F00"];
+                if (inverted_compare)
+                {
+                    if (p_value_1>p_value_2) return ["#007F00", "#00AF00"];
+                    else if (p_value_1<p_value_2) return ["#00AF00", "#007F00"];
+                    else return ["#007F00", "#007F00"];
+                
+                }
+                else
+                {
+                    if (p_value_1>p_value_2) return ["#00AF00", "#007F00"];
+                    else if (p_value_1<p_value_2) return ["#007F00", "#00AF00"];
+                    else return ["#007F00", "#007F00"];
+                }
             }
             else if (p_value_1<0 && p_value_2<0)
             {
@@ -178,8 +186,8 @@ var namespace_graphs = (function () {
                 return colors;
             }
         }
-        var colors_pnl = format_value_colors(p_values.benchmark_pnl, p_values.portfolio_pnl);
-        var colors_risk = format_value_colors(p_values.benchmark_risk, p_values.portfolio_risk);
+        var colors_pnl = format_value_colors(p_values.benchmark_pnl, p_values.portfolio_pnl, false);
+        var colors_risk = format_value_colors(p_values.benchmark_risk, p_values.portfolio_risk, true);
         $(p_container_id).highcharts('Chart', {
             title: { text: 'Risk and Return: Portfolio vs Benchmark' },
             chart: { type: 'heatmap'},
