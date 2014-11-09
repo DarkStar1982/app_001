@@ -287,8 +287,9 @@ var namespace_gui = (function() {
                                                                  "#container_chart4");
                     }
                 }
-            }
-            /* $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            } 
+            /*
+             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
                 var current_benchmark = $("#benchmark_list :selected").text();
                 //select benchmark from the list
                 for (var k in m_benchmark_data)
@@ -308,7 +309,7 @@ var namespace_gui = (function() {
                     }
                 }
             });
-        */
+            */ 
         },
 
         //analytics

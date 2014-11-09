@@ -150,44 +150,59 @@ var namespace_graphs = (function () {
 
     function render_risk_pnl_heatmap(p_container_id, p_values)
     {
-        function format_value_colors(p_value_1, p_value_2, inverted_compare)
+        function format_value_colors(p_value_1, p_value_2, inverted_compare, color_type)
         {
+            var color_table = {
+                "pnl": [["#7F0000","#FF0000"], //0 0>a>b
+                        ["#FF0000","#7F0000"], //1 0>b>a
+                        ["#7F0000","#7F0000"], //2 0>a=b
+                        ["#00AF00","#007F00"], //3 a>b>0
+                        ["#007F00","#00AF00"], //4 b>a>0
+                        ["#007F00","#007F00"]],//5 a=b>0
+                "risk":[["#7F0000","#FF0000"], //0 0>a>b
+                        ["#FF0000","#7F0000"], //1 0>b>a
+                        ["#7F0000","#7F0000"], //2 0>a=b
+                        ["#B0C4DE","#FF4500"], //3 a>b>0
+                        ["#FF4500","#B0C4DE"], //4 b>a>0
+                        ["#B0C4DE","#B0C4DE"]],//5 a=b>0
+                
+            }
             if (p_value_1>=0 && p_value_2>=0)
             {
                 if (inverted_compare)
                 {
-                    if (p_value_1>p_value_2) return ["#007F00", "#00AF00"];
-                    else if (p_value_1<p_value_2) return ["#00AF00", "#007F00"];
-                    else return ["#007F00", "#007F00"];
+                    if (p_value_1>p_value_2) return color_table[color_type][4];
+                    else if (p_value_1<p_value_2) return color_table[color_type][3];
+                    else return color_table[color_type][5];
                 
                 }
                 else
                 {
-                    if (p_value_1>p_value_2) return ["#00AF00", "#007F00"];
-                    else if (p_value_1<p_value_2) return ["#007F00", "#00AF00"];
-                    else return ["#007F00", "#007F00"];
+                    if (p_value_1>p_value_2) return color_table[color_type][3]
+                    else if (p_value_1<p_value_2) return color_table[color_type][4]
+                    else return color_table[color_type][5];
                 }
             }
             else if (p_value_1<0 && p_value_2<0)
             {
                 if (p_value_1>p_value_2)
-                    return ["#7F0000", "#FF0000"];
+                    return color_table[color_type][0]
                 else if (p_value_1<p_value_2)
-                    return ["#FF0000", "#7F0000"];
-                else return ["#7F0000", "#7F0000"];
+                    return color_table[color_type][1]
+                else return color_table[color_type][2];
             }
             else 
             {
                 var colors = ["",""];
-                if (p_value_1>=0) colors[0]="#007F00";
-                else colors[0]="#7F0000";
-                if (p_value_2>=0) colors[1]="#007F00";
-                else colors[1] = "#7F0000";
+                if (p_value_1>=0) colors[0]=color_table[color_type][5][0];
+                else colors[0] = color_table[color_type][2][0];
+                if (p_value_2>=0) colors[1]=color_table[color_type][5][0];
+                else colors[1] = color_table[color_type][2][0];
                 return colors;
             }
         }
-        var colors_pnl = format_value_colors(p_values.benchmark_pnl, p_values.portfolio_pnl, false);
-        var colors_risk = format_value_colors(p_values.benchmark_risk, p_values.portfolio_risk, true);
+        var colors_pnl = format_value_colors(p_values.benchmark_pnl, p_values.portfolio_pnl, false, "pnl");
+        var colors_risk = format_value_colors(p_values.benchmark_risk, p_values.portfolio_risk, true,"risk");
         $(p_container_id).highcharts('Chart', {
             title: { text: 'Risk and Return: Portfolio vs Benchmark' },
             chart: { type: 'heatmap'},
