@@ -109,7 +109,7 @@ var namespace_graphs = (function () {
             rangeSelector : { selected : 5 },
             title : { text : 'Volatility Risk: Portfolio vs Benchmark' },
             navigator : {
-                height:160,
+             //   height:160,
                 series : {
                     type: 'area',
                     fillColor: '#AF0000',   
@@ -727,36 +727,31 @@ var namespace_graphs = (function () {
                 //assuming we have the data
                 var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
                 var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
-                var bubble_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
+                var heatmap_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
                 var a = compute_gauge_data(seriesOptions[0].data);
                 var b = compute_gauge_data(seriesOptions[1].data);
                
                 seriesOptions[0].type = 'column';
-                seriesOptions[0].fillColor =  {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2:1 },
-                        stops: [
-                               [0, 'rgb(255,0,0)'],
-                               [0.7, 'rgb(255,211,0)'],
-                               [1, 'rgb(0,255,0)']
-                        ]
-                };
+                if (heatmap_data.portfolio_risk>heatmap_data.benchmark_risk) seriesOptions[0].color = '#FF4500';
+                else  seriesOptions[0].color = '#B0C4DE';
+                
                 seriesOptions[1].type = 'line';
-                seriesOptions[1].fillColor =  {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-                                 stops: [
-                                             [0, 'rgb(0,255,0)'],
-                                             [0.45, 'rgb(255,211,0)'],
-                                             [1, 'rgb(255,0,0)']
-                                          ]
-                };
-                //part one
+                seriesOptions[1].color = {
+                    linearGradient: {x1:0, y1:0, x2:0, y2:1 }, 
+                    stops:[ 
+                        [0.0, 'rgb(255,0,0)'],
+                        [0.5, 'rgb(255,255,0)'],
+                        [1.0, 'rgb(0,255,0)']
+                    ]
+                }
+                               //part one
                 render_risk_chart(seriesOptions, nav_data, p_container_id); 
                 //part two
                 render_risk_gauge_radial('#container_chart5a', a);
                 render_risk_gauge_radial('#container_chart5b', b);
                 //render_risk_gauge_radial('#container_chart5c', compute_rank_gauge_data(a.last_val, seriesOptions[0].data));
                 //render_risk_gauge_radial('#container_chart5d', compute_rank_gauge_data(b.last_val, seriesOptions[1].data));
-                render_risk_pnl_heatmap('#container_chart4b', bubble_data);
+                render_risk_pnl_heatmap('#container_chart4b', heatmap_data);
             }
         };
 }) ();
