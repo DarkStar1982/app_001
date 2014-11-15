@@ -395,11 +395,11 @@ var namespace_graphs = (function () {
     {
         $(p_container_id).highcharts('Chart', {
             chart: {
-                type: 'solidgauge',
+                type: 'gauge',
             },
             pane: {
                center: ['50%', '100%'],
-               size: '200%',
+               size: '100%',
                startAngle: -90,
                endAngle: 90,
                background: {
