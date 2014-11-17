@@ -107,7 +107,7 @@ var namespace_graphs = (function () {
         $(p_container_id).highcharts('StockChart', {
             series : seriesOptions,
             rangeSelector : { selected : 5 },
-            title : { text : 'Volatility Risk: Portfolio vs Benchmark' },
+            title : { text : null },
             navigator : {
              //   height:160,
                 series : {
@@ -388,8 +388,79 @@ var namespace_graphs = (function () {
                 zIndex: 5
             }).add();
       });
-   } 
+    } 
    
+    function render_linear_gauge(p_container_id, p_gauge_data, p_title)
+    {
+        $(p_container_id).highcharts('Chart', {
+            chart: {
+                defaultSeriesType: 'bar',
+                plotBorderWidth: 2,
+                plotBackgroundColor: '#F5E6E6',
+                plotBorderColor: '#D8D8D8',
+                plotShadow: true,
+                spacingBottom: 43,
+                height: 160
+            },
+            credits: {
+                enabled: false
+            },
+            xAxis: {
+                labels: {
+                    enabled: false
+                },
+                tickLength: 0
+            },
+            title: {
+                text: p_title,
+                align: 'left',
+                style: {
+                    fontSize: '14px'
+                } 
+            },
+            legend: {
+                enabled: false
+            },
+            yAxis: {
+                title: {
+                    text: null
+                },
+                labels: {
+                    y: 20
+                },
+                min: p_gauge_data.min_val,
+                max: p_gauge_data.max_val,
+                tickInterval: 0.02,
+                minorTickInterval: 0.01,
+                tickWidth: 1,
+                tickLength: 8,
+                minorTickLength: 5,
+                minorTickWidth: 1,
+                minorGridLineWidth: 0
+            },
+            plotOptions: {},
+            series: [{
+                borderColor: '#7070B8',
+                borderRadius: 3,
+                borderWidth: 1,
+                color: {
+                    linearGradient: {
+                        x1: 0,
+                        y1: 0,
+                        x2: 1,
+                        y2: 0
+                    },
+                    stops: [ //[ 0.35, '#7070B8' ], [0, '#D69999'],
+                                                   [0.3, '#B84D4D'],
+                                                   [0.45, '#7A0000'],
+                                                   [0.55, '#7A0000'],
+                                                   [0.7, '#B84D4D'],
+                                                   [1, '#D69999']]
+                },
+                pointWidth: 50,
+                data: [p_gauge_data.last_val]}]
+        });
+    }
 
     function render_risk_gauge_radial(p_container_id, p_gauge_data)
     {
@@ -696,7 +767,7 @@ var namespace_graphs = (function () {
                     marginRight:75,
                     /* renderTo : p_container_id, */
                     rangeSelector : { selected : 5 },
-                    title : { text : 'Performance: Portfolio vs Benchmark'},
+                    title : { text : null},
                     /*plotOptions: {
                         area: {
                             fillColor: {
@@ -744,11 +815,13 @@ var namespace_graphs = (function () {
                         [1.0, 'rgb(0,255,0)']
                     ]
                 }
-                               //part one
+                //part one
                 render_risk_chart(seriesOptions, nav_data, p_container_id); 
                 //part two
-                render_risk_gauge_radial('#container_chart5a', a);
-                render_risk_gauge_radial('#container_chart5b', b);
+                //render_risk_gauge_radial('#container_chart5a', a);
+                //render_risk_gauge_radial('#container_chart5b', b);
+                render_linear_gauge('#container_chart5a', a, "Portfolio");
+                render_linear_gauge('#container_chart5b', b, "Benchmark");
                 //render_risk_gauge_radial('#container_chart5c', compute_rank_gauge_data(a.last_val, seriesOptions[0].data));
                 //render_risk_gauge_radial('#container_chart5d', compute_rank_gauge_data(b.last_val, seriesOptions[1].data));
                 render_risk_pnl_heatmap('#container_chart4b', heatmap_data);
