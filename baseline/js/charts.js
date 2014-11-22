@@ -111,12 +111,12 @@ var namespace_graphs = (function () {
             navigator : {
              //   height:160,
                 series : {
-                    type: 'area',
+                    type: 'column',
                     fillColor: '#AF0000',   
                     data: nav_data,
                     color: '#AF0000',
                     threshold: 0,
-                   negativeColor: '#00AF00'
+                    negativeColor: '#00AF00'
                 },
                 yAxis : {
                     gridLineWidth:0,
@@ -137,15 +137,32 @@ var namespace_graphs = (function () {
             }],
          },
          plotOptions : {
-                series : {
-                  turboThreshold :10000,
+            series : {
+                turboThreshold :10000,
                   dataGrouping : {
-                           approximation: 'high',
-                     enabled: true
-                        }
+                          approximation: 'high',
+                     enabled: false
+                    }
             }
          }
       });
+    }
+
+    function format_series_to_color(p_series, p_gradient)
+    {
+        function point_color(p_value)
+        {
+            if (p_value<0.1) return '#00FF00'
+            else if (p_value>0.1 && p_value <0.2) return 'yellow';
+            else return "red";
+        }
+
+        var new_series=[];
+        for (var i=0; i<p_series.length;i++)
+        {
+            new_series[i]={x:p_series[i][0], y:p_series[i][1], color: point_color(p_series[i][1])};
+        } 
+        return new_series;
     }
 
     function render_risk_pnl_heatmap(p_container_id, p_values)
@@ -801,10 +818,11 @@ var namespace_graphs = (function () {
                 var heatmap_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
                 var a = compute_gauge_data(seriesOptions[0].data);
                 var b = compute_gauge_data(seriesOptions[1].data);
-               
+                seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
                 seriesOptions[0].type = 'column';
-                if (heatmap_data.portfolio_risk>heatmap_data.benchmark_risk) seriesOptions[0].color = '#FF4500';
-                else  seriesOptions[0].color = '#B0C4DE';
+               // console.log(seriesOptions[0].data);
+               // if (heatmap_data.portfolio_risk>heatmap_data.benchmark_risk) seriesOptions[0].color = '#FF4500';
+               // else  seriesOptions[0].color = '#B0C4DE';
                 
                 seriesOptions[1].type = 'line';
                 seriesOptions[1].color = {
