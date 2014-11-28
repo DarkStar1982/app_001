@@ -2,7 +2,7 @@
 var namespace_portfolio = (function()
 {
     /* Constants */
-    var API_URL = "/data_api/:2000";
+    var API_URL = "/data_api";
     var DATA_LOAD_STATES  = ["loading","loading", "ready"];
     
     /* Private Data */

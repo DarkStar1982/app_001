@@ -19,7 +19,7 @@ $(document).ready(function(){
 /* GUI ACTIONS  interactions code */
 var namespace_gui = (function() {
     // PRIVATE DATA
-    var API_URL = "/data_api/:2000";
+    var API_URL = "/data_api";
     var portfolio_chart_data = {};
     var m_benchmark_data ={};
     var m_start_date = undefined; 
