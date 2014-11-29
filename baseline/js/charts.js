@@ -152,9 +152,9 @@ var namespace_graphs = (function () {
     {
         function point_color(p_value)
         {
-            if (p_value<0.1) return '#00FF00'
-            else if (p_value>0.1 && p_value <0.2) return 'yellow';
-            else return "red";
+            if (p_value<0.1) return '#7F7F7F'
+            else if (p_value>0.1 && p_value <0.2) return '#7F4F4F';
+            else return "orange";
         }
 
         var new_series=[];
@@ -779,6 +779,16 @@ var namespace_graphs = (function () {
             
             render_performance_chart: function(p_series_data, p_container_id)
             {
+                function get_max(p_series_data)
+                {
+                    return 140;
+                }
+
+                function get_min(p_series_data)
+                {
+                    return 60;
+                }
+
                 $(p_container_id).highcharts('StockChart', {
                     marginLeft:75,
                     marginRight:75,
@@ -796,6 +806,10 @@ var namespace_graphs = (function () {
                                 }
                         }
                     }, */
+                    yAxis: {
+                        max : get_max(p_series_data),
+                        min : get_min(p_series_data)
+                    },
                     series : p_series_data
                     /*,
                         {
@@ -819,12 +833,21 @@ var namespace_graphs = (function () {
                 var a = compute_gauge_data(seriesOptions[0].data);
                 var b = compute_gauge_data(seriesOptions[1].data);
                 seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
-                seriesOptions[0].type = 'column';
+                seriesOptions[0].type = 'area';
+                seriesOptions[0].fillColor = {
+                    linearGradient: {x1: 0, y1:0, x2: 0, y2: 1},
+                    stops : [
+                        [0.0, 'rgb(255, 0, 0)'],
+                        [0.25, 'rgb(255,102,0)'],
+                        [1.5, 'rgb(32,124, 202)']
+                    ]
+                }
                // console.log(seriesOptions[0].data);
                // if (heatmap_data.portfolio_risk>heatmap_data.benchmark_risk) seriesOptions[0].color = '#FF4500';
                // else  seriesOptions[0].color = '#B0C4DE';
                 
                 seriesOptions[1].type = 'line';
+                seriesOptions[1].dashStyle = 'dot';
                 seriesOptions[1].color = {
                     linearGradient: {x1:0, y1:0, x2:0, y2:1 }, 
                     stops:[ 
