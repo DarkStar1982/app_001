@@ -151,23 +151,11 @@ var namespace_gui = (function() {
     {
         function flag_click(e)
         {
-            var trim_string = this.title.replace(/@/g,',');
-            trim_string = trim_string.replace('<p style="cursor: pointer">','')
-            trim_string = trim_string.replace('</p>','')
-            var paragraph_data = trim_string.split('<br/>');
-            var strHTML='<table>';
-            for (i=0;i<paragraph_data.length-1;i++)
-            {
-                var list_data = paragraph_data[i].split(',');
-                var htmlData = "<tr>"
-                for (j=0;j<list_data.length;j++)
-                {
-                    htmlData = htmlData + '<td>'+list_data[j]+'</td>';
-                }
-                htmlData=htmlData +"</tr>";
-                strHTML=strHTML+htmlData;
-            }
-            document.getElementById('detail_cell').innerHTML = strHTML+"</table>";  
+            var row_id = this.title;
+            $('#detail_cell tr').css( "background-color", 'rgba(0,0,0,0)');
+            $('[id^=h'+String(row_id)+']').css( "background-color", "red" );
+
+            //document.getElementById('detail_cell').innerHTML = strHTML+"</table>";  
         }
     
         var flag_data = [];
@@ -176,16 +164,8 @@ var namespace_gui = (function() {
             flag_data[i] = new Object();
             var x_date = groups[i].start_date;
             flag_data[i].x = x_date;
-            flag_data[i].title='<p style="cursor: pointer">';
+            flag_data[i].title=i;
             flag_data[i].events = { "click" : flag_click};
-            for (var k=0; k<groups[i].transactions.length; k++)
-            {
-              var label = groups[i].transactions[k].symbol+", "
-                + groups[i].transactions[k].action+", "+groups[i].transactions[k].volume + " @"+
-               groups[i].transactions[k].price;
-                flag_data[i].title = flag_data[i].title +label+"<br/>";
-            }
-            flag_data[i].title=flag_data[i].title+"</p>"
         }
         return flag_data;
     }
@@ -193,13 +173,12 @@ var namespace_gui = (function() {
     function render_flags_on_sidebar(p_flags)
     {
         var list_str=[];
-        console.log(p_flags);
         for (var i=0; i<p_flags.length; i++)
         {
             //for each transaction group
             if (p_flags[i]["transactions"].length == 1)
             {
-                list_str.push("<tr><td>" + p_flags[i]["start_date"].toString() + "</td>"
+                list_str.push('<tr id="h'+String(i)+'1"><td>' + p_flags[i]["start_date"].toString() + "</td>"
                     +"<td>" + p_flags[i]["transactions"][0]["symbol"] + ", "
                         + p_flags[i]["transactions"][0]["volume"] + ", "
                         + p_flags[i]["transactions"][0]["action"] + ", "
@@ -208,7 +187,7 @@ var namespace_gui = (function() {
             }
             else if (p_flags[i]["transactions"].length>1)
             {
-                list_str.push("<tr><td>" + p_flags[i]["start_date"].toString() + "</td>"
+                list_str.push('<tr id="h'+String(i)+'0"><td>' + p_flags[i]["start_date"].toString() + "</td>"
                     +"<td>" + p_flags[i]["transactions"][0]["symbol"] + ", "
                         + p_flags[i]["transactions"][0]["volume"] + ", "
                         + p_flags[i]["transactions"][0]["action"] + ", "
@@ -218,7 +197,7 @@ var namespace_gui = (function() {
                 {
                     if (k==1)
                     {
-                        list_str.push('<tr><td rowspan="'+String(p_flags[i].transactions.length-1)+'">' + p_flags[i]["end_date"].toString() + "</td>"
+                        list_str.push('<tr id="h'+String(i)+'1"><td rowspan="'+String(p_flags[i].transactions.length-1)+'">' + p_flags[i]["end_date"].toString() + "</td>"
                         +"<td>" + p_flags[i]["transactions"][k]["symbol"] + ", "
                             + p_flags[i]["transactions"][k]["volume"] + ", "
                             + p_flags[i]["transactions"][k]["action"] + ", "
@@ -227,7 +206,7 @@ var namespace_gui = (function() {
                     }
                     else if (k>1)
                     {
-                        list_str.push("<tr><td>" + p_flags[i]["transactions"][k]["symbol"] + ", "
+                        list_str.push('<tr id="h'+String(i)+String(k)+'"><td>' + p_flags[i]["transactions"][k]["symbol"] + ", "
                             + p_flags[i]["transactions"][k]["volume"] + ", "
                             + p_flags[i]["transactions"][k]["action"] + ", "
                             + p_flags[i]["transactions"][k]["price"]
@@ -237,7 +216,6 @@ var namespace_gui = (function() {
             }
             //now append the details
             $("#detail_cell").empty();
-            console.log(list_str);
             for (var j=0;j<list_str.length;j++)
             {
                 $("#detail_cell").append(list_str[j]);
@@ -295,6 +273,7 @@ var namespace_gui = (function() {
                     var series_data = portfolio_chart_data["norm_value_series"];
             }
             var flags = format_flag_data(portfolio_chart_data["transaction_clusters"]); 
+            //var flags = get_flag_markers()
             render_flags_on_sidebar(portfolio_chart_data["transaction_clusters"]);
             namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
             namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b", display_mode);

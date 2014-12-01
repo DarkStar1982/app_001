@@ -23,7 +23,8 @@ var namespace_graphs = (function () {
                 htmlData=htmlData +"</tr>";
                 strHTML=strHTML+htmlData;
             }
-            document.getElementById('detail_cell').innerHTML = strHTML+"</table>";  
+            //$("#detail_cell").
+            //document.getElementById('detail_cell').innerHTML = strHTML+"</table>";  
         }
 
         //entry point
@@ -629,6 +630,7 @@ var namespace_graphs = (function () {
                     marginRight: 75
                 },
                 rangeSelector : { selected : 5 },
+                tooltip: { enabled: false },
                 title : { text : 'Portfolio Aggregated Value'},
                     plotOptions: {
                         animation: false,
@@ -647,8 +649,7 @@ var namespace_graphs = (function () {
                             data : p_series_data,
                             type : 'line',
                             animation: false,
-                            id:'value_data',
-                            tooltip: { valueDecimals: 2, useHTML:true }
+                            id:'value_data'
                         },
                         {
                             type: 'flags',
