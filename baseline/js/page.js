@@ -190,6 +190,65 @@ var namespace_gui = (function() {
         return flag_data;
     }
 
+    function render_flags_on_sidebar(p_flags)
+    {
+        var list_str=[];
+        console.log(p_flags);
+        for (var i=0; i<p_flags.length; i++)
+        {
+            //for each transaction group
+            if (p_flags[i]["transactions"].length == 1)
+            {
+                list_str.push("<tr><td>" + p_flags[i]["start_date"].toString() + "</td>"
+                    +"<td>" + p_flags[i]["transactions"][0]["symbol"] + ", "
+                        + p_flags[i]["transactions"][0]["volume"] + ", "
+                        + p_flags[i]["transactions"][0]["action"] + ", "
+                        + p_flags[i]["transactions"][0]["price"]
+                    +"</td></tr>");
+            }
+            else if (p_flags[i]["transactions"].length>1)
+            {
+                list_str.push("<tr><td>" + p_flags[i]["start_date"].toString() + "</td>"
+                    +"<td>" + p_flags[i]["transactions"][0]["symbol"] + ", "
+                        + p_flags[i]["transactions"][0]["volume"] + ", "
+                        + p_flags[i]["transactions"][0]["action"] + ", "
+                        + p_flags[i]["transactions"][0]["price"]
+                    +"</td></tr>");
+                for (var k = 1; k<p_flags[i]["transactions"].length;k++)
+                {
+                    if (k==1)
+                    {
+                        list_str.push('<tr><td rowspan="'+String(p_flags[i].transactions.length-1)+'">' + p_flags[i]["end_date"].toString() + "</td>"
+                        +"<td>" + p_flags[i]["transactions"][k]["symbol"] + ", "
+                            + p_flags[i]["transactions"][k]["volume"] + ", "
+                            + p_flags[i]["transactions"][k]["action"] + ", "
+                            + p_flags[i]["transactions"][k]["price"]
+                        +"</td></tr>");
+                    }
+                    else if (k>1)
+                    {
+                        list_str.push("<tr><td>" + p_flags[i]["transactions"][k]["symbol"] + ", "
+                            + p_flags[i]["transactions"][k]["volume"] + ", "
+                            + p_flags[i]["transactions"][k]["action"] + ", "
+                            + p_flags[i]["transactions"][k]["price"]
+                        +"</td></tr>");
+                    }
+                }
+            }
+            //now append the details
+            $("#detail_cell").empty();
+            console.log(list_str);
+            for (var j=0;j<list_str.length;j++)
+            {
+                $("#detail_cell").append(list_str[j]);
+            }
+            //if 1 transaction only, display as date, [transaction]
+            //else if >1 transaction display as date_range, [transaction]
+            //list_str.push(p_flags[i]["start_date"] + 
+            //    p_flags[i]["end_date"]  
+        }
+    }
+
     /* Public Interface */ 
     return {
         get_start_date : function ()
@@ -236,10 +295,12 @@ var namespace_gui = (function() {
                     var series_data = portfolio_chart_data["norm_value_series"];
             }
             var flags = format_flag_data(portfolio_chart_data["transaction_clusters"]); 
-            //::namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
-            //::namespace_gui.refresh_position_chart();
+            render_flags_on_sidebar(portfolio_chart_data["transaction_clusters"]);
+            namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
+            namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b", display_mode);
             //workaround to allow the chart match container size
             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                render_flags_on_sidebar(portfolio_chart_data["transaction_clusters"]);
                 namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
                 namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b", display_mode);
           });
