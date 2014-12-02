@@ -178,7 +178,7 @@ var namespace_gui = (function() {
             //for each transaction group
             if (p_flags[i]["transactions"].length == 1)
             {
-                list_str.push('<tr id="h'+String(i)+'1"><td>' + p_flags[i]["start_date"].toString() + "</td>"
+                list_str.push('<tr id="h'+String(i)+'1"><td>' + datetime_util.adjust_date(p_flags[i]["start_date"]) + "</td>"
                     +"<td>" + p_flags[i]["transactions"][0]["symbol"] + ", "
                         + p_flags[i]["transactions"][0]["volume"] + ", "
                         + p_flags[i]["transactions"][0]["action"] + ", "
@@ -187,7 +187,7 @@ var namespace_gui = (function() {
             }
             else if (p_flags[i]["transactions"].length>1)
             {
-                list_str.push('<tr id="h'+String(i)+'0"><td>' + p_flags[i]["start_date"].toString() + "</td>"
+                list_str.push('<tr id="h'+String(i)+'0"><td>' + datetime_util.adjust_date(p_flags[i]["start_date"]) + "</td>"
                     +"<td>" + p_flags[i]["transactions"][0]["symbol"] + ", "
                         + p_flags[i]["transactions"][0]["volume"] + ", "
                         + p_flags[i]["transactions"][0]["action"] + ", "
@@ -197,8 +197,9 @@ var namespace_gui = (function() {
                 {
                     if (k==1)
                     {
-                        list_str.push('<tr id="h'+String(i)+'1"><td rowspan="'+String(p_flags[i].transactions.length-1)+'">' + p_flags[i]["end_date"].toString() + "</td>"
-                        +"<td>" + p_flags[i]["transactions"][k]["symbol"] + ", "
+                        list_str.push('<tr id="h'+String(i)+'1"><td rowspan="'+String(p_flags[i].transactions.length-1)+'">' 
+                            + datetime_util.adjust_date(p_flags[i]["end_date"]) + "</td>"
+                            + "<td>" + p_flags[i]["transactions"][k]["symbol"] + ", "
                             + p_flags[i]["transactions"][k]["volume"] + ", "
                             + p_flags[i]["transactions"][k]["action"] + ", "
                             + p_flags[i]["transactions"][k]["price"]
