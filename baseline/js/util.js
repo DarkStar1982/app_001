@@ -84,6 +84,19 @@ var math_util = (function (){
 			else if (a>b) return b;
 			else return a;
 		},
+		
+		get_series_min_max: function(p_data)
+		{
+			var min = p_data[0][1];
+			var max = p_data[0][1];
+        	for (var i=0; i<p_data.length;i++)
+            {
+            	if (p_data[i][1]<min) min = p_data[i][1]; 
+            	if (p_data[i][1]>max) max = p_data[i][1];
+            }
+            return {"min": min, "max": max};
+		},
+
 		compute_stdev: function(p_data){
 			var x_data = transform_data(p_data);
 			var mean = stat_compute_mean(x_data);

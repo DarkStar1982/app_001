@@ -2,54 +2,6 @@ var namespace_graphs = (function () {
     /* PRIVATE */
     var m_local_data = {};
 
-    function get_flag_data()
-    {
-        //flag click event
-        function flag_click(e)
-        {
-            var trim_string = this.title.replace(/@/g,',');
-            trim_string = trim_string.replace('<p style="cursor: pointer">','')
-            trim_string = trim_string.replace('</p>','')
-            var paragraph_data = trim_string.split('<br/>');
-            var strHTML='<table>';
-            for (i=0;i<paragraph_data.length-1;i++)
-            {
-                var list_data = paragraph_data[i].split(',');
-                var htmlData = "<tr>"
-                for (j=0;j<list_data.length;j++)
-                {
-                    htmlData = htmlData + '<td>'+list_data[j]+'</td>';
-                }
-                htmlData=htmlData +"</tr>";
-                strHTML=strHTML+htmlData;
-            }
-            //$("#detail_cell").
-            //document.getElementById('detail_cell').innerHTML = strHTML+"</table>";  
-        }
-
-        //entry point
-        var obj_flags = namespace_ui.get_portfolio_transactions();
-        var groups = group_transactions_labels(obj_flags);
-        var flag_data = new Array();
-        for (var i=0; i<groups.length; i++)
-        {
-            flag_data[i] = new Object();
-            var x_date = groups[i].start_date;
-            flag_data[i].x = x_date;
-            flag_data[i].title='<p style="cursor: pointer">';
-            flag_data[i].events = { "click" : flag_click};
-            for (var k=0; k<groups[i].transactions.length; k++)
-            {
-                var label = groups[i].transactions[k].symbol+", "
-                + groups[i].transactions[k].action+", "+groups[i].transactions[k].volume + " @"+
-                groups[i].transactions[k].price;
-                flag_data[i].title = flag_data[i].title +label+"<br/>";
-            }
-            flag_data[i].title=flag_data[i].title+"</p>"
-        }
-        return flag_data;
-    }
-
     function get_benchmark_difference(p_data1, p_data2)
     {
         var r_data = new Array();
@@ -782,15 +734,39 @@ var namespace_graphs = (function () {
             {
                 function get_max(p_series_data)
                 {
-                    return 140;
+
+                    for (var i=0; i<p_series_data[0].data.length;i++)
+
+                    return 150;
                 }
 
                 function get_min(p_series_data)
                 {
-                    return 60;
+                    return 50;
                 }
-
+                var y_axis_limits_1 = math_util.get_series_min_max(p_series_data[0].data);
+                var y_axis_limits_2 = math_util.get_series_min_max(p_series_data[1].data);
+                if (y_axis_limits_1.min<y_axis_limits_2.min) var y_min = y_axis_limits_1.min-5;
+                else var y_min = y_axis_limits_2.min-5;
+                if (y_axis_limits_1.max>y_axis_limits_2.max) var y_max = y_axis_limits_1.max+5;
+                else var y_max = y_axis_limits_2.max+5;
+                
                 $(p_container_id).highcharts('StockChart', {
+                    chart : {
+                        events: {
+                            load: function (){
+                                var chart = this;
+                                $.each(chart.rangeSelector.buttons, function(index, value) {
+                                    value.on('click', function (e) { 
+                                        //alert(index);
+                                        update_performance_and_risk_charts_and_tab
+                                    //update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
+                                        e.preventDefault();
+                                    }); 
+                                });
+                            }
+                        },
+                    },
                     marginLeft:75,
                     marginRight:75,
                     /* renderTo : p_container_id, */
@@ -808,8 +784,8 @@ var namespace_graphs = (function () {
                         }
                     }, */
                     yAxis: {
-                        max : get_max(p_series_data),
-                        min : get_min(p_series_data)
+                        max : y_max,
+                        min : y_min
                     },
                     series : p_series_data
                     /*,
