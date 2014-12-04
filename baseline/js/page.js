@@ -109,12 +109,12 @@ var namespace_gui = (function() {
 
     function update_derived_value_tabs(p_client_report, p_benchmark_report)
     {
-        $("#portfolio_net_pnl").text(p_client_report.diff_percent+"%");
+        $("#portfolio_net_pnl").text(math_util.aux_math_round(p_client_report.diff_percent,2)+"%");
         $("#portfolio_value").text(p_client_report.value_start+"%");
         $("#benchmark_value").text(p_benchmark_report.value_start+"%");
-        $("#portfolio_final_pv").text(p_client_report.value_end+"%");
-        $("#benchmark_final_pv").text(p_benchmark_report.value_end+"%");
-        $("#benchmark_net_pnl").text(p_benchmark_report.diff_percent+"%");
+        $("#portfolio_final_pv").text(math_util.aux_math_round(p_client_report.value_end,2)+"%");
+        $("#benchmark_final_pv").text(math_util.aux_math_round(p_benchmark_report.value_end,2)+"%");
+        $("#benchmark_net_pnl").text(math_util.aux_math_round(p_benchmark_report.diff_percent,2)+"%");
         $("#portfolio_annualized").text(p_client_report.annualized+"%");
         $("#benchmark_annualized").text(p_benchmark_report.annualized+"%");
         $("#portfolio_std").text(p_client_report.std_dev+"%");
