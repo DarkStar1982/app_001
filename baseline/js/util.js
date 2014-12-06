@@ -230,19 +230,21 @@ var namespace_xls = (function (){
 
     function index_search(list, item)
     {
+    	var x_rank = -1;
         for (var i=0;i<list.length;i++)
         {
-            if (item>=list[i])
-            return i;
+            if (item>=list[i]) x_rank=i;
         }
-        return -1;
+        if (x_rank!= -1)
+        	return x_rank / list.length * 100.0;
+        else return x_rank;
     }
 	
 	return {
         /* as specified in Excel */
         rank: function (num, ref)
         {
-            ref.sort(function (a,b) { return b-a});
+            ref.sort(function (a,b) { return a-b});
             return index_search(ref, num);
         },
 		/* Original algorithm by Peter John Acklam, 2003-2010 */

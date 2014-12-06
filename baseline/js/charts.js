@@ -37,7 +37,7 @@ var namespace_graphs = (function () {
             data[i] = p_series_data[i][1];
         }
         res_obj.min_val = 1;
-        res_obj.max_val = p_series_data.length -1;
+        res_obj.max_val = 100;
         res_obj.last_val = namespace_xls.rank(last_value, data);
         return res_obj;
     }
@@ -400,8 +400,8 @@ var namespace_graphs = (function () {
                 },
                 min: p_gauge_data.min_val,
                 max: p_gauge_data.max_val,
-                tickInterval: 0.02,
-                minorTickInterval: 0.01,
+                tickInterval: (p_gauge_data.max_val - p_gauge_data.min_val)/20,
+                minorTickInterval: (p_gauge_data.max_val - p_gauge_data.min_val)/10,
                 tickWidth: 1,
                 tickLength: 8,
                 minorTickLength: 5,
@@ -801,7 +801,7 @@ var namespace_graphs = (function () {
     
             },
             
-            render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id)
+            render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id, p_rank_mode, p_mode)
             {
                 //assuming we have the data
                 var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
@@ -809,6 +809,12 @@ var namespace_graphs = (function () {
                 var heatmap_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
                 var a = compute_gauge_data(seriesOptions[0].data);
                 var b = compute_gauge_data(seriesOptions[1].data);
+                if (p_rank_mode == "Rank")
+                {
+                    var a = compute_rank_gauge_data(a.last_val, seriesOptions[0].data);
+                    var b = compute_rank_gauge_data(b.last_val, seriesOptions[1].data);
+
+                }                
                 seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
                 seriesOptions[0].type = 'area';
                 seriesOptions[0].fillColor = {
@@ -822,7 +828,6 @@ var namespace_graphs = (function () {
                // console.log(seriesOptions[0].data);
                // if (heatmap_data.portfolio_risk>heatmap_data.benchmark_risk) seriesOptions[0].color = '#FF4500';
                // else  seriesOptions[0].color = '#B0C4DE';
-                
                 seriesOptions[1].type = 'line';
                 seriesOptions[1].dashStyle = 'dot';
                 seriesOptions[1].color = {
@@ -833,16 +838,19 @@ var namespace_graphs = (function () {
                         [1.0, 'rgb(0,255,0)']
                     ]
                 }
-                //part one
-                render_risk_chart(seriesOptions, nav_data, p_container_id); 
-                //part two
-                //render_risk_gauge_radial('#container_chart5a', a);
-                //render_risk_gauge_radial('#container_chart5b', b);
+                //always render
                 render_linear_gauge('#container_chart5a', a, "Portfolio");
                 render_linear_gauge('#container_chart5b', b, "Benchmark");
-                //render_risk_gauge_radial('#container_chart5c', compute_rank_gauge_data(a.last_val, seriesOptions[0].data));
-                //render_risk_gauge_radial('#container_chart5d', compute_rank_gauge_data(b.last_val, seriesOptions[1].data));
-                render_risk_pnl_heatmap('#container_chart4b', heatmap_data);
+                if (p_mode==0)
+                {
+                    render_risk_chart(seriesOptions, nav_data, p_container_id); 
+                    //part two
+                    //render_risk_gauge_radial('#container_chart5a', a);
+                    //render_risk_gauge_radial('#container_chart5b', b);
+                    //render_risk_gauge_radial('#container_chart5c', compute_rank_gauge_data(a.last_val, seriesOptions[0].data));
+                    //render_risk_gauge_radial('#container_chart5d', compute_rank_gauge_data(b.last_val, seriesOptions[1].data));
+                    render_risk_pnl_heatmap('#container_chart4b', heatmap_data);
+                }
             }
         };
 }) ();

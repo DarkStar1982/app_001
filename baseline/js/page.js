@@ -10,6 +10,7 @@ $(document).ready(function(){
     $("#clear_benchmarks").on('click', namespace_gui.clear_dashboard_benchmarks);
     $("#perf_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#chart_select").on('change', namespace_gui.refresh_val_pnl_chart);
+    $("#risk_scale_select").on('change', namespace_gui.refresh_gauge_chart);
     $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab);
     $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
     /*  make the page */
@@ -247,7 +248,7 @@ var namespace_gui = (function() {
             namespace_gui.refresh_sector_chart();
             //update_charts for portfolio + benchmarks
             namespace_gui.refresh_performance_chart_and_tab();
-            namespace_gui.refresh_risk_chart();
+            namespace_gui.refresh_risk_chart(0);
         },
         
         refresh_val_pnl_chart: function ()
@@ -319,11 +320,17 @@ var namespace_gui = (function() {
                 }
             }
             namespace_graphs.render_performance_chart(series_data, "#container_chart3");
-            namespace_gui.refresh_risk_chart();
+            namespace_gui.refresh_risk_chart(0);
         },
 
-        refresh_risk_chart: function()
+        refresh_gauge_chart: function()
         {
+            namespace_gui.refresh_risk_chart(1);
+        },
+
+        refresh_risk_chart: function(render_mode)
+        {
+            var rank_mode = $("#risk_scale_select :selected").text();
             var current_benchmark = $("#benchmark_list :selected").text();
             for (var k in m_benchmark_data)
             {
@@ -337,7 +344,9 @@ var namespace_gui = (function() {
                                                                  portfolio_chart_data["derived_values"],
                                                                  benchmark_series_data, 
                                                                  benchmark_derived_data,
-                                                                 "#container_chart4");
+                                                                 "#container_chart4",
+                                                                 rank_mode,
+                                                                 render_mode);
                     }
                 }
             } 
