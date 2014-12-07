@@ -505,6 +505,7 @@ var namespace_gui = (function() {
                 book_price: 1.0,
                 last_price: 1.0
             };
+            $("#date_entry").datepicker("setDate",$("#portfolio_date").datepicker("getDate"));
             namespace_portfolio.update_state("add_record", new_transaction);
         },
 
