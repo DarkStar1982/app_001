@@ -13,6 +13,7 @@ $(document).ready(function(){
     $("#risk_scale_select").on('change', namespace_gui.refresh_gauge_chart);
     $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab);
     $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
+    $("#submitFile").on('click', namespace_gui.process_transactions_file)
     /*  make the page */
     namespace_gui.set_visibility(0);
 });
@@ -231,11 +232,44 @@ var namespace_gui = (function() {
 
     /* Public Interface */ 
     return {
+
+        process_transactions_file: function()
+        {
+            $.ajax({
+                    url: "upload",
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: function() {
+                        var data = new FormData();
+                        //  data.append("fileDescription", jQuery("#desc").val());
+                        data.append("chosenFile", $("#chosenFile").get(0).files[0]);
+                        return data;
+                        // Or simply return new FormData(jQuery("form")[0]);
+                    }(),
+                    error: function(_, textStatus, errorThrown) {
+                        alert("Error uploading file :: "+errorThrown);
+                        console.log(textStatus, errorThrown);
+                    },
+                    success: function(response, textStatus) {
+                        //alert("Success");
+                        //FIXME!!!
+                        // just add transaction rows into portfolio
+                        //namespace_ui.process_row_list(response);
+                        //namespace_ui.set_visibility(true);
+                        //render_page();
+                        //END FIXME!!!
+                        //console.log(response, textStatus);
+                    }
+                });
+        },
+
         get_start_date : function ()
         {
             if (m_start_date !=undefined ) return m_start_date;
             else datetime_util.adjust_date(new Date(50, 0, 1));
         },
+
         update_charts: function(p_data)
         {
             //update local data
