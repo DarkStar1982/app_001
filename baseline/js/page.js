@@ -230,6 +230,23 @@ var namespace_gui = (function() {
         }
     }
 
+    function process_row_list(p_row_data)
+    {
+         var transformed = JSON.parse(p_row_data);
+         for (var i=0; i<transformed.length; i++)
+         {
+            var new_transaction = {
+                volume: transformed[i].Volume,
+                book_date: datetime_util.adjust_date(transformed[i].Date),
+                type: transformed[i].BuySell,
+                asset: transformed[i].Asset,
+                sector: undefined,
+                book_price: transformed[i].BookPrice,
+                last_price: undefined,
+            };
+            namespace_portfolio.update_state("add_record", new_transaction);
+        }
+    }
     /* Public Interface */ 
     return {
 
@@ -252,6 +269,7 @@ var namespace_gui = (function() {
                         console.log(textStatus, errorThrown);
                     },
                     success: function(response, textStatus) {
+                        process_row_list(response);
                         //alert("Success");
                         //FIXME!!!
                         // just add transaction rows into portfolio
