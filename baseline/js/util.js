@@ -160,7 +160,7 @@ var datetime_util = (function () {
                 		xdate = '0'+xdate;
         		}
 			var sdate = p_date.getFullYear()+'-'+month+'-'+xdate;
-        		return sdate;
+        	return sdate;
 		},
 		//self-explanatory
 		get_yesterday_date: function()
