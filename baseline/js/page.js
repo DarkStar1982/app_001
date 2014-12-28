@@ -13,7 +13,8 @@ $(document).ready(function(){
     $("#risk_scale_select").on('change', namespace_gui.refresh_gauge_chart);
     $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab);
     $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
-    $("#submitFile").on('click', namespace_gui.process_transactions_file)
+    $("#submitFile").on('click', namespace_gui.process_transactions_file);
+    $("#get_pdf_report").on('click', namespace_gui.get_pdf_report);
     /*  make the page */
     namespace_gui.set_visibility(0);
 });
@@ -259,6 +260,16 @@ var namespace_gui = (function() {
     /* Public Interface */ 
     return {
 
+		get_pdf_report: function()
+		{
+			//alert("TEST");
+		    var allVals = [];
+			$('#report_selector :checked').each(function() {
+				allVals.push($(this).val());
+			});
+			namespace_portfolio.generate_pdf_report(allVals);
+		},
+		
         process_transactions_file: function()
         {
             $.ajax({

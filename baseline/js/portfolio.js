@@ -776,6 +776,25 @@ var namespace_portfolio = (function()
             state.risk_interval = p_data["risk_interval"];
         },
 
+		/* receive the list of parts and assembole the json object to be interpreted as pdf report */
+		generate_pdf_report: function(p_data)
+		{
+			//works with array only
+			//alert(p_data);
+            $.ajax({
+                    url: "get_pdf/",
+                    type: "POST",
+					data: {"data":p_data},
+                    error: function(_, textStatus, errorThrown) {
+                        alert("Error generating pdf report from input :: "+errorThrown);
+                        console.log(textStatus, errorThrown);
+                    },
+                    success: function(response, textStatus) {
+                        //return response as pdf file
+						//alert(response);
+                    }
+                });
+		},
         /* add transaction to porfolio
          * 1. check transaction - can have incompete information, so load missing data
          * 2. verify that portfolio is consistent if this transaction is added  

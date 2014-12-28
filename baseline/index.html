@@ -420,42 +420,40 @@
             <div class="tab-pane" id="Tab6">
                 <div id="tab_container6">
                 <h4>Get your portfolio as a PDF report</h4>
-				<form action="">
-					<div class="row">
+					<div class="row" id="report_selector">
                         <div class="col-md-3">
 						   <h5> Portfolio summary </h5>
-						   <input type="checkbox" name="summary" value="p_sum"> Portfolio Summary<br>
-						   <input type="checkbox" name="positions" value="p_pos"> Net Positions <br>
-						   <input type="checkbox" name="transactions" value="p_tran"> Transaction History <br>
+						   <input type="checkbox" name="summary" value="p_table_sum"> Portfolio Summary<br>
+						   <input type="checkbox" name="positions" value="p_table_pos"> Net Positions <br>
+						   <input type="checkbox" name="transactions" value="p_table_hist"> Transaction History <br>
 						</div>
 						<div class="col-md-3">
 							<h5> Performance charts </h5>
-							<input type="checkbox" name="performance_chart" value="p_perf_chart"> Performance  History <br>
-							<input type="checkbox" name="positions_chart" value="p_pos_chart"> Position Profit or Loss <br>
-							<input type="checkbox" name="sector_chart" value="p_sector_chart"> Portfolio Sectors <br>
+							<input type="checkbox" name="performance_chart" value="p_chart_perf"> Performance  History <br>
+							<input type="checkbox" name="positions_chart" value="p_chart_position"> Position Profit or Loss <br>
+							<input type="checkbox" name="sector_chart" value="p_chart_sector"> Portfolio Sectors <br>
 						</div>
 						<div class="col-md-3">
 							<h5> Portfolio vs Benchmarks Returns </h5>
-							<input type="checkbox" name="portfolio_returns" value="p_returns_portfolio"> Portfolio Returns <br>
-							<input type="checkbox" name="benchmark_returns" value="p_returns_benchmark"> Benchmark Returns <br>
+							<input type="checkbox" name="portfolio_returns" value="p_table_portfolio_returns"> Portfolio Returns <br>
+							<input type="checkbox" name="benchmark_returns" value="p_table_benchmark_returns"> Benchmark Returns <br>
 						</div>
 						<div class="col-md-3">
 							<h5> Risk and Return Charts </h5>
-							<input type="checkbox" name="return_chart" value="p_returns_chart"> Portfolio vs Benchmark Returns <br>
-							<input type="checkbox" name="risk_chart" value="p_risk_chart"> Portfolio vs Benchmark Risk <br>
-							<input type="checkbox" name="heatmap_chart" value="p_heatmap_chart"> Risk and Return Heatmap <br>
-							<input type="checkbox" name="historic_chart" value="p_historical_chart"> Historical Risk Chart  <br>
-							<input type="checkbox" name="tabulated_data" value="p_tab_page"> Tabulated Data <br>
+							<input type="checkbox" name="return_chart" value="p_chart_returns"> Portfolio vs Benchmark Returns <br>
+							<input type="checkbox" name="risk_chart" value="p_chart_risk"> Portfolio vs Benchmark Risk <br>
+							<input type="checkbox" name="heatmap_chart" value="p_chart_heatmap"> Risk and Return Heatmap <br>
+							<input type="checkbox" name="historic_chart" value="p_chart_historical_risk"> Historical Risk Chart  <br>
+							<input type="checkbox" name="tabulated_data" value="p_table_tab_page"> Tabulated Data <br>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-12">
 							<p>Select above what to include in your report contents</p>
-							<button class="btn btn-default">Get PDF report </button>
+							<button class="btn btn-default" id="get_pdf_report">Get PDF report </button>
 						</div>	
 					</div>				
-				</form>
-                <!--p> This action will create a snapshot of current portfolio state that can used as stand-alone document</p> 
+					<!--p> This action will create a snapshot of current portfolio state that can used as stand-alone document</p> 
                 <h4>Share as a link</h4>
                 <p> This action will persistent link to this portfolio that will automatically update with latest market data and can be edited later</p--> 
                 </div>
