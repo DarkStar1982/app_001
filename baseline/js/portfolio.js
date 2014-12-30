@@ -780,11 +780,19 @@ var namespace_portfolio = (function()
 		generate_pdf_report: function(p_data)
 		{
 			//works with array only
+			var report_object = [];
+			$.each(p_data, function(index,value)
+			{
+				if (value=='p_table_sum')
+				{
+					report_object.push({"type":"table","contents": state.net_data["positions"]});
+				}
+			});
 			//alert(p_data);
             $.ajax({
                     url: "get_pdf/",
                     type: "POST",
-					data: {"data":p_data},
+					data: {"data":JSON.stringify(report_object)},
                     error: function(_, textStatus, errorThrown) {
                         alert("Error generating pdf report from input :: "+errorThrown);
                         console.log(textStatus, errorThrown);
