@@ -783,12 +783,34 @@ var namespace_portfolio = (function()
 			var report_object = [];
 			$.each(p_data, function(index,value)
 			{
-				if (value=='p_table_sum')
+				if (value == 'p_table_sum')
 				{
-					report_object.push({"type":"table","contents": state.net_data["positions"]});
+					var contents = [{"total_value": state.net_data["total_value"], "total_pnl":state.net_data["total_pnl"]}];
+					report_object.push({"type":"table","contents": contents});					
+				}
+				
+				if (value == "p_table_hist")
+				{	
+					var contents = []
+					$.each(state["transactions"], function(ind, val)
+					{
+						contents.push(val);
+					});
+					report_object.push({"type":"table","contents": contents});
+				}					
+				if (value =='p_table_pos')
+				{
+					var contents = []
+					$.each(state.net_data["positions"], function(ind, val)
+					{
+						contents.push(val);
+					});
+					contents.push(state.net_data["net_cash_row"]);
+					report_object.push({"type":"table","contents": contents});
+					
 				}
 			});
-			//alert(p_data);
+			console.log(report_object);
             $.ajax({
                     url: "get_pdf/",
                     type: "POST",
