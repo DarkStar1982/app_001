@@ -785,28 +785,48 @@ var namespace_portfolio = (function()
 			{
 				if (value == 'p_table_sum')
 				{
-					var contents = [{"total_value": state.net_data["total_value"], "total_pnl":state.net_data["total_pnl"]}];
-					report_object.push({"type":"table","contents": contents});					
+					var contents = [["Net Value", "Net PnL"],[state.net_data["total_value"], state.net_data["total_pnl"]]];
+					report_object.push({"type":"table","contents": contents, "header":"Portfolio summary"});					
 				}
-				
 				if (value == "p_table_hist")
 				{	
-					var contents = []
+					var contents = [["Symbol", "Sector", "Action", "Volume", "Book Date", "Book Price", "Last Price"]]
 					$.each(state["transactions"], function(ind, val)
 					{
-						contents.push(val);
+						var row_list = [val["asset"], 
+										val["sector"], 
+										val["type"], 
+										val["volume"], 
+										val["book_date"], 
+										val["book_price"], 
+										val["last_price"]];
+						contents.push(row_list);
 					});
-					report_object.push({"type":"table","contents": contents});
+					report_object.push({"type":"table",	"contents": contents, "header": "Transaction history"});
 				}					
 				if (value =='p_table_pos')
 				{
-					var contents = []
+					var contents = [["Symbol", "Volume", "Average Price", "Book Value", "Last Value", "PnL"]]
 					$.each(state.net_data["positions"], function(ind, val)
 					{
-						contents.push(val);
+						var row_list = [val["symbol"], 
+							val["volume"], 
+							val["price_avg"], 
+							val["book_value"], 
+							val["last_value"], 
+							val["pnl"]];
+						contents.push(row_list);
 					});
-					contents.push(state.net_data["net_cash_row"]);
-					report_object.push({"type":"table","contents": contents});
+		            //var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-" };
+					var cash_row = ['-', 
+									'-', 
+									'-',
+									state.net_data["net_cash_row"]["start_cash"],
+									state.net_data["net_cash_row"]["total_cash"],
+									'-'
+					];
+					contents.push(cash_row);
+					report_object.push({"type":"table","contents": contents, "header": "Net positions"});
 					
 				}
 			});
