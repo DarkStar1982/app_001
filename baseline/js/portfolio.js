@@ -810,7 +810,7 @@ var namespace_portfolio = (function()
 					
 				}
 			});
-			console.log(report_object);
+			//console.log(report_object);
             $.ajax({
                     url: "get_pdf/",
                     type: "POST",
@@ -821,7 +821,8 @@ var namespace_portfolio = (function()
                     },
                     success: function(response, textStatus) {
                         //return response as pdf file
-						//alert(response);
+						var win = window.open();
+						win.document.write(response);
                     }
                 });
 		},
