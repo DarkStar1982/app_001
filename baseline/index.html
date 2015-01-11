@@ -450,7 +450,9 @@
 					<div class="row">
 						<div class="col-md-12">
 							<p>Select above what to include in your report contents</p>
-							<button class="btn btn-default" id="get_pdf_report">Get PDF report </button>
+							<form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank">
+								<input type="submit" class="btn btn-default" id="get_pdf_report" name="Get PDF Report"/>
+							</form>
 						</div>	
 					</div>				
 					<!--p> This action will create a snapshot of current portfolio state that can used as stand-alone document</p> 

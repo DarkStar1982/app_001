@@ -14,7 +14,7 @@ $(document).ready(function(){
     $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab);
     $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#submitFile").on('click', namespace_gui.process_transactions_file);
-    $("#get_pdf_report").on('click', namespace_gui.get_pdf_report);
+    $("#get_pdf_report").on('submit', namespace_gui.get_pdf_report);
     /*  make the page */
     namespace_gui.set_visibility(0);
 });
@@ -267,7 +267,9 @@ var namespace_gui = (function() {
 			$('#report_selector :checked').each(function() {
 				allVals.push($(this).val());
 			});
-			namespace_portfolio.generate_pdf_report(allVals);
+			var data=JSON.stringify(namespace_portfolio.generate_pdf_report(allVals));
+			var input = $("<input>").attr("type", "hidden").attr("name", "data").val(data);
+			$('#get_pdf_report').append($(input));
 		},
 		
         process_transactions_file: function()

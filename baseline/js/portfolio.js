@@ -830,21 +830,7 @@ var namespace_portfolio = (function()
 					
 				}
 			});
-			//console.log(report_object);
-            $.ajax({
-                    url: "get_pdf/",
-                    type: "POST",
-					data: {"data":JSON.stringify(report_object)},
-                    error: function(_, textStatus, errorThrown) {
-                        alert("Error generating pdf report from input :: "+errorThrown);
-                        console.log(textStatus, errorThrown);
-                    },
-                    success: function(response, textStatus) {
-                        //return response as pdf file
-						var win = window.open();
-						win.document.write(response);
-                    }
-                });
+			return report_object;
 		},
         /* add transaction to porfolio
          * 1. check transaction - can have incompete information, so load missing data
