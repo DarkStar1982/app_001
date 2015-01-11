@@ -1,7 +1,8 @@
 var namespace_graphs = (function () {
     /* PRIVATE */
     var m_local_data = {};
-
+	var hc_options_object = {};
+	
     function get_benchmark_difference(p_data1, p_data2)
     {
         var r_data = new Array();
@@ -514,6 +515,11 @@ var namespace_graphs = (function () {
 
     /* PUBLIC */
     return {
+		
+		return_performance_chart_object: function()
+		{
+			return hc_options_object;
+		},
         // Here by each position profit or loss 
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
@@ -732,25 +738,32 @@ var namespace_graphs = (function () {
             
             render_performance_chart: function(p_series_data, p_container_id)
             {
-                function get_max(p_series_data)
-                {
-
-                    for (var i=0; i<p_series_data[0].data.length;i++)
-
-                    return 150;
-                }
-
-                function get_min(p_series_data)
-                {
-                    return 50;
-                }
                 var y_axis_limits_1 = math_util.get_series_min_max(p_series_data[0].data);
                 var y_axis_limits_2 = math_util.get_series_min_max(p_series_data[1].data);
-                if (y_axis_limits_1.min<y_axis_limits_2.min) var y_min = y_axis_limits_1.min-5;
-                else var y_min = y_axis_limits_2.min-5;
-                if (y_axis_limits_1.max>y_axis_limits_2.max) var y_max = y_axis_limits_1.max+5;
-                else var y_max = y_axis_limits_2.max+5;
+                if (y_axis_limits_1.min<y_axis_limits_2.min) 
+					var y_min = y_axis_limits_1.min-5;
+                else 
+					var y_min = y_axis_limits_2.min-5;
+                if (y_axis_limits_1.max>y_axis_limits_2.max) 
+					var y_max = y_axis_limits_1.max+5;
+                else 
+					var y_max = y_axis_limits_2.max+5;
                 
+				hc_options_object = {
+                    marginLeft:75,
+                    marginRight:75,
+                    /* renderTo : p_container_id, */
+                    rangeSelector : { selected : 5 },
+                    title : { text : null},
+                    yAxis: {
+                        max : y_max,
+                        min : y_min
+                    },
+                    series : p_series_data
+				};
+				
+				// render chart
+				
                 $(p_container_id).highcharts('StockChart', {
                     chart : {
                         events: {
@@ -760,7 +773,7 @@ var namespace_graphs = (function () {
                                     value.on('click', function (e) { 
                                         //alert(index);
                                         update_performance_and_risk_charts_and_tab
-                                    //update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
+                                       //update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
                                         e.preventDefault();
                                     }); 
                                 });
@@ -772,33 +785,12 @@ var namespace_graphs = (function () {
                     /* renderTo : p_container_id, */
                     rangeSelector : { selected : 5 },
                     title : { text : null},
-                    /*plotOptions: {
-                        area: {
-                            fillColor: {
-                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-                                    stops: [
-                                        [0, Highcharts.getOptions().colors[0]],
-                                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                                    ]   
-                                }
-                        }
-                    }, */
                     yAxis: {
                         max : y_max,
                         min : y_min
                     },
                     series : p_series_data
-                    /*,
-                        {
-                            type: 'flags',
-                            name: 'Flags on series',
-                            data: chart_flags,
-                            onSeries: 'value_data',
-                            shape: 'squarepin'
-                        }*/
-                    
-                });
-    
+             	});
             },
             
             render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id, p_rank_mode, p_mode)

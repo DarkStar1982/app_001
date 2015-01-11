@@ -827,7 +827,12 @@ var namespace_portfolio = (function()
 					];
 					contents.push(cash_row);
 					report_object.push({"type":"table","contents": contents, "header": "Net positions"});
-					
+				}
+				if (value == 'p_chart_perf')
+				{
+					var chart_object = namespace_graphs.return_performance_chart_object();
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Performance chart"});
+					console.log(chart_object);
 				}
 			});
 			return report_object;
