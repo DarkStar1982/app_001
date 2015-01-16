@@ -830,7 +830,7 @@ var namespace_portfolio = (function()
 				}
 				if (value == 'p_chart_perf')
 				{
-					var chart_object = namespace_graphs.return_performance_chart_object();
+					var chart_object = JSON.stringify(namespace_graphs.return_performance_chart_object());
 					report_object.push({"type":"chart", "contents": chart_object, "header": "Performance chart"});
 					console.log(chart_object);
 				}

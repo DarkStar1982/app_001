@@ -750,16 +750,16 @@ var namespace_graphs = (function () {
 					var y_max = y_axis_limits_2.max+5;
                 
 				hc_options_object = {
-                    marginLeft:75,
-                    marginRight:75,
+                    "marginLeft": 75,
+                    "marginRight": 75,
                     /* renderTo : p_container_id, */
-                    rangeSelector : { selected : 5 },
-                    title : { text : null},
-                    yAxis: {
-                        max : y_max,
-                        min : y_min
+                    "rangeSelector" : { "selected" : 5 },
+                    "title": { "text" : null},
+                    "yAxis": {
+                        "max" : y_max,
+                        "min" : y_min
                     },
-                    series : p_series_data
+                    "series" : p_series_data
 				};
 				
 				// render chart
