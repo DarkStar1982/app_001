@@ -828,11 +828,16 @@ var namespace_portfolio = (function()
 					contents.push(cash_row);
 					report_object.push({"type":"table","contents": contents, "header": "Net positions"});
 				}
-				if (value == 'p_chart_perf')
+				if (value == 'p_chart_returns')
 				{
 					var chart_object = JSON.stringify(namespace_graphs.return_performance_chart_object());
-					report_object.push({"type":"chart", "contents": chart_object, "header": "Performance chart"});
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Performance Comparison chart"});
+				}
+				if (value == 'p_chart_val_pnl')
+				{
+					var chart_object = JSON.stringify(namespace_graphs.return_val_pnl_chart_object());
 					console.log(chart_object);
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Value chart"});
 				}
 			});
 			return report_object;

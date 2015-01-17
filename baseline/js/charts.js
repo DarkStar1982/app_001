@@ -1,7 +1,9 @@
 var namespace_graphs = (function () {
     /* PRIVATE */
     var m_local_data = {};
-	var hc_options_object = {};
+	var p_chart_val_pnl_hc_options = {};
+	var p_chart_returns_hc_options = {};
+	
 	
     function get_benchmark_difference(p_data1, p_data2)
     {
@@ -518,8 +520,14 @@ var namespace_graphs = (function () {
 		
 		return_performance_chart_object: function()
 		{
-			return hc_options_object;
+			return p_chart_returns_hc_options;
 		},
+		
+		return_val_pnl_chart_object: function()
+		{
+			return p_chart_val_pnl_hc_options;
+		},
+		
         // Here by each position profit or loss 
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
@@ -571,53 +579,56 @@ var namespace_graphs = (function () {
                  var chart_flags = check_flag_edges(p_series_data, p_flag_data);
             }
             else var chart_flags = []; 
-            $(p_container_id).highcharts('StockChart', {
-                chart : {
-                    events: {
-                        load: function (){
-                            var chart = this;
-                            $.each(chart.rangeSelector.buttons, function(index, value) {
-                                value.on('click', function (e) { 
-                                    update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
-                                    e.preventDefault();
-                                }); 
-                            });
-                        }
-                    },
-                    marginLeft: 75,
-                    marginRight: 75
+			
+			p_chart_val_pnl_hc_options = {
+            	"rangeSelector" : { "selected" : 5 },
+            	"tooltip": { "enabled": false },
+            	"title" : { "text" : "Portfolio Aggregated Value"},
+                "plotOptions": {
+                    "animation": false,
+                    "area": {
+                        "fillColor": {
+                            "linearGradient": { "x1": 0, "y1": 0, "x2": 0, "y2": 1},
+                                "stops": [
+                                    [0, Highcharts.getOptions().colors[0]],
+                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                ]   
+                            }
+                    }
+                }, 
+                "series" : [{
+                        "name" : "Your Portfolio",
+                        "data" : p_series_data,
+                        "type" : "line",
+                        "animation": false,
+                        "id":"value_data"
+                    }]
+                   /* {
+                        "type": "flags",
+                        "name": "Flags on series",
+                        "data": chart_flags,
+                        "onSeries": "value_data",
+                        "shape": "squarepin"
+                    }] */
+			}
+			
+			var val_pnl_chart_object = Object.create(p_chart_val_pnl_hc_options);
+			val_pnl_chart_object.chart = {
+                events: {
+                    load: function (){
+                        var chart = this;
+                        $.each(chart.rangeSelector.buttons, function(index, value) {
+                            value.on('click', function (e) { 
+                                update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
+                                e.preventDefault();
+                            }); 
+                        });
+                    }
                 },
-                rangeSelector : { selected : 5 },
-                tooltip: { enabled: false },
-                title : { text : 'Portfolio Aggregated Value'},
-                    plotOptions: {
-                        animation: false,
-                        area: {
-                            fillColor: {
-                                linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-                                    stops: [
-                                        [0, Highcharts.getOptions().colors[0]],
-                                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                                    ]   
-                                }
-                        }
-                    }, 
-                    series : [{
-                            name : 'Your Portfolio',
-                            data : p_series_data,
-                            type : 'line',
-                            animation: false,
-                            id:'value_data'
-                        },
-                        {
-                            type: 'flags',
-                            name: 'Flags on series',
-                            data: chart_flags,
-                            onSeries: 'value_data',
-                            shape: 'squarepin'
-                        }]
-                    
-            });
+                marginLeft: 75,
+                marginRight: 75
+			}
+            $(p_container_id).highcharts('StockChart', val_pnl_chart_object)
         },
 
         render_sector_chart: function(p_series_data, p_container_id)
@@ -748,8 +759,8 @@ var namespace_graphs = (function () {
 					var y_max = y_axis_limits_1.max+5;
                 else 
 					var y_max = y_axis_limits_2.max+5;
-                
-				hc_options_object = {
+                //save chart options for later use
+				p_chart_returns_hc_options = {
                     "marginLeft": 75,
                     "marginRight": 75,
                     /* renderTo : p_container_id, */
@@ -761,36 +772,25 @@ var namespace_graphs = (function () {
                     },
                     "series" : p_series_data
 				};
-				
+				//create final chart object
+				var returs_chart_object = Object.create(p_chart_returns_hc_options);
+				returs_chart_object.chart = {
+					events: {
+                        load: function (){
+                            var chart = this;
+                            $.each(chart.rangeSelector.buttons, function(index, value) {
+                                value.on('click', function (e) { 
+                                    //alert(index);
+                                    update_performance_and_risk_charts_and_tab
+                                   //update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
+                                    e.preventDefault();
+                                }); 
+                            });
+                        }
+                    }
+				}
 				// render chart
-				
-                $(p_container_id).highcharts('StockChart', {
-                    chart : {
-                        events: {
-                            load: function (){
-                                var chart = this;
-                                $.each(chart.rangeSelector.buttons, function(index, value) {
-                                    value.on('click', function (e) { 
-                                        //alert(index);
-                                        update_performance_and_risk_charts_and_tab
-                                       //update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
-                                        e.preventDefault();
-                                    }); 
-                                });
-                            }
-                        },
-                    },
-                    marginLeft:75,
-                    marginRight:75,
-                    /* renderTo : p_container_id, */
-                    rangeSelector : { selected : 5 },
-                    title : { text : null},
-                    yAxis: {
-                        max : y_max,
-                        min : y_min
-                    },
-                    series : p_series_data
-             	});
+                $(p_container_id).highcharts('StockChart', returs_chart_object);
             },
             
             render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id, p_rank_mode, p_mode)
