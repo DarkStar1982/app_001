@@ -786,7 +786,7 @@ var namespace_portfolio = (function()
 				if (value == 'p_table_sum')
 				{
 					var contents = [["Net Value", "Net PnL"],[state.net_data["total_value"], state.net_data["total_pnl"]]];
-					report_object.push({"type":"table","contents": contents, "header":"Portfolio summary"});					
+					report_object.push({"type":"table","contents": contents, "header":"Portfolio summary", "styles":["pnl_color"]});					
 				}
 				if (value == "p_table_hist")
 				{	

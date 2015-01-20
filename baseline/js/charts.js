@@ -579,8 +579,7 @@ var namespace_graphs = (function () {
                  var chart_flags = check_flag_edges(p_series_data, p_flag_data);
             }
             else var chart_flags = []; 
-			
-			p_chart_val_pnl_hc_options = {
+			var root_object = {
             	"rangeSelector" : { "selected" : 5 },
             	"tooltip": { "enabled": false },
             	"title" : { "text" : "Portfolio Aggregated Value"},
@@ -594,25 +593,36 @@ var namespace_graphs = (function () {
                                     [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
                                 ]   
                             }
-                    }
-                }, 
-                "series" : [{
+                    	}
+                	}
+				}
+			p_chart_val_pnl_hc_options = Object.create(root_object);
+			p_chart_val_pnl_hc_options["title"] = { "text" : "Portfolio Aggregated Value"}
+			p_chart_val_pnl_hc_options["series"] = [{
                         "name" : "Your Portfolio",
                         "data" : p_series_data,
                         "type" : "line",
                         "animation": false,
                         "id":"value_data"
-                    }]
-                   /* {
-                        "type": "flags",
-                        "name": "Flags on series",
-                        "data": chart_flags,
-                        "onSeries": "value_data",
-                        "shape": "squarepin"
-                    }] */
-			}
+                    }];
 			
-			var val_pnl_chart_object = Object.create(p_chart_val_pnl_hc_options);
+			
+			var val_pnl_chart_object = Object.create(root_object);
+			val_pnl_chart_object["title"] = { "text" : "Portfolio Aggregated Value"}
+			val_pnl_chart_object["series"]= [{
+            	"name" : "Your Portfolio",
+                "data" : p_series_data,
+                "type" : "line",
+                "animation": false,
+                "id":"value_data"
+			},
+            {
+				"type": "flags",
+                "name": "Flags on series",
+                "data": chart_flags,
+                "onSeries": "value_data",
+                "shape": "squarepin"
+            }];
 			val_pnl_chart_object.chart = {
                 events: {
                     load: function (){
@@ -628,6 +638,8 @@ var namespace_graphs = (function () {
                 marginLeft: 75,
                 marginRight: 75
 			}
+			//console.log(val_pnl_chart_object);
+			//console.log(p_chart_val_pnl_hc_options);
             $(p_container_id).highcharts('StockChart', val_pnl_chart_object)
         },
 
