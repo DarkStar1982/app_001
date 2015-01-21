@@ -580,9 +580,7 @@ var namespace_graphs = (function () {
             }
             else var chart_flags = []; 
 			var root_object = {
-            	"rangeSelector" : { "selected" : 5 },
             	"tooltip": { "enabled": false },
-            	"title" : { "text" : "Portfolio Aggregated Value"},
                 "plotOptions": {
                     "animation": false,
                     "area": {
@@ -597,7 +595,31 @@ var namespace_graphs = (function () {
                 	}
 				}
 			p_chart_val_pnl_hc_options = Object.create(root_object);
-			p_chart_val_pnl_hc_options["title"] = { "text" : "Portfolio Aggregated Value"}
+			p_chart_val_pnl_hc_options["xAxis"]={"type":"datetime"};
+			if (p_chart_mode == "val_chart")
+			{
+				p_chart_val_pnl_hc_options["yAxis"]={"title":{"text":"Net Value"}};
+				p_chart_val_pnl_hc_options["title"] = { "text" : "Portfolio Aggregated Value"};
+            
+			}
+			else if (p_chart_mode == "pnl_chart")
+			{
+				p_chart_val_pnl_hc_options["yAxis"]={"title":{"text":"Net PnL"}};
+				p_chart_val_pnl_hc_options["title"] = { "text" : "Profit or Loss"};
+			}
+			p_chart_val_pnl_hc_options["rangeSelector"] = { "selected" : 5 };
+			p_chart_val_pnl_hc_options["plotOptions"] = {
+				"animation": false,
+                "area": {
+                	"fillColor": {
+                    "linearGradient": { "x1": 0, "y1": 0, "x2": 0, "y2": 1},
+                    	"stops": [
+                         	[0, Highcharts.getOptions().colors[0]],
+                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                        ]   
+                    }
+            	}
+            };
 			p_chart_val_pnl_hc_options["series"] = [{
                         "name" : "Your Portfolio",
                         "data" : p_series_data,
@@ -640,7 +662,7 @@ var namespace_graphs = (function () {
 			}
 			//console.log(val_pnl_chart_object);
 			//console.log(p_chart_val_pnl_hc_options);
-            $(p_container_id).highcharts('StockChart', val_pnl_chart_object)
+            $(p_container_id).highcharts('StockChart', val_pnl_chart_object);
         },
 
         render_sector_chart: function(p_series_data, p_container_id)
