@@ -3,6 +3,7 @@ var namespace_graphs = (function () {
     var m_local_data = {};
 	var p_chart_val_pnl_hc_options = {};
 	var p_chart_val_pnl_report_obj = {};
+	var p_chart_positions_report_obj = {};
 	
     function get_benchmark_difference(p_data1, p_data2)
     {
@@ -539,9 +540,24 @@ var namespace_graphs = (function () {
 		}
 	}
 	
-	function update_position_chart_report_object()
+	function update_position_chart_report_object(p_val_data, p_positions)
 	{
-		
+		p_chart_positions_report_obj = {
+			"title" : { 
+				"text" : "Positions profit or loss"
+			},
+            "xAxis": { "categories" : p_positions},
+            "plotOptions": {
+                "column" : {
+                     "color":"green",
+                     "negativeColor":"red",
+                     "pointWidth":20
+            	}
+            },
+            "series": [{
+                "type":"column",
+                "data": p_val_data}],
+		};
 	}
     /* PUBLIC */
     return {
@@ -556,6 +572,10 @@ var namespace_graphs = (function () {
 			return p_chart_val_pnl_report_obj;
 		},
 		
+		return_position_chart_object: function()
+		{
+			return p_chart_positions_report_obj;
+		},
         // Here by each position profit or loss 
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
@@ -563,6 +583,7 @@ var namespace_graphs = (function () {
                 var val_data = p_series_data.abs_list;
             else if (p_display_mode == 'percent')
                 var val_data = p_series_data.rel_list;
+			update_position_chart_report_object(val_data, p_series_data.data_positions);
             $(p_container_id).highcharts('Chart', {
                 chart: {
                     marginLeft: 75

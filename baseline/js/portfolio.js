@@ -836,7 +836,11 @@ var namespace_portfolio = (function()
 				if (value == 'p_chart_val_pnl')
 				{
 					var chart_object = JSON.stringify(namespace_graphs.return_val_pnl_chart_object());
-					console.log(chart_object);
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Value chart"});
+				}
+				if (value == 'p_chart_position')
+				{
+					var chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
 					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Value chart"});
 				}
 			});
