@@ -2,8 +2,7 @@ var namespace_graphs = (function () {
     /* PRIVATE */
     var m_local_data = {};
 	var p_chart_val_pnl_hc_options = {};
-	var p_chart_returns_hc_options = {};
-	
+	var p_chart_val_pnl_report_obj = {};
 	
     function get_benchmark_difference(p_data1, p_data2)
     {
@@ -515,6 +514,35 @@ var namespace_graphs = (function () {
         axis.setExtremes(start_datum, edata.dataMax);
     }
 
+	function update_val_pnl_chart_report_object(p_series_data, p_chart_mode, p_flag_data)
+	{
+		p_chart_val_pnl_report_obj = {
+			"xAxis" : {"type":"datetime"},
+			"series": [{
+				"name" : "Your Portfolio",
+			    "data" : p_series_data,
+			    "type" : "line",
+			    "animation" : false,
+			    "id" : "value_data"
+			}]
+		};
+		if (p_chart_mode == "val_chart")
+		{
+			p_chart_val_pnl_report_obj["yAxis"]={"title": {"text":"Net Value"}};
+			p_chart_val_pnl_report_obj["title"] = { "text" : "Portfolio Aggregated Value"};
+        
+		}
+		else if (p_chart_mode == "pnl_chart")
+		{
+			p_chart_val_pnl_report_obj["yAxis"]={"title": {"text":"Net PnL"} };
+			p_chart_val_pnl_report_obj["title"] = { "text" : "Profit or Loss"};
+		}
+	}
+	
+	function update_position_chart_report_object()
+	{
+		
+	}
     /* PUBLIC */
     return {
 		
@@ -525,7 +553,7 @@ var namespace_graphs = (function () {
 		
 		return_val_pnl_chart_object: function()
 		{
-			return p_chart_val_pnl_hc_options;
+			return p_chart_val_pnl_report_obj;
 		},
 		
         // Here by each position profit or loss 
@@ -573,96 +601,69 @@ var namespace_graphs = (function () {
 
         render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_flag_mode, p_chart_mode, p_flag_data)
         {
+			update_val_pnl_chart_report_object(p_series_data, p_chart_mode);
             m_local_data["chart_val_pnl"] = p_series_data;
             if (p_flag_mode) 
             {
                  var chart_flags = check_flag_edges(p_series_data, p_flag_data);
             }
             else var chart_flags = []; 
-			var root_object = {
+			var val_pnl_chart_object = {
             	"tooltip": { "enabled": false },
-                "plotOptions": {
+				"chart": {
+	                "events": {
+	                    "load": function (){
+	                        var chart = this;
+	                        $.each(chart.rangeSelector.buttons, function(index, value) {
+	                            value.on('click', function (e) { 
+	                                update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
+	                                e.preventDefault();
+	                            }); 
+	                        });
+	                    }
+	                },
+	                "marginLeft": 75,
+	                "marginRight": 75
+				},
+				"plotOptions": {
                     "animation": false,
                     "area": {
                         "fillColor": {
                             "linearGradient": { "x1": 0, "y1": 0, "x2": 0, "y2": 1},
-                                "stops": [
-                                    [0, Highcharts.getOptions().colors[0]],
-                                    [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                                ]   
-                            }
-                    	}
-                	}
-				}
-			p_chart_val_pnl_hc_options = Object.create(root_object);
-			p_chart_val_pnl_hc_options["xAxis"]={"type":"datetime"};
+                             "stops": [
+                             	[0, Highcharts.getOptions().colors[0]],
+                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                  		   	]
+						}
+                    }
+				},
+				"series":[{
+            		"name" : "Your Portfolio",
+                	"data" : p_series_data,
+                	"type" : "line",
+                	"animation": false,
+                	"id":"value_data"
+					},
+            		{
+					"type": "flags",
+                	"name": "Flags on series",
+                	"data": chart_flags,
+                	"onSeries": "value_data",
+                	"shape": "squarepin"
+            	}]
+			}
 			if (p_chart_mode == "val_chart")
 			{
-				p_chart_val_pnl_hc_options["yAxis"]={"title":{"text":"Net Value"}};
-				p_chart_val_pnl_hc_options["title"] = { "text" : "Portfolio Aggregated Value"};
-            
+				val_pnl_chart_object["yAxis"]={"title": {"text":"Net Value"}};
+				val_pnl_chart_object["title"] = { "text" : "Portfolio Aggregated Value"};
+        
 			}
 			else if (p_chart_mode == "pnl_chart")
 			{
-				p_chart_val_pnl_hc_options["yAxis"]={"title":{"text":"Net PnL"}};
-				p_chart_val_pnl_hc_options["title"] = { "text" : "Profit or Loss"};
+				val_pnl_chart_object["yAxis"]={"title": {"text":"Net PnL"} };
+				val_pnl_chart_object["title"] = { "text" : "Profit or Loss"};
 			}
-			p_chart_val_pnl_hc_options["rangeSelector"] = { "selected" : 5 };
-			p_chart_val_pnl_hc_options["plotOptions"] = {
-				"animation": false,
-                "area": {
-                	"fillColor": {
-                    "linearGradient": { "x1": 0, "y1": 0, "x2": 0, "y2": 1},
-                    	"stops": [
-                         	[0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]   
-                    }
-            	}
-            };
-			p_chart_val_pnl_hc_options["series"] = [{
-                        "name" : "Your Portfolio",
-                        "data" : p_series_data,
-                        "type" : "line",
-                        "animation": false,
-                        "id":"value_data"
-                    }];
-			
-			
-			var val_pnl_chart_object = Object.create(root_object);
-			val_pnl_chart_object["title"] = { "text" : "Portfolio Aggregated Value"}
-			val_pnl_chart_object["series"]= [{
-            	"name" : "Your Portfolio",
-                "data" : p_series_data,
-                "type" : "line",
-                "animation": false,
-                "id":"value_data"
-			},
-            {
-				"type": "flags",
-                "name": "Flags on series",
-                "data": chart_flags,
-                "onSeries": "value_data",
-                "shape": "squarepin"
-            }];
-			val_pnl_chart_object.chart = {
-                events: {
-                    load: function (){
-                        var chart = this;
-                        $.each(chart.rangeSelector.buttons, function(index, value) {
-                            value.on('click', function (e) { 
-                                update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
-                                e.preventDefault();
-                            }); 
-                        });
-                    }
-                },
-                marginLeft: 75,
-                marginRight: 75
-			}
-			//console.log(val_pnl_chart_object);
-			//console.log(p_chart_val_pnl_hc_options);
-            $(p_container_id).highcharts('StockChart', val_pnl_chart_object);
+	        $(p_container_id).highcharts('StockChart', val_pnl_chart_object);
         },
 
         render_sector_chart: function(p_series_data, p_container_id)
