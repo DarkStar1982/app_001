@@ -4,6 +4,7 @@ var namespace_graphs = (function () {
 	var p_chart_val_pnl_hc_options = {};
 	var p_chart_val_pnl_report_obj = {};
 	var p_chart_positions_report_obj = {};
+	var p_chart_sector_report_obj = {};
 	
     function get_benchmark_difference(p_data1, p_data2)
     {
@@ -559,6 +560,36 @@ var namespace_graphs = (function () {
                 "data": p_val_data}],
 		};
 	}
+	
+	function update_sector_chart_report_object(p_series_data)
+	{
+        p_chart_sector_report_obj = {
+            "title" : { "text" : 'Portfolio Industry Sectors'},
+            "plotOptions": { 
+                "pie": {
+                    "allowPointSelect": true,
+                    "cursor": "pointer",
+                	"dataLabels": {
+                    	"enabled": true,
+                    	"color": "#000000",
+                   		"connectorColor": "#FF0000",
+                    	"borderColor" : "#000000",
+                    	"borderWidth" : 1,
+                    	"style": {
+                        	"fontWeight": "bold", 
+							"fontSize": 10
+                    	}
+                	}
+				}                  
+         	},
+         	"series": [{
+                   "type": "pie",
+                   "name": "Portfolio structure",
+                   "data": p_series_data
+            }]
+		};
+	}
+	
     /* PUBLIC */
     return {
 		
@@ -575,6 +606,11 @@ var namespace_graphs = (function () {
 		return_position_chart_object: function()
 		{
 			return p_chart_positions_report_obj;
+		},
+		
+		return_sector_chart_object: function()
+		{
+			return p_chart_sector_report_obj;
 		},
         // Here by each position profit or loss 
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
@@ -689,6 +725,7 @@ var namespace_graphs = (function () {
 
         render_sector_chart: function(p_series_data, p_container_id)
         {
+			update_sector_chart_report_object(p_series_data);
             $(p_container_id).highcharts('Chart', {
                 title : { text : 'Portfolio Industry Sectors'},
                 plotOptions: { 

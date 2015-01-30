@@ -831,7 +831,7 @@ var namespace_portfolio = (function()
 				if (value == 'p_chart_returns')
 				{
 					var chart_object = JSON.stringify(namespace_graphs.return_performance_chart_object());
-					report_object.push({"type":"chart", "contents": chart_object, "header": "Performance Comparison chart"});
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Performance Performance chart"});
 				}
 				if (value == 'p_chart_val_pnl')
 				{
@@ -841,7 +841,13 @@ var namespace_portfolio = (function()
 				if (value == 'p_chart_position')
 				{
 					var chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
-					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Value chart"});
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Positions chart"});
+				}
+				if (value == 'p_chart_sector')
+				{
+					var chart_object = JSON.stringify(namespace_graphs.return_sector_chart_object());
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Sector chart"});
+				
 				}
 			});
 			return report_object;
