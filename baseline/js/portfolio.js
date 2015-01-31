@@ -849,6 +849,29 @@ var namespace_portfolio = (function()
 					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Sector chart"});
 				
 				}
+				if (value == 'p_table_portfolio_returns')
+				{
+					var contents = [
+						["Position", "Info", "1d %", "1w %", "1m %", "3m %", "6m %", "1y %", "50D-MA", "200D-MA"]
+					]
+					$.each(state.portfolio_series["dashboard_data"], function(index, value)
+					{
+						contents.push([
+							value["asset"],
+							value["info"], 
+							value["portfolio_returns"]["ret_1d"],
+							value["portfolio_returns"]["ret_1w"],
+							value["portfolio_returns"]["ret_1m"],
+							value["portfolio_returns"]["ret_3m"],
+							value["portfolio_returns"]["ret_6m"],
+							value["portfolio_returns"]["ret_1y"],
+							value["portfolio_momentum"]["p_50d"],
+							value["portfolio_momentum"]["p_200d"],
+						]);
+					});
+					console.log(state.portfolio_series["dashboard_data"]);
+					report_object.push({"type":"table", "contents": contents, "header": "Portfolio Returns table"});
+				}
 			});
 			return report_object;
 		},
