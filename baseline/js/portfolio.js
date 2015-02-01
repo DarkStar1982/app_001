@@ -740,6 +740,75 @@ var namespace_portfolio = (function()
         }
     }
     
+	function get_net_summary_object()
+	{
+		return [["Net Value", "Net PnL"],[state.net_data["total_value"], state.net_data["total_pnl"]]];
+	}
+	
+	function get_transaction_history_object()
+	{
+		var contents = [["Symbol", "Sector", "Action", "Volume", "Book Date", "Book Price", "Last Price"]]
+		$.each(state["transactions"], function(ind, val)
+		{
+			var row_list = [val["asset"], 
+							val["sector"], 
+							val["type"], 
+							val["volume"], 
+							val["book_date"], 
+							val["book_price"], 
+							val["last_price"]];
+			contents.push(row_list);
+		});
+		return contents;
+	}
+	
+	function get_positions_object()
+	{
+		var contents = [["Symbol", "Volume", "Average Price", "Book Value", "Last Value", "PnL"]]
+		$.each(state.net_data["positions"], function(ind, val)
+		{
+			var row_list = [val["symbol"], 
+				val["volume"], 
+				val["price_avg"], 
+				val["book_value"], 
+				val["last_value"], 
+				val["pnl"]];
+			contents.push(row_list);
+		});
+        //var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-" };
+		var cash_row = ['-', 
+						'-', 
+						'-',
+						state.net_data["net_cash_row"]["start_cash"],
+						state.net_data["net_cash_row"]["total_cash"],
+						'-'
+		];
+		contents.push(cash_row);
+		return contents;
+	}
+	
+	function get_portfolio_returns_object()
+	{
+		var contents = [
+			["Position", "Info", "1d %", "1w %", "1m %", "3m %", "6m %", "1y %", "50D-MA", "200D-MA"]
+		];
+		$.each(state.portfolio_series["dashboard_data"], function(index, value)
+		{
+			contents.push([
+				value["asset"],
+				value["info"], 
+				value["portfolio_returns"]["ret_1d"],
+				value["portfolio_returns"]["ret_1w"],
+				value["portfolio_returns"]["ret_1m"],
+				value["portfolio_returns"]["ret_3m"],
+				value["portfolio_returns"]["ret_6m"],
+				value["portfolio_returns"]["ret_1y"],
+				value["portfolio_momentum"]["p_50d"],
+				value["portfolio_momentum"]["p_200d"],
+			]);
+		});
+		return contents;
+	}
     /* Public methods */
     return {
         /* Load required page data:
@@ -783,95 +852,41 @@ var namespace_portfolio = (function()
 			var report_object = [];
 			$.each(p_data, function(index,value)
 			{
-				if (value == 'p_table_sum')
+				switch(value)
 				{
-					var contents = [["Net Value", "Net PnL"],[state.net_data["total_value"], state.net_data["total_pnl"]]];
-					report_object.push({"type":"table","contents": contents, "header":"Portfolio summary", "styles":["pnl_color"]});					
-				}
-				if (value == "p_table_hist")
-				{	
-					var contents = [["Symbol", "Sector", "Action", "Volume", "Book Date", "Book Price", "Last Price"]]
-					$.each(state["transactions"], function(ind, val)
-					{
-						var row_list = [val["asset"], 
-										val["sector"], 
-										val["type"], 
-										val["volume"], 
-										val["book_date"], 
-										val["book_price"], 
-										val["last_price"]];
-						contents.push(row_list);
-					});
-					report_object.push({"type":"table",	"contents": contents, "header": "Transaction history"});
-				}					
-				if (value =='p_table_pos')
-				{
-					var contents = [["Symbol", "Volume", "Average Price", "Book Value", "Last Value", "PnL"]]
-					$.each(state.net_data["positions"], function(ind, val)
-					{
-						var row_list = [val["symbol"], 
-							val["volume"], 
-							val["price_avg"], 
-							val["book_value"], 
-							val["last_value"], 
-							val["pnl"]];
-						contents.push(row_list);
-					});
-		            //var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-" };
-					var cash_row = ['-', 
-									'-', 
-									'-',
-									state.net_data["net_cash_row"]["start_cash"],
-									state.net_data["net_cash_row"]["total_cash"],
-									'-'
-					];
-					contents.push(cash_row);
-					report_object.push({"type":"table","contents": contents, "header": "Net positions"});
-				}
-				if (value == 'p_chart_returns')
-				{
-					var chart_object = JSON.stringify(namespace_graphs.return_performance_chart_object());
-					report_object.push({"type":"chart", "contents": chart_object, "header": "Performance Performance chart"});
-				}
-				if (value == 'p_chart_val_pnl')
-				{
-					var chart_object = JSON.stringify(namespace_graphs.return_val_pnl_chart_object());
-					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Value chart"});
-				}
-				if (value == 'p_chart_position')
-				{
-					var chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
-					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Positions chart"});
-				}
-				if (value == 'p_chart_sector')
-				{
-					var chart_object = JSON.stringify(namespace_graphs.return_sector_chart_object());
-					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Sector chart"});
-				
-				}
-				if (value == 'p_table_portfolio_returns')
-				{
-					var contents = [
-						["Position", "Info", "1d %", "1w %", "1m %", "3m %", "6m %", "1y %", "50D-MA", "200D-MA"]
-					]
-					$.each(state.portfolio_series["dashboard_data"], function(index, value)
-					{
-						contents.push([
-							value["asset"],
-							value["info"], 
-							value["portfolio_returns"]["ret_1d"],
-							value["portfolio_returns"]["ret_1w"],
-							value["portfolio_returns"]["ret_1m"],
-							value["portfolio_returns"]["ret_3m"],
-							value["portfolio_returns"]["ret_6m"],
-							value["portfolio_returns"]["ret_1y"],
-							value["portfolio_momentum"]["p_50d"],
-							value["portfolio_momentum"]["p_200d"],
-						]);
-					});
-					console.log(state.portfolio_series["dashboard_data"]);
-					report_object.push({"type":"table", "contents": contents, "header": "Portfolio Returns table"});
-				}
+					case 'p_table_sum':
+						var contents = get_net_summary_object();
+						report_object.push({"type":"table","contents": contents, "header":"Portfolio summary", "styles":["pnl_color"]});
+						break;
+					case 'p_table_hist':
+						var contents = get_transaction_history_object();
+						report_object.push({"type":"table",	"contents": contents, "header": "Transaction history"});
+						break;
+					case 'p_table_pos':
+						var contents = get_positions_object();
+						report_object.push({"type":"table","contents": contents, "header": "Net positions"});
+						break;
+					case 'p_chart_returns':
+						var chart_object = JSON.stringify(namespace_graphs.return_performance_chart_object());
+						report_object.push({"type":"chart", "contents": chart_object, "header": "Performance Performance chart"});
+						break;
+					case 'p_chart_val_pnl':
+						var chart_object = JSON.stringify(namespace_graphs.return_val_pnl_chart_object());
+						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Value chart"});
+						break;
+					case 'p_chart_position':
+						var chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
+						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Positions chart"});
+						break;
+					case 'p_chart_sector':
+						var chart_object = JSON.stringify(namespace_graphs.return_sector_chart_object());
+						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Sector chart"});
+						break;
+					case 'p_table_portfolio_returns':
+						var contents = get_portfolio_returns_object();
+						report_object.push({"type":"table", "contents": contents, "header": "Portfolio Returns table"});
+						break;
+				}				
 			});
 			return report_object;
 		},
