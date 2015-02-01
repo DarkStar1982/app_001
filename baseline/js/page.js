@@ -372,7 +372,7 @@ var namespace_gui = (function() {
             var series_data = [{
                 name:'Portfolio',
                 data:portfolio_chart_data["norm_pnl_series"], 
-                type:'area',
+                type:'line',
                 fillColor: {
                     linearGradient: {x1: 0, y1:0, x2: 0, y2: 1},
                     stops : [

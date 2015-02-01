@@ -700,6 +700,7 @@ var namespace_portfolio = (function()
     */    
     function add_dashboard_benchmark(p_benchmark)
     {
+		state.m_benchmark_series['dashboard_data']=[];
         $.getJSON(API_URL, {call:"benchmark_series", symbol: p_benchmark, start_date: get_first_date()}, function(data)
         {
             if (data.header.error_code == 0)
@@ -712,7 +713,7 @@ var namespace_portfolio = (function()
                 row_data = get_dashboard_data(data["norm_value_series"], "Benchmark", "-");
                // calculate benchmark derived data
                // update portfolio derived data = partial (beta, etc) 
-                
+                state.m_benchmark_series['dashboard_data'].push(row_data);
                 namespace_gui.update_benchmark_selector(p_benchmark);
                 namespace_gui.append_dashboard_row([row_data]);
                 namespace_gui.set_visibility(2);
@@ -809,6 +810,30 @@ var namespace_portfolio = (function()
 		});
 		return contents;
 	}
+	
+	function get_benchmark_returns_object()
+	{
+		var contents = [
+			["Position", "Info", "1d %", "1w %", "1m %", "3m %", "6m %", "1y %", "50D-MA", "200D-MA"]
+		];
+		$.each(state.m_benchmark_series["dashboard_data"], function(index, value)
+		{
+			contents.push([
+				value["asset"],
+				value["info"], 
+				value["portfolio_returns"]["ret_1d"],
+				value["portfolio_returns"]["ret_1w"],
+				value["portfolio_returns"]["ret_1m"],
+				value["portfolio_returns"]["ret_3m"],
+				value["portfolio_returns"]["ret_6m"],
+				value["portfolio_returns"]["ret_1y"],
+				value["portfolio_momentum"]["p_50d"],
+				value["portfolio_momentum"]["p_200d"],
+			]);
+		});
+		return contents;
+	}
+	
     /* Public methods */
     return {
         /* Load required page data:
@@ -885,6 +910,10 @@ var namespace_portfolio = (function()
 					case 'p_table_portfolio_returns':
 						var contents = get_portfolio_returns_object();
 						report_object.push({"type":"table", "contents": contents, "header": "Portfolio Returns table"});
+						break;
+					case 'p_table_benchmark_returns':
+						var contents = get_benchmark_returns_object();
+						report_object.push({"type":"table", "contents": contents, "header": "Benchmark Returns table"});
 						break;
 				}				
 			});
