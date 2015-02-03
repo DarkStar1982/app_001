@@ -5,7 +5,8 @@ var namespace_graphs = (function () {
 	var p_chart_val_pnl_report_obj = {};
 	var p_chart_positions_report_obj = {};
 	var p_chart_sector_report_obj = {};
-	
+	var p_chart_heatmap_report_obj = {}
+
     function get_benchmark_difference(p_data1, p_data2)
     {
         var r_data = new Array();
@@ -121,62 +122,69 @@ var namespace_graphs = (function () {
         } 
         return new_series;
     }
-
-    function render_risk_pnl_heatmap(p_container_id, p_values)
+	
+    function format_value_colors(p_value_1, p_value_2, inverted_compare, color_type)
     {
-        function format_value_colors(p_value_1, p_value_2, inverted_compare, color_type)
+        var color_table = {
+            "pnl": [["#7F0000","#FF0000"], //0 0>a>b
+                    ["#FF0000","#7F0000"], //1 0>b>a
+                    ["#7F0000","#7F0000"], //2 0>a=b
+                    ["#00AF00","#007F00"], //3 a>b>0
+                    ["#007F00","#00AF00"], //4 b>a>0
+                    ["#007F00","#007F00"]],//5 a=b>0
+            "risk":[["#7F0000","#FF0000"], //0 0>a>b
+                    ["#FF0000","#7F0000"], //1 0>b>a
+                    ["#7F0000","#7F0000"], //2 0>a=b
+                    ["#B0C4DE","#FF4500"], //3 a>b>0
+                    ["#FF4500","#B0C4DE"], //4 b>a>0
+                    ["#B0C4DE","#B0C4DE"]],//5 a=b>0
+            
+        }
+        if (p_value_1>=0 && p_value_2>=0)
         {
-            var color_table = {
-                "pnl": [["#7F0000","#FF0000"], //0 0>a>b
-                        ["#FF0000","#7F0000"], //1 0>b>a
-                        ["#7F0000","#7F0000"], //2 0>a=b
-                        ["#00AF00","#007F00"], //3 a>b>0
-                        ["#007F00","#00AF00"], //4 b>a>0
-                        ["#007F00","#007F00"]],//5 a=b>0
-                "risk":[["#7F0000","#FF0000"], //0 0>a>b
-                        ["#FF0000","#7F0000"], //1 0>b>a
-                        ["#7F0000","#7F0000"], //2 0>a=b
-                        ["#B0C4DE","#FF4500"], //3 a>b>0
-                        ["#FF4500","#B0C4DE"], //4 b>a>0
-                        ["#B0C4DE","#B0C4DE"]],//5 a=b>0
-                
-            }
-            if (p_value_1>=0 && p_value_2>=0)
+            if (inverted_compare)
             {
-                if (inverted_compare)
-                {
-                    if (p_value_1>p_value_2) return color_table[color_type][4];
-                    else if (p_value_1<p_value_2) return color_table[color_type][3];
-                    else return color_table[color_type][5];
-                
-                }
-                else
-                {
-                    if (p_value_1>p_value_2) return color_table[color_type][3]
-                    else if (p_value_1<p_value_2) return color_table[color_type][4]
-                    else return color_table[color_type][5];
-                }
+                if (p_value_1>p_value_2) return color_table[color_type][4];
+                else if (p_value_1<p_value_2) return color_table[color_type][3];
+                else return color_table[color_type][5];
+            
             }
-            else if (p_value_1<0 && p_value_2<0)
+            else
             {
-                if (p_value_1>p_value_2)
-                    return color_table[color_type][0]
-                else if (p_value_1<p_value_2)
-                    return color_table[color_type][1]
-                else return color_table[color_type][2];
-            }
-            else 
-            {
-                var colors = ["",""];
-                if (p_value_1>=0) colors[0]=color_table[color_type][5][0];
-                else colors[0] = color_table[color_type][2][0];
-                if (p_value_2>=0) colors[1]=color_table[color_type][5][0];
-                else colors[1] = color_table[color_type][2][0];
-                return colors;
+                if (p_value_1>p_value_2) return color_table[color_type][3]
+                else if (p_value_1<p_value_2) return color_table[color_type][4]
+                else return color_table[color_type][5];
             }
         }
+        else if (p_value_1<0 && p_value_2<0)
+        {
+            if (p_value_1>p_value_2)
+                return color_table[color_type][0]
+            else if (p_value_1<p_value_2)
+                return color_table[color_type][1]
+            else return color_table[color_type][2];
+        }
+        else 
+        {
+            var colors = ["",""];
+            if (p_value_1>=0) colors[0]=color_table[color_type][5][0];
+            else colors[0] = color_table[color_type][2][0];
+            if (p_value_2>=0) colors[1]=color_table[color_type][5][0];
+            else colors[1] = color_table[color_type][2][0];
+            return colors;
+        }
+    }
+	
+	function update_heatmap_chart_object(p_values)
+	{
+		
+	}
+	
+    function render_risk_pnl_heatmap(p_container_id, p_values)
+    {
         var colors_pnl = format_value_colors(p_values.benchmark_pnl, p_values.portfolio_pnl, false, "pnl");
         var colors_risk = format_value_colors(p_values.benchmark_risk, p_values.portfolio_risk, true,"risk");
+		update_heatmap_chart_object(p_values);
         $(p_container_id).highcharts('Chart', {
             title: { text: 'Risk and Return: Portfolio vs Benchmark' },
             chart: { type: 'heatmap'},
@@ -200,9 +208,7 @@ var namespace_graphs = (function () {
             }],
             yAxis: 
             {
-                title:{
-                    text:null
-                },
+                title:{text:null},
                 labels: {
                     formatter : function()
                     {
@@ -612,6 +618,12 @@ var namespace_graphs = (function () {
 		{
 			return p_chart_sector_report_obj;
 		},
+		
+		return_heatmap_chart_object: function()
+		{
+			
+		},
+		
         // Here by each position profit or loss 
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
