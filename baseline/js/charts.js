@@ -175,16 +175,37 @@ var namespace_graphs = (function () {
         }
     }
 	
-	function update_heatmap_chart_object(p_values)
+	/*
+					{"x": 0, "y": 1, "z": p_values.benchmark_pnl, "color": "#3F0000",p_colors_pnl[0]},
+                    {"x": 0, "y": 0, "z": p_values.benchmark_risk, "color": p_colors_risk[0]}, 
+                    {"x": 1, "y": 1, "z": p_values.portfolio_pnl, "color": p_colors_pnl[1]}, 
+                    {"x": 1, "y": 0, "z": p_values.portfolio_risk, "color": p_colors_risk[1]},
+	*/
+	
+	function update_heatmap_chart_object(p_values, p_colors_pnl, p_colors_risk)
 	{
-		
+		p_chart_heatmap_report_obj = {
+			"title": { "text": "Risk and Return: Portfolio vs Benchmark" },
+			"chart": { "type": "heatmap"},
+			"series": [{
+				"data" : [
+					{"x": 0, "y": 1, "value": p_values.benchmark_pnl, "color": p_colors_pnl[0]},
+                    {"x": 0, "y": 0, "value": p_values.benchmark_risk, "color": p_colors_risk[0]}, 
+                    {"x": 1, "y": 1, "value": p_values.portfolio_pnl, "color": p_colors_pnl[1]}, 
+                    {"x": 1, "y": 0, "value": p_values.portfolio_risk, "color":p_colors_risk[1]}
+				],
+				"dataLabels" : {
+					"enabled": true
+				}
+			}]
+   		};
 	}
 	
     function render_risk_pnl_heatmap(p_container_id, p_values)
     {
         var colors_pnl = format_value_colors(p_values.benchmark_pnl, p_values.portfolio_pnl, false, "pnl");
         var colors_risk = format_value_colors(p_values.benchmark_risk, p_values.portfolio_risk, true,"risk");
-		update_heatmap_chart_object(p_values);
+		update_heatmap_chart_object(p_values, colors_pnl, colors_risk);
         $(p_container_id).highcharts('Chart', {
             title: { text: 'Risk and Return: Portfolio vs Benchmark' },
             chart: { type: 'heatmap'},
@@ -621,7 +642,7 @@ var namespace_graphs = (function () {
 		
 		return_heatmap_chart_object: function()
 		{
-			
+			return p_chart_heatmap_report_obj;
 		},
 		
         // Here by each position profit or loss 

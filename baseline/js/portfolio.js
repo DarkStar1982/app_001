@@ -917,7 +917,7 @@ var namespace_portfolio = (function()
 						break;
 					case 'p_chart_heatmap':
 						var contents = JSON.stringify(namespace_graphs.return_heatmap_chart_object());
-						report_object.push({"type":"table", "contents": contents, "header": "Portfolio vs Benchmark: Risk and Returns "});
+						report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Risk and Returns "});
 						break;
 				}				
 			});
