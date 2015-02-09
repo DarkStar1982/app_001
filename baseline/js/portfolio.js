@@ -322,21 +322,32 @@ var namespace_portfolio = (function()
         return momentum_data;
     }
 
-    function get_position_chart_data(p_series_data)
+    function get_position_chart_data(p_series_data, p_net_value)
     {
         var abs_list=[];
         var rel_list=[];
         var info_obj = {};
         var data_positions=[];
-        for (var i=0;i<p_series_data.length;i++)
+		var bubbles=[];
+        for (var j=0;j<p_series_data.length;j++)
         {
-            abs_list.push(p_series_data[i].pnl);
-            rel_list.push(p_series_data[i].pnl_rel);
-            data_positions.push(p_series_data[i].symbol);
-            info_obj[p_series_data[i].symbol] = {
-                "volume": p_series_data[i].volume, 
-                "xpnl": p_series_data[i].pnl, 
-                "rpnl": p_series_data[i].pnl_rel
+			var bubble_size = Math.abs(p_series_data[j].last_value/p_net_value);
+			bubbles.push([j,bubble_size]);
+		}
+		bubbles.sort(function(a,b){
+			if (a[1]<b[1]) return -1;
+			if (a[1]>b[1]) return 1;
+			if (a[1]==b[1]) return 0;
+		});
+		for (var i=0;i<bubbles.length;i++)
+		{
+            abs_list.push([i,p_series_data[bubbles[i][0]].pnl,bubbles[i][1]]);
+            rel_list.push([i,p_series_data[bubbles[i][0]].pnl_rel,bubbles[i][1]]);
+            data_positions.push(p_series_data[bubbles[i][0]].symbol);
+            info_obj[p_series_data[bubbles[i][0]].symbol] = {
+                "volume": p_series_data[bubbles[i][0]].volume, 
+                "xpnl": p_series_data[bubbles[i][0]].pnl, 
+                "rpnl": p_series_data[bubbles[i][0]].pnl_rel
             };
         }
         return {"abs_list":abs_list, "rel_list":rel_list, "data_positions": data_positions, "hash_table":info_obj};
@@ -493,7 +504,7 @@ var namespace_portfolio = (function()
                         dashboard_rows.push(xrow);
                     }
                     state.portfolio_series["dashboard_data"] = dashboard_rows;
-                    state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions);  
+                    state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions,state.net_data.total_value);  
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
                     state.portfolio_series["risk_chart_data"] = compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
                     state.portfolio_series["derived_values"] = compute_derived_values(json_data.norm_pnl_series); 
