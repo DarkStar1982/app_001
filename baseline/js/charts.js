@@ -652,13 +652,19 @@ var namespace_graphs = (function () {
                 var val_data = p_series_data.abs_list;
             else if (p_display_mode == 'percent')
                 var val_data = p_series_data.rel_list;
-			console.log(val_data);
 			update_position_chart_report_object(val_data, p_series_data.data_positions);
             $(p_container_id).highcharts('Chart', {
                 chart: {
                     marginLeft: 75
                 },
                 title : { text : 'Positions profit or loss'},
+				yAxis : {
+					min:-100,
+        			max:100,
+        			tickInterval:100,
+        			tickLength:3,
+        			minorTickLength:0,
+				},
                 xAxis: { categories : p_series_data.data_positions},
                 plotOptions: {
                     column : {
