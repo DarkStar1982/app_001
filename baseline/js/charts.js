@@ -6,6 +6,7 @@ var namespace_graphs = (function () {
 	var p_chart_positions_report_obj = {};
 	var p_chart_sector_report_obj = {};
 	var p_chart_heatmap_report_obj = {}
+	var p_chart_risk_report_obj ={};
 
     function get_benchmark_difference(p_data1, p_data2)
     {
@@ -57,11 +58,33 @@ var namespace_graphs = (function () {
         return summary_data;
      }  
     
-     //add color to the data points 
+	function update_risk_chart_report_object(p_series, p_nav_data)
+	{
+		p_chart_risk_report_obj = {
+			"series": p_series,
+			"title" : {"text":null},
+            "plotLines": [{
+               "value": 0,
+               "color": "#000000",
+               "zIndex" : 5,
+               "width": 1
+            }],
+            "plotOptions" : {
+               "series" : {
+                   "turboThreshold" :10000,
+                     "dataGrouping" : {
+						 "approximation": "high",
+						 "enabled": false
+                     }
+            	 }
+            }
+		};
+	}
+    //add color to the data points 
     //also can invert the values for navigator series
     function render_risk_chart(seriesOptions, nav_data, p_container_id)
     {
-       // console.log("Rendering attempt..." +p_container_id);
+		update_risk_chart_report_object(seriesOptions);
         $(p_container_id).highcharts('StockChart', {
             series : seriesOptions,
             rangeSelector : { selected : 5 },
@@ -189,10 +212,29 @@ var namespace_graphs = (function () {
 			"chart": { "type": "heatmap"},
 			"series": [{
 				"data" : [
-					{"x": 0, "y": 1, "value": p_values.benchmark_pnl, "color": p_colors_pnl[0]},
-                    {"x": 0, "y": 0, "value": p_values.benchmark_risk, "color": p_colors_risk[0]}, 
-                    {"x": 1, "y": 1, "value": p_values.portfolio_pnl, "color": p_colors_pnl[1]}, 
-                    {"x": 1, "y": 0, "value": p_values.portfolio_risk, "color":p_colors_risk[1]}
+					{
+						"x": 0,
+					 	"y": 1, 
+					 	"value": "Benchmark PnL: " + math_util.aux_math_round(p_values.benchmark_pnl,2),
+					 	"color": p_colors_pnl[0]
+					},
+                    {
+						"x": 0,
+						"y": 0, 
+						"value": "Benchmark Risk: " +math_util.aux_math_round(p_values.benchmark_risk,2),
+						"color": p_colors_risk[0]
+					}, 
+                    {
+						"x": 1,
+						"y": 1,
+						"value": "Portfolio PnL: " + math_util.aux_math_round(p_values.portfolio_pnl,2),
+						"color": p_colors_pnl[1]}, 
+                    {
+						"x": 1,
+						"y": 0,
+						"value": "Portfolio Risk: "+ math_util.aux_math_round(p_values.portfolio_risk,2),
+						"color":p_colors_risk[1]
+					}
 				],
 				"dataLabels" : {
 					"enabled": true
@@ -643,6 +685,11 @@ var namespace_graphs = (function () {
 		return_heatmap_chart_object: function()
 		{
 			return p_chart_heatmap_report_obj;
+		},
+		
+		return_risk_chart_object: function()
+		{
+			return p_chart_risk_report_obj;
 		},
 		
         // Here by each position profit or loss 
