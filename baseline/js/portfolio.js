@@ -763,7 +763,7 @@ var namespace_portfolio = (function()
 	
 	function get_transaction_history_object()
 	{
-		var contents = [["Symbol", "Sector", "Action", "Volume", "Book Date", "Book Price", "Last Price"]]
+		var contents = [["Symbol", "Sector", "Action", "Volume", "Book Date", "Book Price", "Last Price"]];
 		$.each(state["transactions"], function(ind, val)
 		{
 			var row_list = [val["asset"], 
@@ -937,6 +937,12 @@ var namespace_portfolio = (function()
 					case 'p_chart_heatmap':
 						var contents = JSON.stringify(namespace_graphs.return_heatmap_chart_object());
 						report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Risk and Returns "});
+						break;
+					case 'p_chart_historical_risk':
+						var contents = JSON.stringify(namespace_graphs.return_risk_gauge_object(0));
+						report_object.push({"type":"chart", "contents": contents, "header": "Portfolio: Historical Volatility"});
+						var contents_2 = JSON.stringify(namespace_graphs.return_risk_gauge_object(1));
+						report_object.push({"type":"chart", "contents": contents_2, "header": "Benchmark: Historical Volatility"});
 						break;
 				}				
 			});
