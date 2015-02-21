@@ -532,8 +532,13 @@ var namespace_gui = (function() {
             
             $("#value_totals").text(net_data.total_value);
             $("#pnl_totals").text(net_data.total_pnl);
-            if (net_data.total_pnl >=0)  $("#pnl_totals").css( "background-color","green");
-            else  $("#pnl_totals").css( "background-color","red");  
+			if (net_data.total_pnl == '-')
+			{}
+            else {
+					if (net_data.total_pnl >=0)  
+						$("#pnl_totals").css( "background-color","green");
+            		else  $("#pnl_totals").css( "background-color","red");  
+				}
         },
     
         /* Initialize user interface elements */

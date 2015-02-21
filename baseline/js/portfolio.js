@@ -173,14 +173,15 @@ var namespace_portfolio = (function()
         {
             var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-"};
             var end_totals = total_cash;
-            total_pnl = cash_change;
+            total_pnl = "-";
         }
         else
         {
             var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-" };
             var end_totals = math_util.aux_math_round(total_cash + net_value,2);
+			total_pnl = math_util.aux_math_round(total_pnl,2);
         }       
-        return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": math_util.aux_math_round(total_pnl,2)};
+        return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": total_pnl};
     }
   
     function cluster_transaction_events()
@@ -272,7 +273,9 @@ var namespace_portfolio = (function()
             if (first_index<=p_input.length)
             {
                 var first_value = p_input[last_index - first_index][1];
-                series.push(math_util.aux_currency_round((last_value / first_value - 1) * 100.0));
+				if (first_value != 0)
+                	series.push(math_util.aux_currency_round((last_value / first_value - 1) * 100.0));
+				else series.push(0.0);
             }
             else series.push('-');
         }
