@@ -795,7 +795,7 @@ var namespace_portfolio = (function()
 			contents.push(row_list);
 		});
         //var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-" };
-		var cash_row = ['-', 
+		var cash_row = ['Cash', 
 						'-', 
 						'-',
 						state.net_data["net_cash_row"]["start_cash"],
@@ -911,11 +911,11 @@ var namespace_portfolio = (function()
 						break;
 					case 'p_chart_returns':
 						var chart_object = JSON.stringify(namespace_graphs.return_performance_chart_object());
-						report_object.push({"type":"chart", "contents": chart_object, "header": "Performance Performance chart"});
+						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio vs Benchmark: Performance"});
 						break;
 					case 'p_chart_val_pnl':
 						var chart_object = JSON.stringify(namespace_graphs.return_val_pnl_chart_object());
-						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Value chart"});
+						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Value"});
 						break;
 					case 'p_chart_position':
 						var chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
@@ -923,15 +923,15 @@ var namespace_portfolio = (function()
 						break;
 					case 'p_chart_sector':
 						var chart_object = JSON.stringify(namespace_graphs.return_sector_chart_object());
-						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Sector chart"});
+						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Sectors"});
 						break;
 					case 'p_table_portfolio_returns':
 						var contents = get_portfolio_returns_object();
-						report_object.push({"type":"table", "contents": contents, "header": "Portfolio Returns table"});
+						report_object.push({"type":"table", "contents": contents, "header": "Portfolio Returns"});
 						break;
 					case 'p_table_benchmark_returns':
 						var contents = get_benchmark_returns_object();
-						report_object.push({"type":"table", "contents": contents, "header": "Benchmark Returns table"});
+						report_object.push({"type":"table", "contents": contents, "header": "Benchmark Returns"});
 						break;
 					case 'p_chart_risk':
 						var contents = JSON.stringify(namespace_graphs.return_risk_chart_object());

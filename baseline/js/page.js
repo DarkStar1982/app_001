@@ -491,18 +491,23 @@ var namespace_gui = (function() {
         render_portfolio_dashboard: function(dashboard_data)
         {
             $("#dashboard_rows").empty();
+			var dashboard_table = "";
             for (var i=0; i<dashboard_data.length; i++)
             {
-                $("#dashboard_rows").append(create_dashboard_row(dashboard_data[i]));          
+				dashboard_table = dashboard_table + create_dashboard_row(dashboard_data[i]);
             }
+            $("#dashboard_rows").append(dashboard_table)          
         },
         //dashboard values for portfolio and benchmark
         append_dashboard_row: function(dashboard_data)
         {
+			var reference_table = "";
             for (var i=0; i<dashboard_data.length; i++)
             {
-                $("#reference_rows").append(create_dashboard_row(dashboard_data[i]));          
+				reference_table = reference_table + create_dashboard_row(dashboard_data[i]);
             }
+            $("#reference_rows").append(reference_table);          
+			
             //update charts (performance, risk, bubble, risk percentage etc)
         },
 
@@ -510,26 +515,28 @@ var namespace_gui = (function() {
         {
             //render trades
             $("#matrix").empty();
+			var table_rows ="";
             for (var i=0; i <transactions.length; i++) 
             {
-                $("#matrix").append(create_transaction_row(transactions[i]));
+				table_rows = table_rows + create_transaction_row(transactions[i]);
             }
+			$("#matrix").append(table_rows);
             $("#net_rows").empty();
             //append cash row first and net values
-            $("#net_rows").append(create_summary_row({"symbol": "Cash", 
+            var table_net_rows = create_summary_row({"symbol": "Cash", 
                                            "volume": "-", 
                                            "price_avg": "-",
                                            "book_value":net_data.net_cash_row.start_cash,
                                            "last_value":net_data.net_cash_row.total_cash, 
-                                           "pnl": net_data.net_cash_row.cash_change}));
+                                           "pnl": net_data.net_cash_row.cash_change});
             //append net positions
             var net_rows = net_data.positions;
             for (var x in net_rows)
             {
                 if (net_rows.hasOwnProperty(x))
-                    $("#net_rows").append(create_summary_row(net_rows[x]));      
+					table_net_rows = table_net_rows + create_summary_row(net_rows[x]);
             } 
-            
+            $("#net_rows").append(table_net_rows);      
             $("#value_totals").text(net_data.total_value);
             $("#pnl_totals").text(net_data.total_pnl);
 			if (net_data.total_pnl == '-')

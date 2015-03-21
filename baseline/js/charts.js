@@ -63,7 +63,7 @@ var namespace_graphs = (function () {
 	{
 		p_chart_risk_report_obj = {
 			"series": p_series,
-			"title" : {"text":null},
+			"title" : {"text":"Risk: Portfolio vs Benchmark"},
             "plotLines": [{
                "value": 0,
                "color": "#000000",
@@ -1016,7 +1016,7 @@ var namespace_graphs = (function () {
                     "marginRight": 75,
                     /* renderTo : p_container_id, */
                     "rangeSelector" : { "selected" : 5 },
-                    "title": { "text" : null},
+                    "title": { "text" : "Perfomance: Portfolio vs Benchmark"},
                     "yAxis": {
                         "max" : y_max,
                         "min" : y_min
