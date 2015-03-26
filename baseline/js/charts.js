@@ -63,7 +63,8 @@ var namespace_graphs = (function () {
 	{
 		p_chart_risk_report_obj = {
 			"series": p_series,
-			"title" : {"text":"Risk: Portfolio vs Benchmark"},
+            "title": { "text" : null},
+			//"title" : {"text":"Risk: Portfolio vs Benchmark"},
             "plotLines": [{
                "value": 0,
                "color": "#000000",
@@ -209,7 +210,8 @@ var namespace_graphs = (function () {
 	function update_heatmap_chart_object(p_values, p_colors_pnl, p_colors_risk)
 	{
 		p_chart_heatmap_report_obj = {
-			"title": { "text": "Risk and Return: Portfolio vs Benchmark" },
+             "title": { "text" : null},
+			//"title": { "text": "Risk and Return: Portfolio vs Benchmark" },
 			"chart": { "type": "heatmap"},
 			"series": [{
 				"data" : [
@@ -667,22 +669,25 @@ var namespace_graphs = (function () {
 		if (p_chart_mode == "val_chart")
 		{
 			p_chart_val_pnl_report_obj["yAxis"]={"title": {"text":"Net Value"}};
-			p_chart_val_pnl_report_obj["title"] = { "text" : "Portfolio Aggregated Value"};
+			p_chart_val_pnl_report_obj["title"] = { "text" : null}; 
+ 		   	//{ "text" : "Portfolio Aggregated Value"};
         
 		}
 		else if (p_chart_mode == "pnl_chart")
 		{
-			p_chart_val_pnl_report_obj["yAxis"]={"title": {"text":"Net PnL"} };
-			p_chart_val_pnl_report_obj["title"] = { "text" : "Profit or Loss"};
+			p_chart_val_pnl_report_obj["yAxis"] = {"title": {"text":"Net PnL"} };
+			p_chart_val_pnl_report_obj["title"] = { "text" : null};
+			//{ "text" : "Profit or Loss"};
 		}
 	}
 	
 	function update_position_chart_report_object(p_val_data, p_positions)
 	{
 		p_chart_positions_report_obj = {
-			"title" : { 
-				"text" : "Positions profit or loss"
-			},
+            "title": { "text" : null},
+			//"title" : { 
+			//	"text" : "Positions profit or loss"
+			//},
             "xAxis": { "categories" : p_positions},
             "plotOptions": {
                 "column" : {
@@ -700,7 +705,8 @@ var namespace_graphs = (function () {
 	function update_sector_chart_report_object(p_series_data)
 	{
         p_chart_sector_report_obj = {
-            "title" : { "text" : 'Portfolio Industry Sectors'},
+            "title": { "text" : null},
+            //"title" : { "text" : 'Portfolio Industry Sectors'},
             "plotOptions": { 
                 "pie": {
                     "allowPointSelect": true,
@@ -1016,7 +1022,8 @@ var namespace_graphs = (function () {
                     "marginRight": 75,
                     /* renderTo : p_container_id, */
                     "rangeSelector" : { "selected" : 5 },
-                    "title": { "text" : "Perfomance: Portfolio vs Benchmark"},
+                    "title": { "text" : null },
+                    //"title": { "text" : "Perfomance: Portfolio vs Benchmark"},
                     "yAxis": {
                         "max" : y_max,
                         "min" : y_min
