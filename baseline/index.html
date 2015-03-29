@@ -41,22 +41,20 @@
                 </div>
                 <div class="navbar-collapse collapse" id="navbar-main">
                     <ul class="nav navbar-nav">
-                        <li><a href="/">Home</a></li>
-                    </ul> 
+		                <li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Introduction</a></li>
+		                <li><a href="#Tab2" role="tab" data-toggle="tab">Positions</a></li>
+		                <li><a href="#Tab3" role="tab" data-toggle="tab">Performance</a></li>
+		                <li><a href="#Tab4" role="tab" data-toggle="tab">Benchmark comparison</a></li>
+		                <li><a href="#Tab5" role="tab" data-toggle="tab">Risk and Return</a></li>
+		                <li><a href="#Tab6" role="tab" data-toggle="tab">Save or share</a></li>
+		            </ul>
                 </div>
             </div>
         </div>
         <!--Contents -->
         <div class="container-fluid">
         <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist">
-                <li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Introduction</a></li>
-                <li><a href="#Tab2" role="tab" data-toggle="tab">Positions</a></li>
-                <li><a href="#Tab3" role="tab" data-toggle="tab">Performance</a></li>
-                <li><a href="#Tab4" role="tab" data-toggle="tab">Benchmark comparison</a></li>
-                <li><a href="#Tab5" role="tab" data-toggle="tab">Risk and Return</a></li>
-                <li><a href="#Tab6" role="tab" data-toggle="tab">Save or share</a></li>
-            </ul>
+            
             <!-- Top level tab panes -->
             <div class="tab-content">
             <div class="tab-pane active" id="Tab1">
@@ -214,7 +212,8 @@
                     <div class="col-md-8">
                         <!-- Select chart type - profit or loss / value over time -->
                         <select id="chart_select">
-                            <option value="pnl_chart">Profit or loss over time</option><option value="val_chart">Value over time</option>
+                            <option value="pnl_chart">Profit or loss over time</option>
+							<option value="val_chart">Value over time</option>
                         <select>
                         <!-- Select relative (0 - 100%) or absolute values -->
                         <select id="perf_select">
@@ -256,6 +255,16 @@
       <!-- Dashboard tab (need rework) -->
             <div class="tab-pane" id="Tab4">
                 <div id="tab_container4">
+	            <table class="table table-borderless" style="width:50%; margin-top:10px">
+	            	<tbody>
+	                	<tr>
+	                    	<td>Select benchmark:</td>
+	                        <td> <input type="text" id="benchmark_entry"/></td>
+	                        <td><button id="benchmark_add" class="btn btn-default">Add benchmark</button></td>
+	                        <td><button id="clear_benchmarks" class="btn btn-default">Clear benchmarks</button></td>
+	                    <tr>
+	    			<tbody>
+	            </table>
                 <!-- Positions returns and momentum -->
                 <h4> Portfolio positions breakdown</h4>
                 <table id="dashboard" class="table table-bordered">
@@ -264,8 +273,16 @@
                             <th colspan=2>HOLDINGS</th><th colspan=6>RETURNS</th><th colspan=2>MOMENTUM</th>
                         </tr>
                         <tr>
-                            <td>Position</td><td>Info</td><td>1d &#37</td><td>1w &#37</td><td>1m &#37</td><td>3m &#37</td><td>6m &#37</td><td>1y &#37</td>
-                            <td>50D-MA</td><td>200D-MA</td>
+                            <td>Position</td>
+							<td>Info</td>
+							<td>1d &#37</td>
+							<td>1w &#37</td>
+							<td>1m &#37</td>
+							<td>3m &#37</td>
+							<td>6m &#37</td>
+							<td>1y &#37</td>
+                            <td>50D-MA</td>
+							<td>200D-MA</td>
                         </tr>
                     </thead>
                     <!-- dashboard rows -->
@@ -288,32 +305,70 @@
                     <tbody id="reference_rows">
                     </tbody>
                 </table>
-                <table class="table table-borderless" style="width:50%">
-                    <tbody>
-                        <tr>
-                            <td>Add benchmark:</td>
-                            <td> <input type="text" id="benchmark_entry"/></td>
-                            <td><button id="benchmark_add" class="btn btn-default">Add benchmark</button></td>
-                            <td><button id="clear_benchmarks" class="btn btn-default">Clear benchmarks</button></td>
-                        <tr>
-                    <tbody>
-                </table>
-                </div>
-            </div>
- <!--- Comparison to benchmark tab -->
-            <div class="tab-pane" id="Tab5">
+			</div>
+		</div>
+ 		<!--- Comparison to benchmark tab -->
+        <div class="tab-pane" id="Tab5">
                 <div id="tab_container5">
                     <!--- tab menu -->
-                    <div class="row">
-                    </div>
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li style="margin:10px 10px 10px 10px">Select a benchmark to compare: <select id="benchmark_list"></select></li>
-                        <li class="active"><a href="#TabY1" role="tab" data-toggle="tab">View as charts</a></li>
-                        <li><a href="#TabY2" role="tab" data-toggle="tab">View as tabulated data</a></li>
-                    </ul>
-                    <!-- chart tab -->
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="TabY1">
+                       <p> Select a benchmark to compare: <select id="benchmark_list"></select></p>
+			                <div class="row">
+			                    <div id = "step4" class="col-md-6">
+			                        <h4> Performance metrics </h4>
+			                        <table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+			                        <thead>
+			                            <th>Total Period Stats</th><th>Your portfolio</th><th>Benchmark</th>
+			                        </thead>
+			                        <tbody>
+			                            <tr>
+			                                <td id="label_value">Initial PV</td><td id="portfolio_value">0</td>
+											<td id="benchmark_value">0</td>
+			                            </tr>
+			                            <tr>
+			                                <td id="label_final_pv">Final PV</td><td id="portfolio_final_pv">0</td>
+											<td id="benchmark_final_pv">0</td>
+			                            </tr>
+			                            <tr>
+			                                <td id="label_net_pnl">Net Profit/Loss</td><td id="portfolio_net_pnl">0</td>
+											<td id="benchmark_net_pnl">0</td>
+			                            </tr>
+			                            <tr>
+			                                <td id="label_annualized">Annualized</td><td id="portfolio_annualized">0</td>
+											<td id="benchmark_annualized">0</td>
+			                            </tr>
+			                            <tr>
+			                                <td id="label_std">STD</td><td id="portfolio_std">0</td><td id="benchmark_std">0</td>
+			                            </tr>
+			                            <tr>
+			                                <td id="label_beta">Beta</td><td id="portfolio_beta">0</td><td id="benchmark_beta">0</td>
+			                            </tr>
+			                            <!--tr>
+			                            <td id="label_jensen_alpha">Jensen's Alpha</td>
+			                            <td id="label_treynor">Treynor Ratio</td>
+			                            <td id="label_sharpe">Sharpe Ratio</td>
+			                            <td id="label_var">VAR</td>
+			                            </tr-->
+			                        </tbody>
+			                        </table>
+			                    </div>
+			                    <!-- risk model section -->
+			                    <div id ="risk_table" class="col-md-6">
+			                        <h4>Analysis and risk estimation</h4>
+			                        <table id = "risk_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+			                        <thead>
+			                        <th>Parameter name</th><th>Portfolio</th><th>Benchmark</th>
+			                        </thead>
+			                        <tbody>
+			                        <tr>
+			                        <td id="label_vatr_pc">Value at risk - Percent</td><td id="portfolio_vatr_pc">0.0</td><td id="benchmark_vatr_pc">0.0</td>
+			                        </tr>
+			                        <tr>
+			                        <td id="label_vatr_abs">Value at risk - Absolute</td><td id="portfolio_vatr_abs">0.0</td><td id="benchmark_vatr_abs">0.0</td>
+			                        </tr>
+			                        </tbody>
+			                        </table>
+			                     </div>          
+			                </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <h4 class="text-center">Historical Performance: Portofio vs Benchmark</h4>
@@ -358,65 +413,7 @@
                                 <div id="container_chart5d" style="height:140px"></div>
                             </div-->
                         </div>
-                    </div>
-                    <!-- Tables tab -->
-                    <div class="tab-pane" id="TabY2">
-                        <div class="row">
-                            <div id = "step4" class="col-md-6">
-                                <h4> Performance metrics </h4>
-                                <table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
-                                <thead>
-                                    <th>Total Period Stats</th><th>Your portfolio</th><th>Benchmark</th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td id="label_value">Initial PV</td><td id="portfolio_value">0</td><td id="benchmark_value">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td id="label_final_pv">Final PV</td><td id="portfolio_final_pv">0</td><td id="benchmark_final_pv">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td id="label_net_pnl">Net Profit/Loss</td><td id="portfolio_net_pnl">0</td><td id="benchmark_net_pnl">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td id="label_annualized">Annualized</td><td id="portfolio_annualized">0</td><td id="benchmark_annualized">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td id="label_std">STD</td><td id="portfolio_std">0</td><td id="benchmark_std">0</td>
-                                    </tr>
-                                    <tr>
-                                        <td id="label_beta">Beta</td><td id="portfolio_beta">0</td><td id="benchmark_beta">0</td>
-                                    </tr>
-                                    <!--tr>
-                                    <td id="label_jensen_alpha">Jensen's Alpha</td>
-                                    <td id="label_treynor">Treynor Ratio</td>
-                                    <td id="label_sharpe">Sharpe Ratio</td>
-                                    <td id="label_var">VAR</td>
-                                    </tr-->
-                                </tbody>
-                                </table>
-                            </div>
-                            <!-- risk model section -->
-                            <div id ="risk_table" class="col-md-6">
-                                <h4>Analysis and risk estimation</h4>
-                                <table id = "risk_values" class="table table-bordered" cellspacing="0" cellpadding="0">
-                                <thead>
-                                <th>Parameter name</th><th>Portfolio</th><th>Benchmark</th>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                <td id="label_vatr_pc">Value at risk - Percent</td><td id="portfolio_vatr_pc">0.0</td><td id="benchmark_vatr_pc">0.0</td>
-                                </tr>
-                                <tr>
-                                <td id="label_vatr_abs">Value at risk - Absolute</td><td id="portfolio_vatr_abs">0.0</td><td id="benchmark_vatr_abs">0.0</td>
-                                </tr>
-                                </tbody>
-                                </table>
-                             </div>          
-                        </div>
-                    </div>
-                </div>
-                </div>
+                  </div>
             </div>
             <!-- Save or share tab -->
             <div class="tab-pane" id="Tab6">
