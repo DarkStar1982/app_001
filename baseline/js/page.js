@@ -15,6 +15,10 @@ $(document).ready(function(){
     $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#submitFile").on('click', namespace_gui.process_transactions_file);
     $("#get_pdf_report").on('submit', namespace_gui.get_pdf_report);
+	$(".navbar-brand").on('click', function(){
+	    $(".nav li").removeClass('active');
+	    $(this).addClass('active');
+	})
     /*  make the page */
     namespace_gui.set_visibility(0);
 });
