@@ -319,122 +319,7 @@ var namespace_graphs = (function () {
     }
 
     //render risk vs return porfolio
-    function render_risk_pnl_bubble(p_container_id, p_values)
-    {
-        function get_color(value)
-        {
-            if (value>0) return '#00FF00';
-            else return '#FF0000';
-        }
-       
-        function get_size(value, type)
-        {
-            bubble_sizes = [4, 5, 6];
-            sizes_return = [3,9];
-            sizes_volatility = [15,25];
-            if (type == 'return')
-            {
-                 if (value<=sizes_return[0])
-                    return bubble_sizes[0];
-                else if (value>sizes_return[0] && value<=sizes_return[1])   
-                    return bubble_sizes[1];
-                else if (value>sizes_return[1])
-                    return bubble_sizes[2];
-               
-            }
-            else if (type == 'risk') 
-            {
-                if (value<=sizes_volatility[0])
-                    return bubble_sizes[0];
-                else if (value>sizes_volatility[0] && value<=sizes_volatility[1])   
-                    return bubble_sizes[1];
-                else if (value>sizes_volatility[1])
-                    return bubble_sizes[2];
-            }
-        }
- 
-        $(p_container_id).highcharts('Chart', {
-            title: { text: 'Risk and Return: Portfolio vs Benchmark' },
-            chart: { type: 'bubble', zoom: 'xy',
-         },
-         series: [{
-            data: [{x:10, y:10, z:get_size(Math.abs(p_values.benchmark_pnl),'return'), color: get_color(p_values.benchmark_pnl)}, 
-                   {x:10, y: 5, z:get_size(Math.abs(p_values.benchmark_risk),'risk'), color: get_color(p_values.benchmark_risk) }, 
-                   {x: 5, y:10, z:get_size(Math.abs(p_values.portfolio_pnl), 'return'), color: get_color(p_values.portfolio_pnl)}, 
-                   {x: 5, y: 5, z:get_size(Math.abs(p_values.portfolio_risk),'risk'), color: get_color(p_values.portfolio_risk)}],
-            dataLabels: {
-                        enabled: false
-                    },
-            sizeBy:'width'
-         }],
-         yAxis: {
-            min: 2.5,
-            max: 12.5,
-            lineWidth: 0,
-            gridLineWidth: 0,
-            minorGridLineWidth: 0,
-            minorTickLength: 0,
-            tickLength: 0,
-            labels: {
-               enabled: false
-            },
-            plotLines : [{ 
-                  value: 7.5,
-                  color: 'black',
-                  width: 2
-                }]
-         },
-         xAxis: {
-            min: 0,
-            max: 15,
-            lineWidth: 0,
-            gridLineWidth: 0,
-            minorGridLineWidth: 0,
-            minorTickLength: 0,
-            tickLength: 0,
-            labels: {
-               enabled: false
-            },
-            plotLines : [{ 
-                 value: 7.5,
-                 color: 'black', 
-                 width: 2  
-               }]   
-         }
-      },
-
-      function(chart) 
-      {
-         var text1 = chart.renderer.text(
-            'Portfolio Return', 
-             chart.plotLeft + 100, 
-             chart.plotTop + 10
-         ).attr({
-            zIndex: 5
-        }).add();
-        var text2 = chart.renderer.text(
-                'Benchmark  Return', 
-                chart.plotLeft + 800, 
-                chart.plotTop + 10
-            ).attr({
-                zIndex: 5
-            }).add();
-      var text3 = chart.renderer.text(
-                'Portfolio Risk', 
-                chart.plotLeft + 100, 
-                chart.plotTop + 300
-            ).attr({
-                zIndex: 5
-            }).add();
-      var text4 = chart.renderer.text(
-                'Benchmark Risk', 
-                chart.plotLeft + 800, 
-                chart.plotTop + 300
-            ).attr({
-                zIndex: 5
-            }).add();
-      });
-    } 
+    
    
     function update_risk_gauge_object(p_gauge_data, i)
 	{
@@ -773,35 +658,41 @@ var namespace_graphs = (function () {
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
             if (p_display_mode == 'absolute')
+			{
                 var val_data = p_series_data.abs_list;
+				var y_scale = [-1000, 1000];
+			}
             else if (p_display_mode == 'percent')
+			{
                 var val_data = p_series_data.rel_list;
+				var y_scale = [-100, 100];	
+			}
+			console.log(val_data);
 			update_position_chart_report_object(val_data, p_series_data.data_positions);
             $(p_container_id).highcharts('Chart', {
                 chart: {
+					type: 'column',
                     marginLeft: 75
                 },
                 title : { text : 'Positions profit or loss'},
 				yAxis : {
-					min:-100,
-        			max:100,
-        			tickInterval:100,
+					min: y_scale[0],
+        			max: y_scale[1],
         			tickLength:3,
         			minorTickLength:0,
 				},
                 xAxis: { categories : p_series_data.data_positions},
-                plotOptions: {
+               plotOptions: {
                     column : {
                          color:'green',
                          negativeColor:'red',
                          pointWidth:20
                       }
                 },
-                legend : {enabled:false},
+                legend : {enabled:false}, 
                 series: [{
-                    type:'bubble',
                     data: val_data}],
-                tooltip : {
+              /*  tooltip : {
                     formatter: function() {
                         if (p_display_mode == 'absolute')
                         {
@@ -816,7 +707,7 @@ var namespace_graphs = (function () {
                             + "<br/>Pc. PnL: " + p_series_data.hash_table[this.x].rpnl+end_char;
                        }
                    }
-                },
+                }, */
             });
         },
 
@@ -919,89 +810,6 @@ var namespace_graphs = (function () {
                        data: p_series_data
                       }]
              });
-            /* 
-            var prows=$("#net_rows").children("tr");
-            var table=new Object;
-            var net_value=0.0;
-            var s=0;
-            var aa=[];
-            i = 0;
-            var xtable = new Array;
-            var tooltip_data = [];
-            //get positions
-                    prows.each(function(index)
-                    {
-                            symbol = $(this).children(".sum_asset").text();
-                            xvalue = $(this).children(".sum_cur_val").text();
-                            xtable[i] = [symbol,xvalue];
-                            i = i + 1;
-                            net_value = net_value + parseFloat(xvalue);
-                    });
-                    //get sector data   
-                    var positions = {};
-            $.each(xtable, function (i, value){ $.get("data_api",{id:value[0], type:"sector"},function(data) {
-                                sector = data;
-                                if (table[sector]==undefined) {
-                                        table[sector] = value[1];
-                                        positions[sector] = [];
-                                       positions[sector].push([value[0],value[1]]);
-                                }
-                                else
-                                {
-                                        positions[sector].push([value[0],value[1]]);
-                                        table[sector] = parseFloat(table[sector]) + parseFloat(value[1]);
-                                }
-                                s = s+1;
-                                if (s == xtable.length)
-                                {
-                                        var final_table = new Array;
-                                        var j=0;
-                                        var hint_positions  = {};
-                                        for (var k in table)
-                                        {
-                                                if (table.hasOwnProperty(k))
-                                                {
-                                                    test_array=new Array;
-                                                        test_array[1]=table[k]/net_value;
-                                                        test_array[0] = k + " : "
-                                                                + math_util.aux_currency_round(test_array[1]*100.0)+"%";
-                                                        final_table[j]=test_array;
-                                                        hint_positions[test_array[0]] = positions[k];
-                                                        j = j + 1;
-                                                }
-                                        }
-                                        stored_data.sector_chart = new Highcharts.Chart({ chart : {
-                                                        renderTo : 'container_chart0',
-                                                        type: 'pie'
-                                                },
-                                                title : { text : 'Portfolio Industry Sectors'},
-                                                plotOptions: { 
-                                pie: {
-                                                                    allowPointSelect: true,
-                                                                    cursor: 'pointer',
-                                                                    dataLabels: {
-                                                                            enabled: true,
-                                                                            color: '#000000',
-                                                                            connectorColor: '#FF0000',
-                                                                            borderColor : '#000000',
-                                                                            borderWidth : 1,
-                                                                            style: {fontWeight: 'bold' , fontSize: 10}
-                                                                    }
-                                }                  
-                                    },
-                                                tooltip : { formatter: function() {
-                                var hint_str = format_hint(hint_positions[this.key]);
-                                return hint_str;
-                                                        }
-                                                },
-                        series: [{
-                                                        type: 'pie',
-                                                        name: 'Portfolio structure',
-                                                        data: final_table
-                                                }]
-                                        });
-                                }
-                        });}) */
             },
             
             render_performance_chart: function(p_series_data, p_container_id)
@@ -1075,9 +883,6 @@ var namespace_graphs = (function () {
                         [1.5, 'rgb(32,124, 202)']
                     ]
                 }
-               // console.log(seriesOptions[0].data);
-               // if (heatmap_data.portfolio_risk>heatmap_data.benchmark_risk) seriesOptions[0].color = '#FF4500';
-               // else  seriesOptions[0].color = '#B0C4DE';
                 seriesOptions[1].type = 'line';
                 seriesOptions[1].dashStyle = 'dot';
                 seriesOptions[1].color = {
@@ -1089,16 +894,11 @@ var namespace_graphs = (function () {
                     ]
                 }
                 //always render
-                render_linear_gauge('#container_chart5a', a, "Portfolio",0);
-                render_linear_gauge('#container_chart5b', b, "Benchmark",1);
+                //render_linear_gauge('#container_chart5a', a, "Portfolio",0);
+                //render_linear_gauge('#container_chart5b', b, "Benchmark",1);
                 if (p_mode==0)
                 {
                     render_risk_chart(seriesOptions, nav_data, p_container_id); 
-                    //part two
-                    //render_risk_gauge_radial('#container_chart5a', a);
-                    //render_risk_gauge_radial('#container_chart5b', b);
-                    //render_risk_gauge_radial('#container_chart5c', compute_rank_gauge_data(a.last_val, seriesOptions[0].data));
-                    //render_risk_gauge_radial('#container_chart5d', compute_rank_gauge_data(b.last_val, seriesOptions[1].data));
                     render_risk_pnl_heatmap('#container_chart4b', heatmap_data);
                 }
             }

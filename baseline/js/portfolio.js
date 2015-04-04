@@ -335,7 +335,7 @@ var namespace_portfolio = (function()
         for (var j=0;j<p_series_data.length;j++)
         {
 			var color ="";
-			var bubble_size = Math.abs(p_series_data[j].last_value/p_net_value);
+			var bubble_size = p_series_data[j].pnl;
 			if (p_series_data[j].pnl<0) 
 				bubbles.push([j,bubble_size,"red"]);
 			else
@@ -348,9 +348,9 @@ var namespace_portfolio = (function()
 		});
 		for (var i=0;i<bubbles.length;i++)
 		{
-            abs_list.push({"x":i,"y":p_series_data[bubbles[i][0]].pnl,"z":bubbles[i][1],"color":bubbles[i][2]});
-            rel_list.push({"x":i,"y":p_series_data[bubbles[i][0]].pnl_rel,"z":bubbles[i][1],"color":bubbles[i][2]});
-            data_positions.push(p_series_data[bubbles[i][0]].symbol);
+			abs_list.push({"x":i,"y":p_series_data[bubbles[i][0]].pnl,"color":bubbles[i][2]});
+            rel_list.push({"x":i,"y":p_series_data[bubbles[i][0]].pnl_rel,"color":bubbles[i][2]});
+			data_positions.push(p_series_data[bubbles[i][0]].symbol);
             info_obj[p_series_data[bubbles[i][0]].symbol] = {
                 "volume": p_series_data[bubbles[i][0]].volume, 
                 "xpnl": p_series_data[bubbles[i][0]].pnl, 
