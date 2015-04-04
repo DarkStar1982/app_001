@@ -333,61 +333,59 @@ var namespace_portfolio = (function()
         var info_obj_rel = {};
         var data_positions_abs=[];
         var data_positions_rel=[];
-		var bubbles=[];
+		var bubbles_a=[];
+		var bubbles_b=[];
+		var max_pnl = 0.0;
+		var max_pnl_rel = 0.0;
         for (var j=0;j<p_series_data.length;j++)
         {
-			var color ="";
-			var bubble_size = p_series_data[j].pnl;
 			if (p_series_data[j].pnl<0) 
-				bubbles.push([j,bubble_size,"red"]);
+				bubbles_a.push([j,p_series_data[j].pnl,"red"]);
 			else
-				bubbles.push([j,bubble_size,"green"]);
-		}
-		bubbles.sort(function(a,b){
-			if (a[1]<b[1]) return -1;
-			if (a[1]>b[1]) return 1;
-			if (a[1]==b[1]) return 0;
-		});
-		for (var i=0;i<bubbles.length;i++)
-		{
-			abs_list.push({"x":i,"y":p_series_data[bubbles[i][0]].pnl,"color":bubbles[i][2]});
-			data_positions_abs.push(p_series_data[bubbles[i][0]].symbol);
-            info_obj_abs[p_series_data[bubbles[i][0]].symbol] = {
-                "volume": p_series_data[bubbles[i][0]].volume, 
-                "xpnl": p_series_data[bubbles[i][0]].pnl, 
-                "rpnl": p_series_data[bubbles[i][0]].pnl_rel
-            };
-        }
-		bubbles=[];
-        for (var j=0;j<p_series_data.length;j++)
-        {
-			var color ="";
-			var bubble_size = p_series_data[j].pnl_rel;
+				bubbles_a.push([j,p_series_data[j].pnl,"green"]);
 			if (p_series_data[j].pnl_rel<0) 
-				bubbles.push([j,bubble_size,"red"]);
+				bubbles_b.push([j,p_series_data[j].pnl_rel,"red"]);
 			else
-				bubbles.push([j,bubble_size,"green"]);
+				bubbles_b.push([j,p_series_data[j].pnl_rel,"green"]);
+			if (Math.abs(p_series_data[j].pnl)>max_pnl) max_pnl = Math.abs(p_series_data[j].pnl);
+			if (Math.abs(p_series_data[j].pnl_rel)>max_pnl_rel) max_pnl_rel = Math.abs(p_series_data[j].pnl_rel);
+			
 		}
-		bubbles.sort(function(a,b){
+		bubbles_a.sort(function(a,b){
 			if (a[1]<b[1]) return -1;
 			if (a[1]>b[1]) return 1;
 			if (a[1]==b[1]) return 0;
 		});
-		for (var i=0;i<bubbles.length;i++)
+		bubbles_b.sort(function(a,b){
+			if (a[1]<b[1]) return -1;
+			if (a[1]>b[1]) return 1;
+			if (a[1]==b[1]) return 0;
+		});
+		for (var i=0;i<bubbles_a.length;i++)
 		{
-	        rel_list.push({"x":i,"y":p_series_data[bubbles[i][0]].pnl_rel,"color":bubbles[i][2]});
-			data_positions_rel.push(p_series_data[bubbles[i][0]].symbol);
-            info_obj_rel[p_series_data[bubbles[i][0]].symbol] = {
-                "volume": p_series_data[bubbles[i][0]].volume, 
-                "xpnl": p_series_data[bubbles[i][0]].pnl, 
-                "rpnl": p_series_data[bubbles[i][0]].pnl_rel
+			abs_list.push({"x":i,"y":p_series_data[bubbles_a[i][0]].pnl,"color":bubbles_a[i][2]});
+			data_positions_abs.push(p_series_data[bubbles_a[i][0]].symbol);
+            info_obj_abs[p_series_data[bubbles_a[i][0]].symbol] = {
+                "volume": p_series_data[bubbles_a[i][0]].volume, 
+                "xpnl": p_series_data[bubbles_a[i][0]].pnl, 
+                "rpnl": p_series_data[bubbles_a[i][0]].pnl_rel
+            };
+	        rel_list.push({"x":i,"y":p_series_data[bubbles_b[i][0]].pnl_rel,"color":bubbles_b[i][2]});
+			data_positions_rel.push(p_series_data[bubbles_b[i][0]].symbol);
+            info_obj_rel[p_series_data[bubbles_b[i][0]].symbol] = {
+                "volume": p_series_data[bubbles_b[i][0]].volume, 
+                "xpnl": p_series_data[bubbles_b[i][0]].pnl, 
+                "rpnl": p_series_data[bubbles_b[i][0]].pnl_rel
             };
         }
+		
         return {
 			"abs_list":abs_list, 
 			"rel_list":rel_list, 
 			"data_positions": [data_positions_abs, data_positions_rel], 
-			"hash_table":[info_obj_abs, info_obj_rel]};
+			"hash_table":[info_obj_abs, info_obj_rel],
+			"max_pnl":max_pnl,
+			"max_pnl_rel":max_pnl_rel};
     } 
 
     function get_sector_chart_data(p_net_data)

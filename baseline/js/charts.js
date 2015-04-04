@@ -662,12 +662,12 @@ var namespace_graphs = (function () {
                 var val_data = p_series_data.abs_list;
 				update_position_chart_report_object(val_data, p_series_data.data_positions[0]);
 				var x_scale = p_series_data.data_positions[0];
-				var y_scale = [-1000, 1000];
+				var y_scale = [-p_series_data.max_pnl, p_series_data.max_pnl];
 			}
             else if (p_display_mode == 'percent')
 			{
                 var val_data = p_series_data.rel_list;
-				var y_scale = [-100, 100];	
+				var y_scale = [-p_series_data.max_pnl_rel, p_series_data.max_pnl_rel];	
 				var x_scale = p_series_data.data_positions[1];
 				update_position_chart_report_object(val_data, p_series_data.data_positions[1]);
 			}
