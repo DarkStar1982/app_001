@@ -660,15 +660,17 @@ var namespace_graphs = (function () {
             if (p_display_mode == 'absolute')
 			{
                 var val_data = p_series_data.abs_list;
+				update_position_chart_report_object(val_data, p_series_data.data_positions[0]);
+				var x_scale = p_series_data.data_positions[0];
 				var y_scale = [-1000, 1000];
 			}
             else if (p_display_mode == 'percent')
 			{
                 var val_data = p_series_data.rel_list;
 				var y_scale = [-100, 100];	
+				var x_scale = p_series_data.data_positions[1];
+				update_position_chart_report_object(val_data, p_series_data.data_positions[1]);
 			}
-			console.log(val_data);
-			update_position_chart_report_object(val_data, p_series_data.data_positions);
             $(p_container_id).highcharts('Chart', {
                 chart: {
 					type: 'column',
@@ -681,7 +683,7 @@ var namespace_graphs = (function () {
         			tickLength:3,
         			minorTickLength:0,
 				},
-                xAxis: { categories : p_series_data.data_positions},
+               xAxis: { categories : x_scale},
                plotOptions: {
                     column : {
                          color:'green',

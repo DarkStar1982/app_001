@@ -329,8 +329,10 @@ var namespace_portfolio = (function()
     {
         var abs_list=[];
         var rel_list=[];
-        var info_obj = {};
-        var data_positions=[];
+        var info_obj_abs = {};
+        var info_obj_rel = {};
+        var data_positions_abs=[];
+        var data_positions_rel=[];
 		var bubbles=[];
         for (var j=0;j<p_series_data.length;j++)
         {
@@ -349,15 +351,43 @@ var namespace_portfolio = (function()
 		for (var i=0;i<bubbles.length;i++)
 		{
 			abs_list.push({"x":i,"y":p_series_data[bubbles[i][0]].pnl,"color":bubbles[i][2]});
-            rel_list.push({"x":i,"y":p_series_data[bubbles[i][0]].pnl_rel,"color":bubbles[i][2]});
-			data_positions.push(p_series_data[bubbles[i][0]].symbol);
-            info_obj[p_series_data[bubbles[i][0]].symbol] = {
+			data_positions_abs.push(p_series_data[bubbles[i][0]].symbol);
+            info_obj_abs[p_series_data[bubbles[i][0]].symbol] = {
                 "volume": p_series_data[bubbles[i][0]].volume, 
                 "xpnl": p_series_data[bubbles[i][0]].pnl, 
                 "rpnl": p_series_data[bubbles[i][0]].pnl_rel
             };
         }
-        return {"abs_list":abs_list, "rel_list":rel_list, "data_positions": data_positions, "hash_table":info_obj};
+		bubbles=[];
+        for (var j=0;j<p_series_data.length;j++)
+        {
+			var color ="";
+			var bubble_size = p_series_data[j].pnl_rel;
+			if (p_series_data[j].pnl_rel<0) 
+				bubbles.push([j,bubble_size,"red"]);
+			else
+				bubbles.push([j,bubble_size,"green"]);
+		}
+		bubbles.sort(function(a,b){
+			if (a[1]<b[1]) return -1;
+			if (a[1]>b[1]) return 1;
+			if (a[1]==b[1]) return 0;
+		});
+		for (var i=0;i<bubbles.length;i++)
+		{
+	        rel_list.push({"x":i,"y":p_series_data[bubbles[i][0]].pnl_rel,"color":bubbles[i][2]});
+			data_positions_rel.push(p_series_data[bubbles[i][0]].symbol);
+            info_obj_rel[p_series_data[bubbles[i][0]].symbol] = {
+                "volume": p_series_data[bubbles[i][0]].volume, 
+                "xpnl": p_series_data[bubbles[i][0]].pnl, 
+                "rpnl": p_series_data[bubbles[i][0]].pnl_rel
+            };
+        }
+        return {
+			"abs_list":abs_list, 
+			"rel_list":rel_list, 
+			"data_positions": [data_positions_abs, data_positions_rel], 
+			"hash_table":[info_obj_abs, info_obj_rel]};
     } 
 
     function get_sector_chart_data(p_net_data)
