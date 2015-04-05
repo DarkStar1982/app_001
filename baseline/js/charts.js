@@ -489,6 +489,63 @@ var namespace_graphs = (function () {
 
     }
 
+	function render_quadrant_chart(p_container_id, p_data, p_axis_data)
+	{
+        $(p_container_id).highcharts('Chart', {
+			chart: {
+			    defaultSeriesType:'bubble',
+				plotBackgroundColor :{
+					linearGradient: { x1: 0, y1: 0, x2: 0.25, y2: 1 },
+	                stops: [
+						[0.0, 'rgb(200, 255, 200)'],
+		                [1.0, 'rgb(255, 100, 100)']
+					]
+	            },
+			},
+			credits: {enabled:false},
+			    title: {
+			        text:null
+			    },
+			    legend:{
+			        enabled:false                                
+			    },
+			
+			    xAxis:{
+			        title:{
+			            text:'Risk'
+			        },
+			        min:0,
+			        max:p_axis_data[0],
+			        tickLength:0,
+			        minorTickLength:0,
+			        gridLineWidth:1,
+			        showLastLabel:true,
+			        showFirstLabel:true,
+			        lineColor:'#ccc',
+			        lineWidth:1                
+			    },
+			    yAxis:{
+			        title:{
+			            text:'Returns',
+			            rotation:0,
+			            margin:25,
+			        },
+			        min:-p_axis_data[1],
+			        max:p_axis_data[1],
+			        tickLength:0,
+			        gridLineWidth:1,
+			        minorTickLength:0,
+			        lineColor:'#ccc',
+			        lineWidth:1        
+			    },
+			    series: [{
+			        color:'#185aa9',
+			        data: p_data
+			    }]
+			
+		});
+	}
+	
     function check_flag_edges(p_data, p_flags)
     {
         var li_flag = p_flags.length - 1;
@@ -617,6 +674,22 @@ var namespace_graphs = (function () {
 		};
 	}
 	
+	function get_bubbles(p_data)
+	{
+		var bubbles = [
+			{"x":p_data.portfolio_risk, "y":p_data.portfolio_pnl, "color":'#007F7F', "name": "Portfolio"},
+			{"x":p_data.benchmark_risk, "y":p_data.benchmark_pnl, "color":'#7F7F00', "name": "Benchmark"}
+		];
+		var x_max = 1.2 * (Math.max(p_data.portfolio_risk, p_data.benchmark_risk));
+		var y_max = 1.2 * (Math.max(Math.abs(p_data.portfolio_pnl), Math.abs(p_data.benchmark_pnl)));
+        return {"bubbles":bubbles,"max_axis":[x_max, y_max]};
+	}
+	
+	function get_axis_data(p_data)
+	{
+		var axis={};
+		axis.x_max =p_databubbles
+	}
     /* PUBLIC */
     return {
 		
@@ -896,6 +969,8 @@ var namespace_graphs = (function () {
                     ]
                 }
                 //always render
+				var data = get_bubbles(heatmap_data);
+				render_quadrant_chart('#container_chart5a',data["bubbles"], data["max_axis"]);
                 //render_linear_gauge('#container_chart5a', a, "Portfolio",0);
                 //render_linear_gauge('#container_chart5b', b, "Benchmark",1);
                 if (p_mode==0)
