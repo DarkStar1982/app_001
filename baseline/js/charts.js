@@ -494,13 +494,13 @@ var namespace_graphs = (function () {
         $(p_container_id).highcharts('Chart', {
 			chart: {
 			    defaultSeriesType:'bubble',
-				plotBackgroundColor :{
+				/*plotBackgroundColor :{
 					linearGradient: { x1: 0, y1: 0, x2: 0.25, y2: 1 },
 	                stops: [
 						[0.0, 'rgb(200, 255, 200)'],
 		                [1.0, 'rgb(255, 100, 100)']
 					]
-	            },
+	            },*/
 			},
 			credits: {enabled:false},
 			    title: {
