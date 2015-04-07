@@ -237,7 +237,6 @@ var namespace_gui = (function() {
 
     function process_row_list(p_row_data)
     {
-		 console.log(p_row_data);
          var transformed = JSON.parse(p_row_data);
          for (var i=0; i<transformed.length; i++)
          {
@@ -303,7 +302,6 @@ var namespace_gui = (function() {
                         //namespace_ui.set_visibility(true);
                         //render_page();
                         //END FIXME!!!
-                        //console.log(response, textStatus);
                     }
                 });
         },

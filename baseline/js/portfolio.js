@@ -8,6 +8,7 @@ var namespace_portfolio = (function()
     /* Private Data */
     var state = {
         load_state: 1,
+		benchmark_state: 0,
         next_id: 0,
         list_instruments: [],
         list_benchmarks: [],
@@ -546,7 +547,14 @@ var namespace_portfolio = (function()
                     state.portfolio_series["transaction_clusters"] = cluster_transaction_events();
                     // draw all the charts and dashboards
                     //namespace_gui.render_derived(state);
-                    namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);     
+                    namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);
+					//update the portfolio with first benchmark
+					if (state.benchmark_state == 0)
+					{	
+						state.benchmark_state = 1;
+						add_dashboard_benchmark(state.list_benchmarks[0].value);
+					}
+					//console.log(state.list_benchmarks);     
                     namespace_gui.update_charts(state);
                 }
                 else 
@@ -555,7 +563,11 @@ var namespace_portfolio = (function()
                     namespace_gui.send_log_message(json_data, "System");
                 }
             });
-            else namespace_gui.set_visibility(0);
+            else {
+				state.benchmark_state = 0;
+				namespace_gui.set_visibility(0);
+                clear_dashboard_benchmarks();
+			}
     }
 
     /* This one definitely needs unit testing */ 
@@ -737,6 +749,10 @@ var namespace_portfolio = (function()
         }
         if (delete_index != -1) 
             state.transactions.splice(delete_index, 1);
+		else
+		{
+			
+		}
        function_call();
     } 
     

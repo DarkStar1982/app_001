@@ -588,7 +588,6 @@ var namespace_graphs = (function () {
             var new_data = rescale_data(trim_data(p_series, date_start));
         else
             var new_data = trim_data(p_series, date_start);
-        console.log(new_data);
         p_chart.series[0].setData(new_data);
         var axis = p_chart.xAxis[0];
         var edata = axis.getExtremes();
