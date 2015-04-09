@@ -318,13 +318,16 @@ var namespace_gui = (function() {
             m_start_date = p_data.transactions[0].book_date;
             portfolio_chart_data = p_data.portfolio_series;
             m_benchmark_data = p_data.m_benchmark_series;
-            
             //update charts for portfolio only
             namespace_gui.refresh_val_pnl_chart();
             namespace_gui.refresh_sector_chart();
             //update_charts for portfolio + benchmarks
-            namespace_gui.refresh_performance_chart_and_tab();
-            namespace_gui.refresh_risk_chart(0);
+			console.log("updated");
+			if (''!=$("#benchmark_list :selected").text())
+			{
+				namespace_gui.refresh_performance_chart_and_tab();
+           		namespace_gui.refresh_risk_chart(0);
+			}
         },
         
         refresh_val_pnl_chart: function ()
@@ -371,6 +374,7 @@ var namespace_gui = (function() {
 
         refresh_performance_chart_and_tab: function()
         {
+			console.log('refreshed');
             var series_data = [{
                 name:'Portfolio',
                 data:portfolio_chart_data["norm_pnl_series"], 
