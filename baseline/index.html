@@ -303,66 +303,52 @@
 		</div>
  		<!--- Comparison to benchmark tab -->
         <div class="tab-pane" id="Tab5">
-                <div id="tab_container5">
-                    <!--- tab menu -->
-                       <p> Select a benchmark to compare: <select id="benchmark_list"></select></p>
-			                <div class="row">
-			                    <div id = "step4" class="col-md-6">
-			                        <h4> Performance metrics </h4>
-			                        <table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
-			                        <thead>
-			                            <th>Total Period Stats</th><th>Your portfolio</th><th>Benchmark</th>
-			                        </thead>
-			                        <tbody>
-			                            <tr>
-			                                <td id="label_value">Initial PV</td><td id="portfolio_value">0</td>
-											<td id="benchmark_value">0</td>
-			                            </tr>
-			                            <tr>
-			                                <td id="label_final_pv">Final PV</td><td id="portfolio_final_pv">0</td>
-											<td id="benchmark_final_pv">0</td>
-			                            </tr>
-			                            <tr>
-			                                <td id="label_net_pnl">Net Profit/Loss</td><td id="portfolio_net_pnl">0</td>
-											<td id="benchmark_net_pnl">0</td>
-			                            </tr>
-			                            <tr>
-			                                <td id="label_annualized">Annualized</td><td id="portfolio_annualized">0</td>
-											<td id="benchmark_annualized">0</td>
-			                            </tr>
-			                            <tr>
-			                                <td id="label_std">STD</td><td id="portfolio_std">0</td><td id="benchmark_std">0</td>
-			                            </tr>
-			                            <tr>
-			                                <td id="label_beta">Beta</td><td id="portfolio_beta">0</td><td id="benchmark_beta">0</td>
-			                            </tr>
-			                            <!--tr>
-			                            <td id="label_jensen_alpha">Jensen's Alpha</td>
-			                            <td id="label_treynor">Treynor Ratio</td>
-			                            <td id="label_sharpe">Sharpe Ratio</td>
-			                            <td id="label_var">VAR</td>
-			                            </tr-->
-			                        </tbody>
-			                        </table>
-			                    </div>
-			                    <!-- risk model section -->
-			                    <div id ="risk_table" class="col-md-6">
-			                        <h4>Analysis and risk estimation</h4>
-			                        <table id = "risk_values" class="table table-bordered" cellspacing="0" cellpadding="0">
-			                        <thead>
-			                        <th>Parameter name</th><th>Portfolio</th><th>Benchmark</th>
-			                        </thead>
-			                        <tbody>
-			                        <tr>
-			                        <td id="label_vatr_pc">Value at risk - Percent</td><td id="portfolio_vatr_pc">0.0</td><td id="benchmark_vatr_pc">0.0</td>
-			                        </tr>
-			                        <tr>
-			                        <td id="label_vatr_abs">Value at risk - Absolute</td><td id="portfolio_vatr_abs">0.0</td><td id="benchmark_vatr_abs">0.0</td>
-			                        </tr>
-			                        </tbody>
-			                        </table>
-			                     </div>          
-			                </div>
+			<div id="tab_container5">
+				<div class="row">
+					<div id = "step4" class="col-md-12">
+						<h4> Portfolio and benchmark metrics</h4>
+			        	<table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+							<thead>
+								<tr>
+									<th> Series</td>
+									<th id="label_value">Initial Value</th>
+									<th id="label_final_pv">Final Value</th>
+	                                <th id="label_net_pnl">Net Profit/Loss</th>
+									<th id="label_annualized">Annualized Profit/Loss</th>
+									<th id="label_std">Volatility/Std. Dev</th>
+									<th id="label_std">Beta</th>
+	                        		<th id="label_vatr_pc">Value at risk - Percent</th>
+	                        		<th id="label_vatr_abs">Value at risk - Absolute</th>
+								</tr>
+							</thead>
+							<tbody>
+								
+								<tr>
+									<td>Portfolio</td>
+									<td id="portfolio_value">0</td>									
+									<td id="portfolio_final_pv">0</td>
+									<td id="portfolio_net_pnl">0</td>
+									<td id="portfolio_annualized">0</td>
+									<td id="portfolio_std">0</td>
+									<td id="portfolio_beta">0</td>
+									<td id="portfolio_vatr_pc">0.0</td>
+									<td id="portfolio_vatr_abs">0.0</td>
+								</tr>
+								<tr>
+									<td>Select a benchmark: </span><select id="benchmark_list"></select></th></td>
+									<td id="benchmark_value">0</td>
+									<td id="benchmark_final_pv">0</td>
+									<td id="benchmark_net_pnl">0</td>
+									<td id="benchmark_annualized">0</td>
+									<td id="benchmark_std">0</td>
+									<td id="benchmark_beta">-</td>	
+									<td id="benchmark_vatr_pc">0.0</td>
+									<td id="benchmark_vatr_abs">0.0</td>					
+								</tr>
+							</tbody>
+						</table>
+			        </div>
+				</div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <h4 class="text-center">Historical Performance: Portofio vs Benchmark</h4>
