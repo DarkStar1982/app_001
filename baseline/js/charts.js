@@ -494,13 +494,16 @@ var namespace_graphs = (function () {
         $(p_container_id).highcharts('Chart', {
 			chart: {
 			    defaultSeriesType:'bubble',
-				/*plotBackgroundColor :{
-					linearGradient: { x1: 0, y1: 0, x2: 0.25, y2: 1 },
+				plotBackgroundColor :{
+					linearGradient: { x1: 0.5, y1: 0, x2: 0.5, y2: 1},
 	                stops: [
-						[0.0, 'rgb(200, 255, 200)'],
-		                [1.0, 'rgb(255, 100, 100)']
+						[0.0, 'rgba(220, 255, 220, 0.75)'],
+						[0.49, 'rgba(220, 255, 220, 0.75)'],
+						[0.5, 'rgba(0, 0, 0, 0.75)'],
+						[0.51, 'rgba(255, 220, 220, 0.75)'],
+		                [1.0, 'rgba(255, 220, 220, 0.75)']
 					]
-	            },*/
+	            }
 			},
 			credits: {enabled:false},
 			    title: {

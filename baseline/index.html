@@ -281,7 +281,8 @@
                             <th colspan=2>HOLDINGS</th><th colspan=6>RETURNS</th><th colspan=2>MOMENTUM</th>
                         </tr>
                         <tr>
-                            <td>Position</td><td>Info</td><td>1d &#37</td><td>1w &#37</td><td>1m &#37</td><td>3m &#37</td><td>6m &#37</td><td>1y &#37</td>
+                            <td>Position</td><td>Info</td><td>1d &#37</td><td>1w &#37</td><td>1m &#37</td>
+							<td>3m &#37</td><td>6m &#37</td><td>1y &#37</td>
                             <td>50D-MA</td><td>200D-MA</td>
                         </tr>
                     </thead>
@@ -305,58 +306,22 @@
         <div class="tab-pane" id="Tab5">
 			<div id="tab_container5">
 				<div class="row">
-					<div id = "step4" class="col-md-12">
-						<h4> Portfolio and benchmark metrics</h4>
-			        	<table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
-							<thead>
-								<tr>
-									<th> Series</td>
-									<th id="label_value">Initial Value</th>
-									<th id="label_final_pv">Final Value</th>
-	                                <th id="label_net_pnl">Net Profit/Loss</th>
-									<th id="label_annualized">Annualized Profit/Loss</th>
-									<th id="label_std">Volatility/Std. Dev</th>
-									<th id="label_std">Beta</th>
-	                        		<th id="label_vatr_pc">Value at risk - Percent</th>
-	                        		<th id="label_vatr_abs">Value at risk - Absolute</th>
-								</tr>
-							</thead>
-							<tbody>
-								
-								<tr>
-									<td>Portfolio</td>
-									<td id="portfolio_value">0</td>									
-									<td id="portfolio_final_pv">0</td>
-									<td id="portfolio_net_pnl">0</td>
-									<td id="portfolio_annualized">0</td>
-									<td id="portfolio_std">0</td>
-									<td id="portfolio_beta">0</td>
-									<td id="portfolio_vatr_pc">0.0</td>
-									<td id="portfolio_vatr_abs">0.0</td>
-								</tr>
-								<tr>
-									<td>Select a benchmark: </span><select id="benchmark_list"></select></th></td>
-									<td id="benchmark_value">0</td>
-									<td id="benchmark_final_pv">0</td>
-									<td id="benchmark_net_pnl">0</td>
-									<td id="benchmark_annualized">0</td>
-									<td id="benchmark_std">0</td>
-									<td id="benchmark_beta">-</td>	
-									<td id="benchmark_vatr_pc">0.0</td>
-									<td id="benchmark_vatr_abs">0.0</td>					
-								</tr>
-							</tbody>
-						</table>
+					<div id = "step4" class="col-md-12">			      
+						<table class="table table-bordered text-center" style="width:100%;">
+							<tr>
+								<th><h5>Select a benchmark <select id="benchmark_list"></select></th>
+							</tr>
+						</table>			
 			        </div>
 				</div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <h4 class="text-center">Historical Performance: Portofio vs Benchmark</h4>
+                                    <h5 class="text-center">Historical Performance: Portofio vs Benchmark</h5>
                                     <div id="container_chart3"></div> 
                                 </div>
                                <!-- Risk performance chart container: portfolio vs benchmark -->
                                 <div class="col-md-6">
-                                    <h4 class="text-center">Historical Volatility: Portfolio vs Benchmark</h4>
+                                    <h5 class="text-center">Historical Volatility: Portfolio vs Benchmark</h5>
                                     <p id="risk_info" style="display:none">
                                         Select risk model:
                                         <select id="model_select" onchange="draw_charts(1)">
@@ -376,7 +341,7 @@
                                 </div>
                                <!--Risk gauges containers -->
                                 <div class="col-md-6">
-                                    <h4 class="text-center">Risk and Return: Portfolio and Benchmark</h4>
+                                    <h5 class="text-center">Risk and Return: Portfolio and Benchmark</h5>
                                     <div id="container_chart5a" ></div>
                                     <!--h4>Present Benchmark Volatility</h4-->
                                     <div id="container_chart5b" ></div>
@@ -389,6 +354,45 @@
                             </div-->
                         </div>
                   </div>
+	        	<table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+					<thead>
+						<tr>
+							<th> Series</td>
+							<th id="label_value">Initial Value</th>
+							<th id="label_final_pv">Final Value</th>
+                              <th id="label_net_pnl">Net Profit/Loss</th>
+							<th id="label_annualized">Annualized Profit/Loss</th>
+							<th id="label_std">Volatility/Std. Dev</th>
+							<th id="label_std">Beta</th>
+                      		<th id="label_vatr_pc">Value at risk - Percent</th>
+                      		<th id="label_vatr_abs">Value at risk - Absolute</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Portfolio</td>
+							<td id="portfolio_value">0</td>									
+							<td id="portfolio_final_pv">0</td>
+							<td id="portfolio_net_pnl">0</td>
+							<td id="portfolio_annualized">0</td>
+							<td id="portfolio_std">0</td>
+							<td id="portfolio_beta">0</td>
+							<td id="portfolio_vatr_pc">0.0</td>
+							<td id="portfolio_vatr_abs">0.0</td>
+						</tr>
+						<tr>
+							<td>Benchmark</td>
+							<td id="benchmark_value">0</td>
+							<td id="benchmark_final_pv">0</td>
+							<td id="benchmark_net_pnl">0</td>
+							<td id="benchmark_annualized">0</td>
+							<td id="benchmark_std">0</td>
+							<td id="benchmark_beta">-</td>	
+							<td id="benchmark_vatr_pc">0.0</td>
+							<td id="benchmark_vatr_abs">0.0</td>					
+						</tr>
+					</tbody>
+				</table>
             </div>
             <!-- Save or share tab -->
             <div class="tab-pane" id="Tab6">
