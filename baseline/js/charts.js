@@ -160,9 +160,9 @@ var namespace_graphs = (function () {
             "risk":[["#7F0000","#FF0000"], //0 0>a>b
                     ["#FF0000","#7F0000"], //1 0>b>a
                     ["#7F0000","#7F0000"], //2 0>a=b
-                    ["#B0C4DE","#FF4500"], //3 a>b>0
-                    ["#FF4500","#B0C4DE"], //4 b>a>0
-                    ["#B0C4DE","#B0C4DE"]],//5 a=b>0
+                    ["#B0C4B0","#FFC0C0"], //3 a>b>0
+                    ["#FFC0C0","#B0C4B0"], //4 b>a>0
+                    ["#B0C4B0","#B0C4B0"]],//5 a=b>0
             
         }
         if (p_value_1>=0 && p_value_2>=0)
@@ -252,8 +252,11 @@ var namespace_graphs = (function () {
         var colors_risk = format_value_colors(p_values.benchmark_risk, p_values.portfolio_risk, true,"risk");
 		update_heatmap_chart_object(p_values, colors_pnl, colors_risk);
         $(p_container_id).highcharts('Chart', {
-            title: { text: 'Risk and Return: Portfolio vs Benchmark' },
-            chart: { type: 'heatmap'},
+            title: { text: null },
+            chart: { 
+				type: 'heatmap',
+				marginBottom: 55
+			},
             series: [{
                 data: [{"x": 0, "y": 1, "z": p_values.benchmark_pnl, "color": colors_pnl[0]},
                        {"x": 0, "y": 0, "z": p_values.benchmark_risk, "color": colors_risk[0]}, 
@@ -272,6 +275,7 @@ var namespace_graphs = (function () {
                         style: { fontFamily: 'sans-serif', lineHeight: '18px', fontSize: '17px' }
                     },
             }],
+			legend : {enabled: false},
             yAxis: 
             {
                 title:{text:null},
@@ -293,7 +297,7 @@ var namespace_graphs = (function () {
                     }
                 }
             },
-            colorAxis: {
+            /* colorAxis: {
                 min: -1.0,
                 max: 1.0,
                 stops: [
@@ -305,7 +309,7 @@ var namespace_graphs = (function () {
                     [0.75,'#003F00'],
                     [1.0,'#007F00']
                 ]
-            },
+            }, */
             plotOptions: {
                 series: {
                     states: {

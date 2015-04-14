@@ -14,7 +14,7 @@ var math_util = (function (){
 
 	function transform_data(p_data)
 	{
-        	var real_data = new Array();
+        var real_data = new Array();
 		var delta_data = new Array();
 		for (var i=0; i<p_data.length;i++)
 		{

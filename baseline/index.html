@@ -17,7 +17,7 @@
         <!--script src="lib/js/highcharts/highstock.js"></script-->
         <script src="lib/js/highcharts/heatmap.js"></script>
         <script src="lib/js/highcharts/highcharts-more.js"></script>
-        <script src="lib/js/highcharts/exporting.js"></script>
+        <!--script src="lib/js/highcharts/exporting.js"></script-->
         <script src="lib/js/highcharts/solid-gauge.js"></script>
         <script src="lib/js/bootstrap/bootstrap.min.js"></script>
         <!-- page application code -->
@@ -61,7 +61,7 @@
         <!-- Nav tabs -->
             
             <!-- Top level tab panes -->
-            <div class="tab-content">
+       <div class="tab-content">
             <div class="tab-pane active" id="Tab1">
                 <h4>Welcome</h4>
                 <p>RiskPlus Ltd. is an innovative company, offering high-quality investment decision support tools for retail and professional investors.
@@ -307,139 +307,133 @@
 			<div id="tab_container5">
 				<div class="row">
 					<div id = "step4" class="col-md-12">			      
-						<table class="table table-bordered text-center" style="width:100%;">
+						<table class="table table-bordered text-center" style="width:75%;">
 							<tr>
 								<th><h5>Select a benchmark <select id="benchmark_list"></select></th>
 							</tr>
 						</table>			
 			        </div>
 				</div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <h5 class="text-center">Historical Performance: Portofio vs Benchmark</h5>
-                                    <div id="container_chart3"></div> 
-                                </div>
-                               <!-- Risk performance chart container: portfolio vs benchmark -->
-                                <div class="col-md-6">
-                                    <h5 class="text-center">Historical Volatility: Portfolio vs Benchmark</h5>
-                                    <p id="risk_info" style="display:none">
-                                        Select risk model:
-                                        <select id="model_select" onchange="draw_charts(1)">
-                                            <option value="STD_DEV">Standard Deviation</option>
-                                            <option value="STD_DEV_CMT">Cumulative Standard Deviation</option>
-                                        </select>
-                                        Select  measurement range:
-                                        <input type="number" id = "range_select" min="2" max="30" value="5" onchange="draw_charts(1)"/>
-                                    </p>
-                                    <div id="container_chart4"></div> 
-                                </div>
-                           </div>
-                            <div class="row">
-                               <!-- Heatmap chart container -->
-                                <div class="col-md-6">
-                                    <div id="container_chart4b"></div>
-                                </div>
-                               <!--Risk gauges containers -->
-                                <div class="col-md-6">
-                                    <h5 class="text-center">Risk and Return: Portfolio and Benchmark</h5>
-                                    <div id="container_chart5a" ></div>
-                                    <!--h4>Present Benchmark Volatility</h4-->
-                                    <div id="container_chart5b" ></div>
-                                </div>
-                            <!--div class="col-md-3">
-                                <h4>Portfolio Volatility Rank</h4>
-                                <div id="container_chart5c" style="height:140px"></div>
-                                <h4>Benchmark Volatility Rank</h4>
-                                <div id="container_chart5d" style="height:140px"></div>
-                            </div-->
-                        </div>
-                  </div>
-	        	<table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
-					<thead>
-						<tr>
-							<th> Series</td>
-							<th id="label_value">Initial Value</th>
-							<th id="label_final_pv">Final Value</th>
-                              <th id="label_net_pnl">Net Profit/Loss</th>
-							<th id="label_annualized">Annualized Profit/Loss</th>
-							<th id="label_std">Volatility/Std. Dev</th>
-							<th id="label_std">Beta</th>
-                      		<th id="label_vatr_pc">Value at risk - Percent</th>
-                      		<th id="label_vatr_abs">Value at risk - Absolute</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>Portfolio</td>
-							<td id="portfolio_value">0</td>									
-							<td id="portfolio_final_pv">0</td>
-							<td id="portfolio_net_pnl">0</td>
-							<td id="portfolio_annualized">0</td>
-							<td id="portfolio_std">0</td>
-							<td id="portfolio_beta">0</td>
-							<td id="portfolio_vatr_pc">0.0</td>
-							<td id="portfolio_vatr_abs">0.0</td>
-						</tr>
-						<tr>
-							<td>Benchmark</td>
-							<td id="benchmark_value">0</td>
-							<td id="benchmark_final_pv">0</td>
-							<td id="benchmark_net_pnl">0</td>
-							<td id="benchmark_annualized">0</td>
-							<td id="benchmark_std">0</td>
-							<td id="benchmark_beta">-</td>	
-							<td id="benchmark_vatr_pc">0.0</td>
-							<td id="benchmark_vatr_abs">0.0</td>					
-						</tr>
-					</tbody>
-				</table>
-            </div>
-            <!-- Save or share tab -->
-            <div class="tab-pane" id="Tab6">
-                <div id="tab_container6">
+				<!-- Chart containers -->
+                <div class="row">
+                	<div class="col-md-6">
+                    	<h5 class="text-center">Historical Performance: Portofio vs Benchmark</h5>
+            			<div id="container_chart3"></div> 
+                    </div>
+                    <div class="col-md-6">
+                    	<h5 class="text-center">Historical Volatility: Portfolio vs Benchmark</h5>
+                      	<p id="risk_info" style="display:none">
+                        	Select risk model:
+                            <select id="model_select" onchange="draw_charts(1)">
+                            	<option value="STD_DEV">Standard Deviation</option>
+                                <option value="STD_DEV_CMT">Cumulative Standard Deviation</option>
+                            </select>
+                            Select  measurement range:
+                            <input type="number" id = "range_select" min="2" max="30" value="5" onchange="draw_charts(1)"/>
+                        </p>
+						<div id="container_chart4"></div> 
+                    </div>
+                </div>
+				<div class="row">
+                	<div class="col-md-6">
+						<!-- Heatmap chart header -->
+						<h5 class="text-center">Risk and Return: Portfolio vs Benchmark</h5>
+                        <div id="container_chart4b"></div>
+                    </div>
+                    <div class="col-md-6">
+           			 	<h5 class="text-center">Risk and Return: Portfolio and Benchmark</h5>
+                        <div id="container_chart5a" ></div>
+                        <div id="container_chart5b" ></div>
+                   </div>
+			    </div>
+			    <div class="row">
+					<div class="col-md-12">
+						<table id="net_values" class="table table-bordered" cellspacing="0" cellpadding="0">
+							<thead>
+							   <tr>
+								   <th> Series</th>
+								   <th id="label_value">Initial Value</th>
+								   <th id="label_final_pv">Final Value</th>
+								   <th id="label_net_pnl">Net Profit/Loss</th>
+								   <th id="label_annualized">Annualized Profit/Loss</th>
+								   <th id="label_std">Volatility/Std. Dev</th>
+								   <th id="label_std">Beta</th>
+                      			   <th id="label_vatr_pc">Value at risk - Percent</th>
+                      			   <th id="label_vatr_abs">Value at risk - Absolute</th>
+							   </tr>
+						   	</thead>
+						   	<tbody>
+							   <tr>
+								   <td>Portfolio</td>
+								   <td id="portfolio_value">0</td>									
+								   <td id="portfolio_final_pv">0</td>
+								   <td id="portfolio_net_pnl">0</td>
+								   <td id="portfolio_annualized">0</td>
+								   <td id="portfolio_std">0</td>
+								   <td id="portfolio_beta">0</td>
+								   <td id="portfolio_vatr_pc">0.0</td>
+								   <td id="portfolio_vatr_abs">0.0</td>
+							   </tr>
+							   <tr>
+								   <td>Benchmark</td>
+								   <td id="benchmark_value">0</td>
+								   <td id="benchmark_final_pv">0</td>
+								   <td id="benchmark_net_pnl">0</td>
+								   <td id="benchmark_annualized">0</td>
+								   <td id="benchmark_std">0</td>
+								   <td id="benchmark_beta">-</td>	
+								   <td id="benchmark_vatr_pc">0.0</td>
+								   <td id="benchmark_vatr_abs">0.0</td>					
+							   </tr>
+							</tbody>
+					   	</table>
+				    </div>
+			    </div>
+			</div>
+		</div>
+         <!-- Save or share tab -->
+        <div class="tab-pane" id="Tab6">
+        	<div id="tab_container6">
                 <h4>Get your portfolio as a PDF report</h4>
-					<div class="row" id="report_selector">
-                        <div class="col-md-3">
-						   <h5> Portfolio summary </h5>
-						   <input type="checkbox" name="summary" value="p_table_sum"> Portfolio Summary<br>
-						   <input type="checkbox" name="positions" value="p_table_pos"> Net Positions <br>
-						</div>
-						<div class="col-md-3">
-							<h5> Portfolio vs Benchmarks Returns </h5>
-							<input type="checkbox" name="portfolio_returns" value="p_table_portfolio_returns"> Portfolio Returns <br>
-							<input type="checkbox" name="benchmark_returns" value="p_table_benchmark_returns"> Benchmark Returns <br>
-						</div>
-						<div class="col-md-3">
-							<h5> Summary data </h5>
-							<input type="checkbox" name="tabulated_data" value="p_table_tab_page"> Tabulated Data <br>
-							<input type="checkbox" name="transactions" value="p_table_hist"> Transaction History <br>
-						</div>
-						<div class="col-md-3">
-							<h5> Portfolio Charts </h5>
-							<input type="checkbox" name="performance_chart" value="p_chart_val_pnl"> Performance  History <br>
-							<input type="checkbox" name="positions_chart" value="p_chart_position"> Position Profit or Loss <br>
-							<input type="checkbox" name="sector_chart" value="p_chart_sector"> Portfolio Sectors <br>
-							<input type="checkbox" name="return_chart" value="p_chart_returns"> Portfolio vs Benchmark Returns <br>
-							<input type="checkbox" name="risk_chart" value="p_chart_risk"> Portfolio vs Benchmark Risk <br>
-							<input type="checkbox" name="heatmap_chart" value="p_chart_heatmap"> Risk and Return Heatmap <br>
-							<input type="checkbox" name="historic_chart" value="p_chart_historical_risk"> Historical Risk Chart  <br>
-						</div>
+				<div class="row" id="report_selector">
+        			<div class="col-md-3">
+						<h5> Portfolio summary </h5>
+					    <input type="checkbox" name="summary" value="p_table_sum"> Portfolio Summary<br>
+				   	    <input type="checkbox" name="positions" value="p_table_pos"> Net Positions <br>
+			    	</div>
+					<div class="col-md-3">
+						<h5> Portfolio vs Benchmarks Returns </h5>
+						<input type="checkbox" name="portfolio_returns" value="p_table_portfolio_returns"> Portfolio Returns <br>
+						<input type="checkbox" name="benchmark_returns" value="p_table_benchmark_returns"> Benchmark Returns <br>
 					</div>
-					<div class="row">
-						<div class="col-md-12">
-							<p>Select above what to include in your report contents</p>
-							<form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank">
-								<input type="submit" class="btn btn-default" id="get_pdf_report" name="Get PDF Report"/>
-							</form>
-						</div>	
-					</div>				
-					<!--p> This action will create a snapshot of current portfolio state that can used as stand-alone document</p> 
-                <h4>Share as a link</h4>
-                <p> This action will persistent link to this portfolio that will automatically update with latest market data and can be edited later</p--> 
-                </div>
-                </div>
+					<div class="col-md-3">
+ 						<h5> Summary data </h5>
+	  				    <input type="checkbox" name="tabulated_data" value="p_table_tab_page"> Tabulated Data <br>
+						<input type="checkbox" name="transactions" value="p_table_hist"> Transaction History <br>
+					</div>
+					<div class="col-md-3">
+						<h5> Portfolio Charts </h5>
+						<input type="checkbox" name="performance_chart" value="p_chart_val_pnl"> Performance  History <br>
+						<input type="checkbox" name="positions_chart" value="p_chart_position"> Position Profit or Loss <br>
+						<input type="checkbox" name="sector_chart" value="p_chart_sector"> Portfolio Sectors <br>
+						<input type="checkbox" name="return_chart" value="p_chart_returns"> Portfolio vs Benchmark Returns <br>
+						<input type="checkbox" name="risk_chart" value="p_chart_risk"> Portfolio vs Benchmark Risk <br>
+				     	<input type="checkbox" name="heatmap_chart" value="p_chart_heatmap"> Risk and Return Heatmap <br>
+						<input type="checkbox" name="historic_chart" value="p_chart_historical_risk"> Historical Risk Chart  <br>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12">
+						<p>Select above what to include in your report contents</p>
+						<form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank">
+							<input type="submit" class="btn btn-default" id="get_pdf_report" name="Get PDF Report"/>
+						</form>
+					</div>	
+				</div>				
             </div>
         </div>
-    </body>
+    </div>
+</div>
+</body>
 </html> 
 
