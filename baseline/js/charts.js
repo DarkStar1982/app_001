@@ -200,13 +200,6 @@ var namespace_graphs = (function () {
         }
     }
 	
-	/*
-					{"x": 0, "y": 1, "z": p_values.benchmark_pnl, "color": "#3F0000",p_colors_pnl[0]},
-                    {"x": 0, "y": 0, "z": p_values.benchmark_risk, "color": p_colors_risk[0]}, 
-                    {"x": 1, "y": 1, "z": p_values.portfolio_pnl, "color": p_colors_pnl[1]}, 
-                    {"x": 1, "y": 0, "z": p_values.portfolio_risk, "color": p_colors_risk[1]},
-	*/
-	
 	function update_heatmap_chart_object(p_values, p_colors_pnl, p_colors_risk)
 	{
 		p_chart_heatmap_report_obj = {
@@ -246,6 +239,36 @@ var namespace_graphs = (function () {
    		};
 	}
 	
+	function get_heatmap_hint(p_type, p_value)
+	{
+		if (p_type == 1)
+		{
+			if (p_value<0.0)
+				return "Negative returns";
+			else if (p_value<5.0)
+			{
+				return "Low returns";
+			}
+			else if (p_value<7.5)
+			{
+				return "Average returns";
+			}
+			else return "High returns";
+		}
+		else if (p_type == 0)
+		{
+			if (p_value<0.1)
+			{
+				return "Low risk";
+			}
+			else if (p_value<0.2)
+			{
+				return "Medium risk";
+			}
+			else return "High risk";
+		}
+	}
+	
     function render_risk_pnl_heatmap(p_container_id, p_values)
     {
         var colors_pnl = format_value_colors(p_values.benchmark_pnl, p_values.portfolio_pnl, false, "pnl");
@@ -269,8 +292,10 @@ var namespace_graphs = (function () {
                         formatter: function ()
                         {
                             var x_labels=["Benchmark ", "Portfolio "];
-                            var y_labels=["Risk", "Return"];
-                            return x_labels[this.point.x] + y_labels[this.point.y]+": "+ math_util.aux_math_round(this.point.z,2);
+                            var y_labels=["(risk)", "(return)"];
+							var hint_label = get_heatmap_hint(this.point.y, this.point.z);
+							var val_label = x_labels[this.point.x] +": "+ math_util.aux_math_round(this.point.z,2);
+                            return val_label + "<br/>"+ hint_label;
                         },
                         style: { fontFamily: 'sans-serif', lineHeight: '18px', fontSize: '17px' }
                     },
@@ -297,19 +322,6 @@ var namespace_graphs = (function () {
                     }
                 }
             },
-            /* colorAxis: {
-                min: -1.0,
-                max: 1.0,
-                stops: [
-                    [0.0, '#7F0000'],
-                    [0.25, '#3F0000'],
-                    [0.45, '#1F0000'],
-                    [0.5,'#1F1F1F'],
-                    [0.55, '#001F00'],
-                    [0.75,'#003F00'],
-                    [1.0,'#007F00']
-                ]
-            }, */
             plotOptions: {
                 series: {
                     states: {
@@ -322,9 +334,7 @@ var namespace_graphs = (function () {
         });
     }
 
-    //render risk vs return porfolio
-    
-   
+    //render risk vs return comparison
     function update_risk_gauge_object(p_gauge_data, i)
 	{
 		p_chart_risk_gauge_obj[i]={
@@ -977,8 +987,6 @@ var namespace_graphs = (function () {
                 //always render
 				var data = get_bubbles(heatmap_data);
 				render_quadrant_chart('#container_chart5a',data["bubbles"], data["max_axis"]);
-                //render_linear_gauge('#container_chart5a', a, "Portfolio",0);
-                //render_linear_gauge('#container_chart5b', b, "Benchmark",1);
                 if (p_mode==0)
                 {
                     render_risk_chart(seriesOptions, nav_data, p_container_id); 
