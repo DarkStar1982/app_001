@@ -322,6 +322,7 @@ var namespace_graphs = (function () {
                     }
                 }
             },
+			tooltip : { enabled: false},
             plotOptions: {
                 series: {
                     states: {
