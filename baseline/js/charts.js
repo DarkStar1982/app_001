@@ -7,7 +7,7 @@ var namespace_graphs = (function () {
 	var p_chart_sector_report_obj = {};
 	var p_chart_heatmap_report_obj = {}
 	var p_chart_risk_report_obj ={};
-	var p_chart_risk_gauge_obj = [];
+	//var p_chart_risk_gauge_obj = [];
 
     function get_benchmark_difference(p_data1, p_data2)
     {
@@ -20,7 +20,7 @@ var namespace_graphs = (function () {
         return r_data;
     }
     
-    function compute_gauge_data(p_series_data)
+  /*  function compute_gauge_data(p_series_data)
     {
         var ret_obj = new Object();
         ret_obj.min_val = 0.0;
@@ -47,7 +47,7 @@ var namespace_graphs = (function () {
         res_obj.max_val = 100;
         res_obj.last_val = namespace_xls.rank(last_value, data);
         return res_obj;
-    }
+    } */
  
     function get_bubble_chart_data(p_portfolio_data, p_benchmark_data)
     {
@@ -336,7 +336,7 @@ var namespace_graphs = (function () {
     }
 
     //render risk vs return comparison
-    function update_risk_gauge_object(p_gauge_data, i)
+   /* function update_risk_gauge_object(p_gauge_data, i)
 	{
 		p_chart_risk_gauge_obj[i]={
             "chart": {
@@ -399,11 +399,11 @@ var namespace_graphs = (function () {
                 "pointWidth": 50,
                 "data": [p_gauge_data.last_val]}]
 		};
-	}
+	} */
 	
-    function render_linear_gauge(p_container_id, p_gauge_data, p_title, p_index)
+   /* function render_linear_gauge(p_container_id, p_gauge_data, p_title, p_index)
     {
-		update_risk_gauge_object(p_gauge_data, p_index);
+		//update_risk_gauge_object(p_gauge_data, p_index);
         $(p_container_id).highcharts('Chart', {
             chart: {
                 defaultSeriesType: 'bar',
@@ -502,7 +502,7 @@ var namespace_graphs = (function () {
             }]
       });
 
-    }
+    } */
 
 	function render_quadrant_chart(p_container_id, p_data, p_axis_data)
 	{
@@ -740,10 +740,11 @@ var namespace_graphs = (function () {
 			return p_chart_risk_report_obj;
 		},
 		
-		return_risk_gauge_object: function(i)
+	/*	return_risk_gauge_object: function(i)
 		{
 			return p_chart_risk_gauge_obj[i];
 		},
+     */
         // Here by each position profit or loss 
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
@@ -957,14 +958,14 @@ var namespace_graphs = (function () {
                 var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
                 var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
                 var heatmap_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
-                var a = compute_gauge_data(seriesOptions[0].data);
+                /* var a = compute_gauge_data(seriesOptions[0].data);
                 var b = compute_gauge_data(seriesOptions[1].data);
                 if (p_rank_mode == "Rank")
                 {
                     var a = compute_rank_gauge_data(a.last_val, seriesOptions[0].data);
                     var b = compute_rank_gauge_data(b.last_val, seriesOptions[1].data);
 
-                }                
+                }  */              
                 seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
                 seriesOptions[0].type = 'area';
                 seriesOptions[0].fillColor = {

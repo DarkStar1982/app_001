@@ -10,7 +10,7 @@ $(document).ready(function(){
     $("#clear_benchmarks").on('click', namespace_gui.clear_dashboard_benchmarks);
     $("#perf_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#chart_select").on('change', namespace_gui.refresh_val_pnl_chart);
-    $("#risk_scale_select").on('change', namespace_gui.refresh_gauge_chart);
+   // $("#risk_scale_select").on('change', namespace_gui.refresh_gauge_chart);
     $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab);
     $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#submitFile").on('click', namespace_gui.process_transactions_file);
@@ -403,14 +403,15 @@ var namespace_gui = (function() {
             namespace_gui.refresh_risk_chart(0);
         },
 
-        refresh_gauge_chart: function()
-        {
-            namespace_gui.refresh_risk_chart(1);
-        },
+      //  refresh_gauge_chart: function()
+      //  {
+      //      namespace_gui.refresh_risk_chart(1);
+      //  },
 
         refresh_risk_chart: function(render_mode)
         {
-            var rank_mode = $("#risk_scale_select :selected").text();
+            //var rank_mode = $("#risk_scale_select :selected").text();
+			var rank_mode = 0;
             var current_benchmark = $("#benchmark_list :selected").text();
             for (var k in m_benchmark_data)
             {

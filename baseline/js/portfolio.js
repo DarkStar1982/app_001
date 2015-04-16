@@ -986,11 +986,11 @@ var namespace_portfolio = (function()
 						report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Risk and Returns "});
 						break;
 					case 'p_chart_historical_risk':
-						var contents = JSON.stringify(namespace_graphs.return_risk_gauge_object(0));
+					/*	var contents = JSON.stringify(namespace_graphs.return_risk_gauge_object(0));
 						report_object.push({"type":"chart", "contents": contents, "header": "Portfolio: Historical Volatility"});
 						var contents_2 = JSON.stringify(namespace_graphs.return_risk_gauge_object(1));
 						report_object.push({"type":"chart", "contents": contents_2, "header": "Benchmark: Historical Volatility"});
-						break;
+					*/	break;
 				}				
 			});
 			return report_object;

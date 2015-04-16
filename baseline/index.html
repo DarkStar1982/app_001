@@ -307,9 +307,16 @@
 			<div id="tab_container5">
 				<div class="row">
 					<div id = "step4" class="col-md-12">			      
-						<table class="table table-bordered text-center" style="width:75%;">
+						<table class="table table-bordered text-center" style="width:100%;">
 							<tr>
-								<th><h5>Select a benchmark <select id="benchmark_list"></select></th>
+								<th>
+									<label for="benchmark_list"> Select benchmark </label>
+									<select id="benchmark_list"></select>
+								</th>
+								<th style="display:none">
+									<label for="range_select"> Volatility range, days:</label>
+	                            	<input type="number" id = "range_select" min="2" max="30" value="5"/>
+								</th>
 							</tr>
 						</table>			
 			        </div>
@@ -322,15 +329,15 @@
                     </div>
                     <div class="col-md-6">
                     	<h5 class="text-center">Historical Volatility: Portfolio vs Benchmark</h5>
-                      	<p id="risk_info" style="display:none">
+                      	<!--p id="risk_info" style="display:none">
                         	Select risk model:
                             <select id="model_select" onchange="draw_charts(1)">
                             	<option value="STD_DEV">Standard Deviation</option>
                                 <option value="STD_DEV_CMT">Cumulative Standard Deviation</option>
                             </select>
-                            Select  measurement range:
-                            <input type="number" id = "range_select" min="2" max="30" value="5" onchange="draw_charts(1)"/>
-                        </p>
+						
+                            
+                        </p-->
 						<div id="container_chart4"></div> 
                     </div>
                 </div>
