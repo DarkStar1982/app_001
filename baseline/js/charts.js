@@ -323,13 +323,19 @@ var namespace_graphs = (function () {
 					]
 	            }
 			},
+			plotOptions : {
+				bubble:{
+					minSize: 30,
+					maxSize: 35
+				}
+			},
 			credits: {enabled:false},
-			    title: {
+			title: {
 			        text:null
-			    },
-			    legend:{
-			        enabled:false                                
-			    },
+		    },
+		    legend:{
+		        enabled:true                                
+			},
 			
 			    xAxis:{
 			        title:{
@@ -360,9 +366,30 @@ var namespace_graphs = (function () {
 			        lineWidth:1        
 			    },
 			    series: [{
-			        color:'#185aa9',
-			        data: p_data
-			    }]
+			        data: [p_data[0]],
+					name: "Portfolio",
+	                dataLabels: {
+	                	enabled: true,
+	                    color: 'black',
+						y:-45,
+						x: 10,
+	                    formatter: function ()
+	                        {
+	                          /*  var x_labels=["Portfolio Returns", "Portfolio Risk"];
+	                            var y_labels=["(risk)", "(return)"];
+								var val_label = x_labels[this.point.x]+ ":" + this.point.x +
+								", " +x_labels[this.point.y]+ math_util.aux_math_round(this.point.y,2); */
+							  var val_label = "Portfolio <br/>Rt. "+ math_util.aux_math_round(this.point.y,2)+"%";
+							  var hint_label = "<br/>Rsk. " + this.point.x; 
+	                          return val_label + "<br/>"+ hint_label;
+	                        },
+	                        style: { fontFamily: 'serif', lineHeight: '16px', 'font-weight':'100', fontSize: '14px' }
+	            		},
+				},
+				{
+					data: [p_data[1]],
+					name: "Benchmark"
+				}]
 			
 		});
 	}
@@ -497,8 +524,8 @@ var namespace_graphs = (function () {
 	function get_bubbles(p_data)
 	{
 		var bubbles = [
-			{"x":p_data.portfolio_risk, "y":p_data.portfolio_pnl, "color":'#007F7F', "name": "Portfolio"},
-			{"x":p_data.benchmark_risk, "y":p_data.benchmark_pnl, "color":'#7F7F00', "name": "Benchmark"}
+			{"x":p_data.portfolio_risk, "y":p_data.portfolio_pnl, z:1, "color":'#007F7F', "name": "Portfolio"},
+			{"x":p_data.benchmark_risk, "y":p_data.benchmark_pnl, z:1, "color":'#7F7F00', "name": "Benchmark"}
 		];
 		var x_max = 1.2 * (Math.max(p_data.portfolio_risk, p_data.benchmark_risk));
 		var y_max = 1.2 * (Math.max(Math.abs(p_data.portfolio_pnl), Math.abs(p_data.benchmark_pnl)));
