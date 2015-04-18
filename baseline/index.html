@@ -91,36 +91,74 @@
             <div class="tab-pane" id="Tab2">
                 <!-- Content tab for position selector -->
                 <div class="row">
-                    <div class="col-md-7">
-                        <table class="table">
-                            <thead>
-                                <tr><th> Create your portfolio by uploading trade history or add cash and trades manually</th></tr>
-                            </thead>
-							<tbody>
-								<tr><td>
-									<form class="form-inline">
-							<a class="btn" href="/lib/csv/template.csv" target="_self">1. Download template</a>
-					        <label for="chosenFile">2. Edit and upload: </label>
-							<input class="form-control btn-default" id="chosenFile"  type="file" name="file_name"/>
-                       		<input class="form-control btn-default" id="submitFile" value="3. Submit" type="button"/>
-						</form>									
-					</td></tr>
-				</tbody>
-			</table>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-md-5">
                         <table class="table">
-                            <thead>
-                                <tr><th> Amount</th><th>Date</dt></tr>
-                            </thead>
+							<thead>
+								<tr>
+									<td colspan=3><label> Download template, add your trades and upload</label>
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<a class="btn btn-default" href="/lib/csv/template.csv" target="_self">Get template</a>
+									</td>
+									<td>
+										<input class="form-control" id="chosenFile"  type="file" name="file_name"/>
+                       				</td>
+									<td>
+										<input class="form-control btn-default" id="submitFile" value="Upload" type="button"/>
+								</td></tr>
+							</tbody>
+						</table>
+        			</div>
+				</div>
+				<div class="row">
+                    <div class="col-md-2">
+						<table class="table">
+							<thead>
+								<tr>
+									<td>
+										<label for="portfolio_date">Select transaction date</label>
+									</td>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<!--input type="text" style="width:90%; visible:false" id="portfolio_date" /-->
+										<input type="date" id="portfolio_date" class="form-control">
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-3">
+                        <table class="table">
+							<thead>
+								<tr>
+									<td>
+										<label for="portfolio_cash">Amount</label>
+									</td>
+									<td colspan=2>
+										<label>Add cash transaction</label>
+									</td>
+								</tr>
+							</thead>
                             <tbody>
                                 <tr>
-                                    <td><input type="text" style="width:90%" id="portfolio_cash" value="0"/></td>
-                                    <td><input type="text" style="width:90%" id="portfolio_date" /></td>
-                                    <td><button id="cash_add" class="btn btn-default">Deposit Cash</button></td>
-                                    <td><button id="cash_remove" class="btn btn-default">Withdraw</button></td>
+                                    <td>
+										<input type="text" class="form-control" id="portfolio_cash" value="0"/>
+									</td>
+									<td>
+                                    	<button id="cash_add" class="btn btn-default">Deposit</button>
+									</td>
+									<td>
+                                    	<button id="cash_remove" class="btn btn-default">Withdraw</button>
+									</td>
+                                    
                                 </tr>
                             </tbody>
                         </table>
@@ -128,29 +166,34 @@
                     <div class="col-md-7">
                         <table class="table"  cellpadding="0" cellspacing="0" cellpadding="0" border="0">
                         <thead>
-                            <tr><th>Type</th><th>Symbol</th><th>Book Date</th><th>Book Price</th><th>Book Volume</th></tr>
+                            <tr>
+								<td><label>Symbol</label></td>
+								<td><label>Price</label></td>
+								<td><label>Volume</label></td>
+								<td colspan=2><label>Add instrument trade</label></td>
+							</tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td style="border-top:0px">
-                                    <select id="trade_type" style="width:110%">
+                                <td>
+                                    <input class="form-control" type="text" id="instrument_entry"/>
+                                </td>
+                                <!--td style="border-top:0px">
+                                    <input style="width:90%" type ="text" id="date_entry"/>
+                                </td-->
+                                <td>
+                                    <input class="form-control" type ="text" value="0" width="50%" id="price_entry"/>
+                                </td>
+                                <td>
+                                    <input class="form-control" type ="text" value="0" id="amount_entry"/>
+                                </td>
+                                <td>
+                                    <button id="transaction_add" class="btn btn-default">Trade</button>
+                                </td>
+                                <td>
+                                    <select id="trade_type" class="form-control">
                                         <option>Buy</option><option>Sell</option><option>Short</option><option>Cover</option>
                                     </select>
-                                </td>
-                                <td style="border-top:0px">
-                                    <input style="width:90%" type="text" id="instrument_entry"/>
-                                </td>
-                                <td style="border-top:0px">
-                                    <input style="width:90%" type ="text" id="date_entry"/>
-                                </td>
-                                <td style="border-top:0px">
-                                    <input style="width:90%" type ="text" value="0" id="price_entry"/>
-                                </td>
-                                <td style="border-top:0px">
-                                    <input style="width:90%" type ="text" value="0" id="amount_entry"/>
-                                </td>
-                                <td style="border-top:0px">
-                                    <button id="transaction_add" class="btn btn-default">Add trade</button>
                                 </td>
                             </tr>
                         </tbody>

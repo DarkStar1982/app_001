@@ -255,10 +255,6 @@ var namespace_portfolio = (function()
         dashboard_row.portfolio_momentum = get_momentum_data(data);
         dashboard_row.asset = p_label;
         dashboard_row.info = p_info;
-        //do it for each position:w
-        // compute full portfolio row
-        //compute each position row
-        //return aggregated data
         return dashboard_row;
     }
  
@@ -546,7 +542,6 @@ var namespace_portfolio = (function()
                     state.portfolio_series["derived_values"] = compute_derived_values(json_data.norm_pnl_series); 
                     state.portfolio_series["transaction_clusters"] = cluster_transaction_events();
                     // draw all the charts and dashboards
-                    //namespace_gui.render_derived(state);
                     namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);
 					//update the portfolio with first benchmark
 					if (state.benchmark_state == 0)
@@ -782,7 +777,6 @@ var namespace_portfolio = (function()
                 namespace_gui.refresh_performance_chart_and_tab();
             }
         });
-        //gui add dashboard row
     }
 
     function clear_dashboard_benchmarks()
@@ -986,11 +980,7 @@ var namespace_portfolio = (function()
 						report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Risk and Returns "});
 						break;
 					case 'p_chart_historical_risk':
-					/*	var contents = JSON.stringify(namespace_graphs.return_risk_gauge_object(0));
-						report_object.push({"type":"chart", "contents": contents, "header": "Portfolio: Historical Volatility"});
-						var contents_2 = JSON.stringify(namespace_graphs.return_risk_gauge_object(1));
-						report_object.push({"type":"chart", "contents": contents_2, "header": "Benchmark: Historical Volatility"});
-					*/	break;
+						break;
 				}				
 			});
 			return report_object;

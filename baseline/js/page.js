@@ -10,7 +10,6 @@ $(document).ready(function(){
     $("#clear_benchmarks").on('click', namespace_gui.clear_dashboard_benchmarks);
     $("#perf_select").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#chart_select").on('change', namespace_gui.refresh_val_pnl_chart);
-   // $("#risk_scale_select").on('change', namespace_gui.refresh_gauge_chart);
     $("#benchmark_list").on('change', namespace_gui.refresh_performance_chart_and_tab);
     $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#submitFile").on('click', namespace_gui.process_transactions_file);
@@ -72,7 +71,7 @@ var namespace_gui = (function() {
 
     function update_price_entry(p_symbol)
     {
-        var xdate = datetime_util.adjust_date($("#date_entry").datepicker("getDate"));
+        var xdate = $("#portfolio_date").val();
         $.getJSON(API_URL, {instrument:p_symbol, call:"quote", datetime:xdate}, function(data)
         {
             if (data.header.error_code == 0)
@@ -92,10 +91,7 @@ var namespace_gui = (function() {
         {
             if (p_val<0) return '<td style="background-color:red">'+p_val+'</td>'
             else return '<td style="background-color:green">'+p_val+'</td>'
-        }
-        //else if (obj.pnl>=0) var cell_color ='style="background-color:green;"';
-       // else var cell_color ='style="background-color:red;"';
-        
+        } 
         var dashboard_row = '<tr><td>'+data_record.asset + '</td>'
             + '<td>'+data_record.info + '</td>'
             + format_value_to_cell(data_record.portfolio_returns.ret_1d)
@@ -161,8 +157,6 @@ var namespace_gui = (function() {
             var row_id = this.title;
             $('#detail_cell tr').css( "background-color", 'rgba(0,0,0,0)');
             $('[id^=h'+String(row_id)+']').css( "background-color", "red" );
-
-            //document.getElementById('detail_cell').innerHTML = strHTML+"</table>";  
         }
     
         var flag_data = [];
@@ -228,10 +222,6 @@ var namespace_gui = (function() {
             {
                 $("#detail_cell").append(list_str[j]);
             }
-            //if 1 transaction only, display as date, [transaction]
-            //else if >1 transaction display as date_range, [transaction]
-            //list_str.push(p_flags[i]["start_date"] + 
-            //    p_flags[i]["end_date"]  
         }
     }
 
@@ -295,13 +285,6 @@ var namespace_gui = (function() {
                     },
                     success: function(response, textStatus) {
                         process_row_list(response);
-                        //alert("Success");
-                        //FIXME!!!
-                        // just add transaction rows into portfolio
-                        //namespace_ui.process_row_list(response);
-                        //namespace_ui.set_visibility(true);
-                        //render_page();
-                        //END FIXME!!!
                     }
                 });
         },
@@ -469,16 +452,11 @@ var namespace_gui = (function() {
                 $("#tab_container4").hide();
                 $("#tab_container5").hide(); 
                 $("#tab_container6").hide(); 
-                //$("#Tab4").hide();
-                //$("#Tab5").hide();
-                //$("#Tab6").hide();
             }
             else if (p_level == 1)
             {
                 $("#tab_container3").show();
                 $("#tab_container4").show();
-                
-               // $("#Tab4").show();
             }
             else if (p_level == 2)
             {
@@ -490,9 +468,6 @@ var namespace_gui = (function() {
                 $("#tab_container5").hide();
                 $("#tab_container6").hide();
             } 
-            //1 show positions, performance and add benchmark tab only
-            //2 show everything
-            
         },
 
         render_portfolio_dashboard: function(dashboard_data)
@@ -559,13 +534,13 @@ var namespace_gui = (function() {
         init_page: function(page_state)
         {
             /* create GUI objects */            
-            $("#portfolio_date").datepicker();
+            //$("#portfolio_date").datepicker();
                 
             /* Populate them with data */
             $("#instrument_entry").autocomplete({
                 source:page_state.list_instruments,
                 select: function(event, ui) {
-                    var tdate = $("#date_entry").datepicker("getDate");
+                    var tdate = $("#portfolio_date").val();
                     var symbol = ui.item.value;
                     if (tdate!=null) update_price_entry(symbol);
                 } 
@@ -575,13 +550,13 @@ var namespace_gui = (function() {
             });
 
 
-            /* init instrument entry datetime picker" */
+            /* init instrument entry datetime picker" 
             $("#date_entry").datepicker({
                 onSelect: function(dateText, inst) {
                     var symbol = $("#instrument_entry").val();
                     update_price_entry(symbol);
                 }
-            });
+            }); */
 
             var portfolio_defaults = {"risk_interval": safe_get_integer($("#range_select").val()) };
             namespace_portfolio.load_portfolio_defaults(portfolio_defaults); 
@@ -591,14 +566,14 @@ var namespace_gui = (function() {
         {
             var new_transaction = {
                 volume: $("#portfolio_cash").val(),
-                book_date: datetime_util.adjust_date($("#portfolio_date").datepicker("getDate")),
+                book_date: $("#portfolio_date").val(),
                 type: "Deposit",
                 asset: "Cash",
                 sector: "-",
                 book_price: 1.0,
                 last_price: 1.0
             };
-            $("#date_entry").datepicker("setDate",$("#portfolio_date").datepicker("getDate"));
+            //$("#date_entry").datepicker("setDate",$("#portfolio_date").datepicker("getDate"));
             namespace_portfolio.update_state("add_record", new_transaction);
         },
 
@@ -606,7 +581,7 @@ var namespace_gui = (function() {
         {
             var new_transaction = {
                 volume: $("#portfolio_cash").val(),
-                book_date: datetime_util.adjust_date($("#portfolio_date").datepicker("getDate")),
+                book_date: $("#portfolio_date").val(),
                 type: "Withdraw",
                 asset: "Cash",
                 sector: "-",
@@ -620,7 +595,7 @@ var namespace_gui = (function() {
         {
             var new_transaction = {
                 volume: $("#amount_entry").val(),
-                book_date: datetime_util.adjust_date($("#date_entry").datepicker("getDate")),
+                book_date: $("#portfolio_date").val(),
                 type: $("#trade_type").val(),
                 asset: $("#instrument_entry").val(),
                 sector: undefined,

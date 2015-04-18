@@ -7,7 +7,6 @@ var namespace_graphs = (function () {
 	var p_chart_sector_report_obj = {};
 	var p_chart_heatmap_report_obj = {}
 	var p_chart_risk_report_obj ={};
-	//var p_chart_risk_gauge_obj = [];
 
     function get_benchmark_difference(p_data1, p_data2)
     {
@@ -19,35 +18,6 @@ var namespace_graphs = (function () {
         }
         return r_data;
     }
-    
-  /*  function compute_gauge_data(p_series_data)
-    {
-        var ret_obj = new Object();
-        ret_obj.min_val = 0.0;
-        ret_obj.max_val = 0.0;
-        ret_obj.last_val = 0.0;
-        for (var i=0; i<p_series_data.length; i++)
-        {
-            if (p_series_data[i][1]>ret_obj.max_val) ret_obj.max_val = math_util.aux_math_round(p_series_data[i][1],3);
-            if (p_series_data[i][1]<ret_obj.min_val) ret_obj.min_val = math_util.aux_math_round(p_series_data[i][1],3);
-        }
-        ret_obj.last_val = math_util.aux_math_round(p_series_data[p_series_data.length-1][1],3);
-        return ret_obj;
-    }
-
-    function compute_rank_gauge_data(last_value, p_series_data)
-    {
-        var res_obj = {};
-        var data =[]
-        for (var i=0; i<p_series_data.length; i++)
-        {
-            data[i] = p_series_data[i][1];
-        }
-        res_obj.min_val = 1;
-        res_obj.max_val = 100;
-        res_obj.last_val = namespace_xls.rank(last_value, data);
-        return res_obj;
-    } */
  
     function get_bubble_chart_data(p_portfolio_data, p_benchmark_data)
     {
@@ -336,174 +306,7 @@ var namespace_graphs = (function () {
     }
 
     //render risk vs return comparison
-   /* function update_risk_gauge_object(p_gauge_data, i)
-	{
-		p_chart_risk_gauge_obj[i]={
-            "chart": {
-                "defaultSeriesType": "bar",
-                "plotBorderWidth": 2,
-                "plotBackgroundColor": "#F5E6E6",
-                "plotBorderColor": "#D8D8D8",
-                "plotShadow": true,
-                "spacingBottom": 43,
-                "height": 160
-            },
-            "credits": {
-                "enabled": false
-            },
-            "xAxis": {
-                "labels": {
-                    "enabled": false
-                },
-                "tickLength": 0
-            },
-            "legend": {
-                "enabled": false
-            },
-            "yAxis": {
-                "title": {
-                    "text": null
-                },
-                "labels": {
-                    "y": 20
-                },
-                "min": p_gauge_data.min_val,
-                "max": p_gauge_data.max_val,
-                "tickInterval": (p_gauge_data.max_val - p_gauge_data.min_val)/20,
-                "minorTickInterval": (p_gauge_data.max_val - p_gauge_data.min_val)/10,
-                "tickWidth": 1,
-                "tickLength": 8,
-                "minorTickLength": 5,
-                "minorTickWidth": 1,
-                "minorGridLineWidth": 0
-            },
-            "series": [{
-                "borderColor": "#7070B8",
-                "borderRadius": 3,
-                "borderWidth": 1,
-                "color": {
-                    "linearGradient": {
-                        "x1": 0,
-                        "y1": 0,
-                        "x2": 1,
-                        "y2": 0
-                    },
-                    "stops": [
-						[0.3, "#B84D4D"],
-                        [0.45, "#7A0000"],
-                        [0.55, "#7A0000"],
-                        [0.7, "#B84D4D"],
-                        [1, "#D69999"]
-					]
-                },
-                "pointWidth": 50,
-                "data": [p_gauge_data.last_val]}]
-		};
-	} */
-	
-   /* function render_linear_gauge(p_container_id, p_gauge_data, p_title, p_index)
-    {
-		//update_risk_gauge_object(p_gauge_data, p_index);
-        $(p_container_id).highcharts('Chart', {
-            chart: {
-                defaultSeriesType: 'bar',
-                plotBorderWidth: 2,
-                plotBackgroundColor: '#F5E6E6',
-                plotBorderColor: '#D8D8D8',
-                plotShadow: true,
-                spacingBottom: 43,
-                height: 160
-            },
-            credits: {
-                enabled: false
-            },
-            xAxis: {
-                labels: {
-                    enabled: false
-                },
-                tickLength: 0
-            },
-            title: {
-                text: p_title,
-                align: 'left',
-                style: {
-                    fontSize: '14px'
-                } 
-            },
-            legend: {
-                enabled: false
-            },
-            yAxis: {
-                title: {
-                    text: null
-                },
-                labels: {
-                    y: 20
-                },
-                min: p_gauge_data.min_val,
-                max: p_gauge_data.max_val,
-                tickInterval: (p_gauge_data.max_val - p_gauge_data.min_val)/20,
-                minorTickInterval: (p_gauge_data.max_val - p_gauge_data.min_val)/10,
-                tickWidth: 1,
-                tickLength: 8,
-                minorTickLength: 5,
-                minorTickWidth: 1,
-                minorGridLineWidth: 0
-            },
-            plotOptions: {},
-            series: [{
-                borderColor: '#7070B8',
-                borderRadius: 3,
-                borderWidth: 1,
-                color: {
-                    linearGradient: {
-                        x1: 0,
-                        y1: 0,
-                        x2: 1,
-                        y2: 0
-                    },
-                    stops: [ //[ 0.35, '#7070B8' ], [0, '#D69999'],
-                                                   [0.3, '#B84D4D'],
-                                                   [0.45, '#7A0000'],
-                                                   [0.55, '#7A0000'],
-                                                   [0.7, '#B84D4D'],
-                                                   [1, '#D69999']]
-                },
-                pointWidth: 50,
-                data: [p_gauge_data.last_val]}]
-        });
-    }
-
-    function render_risk_gauge_radial(p_container_id, p_gauge_data)
-    {
-        $(p_container_id).highcharts('Chart', {
-            chart: {
-                type: 'gauge',
-            },
-            pane: {
-               center: ['50%', '100%'],
-               size: '100%',
-               startAngle: -90,
-               endAngle: 90,
-               background: {
-                  backgroundColor:  '#F700F7',
-                  innerRadius: '60%',
-                  outerRadius: '100%',
-                  shape: 'arc'
-               }
-            },
-            yAxis: {
-               min: p_gauge_data.min_val,
-               max: p_gauge_data.max_val, 
-            },
-            series : [{
-               name : 'Volatility',
-               data : [p_gauge_data.last_val]
-            }]
-      });
-
-    } */
-
+  
 	function render_quadrant_chart(p_container_id, p_data, p_axis_data)
 	{
         $(p_container_id).highcharts('Chart', {
@@ -740,11 +543,6 @@ var namespace_graphs = (function () {
 			return p_chart_risk_report_obj;
 		},
 		
-	/*	return_risk_gauge_object: function(i)
-		{
-			return p_chart_risk_gauge_obj[i];
-		},
-     */
         // Here by each position profit or loss 
         render_position_chart: function(p_series_data, p_container_id, p_display_mode)
         {
@@ -958,14 +756,6 @@ var namespace_graphs = (function () {
                 var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
                 var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
                 var heatmap_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
-                /* var a = compute_gauge_data(seriesOptions[0].data);
-                var b = compute_gauge_data(seriesOptions[1].data);
-                if (p_rank_mode == "Rank")
-                {
-                    var a = compute_rank_gauge_data(a.last_val, seriesOptions[0].data);
-                    var b = compute_rank_gauge_data(b.last_val, seriesOptions[1].data);
-
-                }  */              
                 seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
                 seriesOptions[0].type = 'area';
                 seriesOptions[0].fillColor = {
