@@ -357,7 +357,6 @@ var namespace_gui = (function() {
 
         refresh_performance_chart_and_tab: function()
         {
-			console.log('refreshed');
             var series_data = [{
                 name:'Portfolio',
                 data:portfolio_chart_data["norm_pnl_series"], 

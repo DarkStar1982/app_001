@@ -309,6 +309,20 @@ var namespace_graphs = (function () {
   
 	function render_quadrant_chart(p_container_id, p_data, p_axis_data)
 	{
+		// get label offsets - if bubble is high on chart, put label below it 
+		// otherwise below 
+		//console.log(p_data[0].y);
+		//console.log(p_data[1].y);
+		var offsets = [];
+		for (var i=0; i<p_data.length; i++)
+		{
+			if ((p_data[i].y > p_axis_data[1]/2) || (p_data[i].y < -p_axis_data[1]/2))
+			{
+				offsets[i] = 45; 
+			}
+			else offsets[i] = -45;
+		}
+		console.log(offsets);
         $(p_container_id).highcharts('Chart', {
 			chart: {
 			    defaultSeriesType:'bubble',
@@ -333,8 +347,11 @@ var namespace_graphs = (function () {
 			title: {
 			        text:null
 		    },
+			tooltip: {
+				enabled: false
+			},
 		    legend:{
-		        enabled:true                                
+		        enabled: true                                
 			},
 			
 			    xAxis:{
@@ -371,24 +388,33 @@ var namespace_graphs = (function () {
 	                dataLabels: {
 	                	enabled: true,
 	                    color: 'black',
-						y:-45,
-						x: 10,
+						y: offsets[0],
+						x: 0,
 	                    formatter: function ()
 	                        {
-	                          /*  var x_labels=["Portfolio Returns", "Portfolio Risk"];
-	                            var y_labels=["(risk)", "(return)"];
-								var val_label = x_labels[this.point.x]+ ":" + this.point.x +
-								", " +x_labels[this.point.y]+ math_util.aux_math_round(this.point.y,2); */
 							  var val_label = "Portfolio <br/>Rt. "+ math_util.aux_math_round(this.point.y,2)+"%";
 							  var hint_label = "<br/>Rsk. " + this.point.x; 
 	                          return val_label + "<br/>"+ hint_label;
 	                        },
-	                        style: { fontFamily: 'serif', lineHeight: '16px', 'font-weight':'100', fontSize: '14px' }
+	                    style: { fontFamily: 'serif', lineHeight: '16px', 'font-weight':'100', fontSize: '14px' }
 	            		},
 				},
 				{
 					data: [p_data[1]],
-					name: "Benchmark"
+					name: "Benchmark",
+	                dataLabels: {
+	                	enabled: true,
+	                    color: 'black',
+						y: offsets[1],
+						x: 0,
+	                    formatter: function ()
+	                        {
+							  var val_label = "Benchmark <br/>Rt. "+ math_util.aux_math_round(this.point.y,2)+"%";
+							  var hint_label = "<br/>Rsk. " + this.point.x; 
+	                          return val_label + "<br/>"+ hint_label;
+	                        },
+	                    style: { fontFamily: 'serif', lineHeight: '16px', 'font-weight':'100', fontSize: '14px' }
+	            		},
 				}]
 			
 		});
@@ -746,7 +772,6 @@ var namespace_graphs = (function () {
 				p_chart_returns_hc_options = {
                     "marginLeft": 75,
                     "marginRight": 75,
-                    /* renderTo : p_container_id, */
                     "rangeSelector" : { "selected" : 5 },
                     "title": { "text" : null },
                     //"title": { "text" : "Perfomance: Portfolio vs Benchmark"},
@@ -765,7 +790,7 @@ var namespace_graphs = (function () {
                             $.each(chart.rangeSelector.buttons, function(index, value) {
                                 value.on('click', function (e) { 
                                     //alert(index);
-                                    update_performance_and_risk_charts_and_tab
+                                    update_performance_and_risk_charts_and_tab();
                                    //update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
                                     e.preventDefault();
                                 }); 

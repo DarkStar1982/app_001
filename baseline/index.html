@@ -105,11 +105,12 @@
 										<a class="btn btn-default" href="/lib/csv/template.csv" target="_self">Get template</a>
 									</td>
 									<td>
+										<input class="form-control btn-default" id="submitFile" value="Upload" type="button"/>
+									</td>
+									<td>
 										<input class="form-control" id="chosenFile"  type="file" name="file_name"/>
                        				</td>
-									<td>
-										<input class="form-control btn-default" id="submitFile" value="Upload" type="button"/>
-								</td></tr>
+									</tr>
 							</tbody>
 						</table>
         			</div>
@@ -135,34 +136,6 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="col-md-3">
-                        <table class="table">
-							<thead>
-								<tr>
-									<td>
-										<label for="portfolio_cash">Amount</label>
-									</td>
-									<td colspan=2>
-										<label>Add cash transaction</label>
-									</td>
-								</tr>
-							</thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-										<input type="text" class="form-control" id="portfolio_cash" value="0"/>
-									</td>
-									<td>
-                                    	<button id="cash_add" class="btn btn-default">Deposit</button>
-									</td>
-									<td>
-                                    	<button id="cash_remove" class="btn btn-default">Withdraw</button>
-									</td>
-                                    
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
                     <div class="col-md-7">
                         <table class="table"  cellpadding="0" cellspacing="0" cellpadding="0" border="0">
                         <thead>
@@ -199,14 +172,44 @@
                         </tbody>
                         </table>
                     </div>
+					<div class="col-md-3">
+                        <table class="table">
+							<thead>
+								<tr>
+									<td>
+										<label for="portfolio_cash">Amount</label>
+									</td>
+									<td colspan=2>
+										<label>Add cash transaction</label>
+									</td>
+								</tr>
+							</thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+										<input type="text" class="form-control" id="portfolio_cash" value="0"/>
+									</td>
+									<td>
+                                    	<button id="cash_add" class="btn btn-default">Deposit</button>
+									</td>
+									<td>
+                                    	<button id="cash_remove" class="btn btn-default">Withdraw</button>
+									</td>
+                                    
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 				</div>
-               
                 <div class="row">
                     <!-- Portfolio summary -->
                     <div class="col-md-12">
                         <h4 id="step3x1">Portfolio summary</h4>
                         <table id="net_portfolio" class="table table-bordered" cellspacing="0" cellpadding="0">
-                            <tr><td><b>Net Value</b></td><td id="value_totals">0</td><td><b>Profit or loss</b></td><td id="pnl_totals">0</td></tr>
+                            <tr>
+								<td><b>Net Value</b></td><td id="value_totals">0</td>
+								<td><b>Profit or loss</b></td><td id="pnl_totals">0</td>
+							</tr>
                         </table>
                     </div>
                     <div class="col-md-12">
@@ -215,7 +218,13 @@
                         <table id="summary_table" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
                             <thead>
                                 <tr>
-                                    <th>Symbol</th><th>Position</th><th>Quantity</th><th>Avg. Price</th><th>Book Value</th><th>Current Value</th><th>PnL</th>
+                                    <th>Symbol</th>
+									<th>Position</th>
+									<th>Quantity</th>
+									<th>Avg. Price</th>
+									<th>Book Value</th>
+									<th>Current Value</th>
+									<th>PnL</th>
                                 </tr>
                             </head>
                             <!-- row container -->
