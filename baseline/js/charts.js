@@ -790,9 +790,9 @@ var namespace_graphs = (function () {
                             $.each(chart.rangeSelector.buttons, function(index, value) {
                                 value.on('click', function (e) { 
                                     //alert(index);
-                                    update_performance_and_risk_charts_and_tab();
+                                 //   update_performance_and_risk_charts_and_tab;
                                    //update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
-                                    e.preventDefault();
+                                 //   e.preventDefault();
                                 }); 
                             });
                         }
@@ -809,25 +809,9 @@ var namespace_graphs = (function () {
                 var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
                 var heatmap_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
                 seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
-                seriesOptions[0].type = 'area';
-                seriesOptions[0].fillColor = {
-                    linearGradient: {x1: 0, y1:0, x2: 0, y2: 1},
-                    stops : [
-                        [0.0, 'rgb(255, 0, 0)'],
-                        [0.25, 'rgb(255,102,0)'],
-                        [1.5, 'rgb(32,124, 202)']
-                    ]
-                }
+                seriesOptions[0].type = 'line';
                 seriesOptions[1].type = 'line';
                 seriesOptions[1].dashStyle = 'dot';
-                seriesOptions[1].color = {
-                    linearGradient: {x1:0, y1:0, x2:0, y2:1 }, 
-                    stops:[ 
-                        [0.0, 'rgb(255,0,0)'],
-                        [0.5, 'rgb(255,255,0)'],
-                        [1.0, 'rgb(0,255,0)']
-                    ]
-                }
                 //always render
 				var data = get_bubbles(heatmap_data);
 				render_quadrant_chart('#container_chart5a',data["bubbles"], data["max_axis"]);

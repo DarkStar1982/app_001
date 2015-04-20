@@ -549,7 +549,6 @@ var namespace_portfolio = (function()
 						state.benchmark_state = 1;
 						add_dashboard_benchmark(state.list_benchmarks[0].value);
 					}
-					//console.log(state.list_benchmarks);     
                     namespace_gui.update_charts(state);
                 }
                 else 
@@ -753,8 +752,7 @@ var namespace_portfolio = (function()
     
     /* load benchmark series for the duration of portfolio
      * then apply the derived data computation
-     * and render dashboard benchmark row
-    */    
+     * and render dashboard benchmark row */
     function add_dashboard_benchmark(p_benchmark)
     {
 		state.m_benchmark_series['dashboard_data']=[];

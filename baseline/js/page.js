@@ -305,11 +305,10 @@ var namespace_gui = (function() {
             namespace_gui.refresh_val_pnl_chart();
             namespace_gui.refresh_sector_chart();
             //update_charts for portfolio + benchmarks
-			console.log("updated");
 			if (''!=$("#benchmark_list :selected").text())
 			{
 				namespace_gui.refresh_performance_chart_and_tab();
-           		namespace_gui.refresh_risk_chart(0);
+           		//namespace_gui.refresh_risk_chart(0);
 			}
         },
         
@@ -359,16 +358,16 @@ var namespace_gui = (function() {
         {
             var series_data = [{
                 name:'Portfolio',
-                data:portfolio_chart_data["norm_pnl_series"], 
-                type:'line',
-                fillColor: {
+                data: portfolio_chart_data["norm_pnl_series"], 
+                type:'line'
+                /* fillColor: {
                     linearGradient: {x1: 0, y1:0, x2: 0, y2: 1},
                     stops : [
                         [0.0, 'rgb(0, 64, 127)'],
                         [0.5, 'rgb(0, 127, 255)'],
                         [1.0, 'rgb(127, 127,  127)']
                     ]
-                } 
+                }  */
             }];
             var current_benchmark = $("#benchmark_list :selected").text();
             for (var k in m_benchmark_data)
@@ -376,7 +375,12 @@ var namespace_gui = (function() {
                 if (m_benchmark_data.hasOwnProperty(k))
                 {
                     if (k == current_benchmark){
-                        series_data.push({name: k, data:m_benchmark_data[k]["norm_value_series"], type:'line'});
+                        series_data.push({
+							name: k, 
+							data:m_benchmark_data[k]["norm_value_series"], 
+							type:'line',
+							dashStyle: 'dot'
+						});
                         update_derived_value_tabs(portfolio_chart_data["derived_values"],m_benchmark_data[k]["derived_values"]);
                         }
                 }
@@ -385,14 +389,8 @@ var namespace_gui = (function() {
             namespace_gui.refresh_risk_chart(0);
         },
 
-      //  refresh_gauge_chart: function()
-      //  {
-      //      namespace_gui.refresh_risk_chart(1);
-      //  },
-
         refresh_risk_chart: function(render_mode)
         {
-            //var rank_mode = $("#risk_scale_select :selected").text();
 			var rank_mode = 0;
             var current_benchmark = $("#benchmark_list :selected").text();
             for (var k in m_benchmark_data)
@@ -414,32 +412,13 @@ var namespace_gui = (function() {
                 }
             } 
             /*
-             $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-                var current_benchmark = $("#benchmark_list :selected").text();
-                //select benchmark from the list
-                for (var k in m_benchmark_data)
-                {
-                    if (m_benchmark_data.hasOwnProperty(k))
-                    {
-                        if (k == current_benchmark)
-                        {    
-                            benchmark_series_data = m_benchmark_data[k]["risk_chart_data"];
-                            benchmark_derived_data = m_benchmark_data[k]["derived_values"]
-                            namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"], 
-                                                                 portfolio_chart_data["derived_values"],
-                                                                 benchmark_series_data, 
-                                                                 benchmark_derived_data,
-                                                                 "#container_chart4");
-                        }
-                    }
-                }
-            });
             */ 
         },
 
         //analytics
         render_derived: function(derived_data)
         {
+			// TODO
         },
 
         set_visibility: function(p_level)
