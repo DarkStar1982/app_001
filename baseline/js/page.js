@@ -360,14 +360,6 @@ var namespace_gui = (function() {
                 name:'Portfolio',
                 data: portfolio_chart_data["norm_pnl_series"], 
                 type:'line'
-                /* fillColor: {
-                    linearGradient: {x1: 0, y1:0, x2: 0, y2: 1},
-                    stops : [
-                        [0.0, 'rgb(0, 64, 127)'],
-                        [0.5, 'rgb(0, 127, 255)'],
-                        [1.0, 'rgb(127, 127,  127)']
-                    ]
-                }  */
             }];
             var current_benchmark = $("#benchmark_list :selected").text();
             for (var k in m_benchmark_data)
