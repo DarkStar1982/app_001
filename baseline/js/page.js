@@ -308,7 +308,6 @@ var namespace_gui = (function() {
 			if (''!=$("#benchmark_list :selected").text())
 			{
 				namespace_gui.refresh_performance_chart_and_tab();
-           		//namespace_gui.refresh_risk_chart(0);
 			}
         },
         
@@ -367,45 +366,21 @@ var namespace_gui = (function() {
                 if (m_benchmark_data.hasOwnProperty(k))
                 {
                     if (k == current_benchmark){
-                        series_data.push({
-							name: k, 
-							data:m_benchmark_data[k]["norm_value_series"], 
-							type:'line',
-							dashStyle: 'dot'
-						});
+                        series_data.push({name: k,data:m_benchmark_data[k]["norm_value_series"],type:'line',dashStyle: 'dot'});
                         update_derived_value_tabs(portfolio_chart_data["derived_values"],m_benchmark_data[k]["derived_values"]);
-                        }
-                }
-            }
-            namespace_graphs.render_performance_chart(series_data, "#container_chart3");
-            namespace_gui.refresh_risk_chart(0);
-        },
-
-        refresh_risk_chart: function(render_mode)
-        {
-			var rank_mode = 0;
-            var current_benchmark = $("#benchmark_list :selected").text();
-            for (var k in m_benchmark_data)
-            {
-                if (m_benchmark_data.hasOwnProperty(k))
-                {
-                    if (k == current_benchmark)
-                    {    
-                        benchmark_series_data = m_benchmark_data[k]["risk_chart_data"];
-                        benchmark_derived_data = m_benchmark_data[k]["derived_values"]
+			            namespace_graphs.render_performance_chart(series_data, "#container_chart3");
                         namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"], 
                                                                  portfolio_chart_data["derived_values"],
-                                                                 benchmark_series_data, 
-                                                                 benchmark_derived_data,
+                                                                 m_benchmark_data[k]["risk_chart_data"], 
+                                                                 m_benchmark_data[k]["derived_values"],
                                                                  "#container_chart4",
-                                                                 rank_mode,
-                                                                 render_mode);
+                                                                 0,
+                                                                 0);
+																 break;
                     }
                 }
-            } 
-            /*
-            */ 
-        },
+            }
+        },     
 
         //analytics
         render_derived: function(derived_data)
@@ -584,7 +559,6 @@ var namespace_gui = (function() {
         add_dashboard_benchmark_row: function()
         {
             var new_benchmark = $("#benchmark_entry").val();
-            //now update the dropdown list
             namespace_portfolio.update_state("add_dashboard_benchmark", new_benchmark);
         },
   
@@ -610,7 +584,6 @@ var namespace_gui = (function() {
  
         send_log_message: function(message, p_severity)
         {
-            //... with fall-through!
             switch(p_severity)
             {
                 case "User":

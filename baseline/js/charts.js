@@ -768,38 +768,30 @@ var namespace_graphs = (function () {
 					var y_max = y_axis_limits_1.max+5;
                 else 
 					var y_max = y_axis_limits_2.max+5;
-                //save chart options for later use
+                //save chart options for report object
 				p_chart_returns_hc_options = {
                     "marginLeft": 75,
                     "marginRight": 75,
                     "rangeSelector" : { "selected" : 5 },
                     "title": { "text" : null },
-                    //"title": { "text" : "Perfomance: Portfolio vs Benchmark"},
                     "yAxis": {
                         "max" : y_max,
                         "min" : y_min
                     },
                     "series" : p_series_data
 				};
-				//create final chart object
-				var returs_chart_object = Object.create(p_chart_returns_hc_options);
-				returs_chart_object.chart = {
-					events: {
-                        load: function (){
-                            var chart = this;
-                            $.each(chart.rangeSelector.buttons, function(index, value) {
-                                value.on('click', function (e) { 
-                                    //alert(index);
-                                 //   update_performance_and_risk_charts_and_tab;
-                                   //update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
-                                 //   e.preventDefault();
-                                }); 
-                            });
-                        }
-                    }
-				}
 				// render chart
-                $(p_container_id).highcharts('StockChart', returs_chart_object);
+				$(p_container_id).highcharts('StockChart', {
+                    "marginLeft": 75,
+                    "marginRight": 75,
+                    "rangeSelector" : { "selected" : 5 },
+                    "title": { "text" : null },
+                    "yAxis": {
+                        "max" : y_max,
+                        "min" : y_min
+                    },
+                    "series" : p_series_data
+				});
             },
             
             render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id, p_rank_mode, p_mode)
