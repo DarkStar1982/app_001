@@ -322,7 +322,6 @@ var namespace_graphs = (function () {
 			}
 			else offsets[i] = -45;
 		}
-		console.log(offsets);
         $(p_container_id).highcharts('Chart', {
 			chart: {
 			    defaultSeriesType:'bubble',
@@ -462,11 +461,13 @@ var namespace_graphs = (function () {
             var new_data = rescale_data(trim_data(p_series, date_start));
         else
             var new_data = trim_data(p_series, date_start);
-        p_chart.series[0].setData(new_data);
+		//<--- this part matters for chart updates
+        p_chart.series[0].setData(new_data); 
         var axis = p_chart.xAxis[0];
         var edata = axis.getExtremes();
         var start_datum = xdata[0][0];
         axis.setExtremes(start_datum, edata.dataMax);
+		// -- >
     }
 
 	function update_val_pnl_chart_report_object(p_series_data, p_chart_mode, p_flag_data)
@@ -782,6 +783,23 @@ var namespace_graphs = (function () {
 				};
 				// render chart
 				$(p_container_id).highcharts('StockChart', {
+				/*	"chart" : {
+						"events": {
+	                    	"load": function (){
+	                        	var chart = this;
+								//reload series
+								//recompute series 
+								// update charts
+	                        	$.each(chart.rangeSelector.buttons, function(index, value) {
+	                            	value.on('click', function (e) { 
+									//	alert(index);
+	                                //	update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
+	                                //	e.preventDefault();
+	                            	}); 
+	                        	});
+	                    	}
+						}
+	                }, */
                     "marginLeft": 75,
                     "marginRight": 75,
                     "rangeSelector" : { "selected" : 5 },
