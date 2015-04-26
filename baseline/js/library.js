@@ -1,3 +1,58 @@
+/* time series format expected to be like this:
+ * [[timestamp1, value1], [[timestamp2, value2], ... [timestampN, valueN]]
+ * where timestampN is JS date in milliseconds and valueN is numeric (double by default)
+ * library functions behaviour should be "fail-on-error",right now it is "ignore-on-error" */
+
+var namespace_time_series = (function()
+{
+	return {
+    	rescale_data: function(p_data)
+    	{
+			//console.log(p_data);
+			if (p_data.length==0) return [];
+       		var start_value = p_data[0][1];
+        	var return_data=[];
+        	for (var i = 0; i<p_data.length; i++)
+            	return_data[i] = [p_data[i][0], (p_data[i][1] / start_value)* 100.0];
+        	return return_data;
+    	},
+		
+		trim_data: function(p_data, date_start)
+	    {
+	        var p_new_data = [];
+	        for (var i=0;i<p_data.length; i++)
+	        {
+	            if (p_data[i][0] > date_start) p_new_data.push(p_data[i]);
+	        }
+	        return p_new_data;
+	    },
+		
+		/* data length should match, otherwise return fail*/
+		get_difference: function (p_data_a, p_data_b)
+		{
+	        var r_data = [];
+	        var min_length = math_util.aux_compute_min(p_data_a.length, p_data_b.length);
+	        for (var i=0; i<min_length;i++)
+	        {
+	            r_data[i] = [p_data_a[i][0], p_data_a[i][1] - p_data_b[i][1]];
+	        }
+	        return r_data;
+		},
+		
+		//input series in default format
+		//dates in the list should be in milliseconds
+		split_series: function(p_data, p_date_list)
+		{
+			var return_list = [p_data];
+			for (var i=0; i<p_date_list.length;i++)
+			{
+				return_list[i+1] = namespace_time_series.rescale_data(namespace_time_series.trim_data(p_data, p_date_list[i]));
+			}
+			return return_list;
+		}
+	}
+})();
+
 /*   MATH functions module */
 var math_util = (function (){
 	/*** private ****/
@@ -216,11 +271,22 @@ var datetime_util = (function () {
                 		return new_date;
         		}
 		},
+		
 		convert_date_to_ms: function(p_date)
 		{
 			var xdate = new Date(p_date); // some mock date
         		var milliseconds = xdate.getTime();
         		return milliseconds;
+		},
+		
+		convert_date_shifts: function(p_date_shifts)
+		{
+			var dates=[];
+			for (var i=0; i<p_date_shifts.length;i++)
+			{
+				dates[i] = datetime_util.get_date_shifted(p_date_shifts[i]).getTime();
+			}
+			return dates;
 		}
 	};
 }) ();

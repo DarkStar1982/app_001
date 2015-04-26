@@ -209,7 +209,7 @@ var namespace_graphs = (function () {
 	// Apply the theme
 
 
-    function get_benchmark_difference(p_data1, p_data2)
+ /*   function get_benchmark_difference(p_data1, p_data2)
     {
         var r_data = new Array();
         var min_length = math_util.aux_compute_min(p_data1.length, p_data2.length);
@@ -218,7 +218,7 @@ var namespace_graphs = (function () {
             r_data[i] = [p_data1[i][0], p_data1[i][1] - p_data2[i][1]];
         }
         return r_data;
-    }
+    } */
  
     function get_bubble_chart_data(p_portfolio_data, p_benchmark_data)
     {
@@ -629,25 +629,29 @@ var namespace_graphs = (function () {
         return p_flags;
     }
 
-    function trim_data(p_data, date_start)
-    {
-        var p_new_data = [];
-        for (var i=0;i<p_data.length; i++)
-        {
-            if (p_data[i][0] > date_start) p_new_data.push(p_data[i]);
-        }
-        return p_new_data;
-    }
 
-    function rescale_data(p_data)
-    {
-        var start_value = p_data[0][1];
-        var return_data=[];
-        for (var i = 0; i<p_data.length; i++)
-            return_data[i] = [p_data[i][0], (p_data[i][1] / start_value)* 100.0];
-        return return_data;
-    }
-
+	function update_performance_chart(p_chart, p_index, p_series)
+	{
+	   	
+      	var axis = p_chart.xAxis[0];
+		var edata = axis.getExtremes();
+		console.log(edata);
+		if (p_index==5)
+		{
+			p_chart.series[0].setData(p_series[0].data[0]);
+			p_chart.series[1].setData(p_series[1].data[0]);
+	   	 	var start_datum = p_series[0].data[0][0];
+		}
+		else
+		{
+        	p_chart.series[0].setData(p_series[0].data[p_index+1]); 
+    		p_chart.series[1].setData(p_series[1].data[p_index+1]); 
+	   	 	var start_datum = p_series[0].data[0][p_index+1];
+		}
+		console.log(start_datum);
+     	axis.setExtremes(start_datum[0], edata.dataMax);
+	}
+	
     function update_val_pnl_chart(p_chart, p_index, p_series, p_mode)
     {
         var date_shifts = [1,3,6,0,12];
@@ -659,9 +663,9 @@ var namespace_graphs = (function () {
         //alert(date_start);
         //trim data by date
         if (p_mode == "percent")
-            var new_data = rescale_data(trim_data(p_series, date_start));
+            var new_data = namespace_time_series.rescale_data(namespace_time_series.trim_data(p_series, date_start));
         else
-            var new_data = trim_data(p_series, date_start);
+            var new_data = namespace_time_series.trim_data(p_series, date_start);
 		//<--- this part matters for chart updates
         p_chart.series[0].setData(new_data); 
         var axis = p_chart.xAxis[0];
@@ -965,8 +969,8 @@ var namespace_graphs = (function () {
             
             render_performance_chart: function(p_series_data, p_container_id)
             {
-                var y_axis_limits_1 = math_util.get_series_min_max(p_series_data[0].data);
-                var y_axis_limits_2 = math_util.get_series_min_max(p_series_data[1].data);
+                var y_axis_limits_1 = math_util.get_series_min_max(p_series_data[0].data[0]);
+                var y_axis_limits_2 = math_util.get_series_min_max(p_series_data[1].data[0]);
                 if (y_axis_limits_1.min<y_axis_limits_2.min) 
 					var y_min = y_axis_limits_1.min-5;
                 else 
@@ -985,11 +989,20 @@ var namespace_graphs = (function () {
                         "max" : y_max,
                         "min" : y_min
                     },
-                    "series" : p_series_data
+                    "series" : [{
+						name: p_series_data[0].name,
+						data: p_series_data[0].data[0],
+						type: p_series_data[0].type
+					},
+					{
+						name: p_series_data[1].name,
+						data: p_series_data[1].data[0],
+						type: p_series_data[1].type
+					}]
 				};
 				// render chart
 				$(p_container_id).highcharts('StockChart', {
-				/*	"chart" : {
+				 "chart" : {
 						"events": {
 	                    	"load": function (){
 	                        	var chart = this;
@@ -998,14 +1011,13 @@ var namespace_graphs = (function () {
 								// update charts
 	                        	$.each(chart.rangeSelector.buttons, function(index, value) {
 	                            	value.on('click', function (e) { 
-									//	alert(index);
-	                                //	update_val_pnl_chart(chart, index, p_series_data, p_display_mode); 
-	                                //	e.preventDefault();
+										update_performance_chart(chart, index, p_series_data);
+										e.preventDefault();
 	                            	}); 
 	                        	});
 	                    	}
 						}
-	                }, */
+	                }, 
                     "marginLeft": 75,
                     "marginRight": 75,
                     "rangeSelector" : { "selected" : 5 },
@@ -1014,7 +1026,17 @@ var namespace_graphs = (function () {
                         "max" : y_max,
                         "min" : y_min
                     },
-                    "series" : p_series_data
+                    "series" : [{
+						name: p_series_data[0].name,
+						data: p_series_data[0].data[0],
+						type: p_series_data[0].type
+					},
+					{
+						name: p_series_data[1].name,
+						data: p_series_data[1].data[0],
+						type: p_series_data[1].type,
+						dashStyle: 'dot'
+					}]
 				});
             },
             
@@ -1022,7 +1044,7 @@ var namespace_graphs = (function () {
             {
                 //assuming we have the data
                 var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
-                var nav_data = get_benchmark_difference(seriesOptions[0].data, seriesOptions[1].data);
+                var nav_data = namespace_time_series.get_difference(seriesOptions[0].data, seriesOptions[1].data);
                 var heatmap_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
                 seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
                 seriesOptions[0].type = 'line';

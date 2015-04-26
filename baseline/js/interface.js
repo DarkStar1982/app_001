@@ -355,18 +355,26 @@ var namespace_gui = (function() {
 
         refresh_performance_chart_and_tab: function()
         {
+			var date_shifts = datetime_util.convert_date_shifts([1,3,6,0,12]); //YTD, 1 month, 3 months, 6 months, 12 months;
+			var chart_data = namespace_time_series.split_series(portfolio_chart_data["norm_pnl_series"], date_shifts);
             var series_data = [{
                 name:'Portfolio',
-                data: portfolio_chart_data["norm_pnl_series"], 
+                data:chart_data,
                 type:'line'
             }];
+			console.log(chart_data);
             var current_benchmark = $("#benchmark_list :selected").text();
             for (var k in m_benchmark_data)
             {
                 if (m_benchmark_data.hasOwnProperty(k))
                 {
                     if (k == current_benchmark){
-                        series_data.push({name: k,data:m_benchmark_data[k]["norm_value_series"],type:'line',dashStyle: 'dot'});
+						var benchmark_data = namespace_time_series.split_series(m_benchmark_data[k]["norm_value_series"], date_shifts);
+                        series_data.push({
+							name: k,
+							data: benchmark_data,
+							type:'line',
+							dashStyle: 'dot'});
                         update_derived_value_tabs(portfolio_chart_data["derived_values"],m_benchmark_data[k]["derived_values"]);
 			            namespace_graphs.render_performance_chart(series_data, "#container_chart3");
                         namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"], 
