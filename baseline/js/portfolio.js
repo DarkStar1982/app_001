@@ -760,6 +760,9 @@ var namespace_portfolio = (function()
         {
             if (data.header.error_code == 0)
             {
+				// in - all series data
+				// var split_data = split_time_series(data["norm_value_series"], []);
+				// for each data also compute derived values in the array of same length
                 var risk_data = compute_local_risk_series(data["norm_value_series"], state.risk_interval);
                 var derived_data = compute_derived_values(data["norm_value_series"]);
                 state.m_benchmark_series[p_benchmark]= {"norm_value_series": data["norm_value_series"], 
