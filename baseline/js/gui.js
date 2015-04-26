@@ -505,6 +505,7 @@ var namespace_gui = (function() {
 
             var portfolio_defaults = {"risk_interval": safe_get_integer($("#range_select").val()) };
             namespace_portfolio.load_portfolio_defaults(portfolio_defaults); 
+			namespace_graphs.init_chart_style();
         },
         
         deposit_cash: function()
