@@ -1,8 +1,3 @@
-/* time series format expected to be like this:
- * [[timestamp1, value1], [[timestamp2, value2], ... [timestampN, valueN]]
- * where timestampN is JS date in milliseconds and valueN is numeric (double by default)
- * library functions behaviour should be "fail-on-error",right now it is "ignore-on-error" */
-
 var namespace_time_series = (function()
 {
 	return {
@@ -239,7 +234,7 @@ var datetime_util = (function () {
 		// known bug here  - doesn't handle leap years
 		get_date_shifted: function(p_delta, p_flag_format)
 		{
-        		var today = new Date();
+        	var today = new Date();
 			if ( p_delta>0 )
 			{
 				var month = today.getMonth();

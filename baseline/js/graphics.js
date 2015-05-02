@@ -11,7 +11,7 @@ var namespace_graphs = (function () {
 	/**
 	 * Dark theme for Highcharts JS
 	 * @author Torstein Honsi
-	 * @modified by Dark
+	 * @modified by Dennis Silin
 	 */
 
 	// Load the fonts
@@ -596,7 +596,7 @@ var namespace_graphs = (function () {
 							  var hint_label = "<br/>Rsk. " + this.point.x; 
 	                          return val_label + "<br/>"+ hint_label;
 	                        },
-	                    style: { fontFamily: 'serif', lineHeight: '16px', 'font-weight':'100', fontSize: '14px' }
+	                    style: { fontFamily: 'Verdana, sans-serif', lineHeight: '16px', fontSize: '15px' }
 	            		},
 				},
 				{
@@ -613,7 +613,7 @@ var namespace_graphs = (function () {
 							  var hint_label = "<br/>Rsk. " + this.point.x; 
 	                          return val_label + "<br/>"+ hint_label;
 	                        },
-	                    style: { fontFamily: 'serif', lineHeight: '16px', 'font-weight':'100', fontSize: '14px' }
+	                    style: { fontFamily: 'Verdana, sans-serif', lineHeight: '16px', fontSize: '15px' }
 	            		},
 				}]
 			
@@ -635,7 +635,6 @@ var namespace_graphs = (function () {
 	   	
       	var axis = p_chart.xAxis[0];
 		var edata = axis.getExtremes();
-		console.log(edata);
 		if (p_index==5)
 		{
 			p_chart.series[0].setData(p_series[0].data[0]);
@@ -648,7 +647,6 @@ var namespace_graphs = (function () {
     		p_chart.series[1].setData(p_series[1].data[p_index+1]); 
 	   	 	var start_datum = p_series[0].data[0][p_index+1];
 		}
-		console.log(start_datum);
      	axis.setExtremes(start_datum[0], edata.dataMax);
 	}
 	

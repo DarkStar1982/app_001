@@ -362,7 +362,6 @@ var namespace_gui = (function() {
                 data:chart_data,
                 type:'line'
             }];
-			console.log(chart_data);
             var current_benchmark = $("#benchmark_list :selected").text();
             for (var k in m_benchmark_data)
             {

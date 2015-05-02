@@ -986,15 +986,8 @@ var namespace_portfolio = (function()
 			});
 			return report_object;
 		},
-        /* add transaction to porfolio
-         * 1. check transaction - can have incompete information, so load missing data
-         * 2. verify that portfolio is consistent if this transaction is added  
-         * 3. recompute entire portfolio and redraw page
-         *  3.1 update positions
-         *  3.2 update net values
-         *  3.3 update derived data 
-         * 4. update page DOM
-         * 5. draw charts */
+		
+        /* add transaction to porfolio */
         update_state: function (p_verb, p_data)
         {
             switch (p_verb)
