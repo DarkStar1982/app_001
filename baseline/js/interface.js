@@ -356,10 +356,9 @@ var namespace_gui = (function() {
         refresh_performance_chart_and_tab: function()
         {
 			var date_shifts = datetime_util.convert_date_shifts([1,3,6,0,12]); //YTD, 1 month, 3 months, 6 months, 12 months;
-			var chart_data = namespace_time_series.split_series(portfolio_chart_data["norm_pnl_series"], date_shifts);
             var series_data = [{
                 name:'Portfolio',
-                data:chart_data,
+                data:portfolio_chart_data["norm_pnl_split"],
                 type:'line'
             }];
             var current_benchmark = $("#benchmark_list :selected").text();
@@ -368,10 +367,9 @@ var namespace_gui = (function() {
                 if (m_benchmark_data.hasOwnProperty(k))
                 {
                     if (k == current_benchmark){
-						var benchmark_data = namespace_time_series.split_series(m_benchmark_data[k]["norm_value_series"], date_shifts);
                         series_data.push({
 							name: k,
-							data: benchmark_data,
+							data: m_benchmark_data[k]["norm_value_split"],
 							type:'line',
 							dashStyle: 'dot'});
                         update_derived_value_tabs(portfolio_chart_data["derived_values"],m_benchmark_data[k]["derived_values"]);

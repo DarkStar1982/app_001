@@ -36,7 +36,7 @@ var namespace_time_series = (function()
 		
 		//input series in default format
 		//dates in the list should be in milliseconds
-		split_series: function(p_data, p_date_list)
+		/* split_series: function(p_data, p_date_list)
 		{
 			var return_list = [p_data];
 			for (var i=0; i<p_date_list.length;i++)
@@ -44,7 +44,7 @@ var namespace_time_series = (function()
 				return_list[i+1] = namespace_time_series.rescale_data(namespace_time_series.trim_data(p_data, p_date_list[i]));
 			}
 			return return_list;
-		}
+		} */
 	}
 })();
 

@@ -648,6 +648,7 @@ var namespace_graphs = (function () {
 	   	 	var start_datum = p_series[0].data[0][p_index+1];
 		}
      	axis.setExtremes(start_datum[0], edata.dataMax);
+		update_heatmap_chart();
 	}
 	
     function update_val_pnl_chart(p_chart, p_index, p_series, p_mode)

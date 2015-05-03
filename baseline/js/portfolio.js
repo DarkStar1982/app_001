@@ -522,7 +522,8 @@ var namespace_portfolio = (function()
                     //aggregated portfolio series
                     state.portfolio_series["value_series"] = json_data.value_series;
                     state.portfolio_series["pnl_series"] = json_data.pnl_series;
-                    state.portfolio_series["norm_pnl_series"] = json_data.norm_pnl_series;
+                    state.portfolio_series["norm_pnl_series"] = json_data.norm_pnl_series; //deprecated
+                    state.portfolio_series["norm_pnl_split"] = json_data.norm_pnl_split;
                     state.portfolio_series["norm_value_series"] = json_data.norm_value_series;
                     state.portfolio_series["position_value_series"] = json_data.position_value_series;
                     //compute derived data for dashboard and charts
@@ -539,7 +540,7 @@ var namespace_portfolio = (function()
                     state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions,state.net_data.total_value);  
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
                     state.portfolio_series["risk_chart_data"] = compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
-                    state.portfolio_series["derived_values"] = compute_derived_values(json_data.norm_pnl_series); 
+                    state.portfolio_series["derived_values"] = json_data.derived_split;
                     state.portfolio_series["transaction_clusters"] = cluster_transaction_events();
                     // draw all the charts and dashboards
                     namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);
@@ -765,9 +766,12 @@ var namespace_portfolio = (function()
 				// for each data also compute derived values in the array of same length
                 var risk_data = compute_local_risk_series(data["norm_value_series"], state.risk_interval);
                 var derived_data = compute_derived_values(data["norm_value_series"]);
-                state.m_benchmark_series[p_benchmark]= {"norm_value_series": data["norm_value_series"], 
-                                                        "risk_chart_data": risk_data,
-                                                        "derived_values": derived_data};
+                state.m_benchmark_series[p_benchmark]= {
+					"norm_value_series": data["norm_value_series"], 
+					"norm_value_split":data["norm_value_split"],
+                    "risk_chart_data": risk_data,
+                    "derived_values": derived_data
+				};
                 row_data = get_dashboard_data(data["norm_value_series"], "Benchmark", "-");
                // calculate benchmark derived data
                // update portfolio derived data = partial (beta, etc) 
