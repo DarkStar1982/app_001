@@ -541,6 +541,7 @@ var namespace_portfolio = (function()
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
                     state.portfolio_series["risk_chart_data"] = compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
                     state.portfolio_series["derived_values"] = json_data.derived_split;
+					//console.log(json_data.derived_split);
                     state.portfolio_series["transaction_clusters"] = cluster_transaction_events();
                     // draw all the charts and dashboards
                     namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);
@@ -762,7 +763,6 @@ var namespace_portfolio = (function()
             if (data.header.error_code == 0)
             {
 				// in - all series data
-				// var split_data = split_time_series(data["norm_value_series"], []);
 				// for each data also compute derived values in the array of same length
                 var risk_data = compute_local_risk_series(data["norm_value_series"], state.risk_interval);
                 var derived_data = compute_derived_values(data["norm_value_series"]);
@@ -895,103 +895,106 @@ var namespace_portfolio = (function()
 		return contents;
 	}
 	
+    /* Load required page data:
+    * - Instruments list
+    * - Benchmarks list  
+    * -Set values for empty portfolio  */
+    
+	function initialize()
+    {
+        $.getJSON(API_URL, { call:"stock_list" }, function (data) 
+        {
+            if (data.header.error_code == 0)
+            {
+                state.list_instruments = data.contents.stocks;
+                state.list_benchmarks = data.contents.benchmarks;
+                state.load_state = state.load_state+1;     
+                init_gui_if_ready();
+            }
+        });
+        //create empty portfolio
+        state.net_data = {
+            "net_cash_row": {
+                "start_cash" : 0.0,
+                "total_cash" : 0.0,
+                "cash_change" : 0.0,
+            },
+            "positions" :[],
+            "total_value" : 0.0,
+            "total_pnl" : 0.0
+        }
+    }
+	
+	/* receive the list of parts and assembole the json object to be interpreted as pdf report */
+	function generate_pdf_report(p_data)
+	{
+		//works with array only
+		var report_object = [];
+		$.each(p_data, function(index,value)
+		{
+			switch(value)
+			{
+				case 'p_table_sum':
+					var contents = get_net_summary_object();
+					report_object.push({"type":"table","contents": contents, "header":"Portfolio summary", "styles":["pnl_color"]});
+					break;
+				case 'p_table_hist':
+					var contents = get_transaction_history_object();
+					report_object.push({"type":"table",	"contents": contents, "header": "Transaction history"});
+					break;
+				case 'p_table_pos':
+					var contents = get_positions_object();
+					report_object.push({"type":"table","contents": contents, "header": "Net positions"});
+					break;
+				case 'p_chart_returns':
+					var chart_object = JSON.stringify(namespace_graphs.return_performance_chart_object());
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio vs Benchmark: Performance"});
+					break;
+				case 'p_chart_val_pnl':
+					var chart_object = JSON.stringify(namespace_graphs.return_val_pnl_chart_object());
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Value"});
+					break;
+				case 'p_chart_position':
+					var chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Positions chart"});
+					break;
+				case 'p_chart_sector':
+					var chart_object = JSON.stringify(namespace_graphs.return_sector_chart_object());
+					report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Sectors"});
+					break;
+				case 'p_table_portfolio_returns':
+					var contents = get_portfolio_returns_object();
+					report_object.push({"type":"table", "contents": contents, "header": "Portfolio Returns"});
+					break;
+				case 'p_table_benchmark_returns':
+					var contents = get_benchmark_returns_object();
+					report_object.push({"type":"table", "contents": contents, "header": "Benchmark Returns"});
+					break;
+				case 'p_chart_risk':
+					var contents = JSON.stringify(namespace_graphs.return_risk_chart_object());
+					report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Risk "});
+					break;
+				case 'p_chart_heatmap':
+					var contents = JSON.stringify(namespace_graphs.return_heatmap_chart_object());
+					report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Risk and Returns "});
+					break;
+				case 'p_chart_historical_risk':
+					break;
+			}				
+		});
+		namespace_gui.process_message("attach_report", report_object);
+		//return report_object;
+	}
+	
+    /* default risk interval and such */
+    function load_portfolio_defaults(p_data)
+    {
+        state.risk_interval = p_data["risk_interval"];
+    }
+	
     /* Public methods */
     return {
-        /* Load required page data:
-        * - Instruments list
-        * - Benchmarks list  
-        * -Set values for empty portfolio  */
-        initialize :function ()
-        {
-            $.getJSON(API_URL, { call:"stock_list" }, function (data) 
-            {
-                if (data.header.error_code == 0)
-                {
-                    state.list_instruments = data.contents.stocks;
-                    state.list_benchmarks = data.contents.benchmarks;
-                    state.load_state = state.load_state+1;     
-                    init_gui_if_ready();
-                }
-            });
-            //create empty portfolio
-            state.net_data = {
-                "net_cash_row": {
-                    "start_cash" : 0.0,
-                    "total_cash" : 0.0,
-                    "cash_change" : 0.0,
-                },
-                "positions" :[],
-                "total_value" : 0.0,
-                "total_pnl" : 0.0
-            }
-        },
-        /* default risk interval and such */
-        load_portfolio_defaults: function(p_data)
-        {
-            state.risk_interval = p_data["risk_interval"];
-        },
-
-		/* receive the list of parts and assembole the json object to be interpreted as pdf report */
-		generate_pdf_report: function(p_data)
-		{
-			//works with array only
-			var report_object = [];
-			$.each(p_data, function(index,value)
-			{
-				switch(value)
-				{
-					case 'p_table_sum':
-						var contents = get_net_summary_object();
-						report_object.push({"type":"table","contents": contents, "header":"Portfolio summary", "styles":["pnl_color"]});
-						break;
-					case 'p_table_hist':
-						var contents = get_transaction_history_object();
-						report_object.push({"type":"table",	"contents": contents, "header": "Transaction history"});
-						break;
-					case 'p_table_pos':
-						var contents = get_positions_object();
-						report_object.push({"type":"table","contents": contents, "header": "Net positions"});
-						break;
-					case 'p_chart_returns':
-						var chart_object = JSON.stringify(namespace_graphs.return_performance_chart_object());
-						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio vs Benchmark: Performance"});
-						break;
-					case 'p_chart_val_pnl':
-						var chart_object = JSON.stringify(namespace_graphs.return_val_pnl_chart_object());
-						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Value"});
-						break;
-					case 'p_chart_position':
-						var chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
-						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Positions chart"});
-						break;
-					case 'p_chart_sector':
-						var chart_object = JSON.stringify(namespace_graphs.return_sector_chart_object());
-						report_object.push({"type":"chart", "contents": chart_object, "header": "Portfolio Sectors"});
-						break;
-					case 'p_table_portfolio_returns':
-						var contents = get_portfolio_returns_object();
-						report_object.push({"type":"table", "contents": contents, "header": "Portfolio Returns"});
-						break;
-					case 'p_table_benchmark_returns':
-						var contents = get_benchmark_returns_object();
-						report_object.push({"type":"table", "contents": contents, "header": "Benchmark Returns"});
-						break;
-					case 'p_chart_risk':
-						var contents = JSON.stringify(namespace_graphs.return_risk_chart_object());
-						report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Risk "});
-						break;
-					case 'p_chart_heatmap':
-						var contents = JSON.stringify(namespace_graphs.return_heatmap_chart_object());
-						report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Risk and Returns "});
-						break;
-					case 'p_chart_historical_risk':
-						break;
-				}				
-			});
-			return report_object;
-		},
-		
-        /* add transaction to porfolio */
+        /* message handler */
         update_state: function (p_verb, p_data)
         {
             switch (p_verb)
@@ -1008,6 +1011,15 @@ var namespace_portfolio = (function()
                 case "clear_dashboard_benchmarks":
                     clear_dashboard_benchmarks();
                     break;
+				case "initialize":
+					initialize();
+					break;
+				case "create_pdf":
+					generate_pdf_report(p_data);
+					break;
+				case "load_defaults":
+					load_portfolio_defaults(p_data);
+					break;
             }
         }
     }

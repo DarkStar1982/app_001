@@ -629,6 +629,14 @@ var namespace_graphs = (function () {
         return p_flags;
     }
 
+	function update_heatmap_chart(p_index)
+	{
+		if (p_index==5) var index = 0;
+		else var index = p_index +1;
+        var data = get_bubble_chart_data(m_local_data["portfolio_derived"][index], m_local_data["benchmark_derived"]);
+		render_risk_pnl_heatmap('#container_chart4b', data);
+		namespace_gui.update_derived_tab(m_local_data["portfolio_derived"][index], m_local_data["benchmark_derived"]);
+	}
 
 	function update_performance_chart(p_chart, p_index, p_series)
 	{
@@ -648,7 +656,7 @@ var namespace_graphs = (function () {
 	   	 	var start_datum = p_series[0].data[0][p_index+1];
 		}
      	axis.setExtremes(start_datum[0], edata.dataMax);
-		update_heatmap_chart();
+		update_heatmap_chart(p_index);
 	}
 	
     function update_val_pnl_chart(p_chart, p_index, p_series, p_mode)
@@ -1044,7 +1052,9 @@ var namespace_graphs = (function () {
                 //assuming we have the data
                 var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
                 var nav_data = namespace_time_series.get_difference(seriesOptions[0].data, seriesOptions[1].data);
-                var heatmap_data = get_bubble_chart_data(p_portfolio_derived, p_benchmark_derived);
+				m_local_data["portfolio_derived"] = p_portfolio_derived;
+				m_local_data["benchmark_derived"] = p_benchmark_derived;
+                var heatmap_data = get_bubble_chart_data(p_portfolio_derived[0], p_benchmark_derived);
                 seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
                 seriesOptions[0].type = 'line';
                 seriesOptions[1].type = 'line';

@@ -70,12 +70,12 @@ var math_util = (function (){
 		{
 			real_data[i] = p_data[i][1];
 		}
-                for (var i=0; i<real_data.length-1;i++)
-                {
+        for (var i=0; i<real_data.length-1;i++)
+        {
 			var ratio = real_data[i+1]/real_data[i] - 1.0;
-                        delta_data[i] = ratio;
-                }
-                return delta_data;
+            delta_data[i] = ratio;
+        }
+        return delta_data;
         }
 
 	function stat_compute_mean(p_data)
