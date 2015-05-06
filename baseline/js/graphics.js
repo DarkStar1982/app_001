@@ -633,9 +633,11 @@ var namespace_graphs = (function () {
 	{
 		if (p_index==5) var index = 0;
 		else var index = p_index +1;
-        var data = get_bubble_chart_data(m_local_data["portfolio_derived"][index], m_local_data["benchmark_derived"]);
-		render_risk_pnl_heatmap('#container_chart4b', data);
-		namespace_gui.update_derived_tab(m_local_data["portfolio_derived"][index], m_local_data["benchmark_derived"]);
+        var heatmap_data = get_bubble_chart_data(m_local_data["portfolio_derived"][index], m_local_data["benchmark_derived"][index]);
+		render_risk_pnl_heatmap('#container_chart4b', heatmap_data);
+		var data = get_bubbles(heatmap_data);
+		render_quadrant_chart('#container_chart5a',data["bubbles"], data["max_axis"]);
+		namespace_gui.update_derived_tab(m_local_data["portfolio_derived"][index], m_local_data["benchmark_derived"][index]);
 	}
 
 	function update_performance_chart(p_chart, p_index, p_series)
@@ -1054,7 +1056,7 @@ var namespace_graphs = (function () {
                 var nav_data = namespace_time_series.get_difference(seriesOptions[0].data, seriesOptions[1].data);
 				m_local_data["portfolio_derived"] = p_portfolio_derived;
 				m_local_data["benchmark_derived"] = p_benchmark_derived;
-                var heatmap_data = get_bubble_chart_data(p_portfolio_derived[0], p_benchmark_derived);
+                var heatmap_data = get_bubble_chart_data(p_portfolio_derived[0], p_benchmark_derived[0]);
                 seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
                 seriesOptions[0].type = 'line';
                 seriesOptions[1].type = 'line';

@@ -770,7 +770,7 @@ var namespace_portfolio = (function()
 					"norm_value_series": data["norm_value_series"], 
 					"norm_value_split":data["norm_value_split"],
                     "risk_chart_data": risk_data,
-                    "derived_values": derived_data
+                    "derived_values":data["derived_split"]
 				};
                 row_data = get_dashboard_data(data["norm_value_series"], "Benchmark", "-");
                // calculate benchmark derived data

@@ -380,7 +380,7 @@ var namespace_gui = (function() {
 							data: m_benchmark_data[k]["norm_value_split"],
 							type:'line',
 							dashStyle: 'dot'});
-                        update_derived_value_tabs(portfolio_chart_data["derived_values"][0],m_benchmark_data[k]["derived_values"]);
+                        update_derived_value_tabs(portfolio_chart_data["derived_values"][0],m_benchmark_data[k]["derived_values"][0]);
 			            namespace_graphs.render_performance_chart(series_data, "#container_chart3");
                         namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"], 
                                                                  portfolio_chart_data["derived_values"],
