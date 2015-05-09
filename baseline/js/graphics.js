@@ -259,6 +259,23 @@ var namespace_graphs = (function () {
     {
 		update_risk_chart_report_object(seriesOptions);
         $(p_container_id).highcharts('StockChart', {
+			chart : {
+				events: {
+                   	load: function (){
+						var chart = this;
+						m_local_data["risk_chart"] = chart;
+                       	$.each(chart.rangeSelector.buttons, function(index, value) {
+                           	value.on('click', function (e) { 
+								//update_risk_chart
+								//update_risk_chart(chart, index, m_local_data["risk_data"]);
+								update_performance_chart(m_local_data["perf_chart"], index, m_local_data["pnl_data"]);
+								update_heatmap_chart(index);
+								e.preventDefault();
+                           	}); 
+                       	});
+                   	}
+				}
+            }, 
             series : seriesOptions,
             rangeSelector : { selected : 5 },
             title : { text : null },
@@ -640,6 +657,14 @@ var namespace_graphs = (function () {
 		namespace_gui.update_derived_tab(m_local_data["portfolio_derived"][index], m_local_data["benchmark_derived"][index]);
 	}
 
+
+	function update_risk_chart(p_chart, p_index, p_series)
+	{
+		//update risk data here
+		// TODO
+		// update performance chart here
+		///update_performance_chart(m_local_data["perf_chart"], p_index, m_local_data["pnl_data"]);
+	}
 	function update_performance_chart(p_chart, p_index, p_series)
 	{
 	   	
@@ -658,7 +683,7 @@ var namespace_graphs = (function () {
 	   	 	var start_datum = p_series[0].data[0][p_index+1];
 		}
      	axis.setExtremes(start_datum[0], edata.dataMax);
-		update_heatmap_chart(p_index);
+		//update_risk_chart(p_index);
 	}
 	
     function update_val_pnl_chart(p_chart, p_index, p_series, p_mode)
@@ -978,6 +1003,7 @@ var namespace_graphs = (function () {
             
             render_performance_chart: function(p_series_data, p_container_id)
             {
+				m_local_data["pnl_data"] = p_series_data;
                 var y_axis_limits_1 = math_util.get_series_min_max(p_series_data[0].data[0]);
                 var y_axis_limits_2 = math_util.get_series_min_max(p_series_data[1].data[0]);
                 if (y_axis_limits_1.min<y_axis_limits_2.min) 
@@ -1010,17 +1036,20 @@ var namespace_graphs = (function () {
 					}]
 				};
 				// render chart
-				$(p_container_id).highcharts('StockChart', {
-				 "chart" : {
+				 $(p_container_id).highcharts('StockChart', {
+					"chart" : {
 						"events": {
 	                    	"load": function (){
 	                        	var chart = this;
+								m_local_data["perf_chart"] = chart;
 								//reload series
 								//recompute series 
 								// update charts
 	                        	$.each(chart.rangeSelector.buttons, function(index, value) {
 	                            	value.on('click', function (e) { 
 										update_performance_chart(chart, index, p_series_data);
+										update_heatmap_chart(index);
+										//update_risk_chart(m_local_data["risk_chart"], index, m_local_data["risk_data"]);
 										e.preventDefault();
 	                            	}); 
 	                        	});
@@ -1049,7 +1078,9 @@ var namespace_graphs = (function () {
 				});
             },
             
-            render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id, p_rank_mode, p_mode)
+			//	create risk_chart only
+			//
+            render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id, p_rank_mode)
             {
                 //assuming we have the data
                 var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
@@ -1064,11 +1095,8 @@ var namespace_graphs = (function () {
                 //always render
 				var data = get_bubbles(heatmap_data);
 				render_quadrant_chart('#container_chart5a',data["bubbles"], data["max_axis"]);
-                if (p_mode==0)
-                {
-                    render_risk_chart(seriesOptions, nav_data, p_container_id); 
-                    render_risk_pnl_heatmap('#container_chart4b', heatmap_data);
-                }
+                render_risk_chart(seriesOptions, nav_data, p_container_id); 
+                render_risk_pnl_heatmap('#container_chart4b', heatmap_data);
             }
         };
 }) ();

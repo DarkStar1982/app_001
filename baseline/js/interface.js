@@ -387,8 +387,7 @@ var namespace_gui = (function() {
                                                                  m_benchmark_data[k]["risk_chart_data"], 
                                                                  m_benchmark_data[k]["derived_values"],
                                                                  "#container_chart4",
-                                                                 0,
-                                                                 0);
+																 0);
 																 break;
                     }
                 }
