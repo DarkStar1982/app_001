@@ -260,14 +260,25 @@ var namespace_graphs = (function () {
 		update_risk_chart_report_object(seriesOptions);
         $(p_container_id).highcharts('StockChart', {
 			chart : {
+				/* plotBackgroundColor :{
+					linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+	                stops: [
+						[0.0, 'rgba(255, 220, 220, 0.5)'],
+						[0.5, 'rgba(255, 220, 220, 0.5)'],
+						[0.5, 'rgba(255, 255, 220, 0.2)'],
+						[0.75, 'rgba(255, 255, 220, 0.2)'],
+						[0.6, 'rgba(220, 255, 220, 0.5)'],
+		                [1.0, 'rgba(220, 255, 220, 0.5)']
+					]
+				},  */
 				events: {
                    	load: function (){
 						var chart = this;
 						m_local_data["risk_chart"] = chart;
                        	$.each(chart.rangeSelector.buttons, function(index, value) {
                            	value.on('click', function (e) { 
-								//update_risk_chart
 								//update_risk_chart(chart, index, m_local_data["risk_data"]);
+								update_risk_chart(chart, index, m_local_data["risk_chart_data"]);
 								update_performance_chart(m_local_data["perf_chart"], index, m_local_data["pnl_data"]);
 								update_heatmap_chart(index);
 								e.preventDefault();
@@ -280,7 +291,7 @@ var namespace_graphs = (function () {
             rangeSelector : { selected : 5 },
             title : { text : null },
             navigator : {
-             //   height:160,
+             	//height:160,
                 series : {
                     type: 'column',
                     fillColor: '#AF0000',   
@@ -299,13 +310,18 @@ var namespace_graphs = (function () {
                 }
             },
            yAxis : {
+			min:0,   
+			gridLineWidth: 1,
             labels : { formatter: function() { return Math.abs(this.value) } },  
             plotLines: [{
                value: 0,
                color: '#000000',
                zIndex : 5,
-               width: 1
+				width: 1
             }],
+			},
+			xAxis : {
+				gridLineWidth: 0,
          },
          plotOptions : {
             series : {
@@ -663,7 +679,24 @@ var namespace_graphs = (function () {
 		//update risk data here
 		// TODO
 		// update performance chart here
-		///update_performance_chart(m_local_data["perf_chart"], p_index, m_local_data["pnl_data"]);
+      	var axis = p_chart.xAxis[0];
+		var edata = axis.getExtremes();
+		if (p_index == 5)
+		{
+				p_chart.series[0].setData(p_series[0][0]);
+				p_chart.series[1].setData(p_series[1][0]);
+                var nav_data = namespace_time_series.get_difference(p_series[0][0], p_series[1][0]);
+				p_chart.series[2].setData(nav_data);
+		   	 	var start_datum = p_series[0][0][0];
+		}
+		else{
+			p_chart.series[0].setData(p_series[0][p_index+1]);
+			p_chart.series[1].setData(p_series[1][p_index+1]);
+            var nav_data = namespace_time_series.get_difference(p_series[0][p_index+1], p_series[1][p_index+1]);
+			p_chart.series[2].setData(nav_data);
+	   	 	var start_datum = p_series[0][0][p_index+1];
+		}
+     	axis.setExtremes(start_datum[0], edata.dataMax);
 	}
 	function update_performance_chart(p_chart, p_index, p_series)
 	{
@@ -683,7 +716,6 @@ var namespace_graphs = (function () {
 	   	 	var start_datum = p_series[0].data[0][p_index+1];
 		}
      	axis.setExtremes(start_datum[0], edata.dataMax);
-		//update_risk_chart(p_index);
 	}
 	
     function update_val_pnl_chart(p_chart, p_index, p_series, p_mode)
@@ -1049,7 +1081,7 @@ var namespace_graphs = (function () {
 	                            	value.on('click', function (e) { 
 										update_performance_chart(chart, index, p_series_data);
 										update_heatmap_chart(index);
-										//update_risk_chart(m_local_data["risk_chart"], index, m_local_data["risk_data"]);
+										update_risk_chart(m_local_data["risk_chart"], index, m_local_data["risk_chart_data"]);
 										e.preventDefault();
 	                            	}); 
 	                        	});
@@ -1073,29 +1105,43 @@ var namespace_graphs = (function () {
 						name: p_series_data[1].name,
 						data: p_series_data[1].data[0],
 						type: p_series_data[1].type,
-						dashStyle: 'dot'
+						dashStyle: 'dot',
+					//	color : 'green'
 					}]
 				});
             },
             
-			//	create risk_chart only
-			//
-            render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id, p_rank_mode)
-            {
-                //assuming we have the data
-                var seriesOptions = [{'data':p_series_data}, {'data':p_benchmark_data}];
-                var nav_data = namespace_time_series.get_difference(seriesOptions[0].data, seriesOptions[1].data);
-				m_local_data["portfolio_derived"] = p_portfolio_derived;
-				m_local_data["benchmark_derived"] = p_benchmark_derived;
-                var heatmap_data = get_bubble_chart_data(p_portfolio_derived[0], p_benchmark_derived[0]);
-                seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
+			render_risk_chart_only: function(p_series_data, p_benchmark_data, p_container_id)
+			{
+				m_local_data["risk_chart_data"] = [p_series_data,p_benchmark_data]; 
+                var nav_data = namespace_time_series.get_difference(p_series_data[0], p_benchmark_data[0]);
+				var seriesOptions = [{'data':p_series_data[0]}, {'data':p_benchmark_data[0]}];
+                seriesOptions[0].data = format_series_to_color(p_series_data[0], {});
                 seriesOptions[0].type = 'line';
                 seriesOptions[1].type = 'line';
                 seriesOptions[1].dashStyle = 'dot';
-                //always render
+				//seriesOptions[1].color = 'green';
+				
+				//render chart
+				render_risk_chart(seriesOptions, nav_data, p_container_id);
+			},
+			
+			//	create risk_chart only
+            render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id, p_rank_mode)
+            {
+                //assuming we have the data
+               // var seriesOptions = [{'data':p_series_data[0]}, {'data':p_benchmark_data}];
+              //  var nav_data = namespace_time_series.get_difference(seriesOptions[0].data, seriesOptions[1].data);
+				m_local_data["portfolio_derived"] = p_portfolio_derived;
+				m_local_data["benchmark_derived"] = p_benchmark_derived;
+                var heatmap_data = get_bubble_chart_data(p_portfolio_derived[0], p_benchmark_derived[0]);
+               // seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
+               // seriesOptions[0].type = 'line';
+               // seriesOptions[1].type = 'line';
+               // seriesOptions[1].dashStyle = 'dot';
 				var data = get_bubbles(heatmap_data);
 				render_quadrant_chart('#container_chart5a',data["bubbles"], data["max_axis"]);
-                render_risk_chart(seriesOptions, nav_data, p_container_id); 
+                namespace_graphs.render_risk_chart_only(p_series_data, p_benchmark_data, p_container_id); 
                 render_risk_pnl_heatmap('#container_chart4b', heatmap_data);
             }
         };

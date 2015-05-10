@@ -539,7 +539,8 @@ var namespace_portfolio = (function()
                     state.portfolio_series["dashboard_data"] = dashboard_rows;
                     state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions,state.net_data.total_value);  
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
-                    state.portfolio_series["risk_chart_data"] = compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
+                    state.portfolio_series["risk_chart_data"] = json_data.derived_risk;
+					//compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
                     state.portfolio_series["derived_values"] = json_data.derived_split;
 					//console.log(json_data.derived_split);
                     state.portfolio_series["transaction_clusters"] = cluster_transaction_events();
@@ -764,12 +765,12 @@ var namespace_portfolio = (function()
             {
 				// in - all series data
 				// for each data also compute derived values in the array of same length
-                var risk_data = compute_local_risk_series(data["norm_value_series"], state.risk_interval);
-                var derived_data = compute_derived_values(data["norm_value_series"]);
+               // var risk_data = compute_local_risk_series(data["norm_value_series"], state.risk_interval);
+               // var derived_data = compute_derived_values(data["norm_value_series"]);
                 state.m_benchmark_series[p_benchmark]= {
 					"norm_value_series": data["norm_value_series"], 
 					"norm_value_split":data["norm_value_split"],
-                    "risk_chart_data": risk_data,
+                    "risk_chart_data": data["derived_risk"],
                     "derived_values":data["derived_split"],
 				};
                 row_data = get_dashboard_data(data["norm_value_series"], "Benchmark", "-");

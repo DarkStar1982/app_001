@@ -36,7 +36,7 @@ var namespace_time_series = (function()
 		
 		//input series in default format
 		//dates in the list should be in milliseconds
-		/* split_series: function(p_data, p_date_list)
+	/*	split_series: function(p_data, p_date_list)
 		{
 			var return_list = [p_data];
 			for (var i=0; i<p_date_list.length;i++)
