@@ -266,11 +266,22 @@ var namespace_gui = (function() {
 		get_pdf_report: function()
 		{
 			//alert("TEST");
-		    var allVals = [];
-			$('#report_selector :checked').each(function() {
-				allVals.push($(this).val());
-			});
-			namespace_portfolio.update_state("create_pdf",allVals);
+			var report_blocks = [
+				'p_table_sum',
+				'p_table_pos',
+				'p_table_portfolio_returns',
+				'p_table_benchmark_returns',
+				'p_table_tab_page',
+				'p_table_hist',
+				'p_chart_val_pnl',
+				'p_chart_position',
+				'p_chart_sector',
+				'p_chart_returns',
+				'p_chart_risk',
+				'p_chart_heatmap',
+				'p_chart_historical_risk'
+			];
+			namespace_portfolio.update_state("create_pdf",report_blocks);
 		},
 		
         process_transactions_file: function()
