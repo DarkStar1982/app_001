@@ -6,6 +6,7 @@ var namespace_graphs = (function () {
 	var p_chart_positions_report_obj = {};
 	var p_chart_sector_report_obj = {};
 	var p_chart_heatmap_report_obj = {}
+	var p_chart_quadrant_report_obj = {};
 	var p_chart_risk_report_obj ={};
 
 	/**
@@ -539,6 +540,103 @@ var namespace_graphs = (function () {
         });
     }
 
+	function update_quadrant_chart_object(p_data, p_axis_data, p_offsets)
+	{
+		p_chart_quadrant_report_obj = {
+			chart: {
+			    defaultSeriesType:'bubble',
+				plotBackgroundColor :{
+					linearGradient: { x1: 0.5, y1: 0, x2: 0.5, y2: 1},
+	                stops: [
+						[0.0, 'rgba(220, 255, 220, 0.75)'],
+						[0.49, 'rgba(220, 255, 220, 0.75)'],
+						[0.5, 'rgba(0, 0, 0, 0.75)'],
+						[0.51, 'rgba(255, 220, 220, 0.75)'],
+		                [1.0, 'rgba(255, 220, 220, 0.75)']
+					]
+	            }
+			},
+			plotOptions : {
+				bubble:{
+					minSize: 30,
+					maxSize: 35
+				}
+			},
+			credits: {enabled:false},
+			title: {
+			        text:null
+		    },
+			tooltip: {
+				enabled: false
+			},
+		    legend:{
+		        enabled: true                                
+			},
+			
+			    xAxis:{
+			        title:{
+			            text:'Risk'
+			        },
+			        min:0,
+			        max:p_axis_data[0],
+			        tickLength:0,
+			        minorTickLength:0,
+			        gridLineWidth:1,
+			        showLastLabel:true,
+			        showFirstLabel:true,
+			        lineColor:'#ccc',
+			        lineWidth:1                
+			    },
+			    yAxis:{
+			        title:{
+			            text:'Returns',
+			            rotation:0,
+			            margin:25,
+			        },
+			        min:-p_axis_data[1],
+			        max:p_axis_data[1],
+			        tickLength:0,
+			        gridLineWidth:1,
+			        minorTickLength:0,
+			        lineColor:'#ccc',
+			        lineWidth:1        
+			    },
+			    series: [{
+			        data: [p_data[0]],
+					name: "Portfolio",
+	                dataLabels: {
+	                	enabled: true,
+	                    color: 'black',
+						y: p_offsets[0],
+						x: 0,
+	                    formatter: function ()
+	                        {
+							  var val_label = "Portfolio <br/>Rt. "+ math_util.aux_math_round(this.point.y,2)+"%";
+							  var hint_label = "<br/>Rsk. " + this.point.x; 
+	                          return val_label + "<br/>"+ hint_label;
+	                        },
+	                    style: { fontFamily: 'Verdana, sans-serif', lineHeight: '16px', fontSize: '15px' }
+	            		},
+				},
+				{
+					data: [p_data[1]],
+					name: "Benchmark",
+	                dataLabels: {
+	                	enabled: true,
+	                    color: 'black',
+						y: p_offsets[1],
+						x: 0,
+	                    formatter: function ()
+	                        {
+							  var val_label = "Benchmark <br/>Rt. "+ math_util.aux_math_round(this.point.y,2)+"%";
+							  var hint_label = "<br/>Rsk. " + this.point.x; 
+	                          return val_label + "<br/>"+ hint_label;
+	                        },
+	                    style: { fontFamily: 'Verdana, sans-serif', lineHeight: '16px', fontSize: '15px' }
+	            		},
+				}]
+		};
+	}
     //render risk vs return comparison
   
 	function render_quadrant_chart(p_container_id, p_data, p_axis_data)
@@ -556,6 +654,7 @@ var namespace_graphs = (function () {
 			}
 			else offsets[i] = -45;
 		}
+		update_quadrant_chart_object(p_data,p_axis_data, offsets);
         $(p_container_id).highcharts('Chart', {
 			chart: {
 			    defaultSeriesType:'bubble',
@@ -837,6 +936,11 @@ var namespace_graphs = (function () {
 	}
     /* PUBLIC */
     return {
+		
+		return_quadrant_chart_object: function()
+		{
+			return p_chart_quadrant_report_obj;
+		},
 		
 		return_performance_chart_object: function()
 		{

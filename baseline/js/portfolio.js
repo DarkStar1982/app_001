@@ -980,6 +980,8 @@ var namespace_portfolio = (function()
 					report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Risk and Returns "});
 					break;
 				case 'p_chart_historical_risk':
+					var contents = JSON.stringify(namespace_graphs.return_quadrant_chart_object());
+					report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Historical Risk and Returns "});
 					break;
 			}				
 		});
