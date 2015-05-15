@@ -542,6 +542,14 @@ var namespace_graphs = (function () {
 
 	function update_quadrant_chart_object(p_data, p_axis_data, p_offsets)
 	{
+		var label_portfolio =  "Portfolio <br/>Rt. "+ math_util.aux_math_round(p_data[0].y,2)+"%";
+	    var hint_label_1 = "<br/>Rsk. " + p_data[0].x; 
+        var data_label_1 = label_portfolio + "<br/>"+ hint_label_1;
+		
+	   var label_benchmark = "Benchmark <br/>Rt. "+ math_util.aux_math_round(p_data[1].y,2)+"%";
+	   var hint_label_2 = "<br/>Rsk. " + p_data[1].x; 
+       var data_label_2 = label_benchmark + "<br/>"+ hint_label_2;
+		
 		p_chart_quadrant_report_obj = {
 			chart: {
 			    defaultSeriesType:'bubble',
@@ -590,7 +598,7 @@ var namespace_graphs = (function () {
 			    yAxis:{
 			        title:{
 			            text:'Returns',
-			            rotation:0,
+			            rotation:-90,
 			            margin:25,
 			        },
 			        min:-p_axis_data[1],
@@ -609,12 +617,7 @@ var namespace_graphs = (function () {
 	                    color: 'black',
 						y: p_offsets[0],
 						x: 0,
-	                    formatter: function ()
-	                        {
-							  var val_label = "Portfolio <br/>Rt. "+ math_util.aux_math_round(this.point.y,2)+"%";
-							  var hint_label = "<br/>Rsk. " + this.point.x; 
-	                          return val_label + "<br/>"+ hint_label;
-	                        },
+	                    format: data_label_1,
 	                    style: { fontFamily: 'Verdana, sans-serif', lineHeight: '16px', fontSize: '15px' }
 	            		},
 				},
@@ -626,12 +629,7 @@ var namespace_graphs = (function () {
 	                    color: 'black',
 						y: p_offsets[1],
 						x: 0,
-	                    formatter: function ()
-	                        {
-							  var val_label = "Benchmark <br/>Rt. "+ math_util.aux_math_round(this.point.y,2)+"%";
-							  var hint_label = "<br/>Rsk. " + this.point.x; 
-	                          return val_label + "<br/>"+ hint_label;
-	                        },
+	                    format: data_label_2,
 	                    style: { fontFamily: 'Verdana, sans-serif', lineHeight: '16px', fontSize: '15px' }
 	            		},
 				}]
@@ -703,7 +701,7 @@ var namespace_graphs = (function () {
 			    yAxis:{
 			        title:{
 			            text:'Returns',
-			            rotation:0,
+			            rotation:-90,
 			            margin:25,
 			        },
 			        min:-p_axis_data[1],
@@ -728,7 +726,7 @@ var namespace_graphs = (function () {
 							  var hint_label = "<br/>Rsk. " + this.point.x; 
 	                          return val_label + "<br/>"+ hint_label;
 	                        },
-	                    style: { fontFamily: 'Verdana, sans-serif', lineHeight: '16px', fontSize: '15px' }
+	                    style: { fontFamily: 'sans-serif', lineHeight: '16px', fontSize: '14px' }
 	            		},
 				},
 				{
@@ -745,7 +743,7 @@ var namespace_graphs = (function () {
 							  var hint_label = "<br/>Rsk. " + this.point.x; 
 	                          return val_label + "<br/>"+ hint_label;
 	                        },
-	                    style: { fontFamily: 'Verdana, sans-serif', lineHeight: '16px', fontSize: '15px' }
+	                    style: { fontFamily: 'sans-serif', lineHeight: '16px', fontSize: '14px' }
 	            		},
 				}]
 			
@@ -1233,16 +1231,13 @@ var namespace_graphs = (function () {
 			//	create risk_chart only
             render_risk_chart_group: function(p_series_data, p_portfolio_derived, p_benchmark_data, p_benchmark_derived, p_container_id, p_rank_mode)
             {
-                //assuming we have the data
+               //assuming we have the data
                // var seriesOptions = [{'data':p_series_data[0]}, {'data':p_benchmark_data}];
-              //  var nav_data = namespace_time_series.get_difference(seriesOptions[0].data, seriesOptions[1].data);
+               //  var nav_data = namespace_time_series.get_difference(seriesOptions[0].data, seriesOptions[1].data);
 				m_local_data["portfolio_derived"] = p_portfolio_derived;
 				m_local_data["benchmark_derived"] = p_benchmark_derived;
                 var heatmap_data = get_bubble_chart_data(p_portfolio_derived[0], p_benchmark_derived[0]);
-               // seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
-               // seriesOptions[0].type = 'line';
-               // seriesOptions[1].type = 'line';
-               // seriesOptions[1].dashStyle = 'dot';
+                // seriesOptions[0].data = format_series_to_color(seriesOptions[0].data, {});
 				var data = get_bubbles(heatmap_data);
 				render_quadrant_chart('#container_chart5a',data["bubbles"], data["max_axis"]);
                 namespace_graphs.render_risk_chart_only(p_series_data, p_benchmark_data, p_container_id); 

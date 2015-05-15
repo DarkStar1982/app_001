@@ -34,7 +34,7 @@ var namespace_portfolio = (function()
             return datetime_util.adjust_date(new Date(50, 0, 1));
     }
 
-    function compute_position_data()
+	function compute_position_data()
     {
         var total_cash = 0.0;
         var start_cash = 0.0;
@@ -123,7 +123,7 @@ var namespace_portfolio = (function()
                     break;
             }
         }
-        namespace_gui.send_log_message("start cash is "+  start_cash, "Info");
+        //namespace_gui.send_log_message("start cash is "+  start_cash, "Info");
         return { "net_positions" : net_data, "total_cash": math_util.aux_math_round(total_cash,2), "start_cash" : start_cash };
     }
    
