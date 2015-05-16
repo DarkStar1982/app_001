@@ -461,7 +461,7 @@ var namespace_gui = (function() {
             //update charts (performance, risk, bubble, risk percentage etc)
         },
 
-        render_tables: function(net_data, transactions)
+        render_tables: function(net_data, transactions, sector_table)
         {
             //render trades
             $("#matrix").empty();
@@ -496,6 +496,7 @@ var namespace_gui = (function() {
 						$("#pnl_totals").css( "background-color","green");
             		else  $("#pnl_totals").css( "background-color","red");  
 				}
+			//render sector breakdown
         },
     
         /* Initialize user interface elements */
