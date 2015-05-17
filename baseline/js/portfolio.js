@@ -507,6 +507,7 @@ var namespace_portfolio = (function()
 		var sector_table =[];
 		// step 1
 		sector_table.push({
+			"asset":"Cash",
 			"book_value": p_data["net_cash_row"]["total_cash"],
 			"market_value": p_data["net_cash_row"]["total_cash"],
 			"unrealized_pnl": 0.0,
@@ -516,6 +517,7 @@ var namespace_portfolio = (function()
 		$.each(p_data["positions"], function(index, value)
 		{			
 			sector_table[index+1] ={
+				"asset": value["symbol"],
 				"book_value": value["book_value"],
 				"market_value": value["last_value"],
 				"unrealized_pnl": value["pnl"],
@@ -523,6 +525,7 @@ var namespace_portfolio = (function()
 			};
 		});
 		var net_row = {
+			"asset":"Equity",
 			"book_value": 0.0,
 			"market_value": 0.0,
 			"unrealized_pnl": 0.0,
@@ -530,12 +533,13 @@ var namespace_portfolio = (function()
 		}
 		//step 3
 		$.each(p_data["positions"], function(index, value)
-		{			
+		{	
 			net_row["book_value"] = net_row["book_value"] + value["book_value"];
 			net_row["market_value"] = net_row["market_value"] + value["last_value"];
 			net_row["unrealized_pnl"] = net_row["unrealized_pnl"] + value["pnl"];
-			net_row["% of portfolio"] = net_row["% of portfolio"] +  math_util.aux_math_round((value["last_value"]/p_data["total_value"])*100,2)
+			net_row["% of portfolio"] = net_row["% of portfolio"] + (value["last_value"]/p_data["total_value"])*100;
 		});
+		net_row["% of portfolio"]=math_util.aux_math_round(net_row["% of portfolio"],2);
 		sector_table.push(net_row);
 		console.log(p_data);
 		console.log(sector_table);

@@ -497,6 +497,18 @@ var namespace_gui = (function() {
             		else  $("#pnl_totals").css( "background-color","red");  
 				}
 			//render sector breakdown
+			$("#table_breakdown").empty();
+			var table_html = "<tr><th>Asset</th><th>Book Value</th><th>Market Value</th><th>Unrealized PnL</th><th>% of Portfolio</th>";
+			$.each(sector_table, function(index, value)
+			{
+				var row = "<tr><td>" + sector_table[index]["asset"] + "</td>"
+					+"<td>"+sector_table[index]["book_value"]+"</td>"
+					+"<td>"+sector_table[index]["market_value"]+"</td>"
+					+"<td>"+sector_table[index]["unrealized_pnl"]+"</td>"
+				+"<td>"+sector_table[index]["% of portfolio"]+"</td></tr>";
+				table_html = table_html + row;
+			});
+			$("#table_breakdown").append(table_html);
         },
     
         /* Initialize user interface elements */
