@@ -460,8 +460,8 @@ var namespace_gui = (function() {
 			
             //update charts (performance, risk, bubble, risk percentage etc)
         },
-
-        render_tables: function(net_data, transactions, sector_table)
+		
+        render_tables: function(net_data, transactions, sector_table, risk_table)
         {
             //render trades
             $("#matrix").empty();
@@ -505,10 +505,12 @@ var namespace_gui = (function() {
 					+"<td>"+sector_table[index]["book_value"]+"</td>"
 					+"<td>"+sector_table[index]["market_value"]+"</td>"
 					+"<td>"+sector_table[index]["unrealized_pnl"]+"</td>"
-				+"<td>"+sector_table[index]["% of portfolio"]+"</td></tr>";
+				+"<td>"+math_util.aux_math_round(sector_table[index]["% of portfolio"],2)+"</td></tr>";
 				table_html = table_html + row;
 			});
 			$("#table_breakdown").append(table_html);
+			//render risk_breakdown
+			//TODO
         },
     
         /* Initialize user interface elements */

@@ -511,21 +511,41 @@ var namespace_portfolio = (function()
 			"book_value": p_data["net_cash_row"]["total_cash"],
 			"market_value": p_data["net_cash_row"]["total_cash"],
 			"unrealized_pnl": 0.0,
-			"% of portfolio": math_util.aux_math_round((p_data["net_cash_row"]["total_cash"]/p_data["total_value"])*100,2)
+			"% of portfolio": (p_data["net_cash_row"]["total_cash"]/p_data["total_value"])*100
 		});
-		//step 2
+		//group by sector
+		var hash_table = {};
 		$.each(p_data["positions"], function(index, value)
 		{			
-			sector_table[index+1] ={
-				"asset": value["symbol"],
-				"book_value": value["book_value"],
-				"market_value": value["last_value"],
-				"unrealized_pnl": value["pnl"],
-				"% of portfolio": math_util.aux_math_round((value["last_value"]/p_data["total_value"])*100,2)
-			};
+			var sector = value["sector"];
+			if (hash_table[sector] == undefined)
+			{
+				hash_table[sector] = {
+					"asset": value["sector"],
+					"book_value": value["book_value"],
+					"market_value": value["last_value"],
+					"unrealized_pnl": value["pnl"],
+					"% of portfolio": (value["last_value"]/p_data["total_value"])*100
+				}
+			}
+			else
+			{
+				hash_table[sector]["book_value"] = hash_table[sector]["book_value"] + value["book_value"];
+				hash_table[sector]["market_value"] = hash_table[sector]["market_value"] + value["last_value"];
+				hash_table[sector]["unrealized_pnl"] = hash_table[sector]["unrealized_pnl"] + value["pnl"];
+				hash_table[sector]["% of portfolio"] = hash_table[sector]["% of portfolio"] + (value["last_value"]/p_data["total_value"])*100;
+			}
 		});
+		// append to net rows
+		for (var key in hash_table)
+		{
+			if (hash_table.hasOwnProperty(key))
+			{
+				sector_table.push(hash_table[key])
+			}
+		}
 		var net_row = {
-			"asset":"Equity",
+			"asset":"Total Equity",
 			"book_value": 0.0,
 			"market_value": 0.0,
 			"unrealized_pnl": 0.0,
@@ -539,11 +559,31 @@ var namespace_portfolio = (function()
 			net_row["unrealized_pnl"] = net_row["unrealized_pnl"] + value["pnl"];
 			net_row["% of portfolio"] = net_row["% of portfolio"] + (value["last_value"]/p_data["total_value"])*100;
 		});
-		net_row["% of portfolio"]=math_util.aux_math_round(net_row["% of portfolio"],2);
+		//net_row["% of portfolio"]=math_util.aux_math_round(net_row["% of portfolio"],2);
 		sector_table.push(net_row);
-		//console.log(p_data);
-		//console.log(sector_table);
+		sector_table.push({
+			"asset":"Total Portfolio",
+			"book_value": net_row["book_value"]+sector_table[0]["book_value"],
+			"market_value": net_row["market_value"]+sector_table[0]["market_value"],
+			"unrealized_pnl": net_row["unrealized_pnl"]+sector_table[0]["unrealized_pnl"],
+			"% of portfolio": net_row["% of portfolio"]+sector_table[0]["% of portfolio"]
+		});
 		return sector_table;
+	}
+	
+	
+	function compute_positions_risk(p_data)
+	{
+		var risk_table=[];
+		$.each(p_data["positions"], function(index, value){
+			risk_table.push({
+				"return":((value["last_value"]/value["book_value"]) - 1.0)*100.0,
+				"weight":(value["last_value"]/p_data["total_value"])*100.0,
+				"contrib": ((value["last_value"]/value["book_value"]) - 1.0)*(value["last_value"]/p_data["total_value"])*100.0,
+				"risk": null//Ha-Ha-Ha: denied!
+			});
+		});
+		return risk_table;
 	}
 
     function recompute_and_render()
@@ -558,7 +598,8 @@ var namespace_portfolio = (function()
             // also render immediately
             state.net_data = compute_net_data(compute_position_data()); 
 			var sector_breakdown_table= compute_sector_table(state.net_data);
-            namespace_gui.render_tables(state.net_data, state.transactions,sector_breakdown_table);
+			var risk_table = compute_positions_risk(state.net_data);
+            namespace_gui.render_tables(state.net_data, state.transactions, sector_breakdown_table, risk_table);
             // step 2. load profit, risk risk and volatility series, then compute 
             // dashboard and derived values and render portfolio tables and charts
             var post_data = JSON.stringify({"transactions":state.transactions, "positions": state.net_data["positions"]});
