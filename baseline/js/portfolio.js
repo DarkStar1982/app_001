@@ -541,8 +541,8 @@ var namespace_portfolio = (function()
 		});
 		net_row["% of portfolio"]=math_util.aux_math_round(net_row["% of portfolio"],2);
 		sector_table.push(net_row);
-		console.log(p_data);
-		console.log(sector_table);
+		//console.log(p_data);
+		//console.log(sector_table);
 		return sector_table;
 	}
 
