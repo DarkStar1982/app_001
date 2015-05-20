@@ -615,7 +615,8 @@ var namespace_portfolio = (function()
                     state.portfolio_series["norm_pnl_split"] = json_data.norm_pnl_split;
                     state.portfolio_series["norm_value_series"] = json_data.norm_value_series;
                     state.portfolio_series["position_value_series"] = json_data.position_value_series;
-                    //compute derived data for dashboard and charts
+					state.portfolio_series["position_risk_series"] = json_data.position_risk_series;
+					//console.log("Stock_chart risk...");
                     var dashboard_rows = [get_dashboard_data(state.portfolio_series["value_series"], "Portfolio", "-")];
                     for (var i=0; i<state.portfolio_series["position_value_series"].length;i++)
                     {
@@ -631,7 +632,6 @@ var namespace_portfolio = (function()
                     state.portfolio_series["risk_chart_data"] = json_data.derived_risk;
 					//compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
                     state.portfolio_series["derived_values"] = json_data.derived_split;
-					//console.log(json_data.derived_split);
                     state.portfolio_series["transaction_clusters"] = cluster_transaction_events();
                     // draw all the charts and dashboards
                     namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);
@@ -642,6 +642,7 @@ var namespace_portfolio = (function()
 						add_dashboard_benchmark(state.list_benchmarks[0].value);
 					}
                     namespace_gui.update_charts(state);
+					namespace_gui.render_risk_decomposition_table(state.portfolio_series["position_risk_series"],state.net_data);
                 }
                 else 
                 {

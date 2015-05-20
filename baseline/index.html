@@ -273,11 +273,13 @@
                 </div>
                 <div class="row">
                     <!-- chart 1 container  -->
-                    <div class="col-md-9">
+                    <div class="col-md-12">
                         <div id="container_chart1"></div>
                     </div>
-	                   <!-- chart 1 sidebar for transaction labels -->
-	                <div class="col-md-3" style="overflow-y:scroll; max-height:400px">
+                </div>
+                <div class="row">
+	                <!-- chart 1 sidebar for transaction labels -->
+	                <div class="col-md-4" style="overflow-y:scroll; max-height:400px;margin-left:75px">
 	                       <!--div id="sidebar1" style="float:left; width:20%; margin-left:50px; height:400px"-->
 	                           <table class="table table-bordered">
 	                               <thead><tr><th colspan="2">Transaction history</th></tr></thead>
@@ -285,28 +287,25 @@
 	                           </table>
 	                       <!--/div-->
 	                </div>
-                </div>
-                <div class="row">
-                    <!-- Position performance charts -->
-                    <div class="col-md-6">
-                        <div id="container_chart2b"></div>
-                    </div>
-                     <!-- Sectors distribution -->
-                    <div class="col-md-6">
-                        <div id="container_chart0"></div>
-                    </div>
-                   
-                </div>
-				<div class="row">
-					<div class="col-md-6">
-						<!-- Stub -->
-					</div>
                      <!-- Sectors breakdown -->
-                    <div class="col-md-6">
+                    <div class="col-md-6" >
                         <table id="table_breakdown" class=table>
                         	<!--contents go here-->
                         </table>
                     </div>
+                   
+                </div>
+				<div class="row">
+					<!--div class="col-md-6">
+					</div-->
+                   <!-- Position performance charts -->
+                   <div class="col-md-6">
+                       <div id="container_chart2b"></div>
+                   </div>
+                    <!-- Sectors distribution -->
+                   <div class="col-md-6">
+                       <div id="container_chart0"></div>
+                   </div>
                 </div>
             </div>
 		</div>
@@ -460,6 +459,25 @@
 					   	</table>
 				    </div>
 			    </div>
+				<div class="row">
+					<div class="col-md-12">
+						<table class="table table-bordered" cellspacing="0" cellpadding="0">
+							<thead>
+							   <tr>
+								   <th> - </th>
+								   <th>Nominal Ret.</th>
+								   <th>Weight</th>
+								   <th>Return Contribution</th>
+								   <th>Nominal Risk</th>
+								   <th>Risk Contribution Dev</th>
+							   </tr>
+						   	</thead>
+						   	<tbody id="risk_composite">
+								<!-- risk decomposition goes here-->
+							</tbody>
+					   	</table>
+					</div>
+				</div>
 			</div>
 		</div>
          <!-- Save or share tab -->

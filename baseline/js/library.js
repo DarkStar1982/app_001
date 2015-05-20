@@ -1,3 +1,25 @@
+var namespace_html = (function()
+{
+	return {
+		table_cell: function(p_value)
+		{
+			return "<td>" + p_value + "</td>"
+		},
+		//input is the array of cells
+		table_row: function(p_list)
+		{
+			var result = "<tr>";
+			for (var i =0; i<p_list.length;i++)
+			{
+				result = result + p_list[i];
+			}
+			result = result + "</tr>";
+			return result;
+		}
+	}
+	
+}) ();
+
 var namespace_time_series = (function()
 {
 	return {

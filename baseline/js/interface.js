@@ -248,6 +248,12 @@ var namespace_gui = (function() {
             namespace_portfolio.update_state("add_record", new_transaction);
         }
     }
+	
+	function update_risk_decomposition_table(p_data)
+	{
+		
+	}
+	
     /* Public Interface */ 
     return {
 
@@ -404,6 +410,31 @@ var namespace_gui = (function() {
                 }
             }
         },     
+
+		render_risk_decomposition_table: function(p_risk_data, p_return_data)
+		{
+			$("#risk_composite").empty()
+			console.log(p_risk_data);
+			console.log(p_return_data);
+			$.each(p_risk_data, function(index, value)
+			{
+				var row= []
+				row.push(namespace_html.table_cell(value["symbol"]));
+				var n_ret = p_return_data["positions"][index]["pnl_rel"];
+				row.push(namespace_html.table_cell(n_ret));
+				var n_weight = math_util.aux_math_round((p_return_data["positions"][index]["last_value"]/p_return_data["total_value"])*100.0,2);
+				row.push(namespace_html.table_cell(n_weight));
+				var n_contrib = math_util.aux_math_round((n_ret * n_weight) / 100.0,2);
+				row.push(namespace_html.table_cell(n_contrib));
+				var n_risk = math_util.aux_math_round(p_risk_data[index]["risk_values"][0][0][1]*100.0,2);
+				row.push(namespace_html.table_cell(n_risk));
+				row.push(namespace_html.table_cell(0.0));
+				//var n_risk_contrib=n_risk*n_weight/ 100.0;
+				//row.push(namespace_html.table_cell(n_risk_contrib));
+				$("#risk_composite").append(namespace_html.table_row(row));
+			});
+			
+		},
 
         //analytics
         update_derived_tab: function(portfolio_data, benchmark_data)
