@@ -586,6 +586,34 @@ var namespace_portfolio = (function()
 		return risk_table;
 	}
 
+	function compute_risk_decomposition_table(p_data)
+	{
+		var risk_comp_table=[];
+		var d_risk = 1.0;
+		var ret_sum = 0.0;
+		var p_risk =  state.portfolio_series["derived_values"][0]["std_dev"];
+		var x_risk = Math.pow(p_risk, 2);
+		console.log(state.net_data);
+		$.each(p_data, function(index, value){
+			var n_ret = state.net_data["positions"][index]["pnl_rel"];
+			var n_weight = math_util.aux_math_round((state.net_data["positions"][index]["last_value"]/state.net_data["total_value"]),2);
+			var n_contrib = math_util.aux_math_round(state.net_data["positions"][index]["pnl"] /state.net_data["total_value"]*100,2);
+			var n_risk = math_util.aux_math_round(p_data[index]["risk_values"][0][0][1],2);
+			ret_sum = ret_sum + n_contrib;
+			var c_risk = math_util.aux_math_round((Math.pow(n_weight,2) * Math.pow(n_risk,2)) / Math.pow(p_risk,2),2);
+			d_risk = d_risk - c_risk;
+			x_risk = x_risk - c_risk;
+			risk_comp_table.push([value["symbol"],n_ret,n_weight,n_contrib,n_risk,c_risk]);
+		});
+		// d_c_risk = math_util.aux_math_round((1.0 - d_risk),4);
+		d_risk = math_util.aux_math_round(d_risk, 2);
+		risk_comp_table.push(["Diversification","-","-","-",x_risk,d_risk]);
+		var port_return = math_util.aux_math_round(state.portfolio_series["derived_values"][0]["diff_percent"], 2);
+		var net_weight = 1.0;
+		var net_risk = 1.0;
+		risk_comp_table.push(["Portfolio",port_return,net_weight,ret_sum,p_risk,1.0]);
+		return risk_comp_table;
+	}
     function recompute_and_render()
     {
             //sort transactions before processing
@@ -642,7 +670,8 @@ var namespace_portfolio = (function()
 						add_dashboard_benchmark(state.list_benchmarks[0].value);
 					}
                     namespace_gui.update_charts(state);
-					namespace_gui.render_risk_decomposition_table(state.portfolio_series["position_risk_series"],state.net_data);
+					var risk_table_data = compute_risk_decomposition_table(state.portfolio_series["position_risk_series"]);
+					namespace_gui.render_risk_decomposition_table(risk_table_data);
                 }
                 else 
                 {
