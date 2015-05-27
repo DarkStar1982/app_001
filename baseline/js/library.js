@@ -15,6 +15,19 @@ var namespace_html = (function()
 			}
 			result = result + "</tr>";
 			return result;
+		},
+		display_as_currency: function(p_value)
+		{
+			var new_val = parseFloat(p_value);
+			if (isNaN(new_val)) 
+				return p_value;
+			else
+			{
+				if (p_value>=0.0)
+					return "$"+new_val.toFixed(2);
+				else
+					return "-$"+Math.abs(new_val.toFixed(2));
+			}
 		}
 	}
 	

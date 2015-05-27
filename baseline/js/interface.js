@@ -38,8 +38,8 @@ var namespace_gui = (function() {
             + '</td><td class="buysell_label">' + obj.type
             + '</td><td class="volume_label">'+ obj.volume
             + '</td><td class="book_date">' + obj.book_date
-            + '</td><td class="book_price">' + obj.book_price
-            + '</td><td class="current_price">'+ obj.last_price
+			+ '</td><td class="book_price">' + namespace_html.display_as_currency(obj.book_price)
+			+ '</td><td class="current_price">'+ namespace_html.display_as_currency(obj.last_price)
             + '</td><td><button onclick="namespace_gui.remove_trade_row(this)" class="btn btn-default">Remove</button></td></tr>';
        return new_row;
     }
@@ -61,10 +61,10 @@ var namespace_gui = (function() {
         var summary_row = '<tr><td class="sum_asset">'+ instrument
             + '</td><td class="order_type">' + position_type
             + '</td><td class="sum_volume">'+ obj.volume
-            + '<td class="avg_price">' + obj.price_avg
-            + '</td><td class="sum_book_val">'+ obj.book_value
-            + '<td class="sum_cur_val">' + obj.last_value
-            + '</td><td class="sum_pnl "'+cell_color+'>'+obj.pnl
+			+ '<td class="avg_price">' + namespace_html.display_as_currency(obj.price_avg)
+			+ '</td><td class="sum_book_val">'+namespace_html.display_as_currency(obj.book_value)
+			+ '<td class="sum_cur_val">' + namespace_html.display_as_currency(obj.last_value)
+			+ '</td><td class="sum_pnl "'+cell_color+'>'+namespace_html.display_as_currency(obj.pnl)
             + '</td></tr>';
         return summary_row;
      }
@@ -492,12 +492,14 @@ var namespace_gui = (function() {
 			$("#matrix").append(table_rows);
             $("#net_rows").empty();
             //append cash row first and net values
-            var table_net_rows = create_summary_row({"symbol": "Cash", 
-                                           "volume": "-", 
-                                           "price_avg": "-",
-                                           "book_value":net_data.net_cash_row.start_cash,
-                                           "last_value":net_data.net_cash_row.total_cash, 
-                                           "pnl": net_data.net_cash_row.cash_change});
+            var table_net_rows = create_summary_row({
+				"symbol": "Cash", 
+                "volume": "-", 
+                "price_avg": "-",
+				"book_value":net_data.net_cash_row.start_cash,
+				"last_value":net_data.net_cash_row.total_cash, 
+                "pnl": net_data.net_cash_row.cash_change
+			});
             //append net positions
             var net_rows = net_data.positions;
             for (var x in net_rows)
@@ -506,8 +508,8 @@ var namespace_gui = (function() {
 					table_net_rows = table_net_rows + create_summary_row(net_rows[x]);
             } 
             $("#net_rows").append(table_net_rows);      
-            $("#value_totals").text(net_data.total_value);
-            $("#pnl_totals").text(net_data.total_pnl);
+            $("#value_totals").text(namespace_html.display_as_currency(net_data.total_value));
+            $("#pnl_totals").text(namespace_html.display_as_currency(net_data.total_pnl));
 			if (net_data.total_pnl == '-')
 			{}
             else {
@@ -521,9 +523,9 @@ var namespace_gui = (function() {
 			$.each(sector_table, function(index, value)
 			{
 				var row = "<tr><td>" + sector_table[index]["asset"] + "</td>"
-					+"<td>"+sector_table[index]["book_value"]+"</td>"
-					+"<td>"+sector_table[index]["market_value"]+"</td>"
-					+"<td>"+sector_table[index]["unrealized_pnl"]+"</td>"
+					+"<td>"+namespace_html.display_as_currency(sector_table[index]["book_value"])+"</td>"
+					+"<td>"+namespace_html.display_as_currency(sector_table[index]["market_value"])+"</td>"
+					+"<td>"+namespace_html.display_as_currency(sector_table[index]["unrealized_pnl"])+"</td>"
 				+"<td>"+math_util.aux_math_round(sector_table[index]["% of portfolio"],2)+"</td></tr>";
 				table_html = table_html + row;
 			});
