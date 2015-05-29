@@ -28,6 +28,16 @@ var namespace_html = (function()
 				else
 					return "-$"+Math.abs(new_val.toFixed(2));
 			}
+		},
+		display_as_percentage: function(p_value)
+		{
+			var new_val = parseFloat(p_value);
+			if (isNaN(new_val)) 
+				return p_value;
+			else
+			{
+					return new_val.toFixed(2)+"%";
+			}
 		}
 	}
 	

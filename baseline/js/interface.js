@@ -89,10 +89,10 @@ var namespace_gui = (function() {
     {
         function format_value_to_cell(p_val)
         {
-            if (p_val<0) return '<td style="background-color:red">'+p_val+'</td>'
-            else return '<td style="background-color:green">'+p_val+'</td>'
+            if (p_val<0) return '<td style="background-color:red">'+namespace_html.display_as_percentage(p_val)+'</td>'
+            else return '<td style="background-color:green">'+namespace_html.display_as_percentage(p_val)+'</td>'
         } 
-        var dashboard_row = '<tr><td>'+data_record.asset + '</td>'
+        var dashboard_row = '<tr><td style="width:10%">'+data_record.asset + '</td>'
             + '<td>'+data_record.info + '</td>'
             + format_value_to_cell(data_record.portfolio_returns.ret_1d)
             + format_value_to_cell(data_record.portfolio_returns.ret_1w)
@@ -526,7 +526,7 @@ var namespace_gui = (function() {
 					+"<td>"+namespace_html.display_as_currency(sector_table[index]["book_value"])+"</td>"
 					+"<td>"+namespace_html.display_as_currency(sector_table[index]["market_value"])+"</td>"
 					+"<td>"+namespace_html.display_as_currency(sector_table[index]["unrealized_pnl"])+"</td>"
-				+"<td>"+math_util.aux_math_round(sector_table[index]["% of portfolio"],2)+"</td></tr>";
+				+"<td>"+namespace_html.display_as_percentage(math_util.aux_math_round(sector_table[index]["% of portfolio"],2))+"</td></tr>";
 				table_html = table_html + row;
 			});
 			$("#table_breakdown").append(table_html);
