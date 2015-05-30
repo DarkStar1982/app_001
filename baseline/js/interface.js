@@ -131,7 +131,9 @@ var namespace_gui = (function() {
         $("#portfolio_sharpe").text("0.0");
         $("#benchmark_sharpe").text("0.0");
         var p1 = 0.95;
-        var p_val = $("#value_totals").text();
+		console.log($("#value_totals").text());
+        var p_val = namespace_html.read_value_as_float($("#value_totals").text());
+		console.log(p_val);
         var a1 = $("#benchmark_annualized").text();
         var b1 = $("#benchmark_std").text();
         var a2 = $("#portfolio_annualized").text();
@@ -144,10 +146,10 @@ var namespace_gui = (function() {
         var vatr2 = math_util.aux_math_round(namespace_xls.norminv(p1,c2,d2),2);
         var vatr1_abs = math_util.aux_math_round(p_val*vatr1/100.0,2);
         var vatr2_abs = math_util.aux_math_round(p_val*vatr2/100.0,2);
-        $("#benchmark_vatr_pc").text(vatr1);
-        $("#portfolio_vatr_pc").text(vatr2);
-        $("#portfolio_vatr_abs").text(vatr2_abs);
-        $("#benchmark_vatr_abs").text(vatr1_abs);
+        $("#benchmark_vatr_pc").text(namespace_html.display_as_percentage(vatr1));
+        $("#portfolio_vatr_pc").text(namespace_html.display_as_percentage(vatr2));
+        $("#portfolio_vatr_abs").text(namespace_html.display_as_currency(vatr2_abs));
+        $("#benchmark_vatr_abs").text(namespace_html.display_as_currency(vatr1_abs));
     }
 
     function format_flag_data(groups)

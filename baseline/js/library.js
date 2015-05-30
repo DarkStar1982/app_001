@@ -38,6 +38,10 @@ var namespace_html = (function()
 			{
 					return new_val.toFixed(2)+"%";
 			}
+		},
+		read_value_as_float: function(p_value)
+		{
+			return p_value.replace(/[$%]/g,'');
 		}
 	}
 	
