@@ -420,9 +420,9 @@ var namespace_gui = (function() {
 			{
 				var row = [];
 				$.each(value, function(i,v){
-					row.push(namespace_html.table_cell(v));
+					row.push(namespace_html.create_table_cell(v,"col-md-2"));
 				});
-				$("#risk_composite").append(namespace_html.table_row(row));
+				$("#risk_composite").append(namespace_html.create_table_row(row,null));
 			});
 		},
 

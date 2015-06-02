@@ -603,15 +603,35 @@ var namespace_portfolio = (function()
 			var c_risk = math_util.aux_math_round((Math.pow(n_weight,2) * Math.pow(n_risk,2)) / Math.pow(p_risk,2),2);
 			d_risk = d_risk - c_risk;
 			x_risk = x_risk - c_risk;
-			risk_comp_table.push([value["symbol"],n_ret,n_weight,n_contrib,n_risk,c_risk]);
+			risk_comp_table.push([
+				value["symbol"],
+				namespace_html.display_as_percentage(math_util.aux_math_round(n_ret,2)),
+				namespace_html.display_as_percentage(math_util.aux_math_round(n_weight*100,2)),
+				namespace_html.display_as_percentage(math_util.aux_math_round(n_contrib,2)),
+				namespace_html.display_as_percentage(math_util.aux_math_round(n_risk*100,2)),
+				namespace_html.display_as_percentage(math_util.aux_math_round(c_risk*100,2))
+			]);
 		});
-		// d_c_risk = math_util.aux_math_round((1.0 - d_risk),4);
+		// d_c_risk = math_util.aux_math_round((1.0 - d_risk),4) math_util.aux_math_round(x_risk,2);
 		d_risk = math_util.aux_math_round(d_risk, 2);
-		risk_comp_table.push(["Diversification","-","-","-",x_risk,d_risk]);
+		risk_comp_table.push([
+			"Diversification",
+			"",
+			"",
+			"",
+			"",
+			namespace_html.display_as_percentage(math_util.aux_math_round(d_risk*100,2))]);
 		var port_return = math_util.aux_math_round(state.portfolio_series["derived_values"][0]["diff_percent"], 2);
 		var net_weight = 1.0;
 		var net_risk = 1.0;
-		risk_comp_table.push(["Portfolio",port_return,net_weight,ret_sum,p_risk,1.0]);
+		risk_comp_table.push([
+			"Portfolio",
+			namespace_html.display_as_percentage(math_util.aux_math_round(port_return,2)),
+			namespace_html.display_as_percentage(math_util.aux_math_round(net_weight*100.0,2)),
+			namespace_html.display_as_percentage(math_util.aux_math_round(ret_sum,2)),
+			namespace_html.display_as_percentage(math_util.aux_math_round(p_risk,2)),
+			namespace_html.display_as_percentage(math_util.aux_math_round(100,2))
+			]);
 		return risk_comp_table;
 	}
     function recompute_and_render()

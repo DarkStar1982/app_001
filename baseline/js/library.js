@@ -1,20 +1,30 @@
 var namespace_html = (function()
 {
 	return {
-		table_cell: function(p_value)
+		create_element: function(tag, p_value, style_class)
 		{
-			return "<td>" + p_value + "</td>"
+			if (style_class != null)
+				var a_str = "<"+tag +' class="'+style_class+'">'+ p_value + "</"+tag+">";
+			else
+				var a_str = "<"+tag +">"+ p_value + "</"+tag+">";
+			console.log(a_str);
+			return a_str;
 		},
-		//input is the array of cells
-		table_row: function(p_list)
+		
+		create_table_cell: function(p_value, p_class)
 		{
-			var result = "<tr>";
-			for (var i =0; i<p_list.length;i++)
+			return namespace_html.create_element("td",p_value, p_class);
+		},
+	
+		//input is the array of cells
+		create_table_row: function(p_cell_list)
+		{
+			var result="";
+			for (var i =0; i<p_cell_list.length;i++)
 			{
-				result = result + p_list[i];
+				result = result + p_cell_list[i];
 			}
-			result = result + "</tr>";
-			return result;
+			return namespace_html.create_element("tr",result, null);
 		},
 		display_as_currency: function(p_value)
 		{
