@@ -122,8 +122,8 @@ var namespace_gui = (function() {
         $("#benchmark_annualized").text(p_benchmark_report.annualized+"%");
         $("#portfolio_std").text(p_client_report.std_dev+"%");
         $("#benchmark_std").text(p_benchmark_report.std_dev+"%");
-        $("#portfolio_beta").text("0.0");//p_client_report.beta);
-        $("#benchmark_beta").text("-");
+        $("#portfolio_beta").text(math_util.aux_math_round(p_client_report.beta,2));//p_client_report.beta);
+        $("#benchmark_beta").text("1.0");
         $("#portfolio_jensen_alpha").text("0.0");
         $("#benchmark_jensen_alpha").text("0.0");
         $("#portfolio_treynor").text("0.0");
@@ -399,7 +399,11 @@ var namespace_gui = (function() {
 							data: m_benchmark_data[k]["norm_value_split"],
 							type:'line',
 							dashStyle: 'dot'});
-                        update_derived_value_tabs(portfolio_chart_data["derived_values"][0],m_benchmark_data[k]["derived_values"][0]);
+						portfolio_chart_data["derived_values"][0]["beta"] = namespace_time_series.compute_beta(
+							series_data[0]["data"][0],
+							series_data[1]["data"][0]
+						);
+						update_derived_value_tabs(portfolio_chart_data["derived_values"][0],m_benchmark_data[k]["derived_values"][0]);
 			            namespace_graphs.render_performance_chart(series_data, "#container_chart3");
                         namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"], 
                                                                  portfolio_chart_data["derived_values"],

@@ -93,6 +93,41 @@ var namespace_time_series = (function()
 	        return r_data;
 		},
 		
+		compute_mean: function(p_series)
+		{
+			var sum = 0.0;
+			$.each(p_series, function(index, value){
+				sum = sum + value[1];
+			});
+			return sum / p_series.length;
+		},
+		
+		compute_beta: function(p_portfolio_series, p_benchmark_series)
+		{
+		//	console.log(p_portfolio_series);
+		//	console.log(p_benchmark_series);
+    		var covariance = namespace_time_series.compute_covariance(p_portfolio_series, p_benchmark_series);
+    		var variance = namespace_time_series.compute_variance(p_benchmark_series);
+    		return (covariance / variance);
+		},
+		
+		compute_covariance: function(p_data_a, p_data_b)
+		{
+	    	var mean_a = namespace_time_series.compute_mean(p_data_a);
+	    	var mean_b = namespace_time_series.compute_mean(p_data_b);
+	    	var n_len = p_data_a.length;
+	    	var covar = 0.0
+	    	for (var i=0;i<n_len;i++)
+	        {
+				covar = covar + ((p_data_a[i][1] - mean_a)*(p_data_b[i][1] - mean_b))/n_len;
+			}
+			return covar;
+		},
+		
+		compute_variance: function(p_data)
+		{
+    		return namespace_time_series.compute_covariance(p_data, p_data)
+		}
 		//input series in default format
 		//dates in the list should be in milliseconds
 	/*	split_series: function(p_data, p_date_list)
