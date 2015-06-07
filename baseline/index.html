@@ -10,6 +10,8 @@
         <!-- stylesheets imports -->
         <link rel="stylesheet" href="lib/css/bootstrap.min.css" >
         <link rel="stylesheet" href="lib/css/jquery-ui.css">
+		<!-- Custom CSS -->
+		<link href="http://ironsummitmedia.github.io/startbootstrap-full-slider/css/full-slider.css" rel="stylesheet">
         <!-- javascript imports -->
         <script src="lib/js/jquery/jquery-1.10.2.min.js"></script>
         <script src="lib/js/jquery/jquery-ui.min.js"></script>
@@ -38,71 +40,94 @@
 		        </div>
 		    </div>
 		</nav>
-        <!-- Page Contents -->
-        <div class="container-fluid" style="margin:0px; padding:0px">
-			<!-- Carousel  -->
-			<div id="myCarousel" class="carousel slide">
-			  <!-- Indicators -->
-			  <ol class="carousel-indicators">
-			    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-			    <li data-target="#myCarousel" data-slide-to="1"></li>
-			    <li data-target="#myCarousel" data-slide-to="2"></li>
-			  </ol>
-			  <div class="carousel-inner">
-			    <div class="item active">
-			      <img src="/img/back_1.jpg" height='100%' class="img-responsive">
-			      <div class="container">
-			        <div class="carousel-caption">
-	                  <p>RiskPlus Ltd. is an innovative company, offering high-quality investment decision support tools
-						 for retail and professional investors.
-	                     We view ourselves as partners with our customers, aiming to make available all the latest 
-						 cutting edge metrics used by finance
-	                     professionals and academia to track performance and analyze the risk profile of financial 
-						 assets. Our goal is to become a recognized
-	                     brand name that puts educating our customers in making the best investment decisions first.
-	                     Follow us on 
-						 <a target="_blank" href="https://twitter.com/@riskplus_ltd">Twitter@riskplus_ltd</a>
-	                  </p>
-			          </div>
-			      </div>
-			    </div>
-			    <div class="item">
-			      <img src="img/back_2.jpg" height='100%' class="img-responsive">
-			      <div class="container">
-			        <div class="carousel-caption">
- 	                 <h4>Portfolio Creation</h4>
- 	                 <p>Our stock universe currently covers 7000+ US and Canadian listed stocks and ETFs. 
- 						 This coupled with our portfolio creation tool allows for investors to create a
- 						 custom portfolio of holdings. Starting with the initial cash position and date
- 	                     the investor can enter multiple long/short positions to reflect net 
- 						 portfolio positions as they evolve though the investment horizon.
- 	                 </p>
-			        </div>
-			      </div>
-			    </div>
-			    <div class="item">
-			      <img src="img/back_2.jpg" height='100%' class="img-responsive">
-			      <div class="container">
-			        <div class="carousel-caption">
-               	    	<h4>Performance Analysis</h4>
-		    	   	 	<p>Tracks the performance of each individual holding and consolidates everything 
-					  	  in a portfolio level. Performance measurements include: Holding Period Return, 
-					  	  Annualized return, Standard Deviation, Beta, Performance Differential, Individual
-					  	  open position  PnL, Portfolio allocation.
-               	  		</p>
-			        </div>
-			      </div>
-			    </div>
-			  </div>
- 
-			  <!-- Controls -->
-			  <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-			    <i class="glyphicon glyphicon-chevron-left"></i>
-			  </a>
-			  <a class="right carousel-control" href="#myCarousel" data-slide="next">
-			    <i class="glyphicon glyphicon-chevron-right"></i>
-			  </a>  
-			</div>			
+	    <!-- Full Page Image Background Carousel Header -->
+	    <header id="myCarousel" class="carousel slide">
+	    	<!-- Indicators -->
+	        <ol class="carousel-indicators">
+				<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+	            <li data-target="#myCarousel" data-slide-to="1"></li>
+	            <li data-target="#myCarousel" data-slide-to="2"></li>
+	        </ol>
+	        <!-- Wrapper for Slides -->
+	        <div class="carousel-inner">
+	        	<div class="item active">
+	            	<!-- Set the first background image using inline CSS below. -->
+	                <div class="fill" style="background-image:url('img/back_1.jpg');"></div>
+	                	<div class="carousel-caption">
+				        	<h4>Welcome</h4>
+				             <p>RiskPlus Ltd. is an innovative company, offering high-quality investment decision support tools
+									 for retail and professional investors.
+				                     We view ourselves as partners with our customers, aiming to make available all the latest 
+									 cutting edge metrics used by finance
+				                     professionals and academia to track performance and analyze the risk profile of financial 
+									 assets. Our goal is to become a recognized
+				                     brand name that puts educating our customers in making the best investment decisions first.
+				                     Follow us on 
+									 <a target="_blank" href="https://twitter.com/@riskplus_ltd">Twitter@riskplus_ltd</a>
+				             </p>
+	                   </div>
+	               </div>
+	               <div class="item">
+	                   <!-- Set the second background image using inline CSS below. -->
+	                   <div class="fill" style="background-image:url('img/back_2.jpg');"></div>
+	                   <div class="carousel-caption">
+				           <h4>Portfolio Creation</h4>
+				           <p>Our stock universe currently covers 7000+ US and Canadian listed stocks and ETFs. 
+									 This coupled with our portfolio creation tool allows for investors to create a
+									 custom portfolio of holdings. Starting with the initial cash position and date
+				                     the investor can enter multiple long/short positions to reflect net 
+									 portfolio positions as they evolve though the investment horizon.
+			               </p>
+	                   </div>
+	               </div>
+	               <div class="item">
+	                   <!-- Set the third background image using inline CSS below. -->
+	                   <div class="fill" style="background-image:url('img/back_3.jpg');"></div>
+	                   <div class="carousel-caption">
+	                 	   <h4>Performance Analysis</h4>
+				    	   <p>Tracks the performance of each individual holding and consolidates everything 
+							  in a portfolio level. Performance measurements include: Holding Period Return, 
+							  Annualized return, Standard Deviation, Beta, Performance Differential, Individual
+							  open position  PnL, Portfolio allocation.
+	                 	  </p>
+	                   </div>
+	               </div>
+	               <div class="item">
+	                   <!-- Set the third background image using inline CSS below. -->
+	                   <div class="fill" style="background-image:url('img/back_4.jpg');"></div>
+	                   <div class="carousel-caption">
+		                   <h4>Benchmark Analysis</h4>
+						   <p>Portfolio benchmarking with major indices like SP500, TSX300, and DOW30. 
+							   Performance measurements include: Single position PnL, 
+							   Total Portfolio PnL, Portfolio performance chart (Absolute $ value / %Return), 
+							   Holding period return, Annualized return. Beta, Standard Deviation (Risk).
+		                   </p>
+		                   
+	                   </div>
+	               </div>
+	               <div class="item">
+	                   <!-- Set the third background image using inline CSS below. -->
+	                   <div class="fill" style="background-image:url('img/back_5.jpg');"></div>
+	                   <div class="carousel-caption">
+		                   <h4>Risk/Return Analysis</h4>
+						   <p>Portfolio and Benchmark Risk analysis. Risk measurements include: Standard Deviation (Risk)
+							  Beta, Value at Risk (VaR).  
+							  Historical Risk (Standard Deviation) Profile.
+		                   </p>
+	                   </div>
+	               </div>
+	           </div>
+
+	           <!-- Controls -->
+	           <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+	               <span class="icon-prev"></span>
+	           </a>
+	           <a class="right carousel-control" href="#myCarousel" data-slide="next">
+	               <span class="icon-next"></span>
+	           </a>
+
+	       </header>
+		
         	<!--div class="tab-content" style="margin:0px; padding:0px">
             	<div class="tab-pane active" id="Tab1" style="margin:0px;padding:0px">
 					<div id="carousel-front" class="carousel slide" data-ride="carousel" style="margin:0px;padding:0px">
@@ -185,5 +210,4 @@
 				  	  	</a>
 					</div>
             </div-->
-	</div>
 </body>
