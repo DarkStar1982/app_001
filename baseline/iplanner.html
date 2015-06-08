@@ -71,30 +71,69 @@
                 <!-- Content tab for position selector -->
 				<div clas="row">
 					<div class="col-md-6">
-						<h4>Add or import portfolio transactions</h4>
+						<h4>Enter&nbsp;portfolio&nbsp;transactions or&nbsp;import&nbsp;transactions&nbsp;file</h4>
 					</div>
-					<div class="col-md-2">
-							<a class="btn btn-default" href="/lib/csv/template.csv" target="_self">Download template</a>
-					</div>
-					<div class="col-md-3">
-							<input class="form-control" id="chosenFile"  type="file" name="file_name"/>
-					</div>
-					<div class="col-md-1">
-							<input class="form-control btn-default" id="submitFile" value="Upload" type="button"/></td>
+					<div class="col-md-6">
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>
+										<a class="btn btn-default" href="/lib/csv/template.csv" target="_self">Download template</a>
+									</td>
+									<td>
+										<input class="form-control" id="chosenFile"  type="file" name="file_name"/>
+									</td>
+									<td>
+										<input class="form-control btn-default" id="submitFile" value="Upload" type="button"/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>		
 				<div class="row">
-                    <div class="col-md-12">
+					<div class="col-md-2">
 						<table class="table">
 							<tbody>
-								
 								<tr>
 									<td>
-										<label>Select date</label>
+										<label for="portfolio_date">Select&nbsp;date</label>
 									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="date" style="width:90%" id="portfolio_date" class="form-control"/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+                    <div class="col-md-3">
+						<table class="table">
+							<tbody>
+								<tr>
 									<td colspan=3>
 										<label>Select cash amount</label>
 									</td>
+								</tr>
+								<tr>
+									<td>
+										<input type="text" class="form-control" id="portfolio_cash" value="0"/>
+									</td>
+									<td>
+	                                  	<button id="cash_add" class="btn btn-default">Deposit</button>
+									</td>
+									<td>
+										<button id="cash_remove" class="btn btn-default">Withdraw</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-7">
+						<table class="table">
+							<tbody>
+								<tr>
 									<td>
 										<label>Instrument</label>
 									</td>
@@ -110,19 +149,9 @@
 									<td></td>
 								</tr>
 								<tr>
-									<td>
-										<input type="date" style="width:90%" id="portfolio_date" class="form-control"/>
-									</td>
 									
-									<td>
-										<input type="text" class="form-control" id="portfolio_cash" value="0"/>
-									</td>
-									<td>
-	                                  	<button id="cash_add" class="btn btn-default">Deposit Cash</button>
-									</td>
-									<td>
-										<button id="cash_remove" class="btn btn-default">Withdraw Cash</button>
-									</td>
+									
+									
 	                                <td>
 	                                    <input class="form-control" type="text" id="instrument_entry"/>
 	                                </td>
