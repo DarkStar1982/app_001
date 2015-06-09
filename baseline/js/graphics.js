@@ -1061,8 +1061,8 @@ var namespace_graphs = (function () {
 	                        });
 	                    }
 	                },
-	                "marginLeft": 75,
-	                "marginRight": 75
+	                "marginLeft": 0,
+	                "marginRight": 0
 				},
 				"plotOptions": {
                     "animation": false,
@@ -1109,7 +1109,7 @@ var namespace_graphs = (function () {
         {
 			update_sector_chart_report_object(p_series_data);
             $(p_container_id).highcharts('Chart', {
-                title : { text : 'Portfolio Industry Sectors'},
+                title : { text : null},
                 plotOptions: { 
                     pie: {
                         allowPointSelect: true,

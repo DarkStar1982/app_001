@@ -537,7 +537,10 @@ var namespace_gui = (function() {
 			});
 			$("#table_breakdown").append(table_html);
 			//render risk_breakdown
-			//TODO
+			//make a copy
+			$("#net_positions_copy").empty();
+			$("#summary_table").clone().appendTo("#net_positions_copy");
+
         },
     
         /* Initialize user interface elements */
