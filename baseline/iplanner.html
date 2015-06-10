@@ -10,6 +10,7 @@
         <!-- stylesheets imports -->
         <link rel="stylesheet" href="lib/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="lib/css/jquery-ui.css"/>
+		<link href="lib/css/full-slider.css" rel="stylesheet">
         <!--link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/ui-darkness/jquery-ui.css"-->
         <!-- javascript imports -->
         <script src="lib/js/jquery/jquery-1.10.2.min.js"></script>
@@ -26,49 +27,49 @@
         <script src="js/library.js"></script>
         <script src="js/portfolio.js"></script>
         <script src="js/graphics.js"></script>
-        <!--script src="js/theme_charts.js"></script-->
 		<style>
-			
+		body {
+			min-height: 2000px;
+		  	padding-top: 70px;
+		}
 		</style>
     </head>
     <body>
         <!-- Top menu -->
-        <div class="navbar navbar-default">
-            <div class="container">
-                <div class="navbar-header">
-                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-					<a class="navbar-brand" href="#Tab2" role="tab" data-toggle="tab"> 
-						<img src="/img/logo.png" style="max-width:98px; margin-top:-16px; margin-left:-73px; margin-right:-16px"/>
-					</a>
-                </div>
-                <div class="navbar-collapse collapse" id="navbar-main">
-                    <ul class="nav navbar-nav">
-						<!--li class="active">	
-							<a href="#Tab1" role="tab" data-toggle="tab" class="navbar-brand">Risk Plus</a>
-						</li-->
-		                <!--li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Risk Plus</a></li-->
-		                <li><a href="#Tab2" role="tab" data-toggle="tab">Positions</a></li>
+		<div class="container-fluid">
+		<nav class="navbar navbar-default navbar-fixed-top" >
+			<div class="container">
+				<div class="navbar-header">
+		        	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		            	<span class="sr-only">Toggle navigation</span>
+		            	<span class="icon-bar"></span>
+		            	<span class="icon-bar"></span>
+		            	<span class="icon-bar"></span>
+		          	</button>
+					<!--img src="/img/logo.png" style="max-width:73px;"/-->
+		            <a class="navbar-brand" href="#Tab2" role="tab" data-toggle="tab">
+						I&nbsp;P&nbsp;L&nbsp;A&nbsp;N&nbsp;N&nbsp;E&nbsp;R</a>
+		        </div>
+		        <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+		                <li class="active"><a href="#Tab2" role="tab" data-toggle="tab">Positions</a></li>
 		                <li><a href="#Tab3" role="tab" data-toggle="tab">Performance and sectors</a></li>
 		                <li><a href="#Tab4" role="tab" data-toggle="tab">Compare to benchmarks</a></li>
 		                <li><a href="#Tab5" role="tab" data-toggle="tab">Risk and Returns</a></li>
 		                <li><a href="#Tab6" role="tab" data-toggle="tab">Save or share</a></li>
 		            </ul>
-                </div>
-            </div>
-        </div>
+		        </div>
+		    </div>
+		</nav>
         <!--Contents -->
-        <div class="container-fluid">
+       
         <!-- Nav tabs -->    
         <!-- Top level tab panes -->
         	<div class="tab-content">
-            	
             <!-- Positions builder tab -->
             <div class="tab-pane active" id="Tab2">
                 <!-- Content tab for position selector -->
+				<div class="row"></div>
 				<div clas="row">
 					<div class="col-md-6">
 						<h4>Enter&nbsp;portfolio&nbsp;transactions or&nbsp;import&nbsp;transactions&nbsp;file</h4>
