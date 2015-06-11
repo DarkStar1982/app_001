@@ -373,7 +373,37 @@
 			        </div>
 				</div>
 				<!-- Chart containers -->
-               
+                <div class="row">
+                	<div class="col-md-6">
+                    	<h5 class="text-center">Historical Performance: Portofio vs Benchmark</h5>
+            			<div id="container_chart3"></div> 
+                    </div>
+                    <div class="col-md-6">
+                    	<h5 class="text-center">Historical Volatility: Portfolio vs Benchmark</h5>
+                      	<!--p id="risk_info" style="display:none">
+                        	Select risk model:
+                            <select id="model_select" onchange="draw_charts(1)">
+                            	<option value="STD_DEV">Standard Deviation</option>
+                                <option value="STD_DEV_CMT">Cumulative Standard Deviation</option>
+                            </select>
+						
+                            
+                        </p-->
+						<div id="container_chart4"></div> 
+                    </div>
+                </div>
+				<div class="row">
+                	<div class="col-md-6">
+						<!-- Heatmap chart header -->
+						<h5 class="text-center">Risk and Return: Portfolio vs Benchmark</h5>
+                        <div id="container_chart4b"></div>
+                    </div>
+                     <div class="col-md-6">
+            			 	<h5 class="text-center">Risk and Return: Portfolio and Benchmark</h5>
+                         <div id="container_chart5a" ></div>
+                         <div id="container_chart5b" ></div>
+                    </div>
+				</div>
 				<div class="row">
 					<div class="col-md-6">
 						<h4>Risk and return - portfolio vs benchmark</h4>
@@ -446,37 +476,7 @@
 					   	</table>
 					</div>
 				</div>
-                <div class="row">
-                	<div class="col-md-6">
-                    	<h5 class="text-center">Historical Performance: Portofio vs Benchmark</h5>
-            			<div id="container_chart3"></div> 
-                    </div>
-                    <div class="col-md-6">
-                    	<h5 class="text-center">Historical Volatility: Portfolio vs Benchmark</h5>
-                      	<!--p id="risk_info" style="display:none">
-                        	Select risk model:
-                            <select id="model_select" onchange="draw_charts(1)">
-                            	<option value="STD_DEV">Standard Deviation</option>
-                                <option value="STD_DEV_CMT">Cumulative Standard Deviation</option>
-                            </select>
-						
-                            
-                        </p-->
-						<div id="container_chart4"></div> 
-                    </div>
-                </div>
-				<div class="row">
-                	<div class="col-md-6">
-						<!-- Heatmap chart header -->
-						<h5 class="text-center">Risk and Return: Portfolio vs Benchmark</h5>
-                        <div id="container_chart4b"></div>
-                    </div>
-                     <div class="col-md-6">
-            			 	<h5 class="text-center">Risk and Return: Portfolio and Benchmark</h5>
-                         <div id="container_chart5a" ></div>
-                         <div id="container_chart5b" ></div>
-                    </div>
-				</div>
+                
 			</div>
 		</div>
          <!-- Save or share tab -->

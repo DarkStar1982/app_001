@@ -1194,8 +1194,8 @@ var namespace_graphs = (function () {
 	                    	}
 						}
 	                }, 
-                    "marginLeft": 75,
-                    "marginRight": 75,
+                    "marginLeft": 0,
+                    "marginRight": 0,
                     "rangeSelector" : { "selected" : 5 },
                     "title": { "text" : null },
                     "yAxis": {
