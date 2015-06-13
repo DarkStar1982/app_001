@@ -93,7 +93,7 @@ var namespace_gui = (function() {
             else return '<td style="background-color:green">'+namespace_html.display_as_percentage(p_val)+'</td>'
         } 
         var dashboard_row = '<tr><td style="width:10%">'+data_record.asset + '</td>'
-            + '<td>'+data_record.info + '</td>'
+          //  + '<td>'+data_record.info + '</td>'
             + format_value_to_cell(data_record.portfolio_returns.ret_1d)
             + format_value_to_cell(data_record.portfolio_returns.ret_1w)
             + format_value_to_cell(data_record.portfolio_returns.ret_1m)
