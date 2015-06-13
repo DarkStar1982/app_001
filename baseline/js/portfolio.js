@@ -912,7 +912,7 @@ var namespace_portfolio = (function()
                     "risk_chart_data": data["derived_risk"],
                     "derived_values":data["derived_split"],
 				};
-                row_data = get_dashboard_data(data["norm_value_series"], "Benchmark", "-");
+                row_data = get_dashboard_data(data["norm_value_series"], p_benchmark, "-");
                // calculate benchmark derived data
                // update portfolio derived data = partial (beta, etc) 
                 state.m_benchmark_series['dashboard_data'].push(row_data);
