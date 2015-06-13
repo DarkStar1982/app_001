@@ -1109,7 +1109,7 @@ var namespace_graphs = (function () {
         {
 			update_sector_chart_report_object(p_series_data);
             $(p_container_id).highcharts('Chart', {
-                title : { text : null},
+                title : { text : 'Portfolio sectors'},
                 plotOptions: { 
                     pie: {
                         allowPointSelect: true,

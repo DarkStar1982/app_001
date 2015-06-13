@@ -538,9 +538,8 @@ var namespace_gui = (function() {
 			$("#table_breakdown").append(table_html);
 			//render risk_breakdown
 			//make a copy
-			$("#net_positions_copy").empty();
-			$("#summary_table").clone().appendTo("#net_positions_copy");
-
+			$("#summary_table_copy tbody").empty();
+			$("#net_rows").clone().appendTo("#summary_table_copy");
         },
     
         /* Initialize user interface elements */
