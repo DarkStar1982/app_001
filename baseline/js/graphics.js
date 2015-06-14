@@ -1212,7 +1212,7 @@ var namespace_graphs = (function () {
 						data: p_series_data[1].data[0],
 						type: p_series_data[1].type,
 						dashStyle: 'dot',
-					//	color : 'green'
+						color : '#FFCC00'
 					}]
 				});
             },
@@ -1226,7 +1226,7 @@ var namespace_graphs = (function () {
                 seriesOptions[0].type = 'line';
                 seriesOptions[1].type = 'line';
                 seriesOptions[1].dashStyle = 'dot';
-				//seriesOptions[1].color = 'green';
+				seriesOptions[1].color = '#FFCC00';
 				
 				//render chart
 				render_risk_chart(seriesOptions, nav_data, p_container_id);
