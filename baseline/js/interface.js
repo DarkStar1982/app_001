@@ -399,7 +399,7 @@ var namespace_gui = (function() {
 							data: m_benchmark_data[k]["norm_value_split"],
 							type:'line',
 							dashStyle: 'dot'});
-						portfolio_chart_data["derived_values"][0]["beta"] = namespace_time_series.compute_beta(
+						portfolio_chart_data["derived_values"][0]["beta"] = namespace_time_series.compute_annual_beta(
 							series_data[0]["data"][0],
 							series_data[1]["data"][0]
 						);

@@ -93,6 +93,8 @@ var namespace_time_series = (function()
 	        return r_data;
 		},
 		
+		
+		
 		compute_mean: function(p_series)
 		{
 			var sum = 0.0;
@@ -111,12 +113,28 @@ var namespace_time_series = (function()
     		return (covariance / variance);
 		},
 		
+		compute_annual_beta: function(p_portfolio_series, p_benchmark_series)
+		{
+			if (p_portfolio_series.length<252 && p_benchmark_series.length<252)
+			{
+				return namespace_time_series.compute_beta(p_portfolio_series, p_benchmark_series);
+			}
+			else
+			{
+				var today = new Date();
+				var date_start = new Date(today - 31536000000);
+				var new_portfolio_series = namespace_time_series.trim_data(p_portfolio_series,date_start);
+				var new_benchmark_series = namespace_time_series.trim_data(p_benchmark_series,date_start);
+				return namespace_time_series.compute_beta(new_portfolio_series,new_benchmark_series);
+			}
+		},
+		
 		compute_covariance: function(p_data_a, p_data_b)
 		{
 	    	var mean_a = namespace_time_series.compute_mean(p_data_a);
 	    	var mean_b = namespace_time_series.compute_mean(p_data_b);
 	    	var n_len = p_data_a.length;
-	    	var covar = 0.0
+	    	var covar = 0.0;
 	    	for (var i=0;i<n_len;i++)
 	        {
 				covar = covar + ((p_data_a[i][1] - mean_a)*(p_data_b[i][1] - mean_b))/n_len;

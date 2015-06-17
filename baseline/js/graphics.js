@@ -767,7 +767,7 @@ var namespace_graphs = (function () {
 		render_risk_pnl_heatmap('#container_chart4b', heatmap_data);
 		var data = get_bubbles(heatmap_data);
 		render_quadrant_chart('#container_chart5a',data["bubbles"], data["max_axis"]);
-		portfolio_chart_data["derived_values"][index]["beta"] = namespace_time_series.compute_beta(
+		portfolio_chart_data["derived_values"][index]["beta"] = namespace_time_series.compute_annual_beta(
 			m_local_data["pnl_data"][0]["data"][index],
 			m_local_data["pnl_data"][1]["data"][index]
 		);
