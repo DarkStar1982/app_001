@@ -14,8 +14,8 @@ $(document).ready(function(){
     $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#submitFile").on('click', namespace_gui.process_transactions_file);
     $("#get_pdf_report").on('submit', namespace_gui.get_pdf_report);
-  //  $("#portfolio_date").on('blur', namespace_gui.update_price_display);
-//    $("#portfolio_date").on('change', namespace_gui.update_price_display);
+    $("#portfolio_date").on('blur', namespace_gui.update_price_display);
+    $("#portfolio_date").on('change', namespace_gui.update_price_display);
 
 	  $(".navbar-brand").on('click', function(){
 	    $(".nav li").removeClass('active');
