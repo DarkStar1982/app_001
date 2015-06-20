@@ -14,7 +14,10 @@ $(document).ready(function(){
     $("#flags_selected").on('change', namespace_gui.refresh_val_pnl_chart);
     $("#submitFile").on('click', namespace_gui.process_transactions_file);
     $("#get_pdf_report").on('submit', namespace_gui.get_pdf_report);
-	$(".navbar-brand").on('click', function(){
+    $("#portfolio_date").on('blur', namespace_gui.update_price_display);
+    $("#portfolio_date").on('change', namespace_gui.update_price_display);
+
+	  $(".navbar-brand").on('click', function(){
 	    $(".nav li").removeClass('active');
 	    $(this).addClass('active');
 	})
@@ -28,13 +31,13 @@ var namespace_gui = (function() {
     var API_URL = "/data_api";
     var portfolio_chart_data = {};
     var m_benchmark_data ={};
-    var m_start_date = undefined; 
+    var m_start_date = undefined;
     // Implementation
     function create_transaction_row(obj)
     {
-        var new_row = '<tr id="' + obj.gui_id 
+        var new_row = '<tr id="' + obj.gui_id
             + '"><td class="asset_name">'+ obj.asset
-            + '</td><td class="sector_label">' + obj.sector 
+            + '</td><td class="sector_label">' + obj.sector
             + '</td><td class="buysell_label">' + obj.type
             + '</td><td class="volume_label">'+ obj.volume
             + '</td><td class="book_date">' + obj.book_date
@@ -46,7 +49,7 @@ var namespace_gui = (function() {
 
     function create_summary_row(obj)
     {
-        var instrument = obj.symbol;       
+        var instrument = obj.symbol;
         var position_type = "-";
         var type_dict = { "B":"Long", "S":"Short" }
         var split_index = obj.symbol.indexOf('_');
@@ -69,16 +72,19 @@ var namespace_gui = (function() {
         return summary_row;
      }
 
+
     function update_price_entry(p_symbol)
     {
-        var xdate = $("#portfolio_date").val();
+      var xdate = $("#portfolio_date").val();
+      //      var xdate = get_date_as_p_str();
+
         $.getJSON(API_URL, {instrument:p_symbol, call:"quote", datetime:xdate}, function(data)
         {
             if (data.header.error_code == 0)
                 $("#price_entry").val(math_util.aux_math_round(data.contents.price,2));
-            else 
-                
-                namespace_gui.send_log_message("Failed to load quote data, see raw responce data below", "System");           
+            else
+
+                namespace_gui.send_log_message("Failed to load quote data, see raw responce data below", "System");
                 namespace_gui.send_log_message(data, "System");
         });
     }
@@ -91,7 +97,7 @@ var namespace_gui = (function() {
         {
             if (p_val<0) return '<td style="background-color:red">'+namespace_html.display_as_percentage(p_val)+'</td>'
             else return '<td style="background-color:green">'+namespace_html.display_as_percentage(p_val)+'</td>'
-        } 
+        }
         var dashboard_row = '<tr><td style="width:10%">'+data_record.asset + '</td>'
           //  + '<td>'+data_record.info + '</td>'
             + format_value_to_cell(data_record.portfolio_returns.ret_1d)
@@ -160,7 +166,7 @@ var namespace_gui = (function() {
             $('#detail_cell tr').css( "background-color", 'rgba(0,0,0,0)');
             $('[id^=h'+String(row_id)+']').css( "background-color", "red" );
         }
-    
+
         var flag_data = [];
         for (var i=0; i<groups.length; i++)
         {
@@ -200,7 +206,7 @@ var namespace_gui = (function() {
                 {
                     if (k==1)
                     {
-                        list_str.push('<tr id="h'+String(i)+'1"><td rowspan="'+String(p_flags[i].transactions.length-1)+'">' 
+                        list_str.push('<tr id="h'+String(i)+'1"><td rowspan="'+String(p_flags[i].transactions.length-1)+'">'
                             + datetime_util.adjust_date(p_flags[i]["end_date"]) + "</td>"
                             + "<td>" + p_flags[i]["transactions"][k]["symbol"] + ", "
                             + p_flags[i]["transactions"][k]["volume"] + ", "
@@ -246,17 +252,17 @@ var namespace_gui = (function() {
 			{
 				new_transaction["last_price"] = 1.0;
 				new_transaction["sector"] = '-';
-			} 
+			}
             namespace_portfolio.update_state("add_record", new_transaction);
         }
     }
-	
+
 	function update_risk_decomposition_table(p_data)
 	{
-		
+
 	}
-	
-    /* Public Interface */ 
+
+    /* Public Interface */
     return {
 
 		process_message :function(p_verb, p_data)
@@ -291,7 +297,7 @@ var namespace_gui = (function() {
 			];
 			namespace_portfolio.update_state("create_pdf",report_blocks);
 		},
-		
+
         process_transactions_file: function()
         {
             $.ajax({
@@ -337,7 +343,7 @@ var namespace_gui = (function() {
 				namespace_gui.refresh_performance_chart_and_tab();
 			}
         },
-        
+
         refresh_val_pnl_chart: function ()
         {
             var display_mode = $("#perf_select").val();
@@ -361,7 +367,7 @@ var namespace_gui = (function() {
                 if (display_mode == "percent")
                     var series_data = portfolio_chart_data["norm_value_series"];
             }
-            var flags = format_flag_data(portfolio_chart_data["transaction_clusters"]); 
+            var flags = format_flag_data(portfolio_chart_data["transaction_clusters"]);
             //var flags = get_flag_markers()
             render_flags_on_sidebar(portfolio_chart_data["transaction_clusters"]);
             namespace_graphs.render_val_pnl_chart(series_data, "#container_chart1", display_mode, flag_mode, chart_mode, flags);
@@ -373,7 +379,7 @@ var namespace_gui = (function() {
                 namespace_graphs.render_position_chart(portfolio_chart_data["position_chart_data"], "#container_chart2b", display_mode);
           });
         },
-        
+
 
         refresh_sector_chart: function()
         {
@@ -405,9 +411,9 @@ var namespace_gui = (function() {
 						);
 						update_derived_value_tabs(portfolio_chart_data["derived_values"][0],m_benchmark_data[k]["derived_values"][0]);
 			            namespace_graphs.render_performance_chart(series_data, "#container_chart3");
-                        namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"], 
+                        namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"],
                                                                  portfolio_chart_data["derived_values"],
-                                                                 m_benchmark_data[k]["risk_chart_data"], 
+                                                                 m_benchmark_data[k]["risk_chart_data"],
                                                                  m_benchmark_data[k]["derived_values"],
                                                                  "#container_chart4",
 																 0);
@@ -415,7 +421,7 @@ var namespace_gui = (function() {
                     }
                 }
             }
-        },     
+        },
 
 		render_risk_decomposition_table: function(p_risk_data)
 		{
@@ -439,12 +445,12 @@ var namespace_gui = (function() {
         set_visibility: function(p_level)
         {
             //0 hide all but the positions
-            if (p_level == 0) 
+            if (p_level == 0)
             {
                 $("#tab_container3").hide();
                 $("#tab_container4").hide();
-                $("#tab_container5").hide(); 
-                $("#tab_container6").hide(); 
+                $("#tab_container5").hide();
+                $("#tab_container6").hide();
             }
             else if (p_level == 1)
             {
@@ -453,14 +459,14 @@ var namespace_gui = (function() {
             }
             else if (p_level == 2)
             {
-                $("#tab_container5").show(); 
-                $("#tab_container6").show(); 
+                $("#tab_container5").show();
+                $("#tab_container6").show();
             }
             else if (p_level == 3)
             {
                 $("#tab_container5").hide();
                 $("#tab_container6").hide();
-            } 
+            }
         },
 
         render_portfolio_dashboard: function(dashboard_data)
@@ -471,7 +477,7 @@ var namespace_gui = (function() {
             {
 				dashboard_table = dashboard_table + create_dashboard_row(dashboard_data[i]);
             }
-            $("#dashboard_rows").append(dashboard_table)          
+            $("#dashboard_rows").append(dashboard_table)
         },
         //dashboard values for portfolio and benchmark
         append_dashboard_row: function(dashboard_data)
@@ -481,17 +487,17 @@ var namespace_gui = (function() {
             {
 				reference_table = reference_table + create_dashboard_row(dashboard_data[i]);
             }
-            $("#reference_rows").append(reference_table);          
-			
+            $("#reference_rows").append(reference_table);
+
             //update charts (performance, risk, bubble, risk percentage etc)
         },
-		
+
         render_tables: function(net_data, transactions, sector_table, risk_table)
         {
             //render trades
             $("#matrix").empty();
 			var table_rows ="";
-            for (var i=0; i <transactions.length; i++) 
+            for (var i=0; i <transactions.length; i++)
             {
 				table_rows = table_rows + create_transaction_row(transactions[i]);
             }
@@ -499,11 +505,11 @@ var namespace_gui = (function() {
             $("#net_rows").empty();
             //append cash row first and net values
             var table_net_rows = create_summary_row({
-				"symbol": "Cash", 
-                "volume": "-", 
+				"symbol": "Cash",
+                "volume": "-",
                 "price_avg": "-",
 				"book_value":net_data.net_cash_row.start_cash,
-				"last_value":net_data.net_cash_row.total_cash, 
+				"last_value":net_data.net_cash_row.total_cash,
                 "pnl": net_data.net_cash_row.cash_change
 			});
             //append net positions
@@ -512,16 +518,16 @@ var namespace_gui = (function() {
             {
                 if (net_rows.hasOwnProperty(x))
 					table_net_rows = table_net_rows + create_summary_row(net_rows[x]);
-            } 
-            $("#net_rows").append(table_net_rows);      
+            }
+            $("#net_rows").append(table_net_rows);
             $("#value_totals").text(namespace_html.display_as_currency(net_data.total_value));
             $("#pnl_totals").text(namespace_html.display_as_currency(net_data.total_pnl));
 			if (net_data.total_pnl == '-')
 			{}
             else {
-					if (net_data.total_pnl >=0)  
+					if (net_data.total_pnl >=0)
 						$("#pnl_totals").css( "background-color","green");
-            		else  $("#pnl_totals").css( "background-color","red");  
+            		else  $("#pnl_totals").css( "background-color","red");
 				}
 			//render sector breakdown
 			$("#table_breakdown").empty();
@@ -541,13 +547,13 @@ var namespace_gui = (function() {
 			$("#summary_table_copy tbody").empty();
 			$("#net_rows").clone().appendTo("#summary_table_copy");
         },
-    
+
         /* Initialize user interface elements */
         init_page: function(page_state)
         {
-            /* create GUI objects */            
-            //$("#portfolio_date").datepicker();
-                
+            /* create GUI objects */
+            // $("#portfolio_date").datepicker();
+
             /* Populate them with data */
             $("#instrument_entry").autocomplete({
                 source:page_state.list_instruments,
@@ -555,26 +561,25 @@ var namespace_gui = (function() {
                     var tdate = $("#portfolio_date").val();
                     var symbol = ui.item.value;
                     if (tdate!=null) update_price_entry(symbol);
-                } 
+                }
             });
             $("#benchmark_entry").autocomplete({
                 source:page_state.list_benchmarks
             });
 
 
-            /* init instrument entry datetime picker" 
-            $("#date_entry").datepicker({
-                onSelect: function(dateText, inst) {
-                    var symbol = $("#instrument_entry").val();
-                    update_price_entry(symbol);
-                }
-            }); */
-
             var portfolio_defaults = {"risk_interval": safe_get_integer($("#range_select").val()) };
-            namespace_portfolio.update_state("load_defaults", portfolio_defaults); 
-			namespace_graphs.init_chart_style();
+            namespace_portfolio.update_state("load_defaults", portfolio_defaults);
+			      namespace_graphs.init_chart_style();
         },
-        
+
+        update_price_display: function()
+        {
+      //    var tdate = $("#portfolio_date").val();
+          var symbol = $("#instrument_entry").val();
+          if (symbol!=null) update_price_entry(symbol);
+        },
+
         deposit_cash: function()
         {
             var new_transaction = {
@@ -617,29 +622,29 @@ var namespace_gui = (function() {
             };
             namespace_portfolio.update_state("add_record", new_transaction);
         },
-        
+
         remove_trade_row: function(node)
         {
             var tr_id = node.parentNode.parentNode.id;
             namespace_portfolio.update_state("remove_record", tr_id);
         },
-        
+
         add_dashboard_benchmark_row: function()
         {
             var new_benchmark = $("#benchmark_entry").val();
             namespace_portfolio.update_state("add_dashboard_benchmark", new_benchmark);
         },
-  
+
         clear_dashboard_benchmark_rows: function()
         {
             $("#reference_rows").empty();
         },
- 
+
         clear_dashboard_benchmarks: function ()
         {
             namespace_portfolio.update_state("clear_dashboard_benchmarks");
         },
- 
+
         update_benchmark_selector: function(p_benchmark)
         {
             $("#benchmark_list").append('<option value=1>'+p_benchmark+'</option>');
@@ -649,7 +654,7 @@ var namespace_gui = (function() {
         {
             $("#benchmark_list").empty();
         },
- 
+
         send_log_message: function(message, p_severity)
         {
             switch(p_severity)
@@ -662,4 +667,3 @@ var namespace_gui = (function() {
         }
     };
 }) ();
-
