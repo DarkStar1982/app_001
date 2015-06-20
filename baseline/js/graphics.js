@@ -1049,6 +1049,12 @@ render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_
   else var chart_flags = [];
   var val_pnl_chart_object = {
     "tooltip": { "enabled": false },
+    "yAxis" : {
+      opposite: false,
+      labels: {
+        align: 'left',
+      }
+    },
     "chart": {
       "events": {
         "load": function (){
@@ -1061,7 +1067,7 @@ render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_
           });
         }
       },
-      "marginLeft": 0,
+      "marginLeft": 50,
       "marginRight": 0
     },
     "plotOptions": {
@@ -1081,7 +1087,9 @@ render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_
       "data" : p_series_data,
       "type" : "line",
       "animation": false,
-      "id":"value_data"
+      "id":"value_data",
+      "threshold": p_series_data[0][1],
+      "negativeColor": "#7F0000"
     },
     {
       "type": "flags",
@@ -1093,13 +1101,16 @@ render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_
   }
   if (p_chart_mode == "val_chart")
   {
-    val_pnl_chart_object["yAxis"]={"title": {"text":"Net Value"}};
+    val_pnl_chart_object["yAxis"]["title"] = {"text":"Net Value"};
+  //  console.log(p_series_data[0][1]);
+  //  val_pnl_chart_object["plotOptions"]["threshold"] = p_series_data[0][1];
     val_pnl_chart_object["title"] = { "text" : "Portfolio Aggregated Value"};
 
   }
   else if (p_chart_mode == "pnl_chart")
   {
-    val_pnl_chart_object["yAxis"]={"title": {"text":"Net PnL"} };
+    val_pnl_chart_object["yAxis"]["title"] = {"text":"Net PnL"};
+//    val_pnl_chart_object["plotOptions"]["threshold"] = p_series_data[0][1];
     val_pnl_chart_object["title"] = { "text" : "Profit or Loss"};
   }
   $(p_container_id).highcharts('StockChart', val_pnl_chart_object);
