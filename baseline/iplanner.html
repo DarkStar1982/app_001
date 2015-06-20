@@ -1,524 +1,523 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>iPlanner, your portfolio performance and risk measurement tools</title>
-        <!--meta section -->
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <!-- stylesheets imports -->
-        <link rel="stylesheet" href="lib/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="lib/css/jquery-ui.css"/>
-		<link href="lib/css/full-slider.css" rel="stylesheet">
-        <!--link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/ui-darkness/jquery-ui.css"-->
-        <!-- javascript imports -->
-        <script src="lib/js/jquery/jquery-1.10.2.min.js"></script>
-        <script src="lib/js/jquery/jquery-ui.min.js"></script>
-        <!--script src="http://github.highcharts.com/highstock.js"></script-->
-        <script src="lib/js/highcharts/highstock.js"></script>
-        <script src="lib/js/highcharts/heatmap.js"></script>
-        <script src="lib/js/highcharts/highcharts-more.js"></script>
-        <!--script src="lib/js/highcharts/exporting.js"></script-->
-        <script src="lib/js/highcharts/solid-gauge.js"></script>
-        <script src="lib/js/bootstrap/bootstrap.min.js"></script>
-        <!-- page application code -->
-        <script src="js/interface.js"></script>
-        <script src="js/library.js"></script>
-        <script src="js/portfolio.js"></script>
-        <script src="js/graphics.js"></script>
-		<style>
-		body {
-			min-height: 2000px;
-		  	padding-top: 70px;
-		}
-		</style>
-    </head>
-    <body>
-        <!-- Top menu -->
-		<div class="container-fluid">
-		<nav class="navbar navbar-default navbar-fixed-top">
-			<span class="navbar-brand">I&nbsp;P&nbsp;L&nbsp;A&nbsp;N&nbsp;N&nbsp;E&nbsp;R</span>
-			<div class="container">
-				<div class="navbar-header">
-		        	<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-		            	<span class="sr-only">Toggle navigation</span>
-		            	<span class="icon-bar"></span>
-		            	<span class="icon-bar"></span>
-		            	<span class="icon-bar"></span>
-		          	</button>
-					<!--img src="/img/logo.png" style="max-width:73px;"/-->
-				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right">
-		                <li class="active"><a href="#Tab2" role="tab" data-toggle="tab">Positions</a></li>
-		                <li><a href="#Tab3" role="tab" data-toggle="tab">Performance breakdown</a></li>
-		                <li><a href="#Tab4" role="tab" data-toggle="tab">Compare to benchmarks</a></li>
-		                <li><a href="#Tab5" role="tab" data-toggle="tab">Risk &amp; Returns</a></li>
-		                <li><a href="#Tab6" role="tab" data-toggle="tab">Export</a></li>
-		            </ul>
-		        </div>
-		    </div>
-		</nav>
-        <!--Contents -->
-       
-        <!-- Nav tabs -->    
-        <!-- Top level tab panes -->
-        	<div class="tab-content">
-            <!-- Positions builder tab -->
-            <div class="tab-pane active" id="Tab2">
-                <!-- Content tab for position selector -->
-				<div class="row"></div>
-				<div clas="row">
-					<div class="col-md-6">
-						<h4>Enter&nbsp;portfolio&nbsp;transactions or&nbsp;import&nbsp;transactions&nbsp;file</h4>
-					</div>
-					<div class="col-md-6">
-						<table class="table">
-							<tbody>
-								<tr>
-									<td>
-										<a class="btn btn-default" href="/lib/csv/template.csv" target="_self">Download template</a>
-									</td>
-									<td>
-										<input class="form-control" id="chosenFile"  type="file" name="file_name"/>
-									</td>
-									<td>
-										<input class="form-control btn-default" id="submitFile" value="Upload" type="button"/>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>		
-				<div class="row">
-					<div class="col-md-2">
-						<table class="table">
-							<tbody>
-								<tr>
-									<td>
-										<label for="portfolio_date">Select&nbsp;date</label>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<input type="date" style="width:90%" id="portfolio_date" class="form-control"/>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-                    <div class="col-md-3">
-						<table class="table">
-							<tbody>
-								<tr>
-									<td colspan=3>
-										<label>Select cash amount</label>
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<input type="text" class="form-control" id="portfolio_cash" value="10000"/>
-									</td>
-									<td>
-	                                  	<button id="cash_add" class="btn btn-default">Deposit</button>
-									</td>
-									<td>
-										<button id="cash_remove" class="btn btn-default">Withdraw</button>
-									</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<div class="col-md-7">
-						<table class="table">
-							<tbody>
-								<tr>
-									<td>
-										<label>Instrument</label>
-									</td>
-									<td>
-										<label>Price</label>
-									</td>
-									<td>
-										<label>Volume</label>
-									</td>
-									<td>
-										<label>Type</label>
-									</td>
-									<td></td>
-								</tr>
-								<tr>
-	                                <td>
-	                                    <input class="form-control" type="text" id="instrument_entry"/>
-	                                </td>
-	                                <!--td style="border-top:0px">
-	                                    <input style="width:90%" type ="text" id="date_entry"/>
-	                                </td-->
-	                                <td>
-	                                    <input class="form-control" type ="text" value="0" width="50%" id="price_entry"/>
-	                                </td>
-	                                <td>
-	                                    <input class="form-control" type ="text" value="100" id="amount_entry"/>
-	                                </td>
-	                                <td>
-	                                    <select id="trade_type" class="form-control">
-	                                        <option>Buy</option><option>Sell</option><option>Short</option><option>Cover</option>
-	                                    </select>
-	                                </td>
-                           	 		<td>
-                                		<button id="transaction_add" class="btn btn-default">Add Trade</button>
-                           	 		</td>
-								</tr>
-							</tbody>
-						</table>
-                    </div>
-				</div>
-                <div class="row">
-                    <!-- Portfolio summary -->
-                    <div class="col-md-12">
-                        <h4 id="step3x1">Portfolio summary</h4>
-                        <table id="net_portfolio" class="table table-bordered" cellspacing="0" cellpadding="0">
-                            <tr>
-								<td><b>Net Value</b></td><td id="value_totals">0</td>
-								<td><b>Profit or loss</b></td><td id="pnl_totals">0</td>
-							</tr>
-                        </table>
-                    </div>
-                    <div class="col-md-12">
-                    <!-- Net positions -->
-	                    
-                        <h4 id="step3">Net positions</h4>
-                        <table id="summary_table" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
-                            <thead>
-                                <tr>
-                                    <th>Symbol</th>
-									<th>Position</th>
-									<th>Quantity</th>
-									<th>Avg. Price</th>
-									<th>Book Value</th>
-									<th>Current Value</th>
-									<th>PnL</th>
-                                </tr>
-                            </head>
-                            <!-- row container -->
-                            <tbody id="net_rows">
-                            </tbody>
-                        </table>
-                    </div>
-                <!-- Trade history -->          
-                    <div class="col-md-12">                 
-                        <h4 id="step2.5"> Transaction history</h4>      
-                        <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Asset name</th><th>Sector</th><th>BuySell</th><th>Volume</th><th>Book date</th>
-                                    <th>Book Price</th><th>Current Price</th><th>Actions</th>
-                               </tr>
-                            </thead>
-                        <!-- trade history rows container-->
-                            <tbody id="matrix">
-                            </tbody>
-                        </table>
-                    </div>
-
-                </div>
-            </div>
-          <!-- Portfolio charts contents tab -->
-            <div class="tab-pane" id="Tab3">
-              <div id="tab_container3">
-                <div class="row">
-                    <div class="col-md-8">
-                        <!-- Select chart type - profit or loss / value over time -->
-                        <select id="chart_select">
-                            <option value="pnl_chart">Profit or loss over time</option>
-							<option value="val_chart">Value over time</option>
-                        <select>
-                        <!-- Select relative (0 - 100%) or absolute values -->
-                        <select id="perf_select">
-                            <option value="absolute">Absolute</option><option value="percent">Percentage</option>
-                        </select>
-                        <input style="display:inline" type="checkbox" id="flags_selected" 
-                            class="checkbox" style="margin-left:10px" checked=true>
-                       </input>
-					   <label for="flags_selected">Show transaction labels</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div id="container_chart1">
-                        	<!-- Performance -->
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                    <div id="container_chart2b"></div>
-                     	<!-- Position performance charts -->
-                    </div>
-                    
-                </div>
-                <div class="row">
-				   <div class="col-md-6" id="net_positions_copy">					   
-                       <table id="summary_table_copy" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
-                           <thead>
-							   <tr>
-								   <th colspan=7>Positions breakdown</th>
-							   </tr>
-                               <tr>
-                                <th>Symbol</th>
-								<th>Position</th>
-								<th>Quantity</th>
-								<th>Avg. Price</th>
-								<th>Book Value</th>
-								<th>Current Value</th>
-								<th>PnL</th>
-                               </tr>
-                           </head>
-						   <tbody>
-						   </tbody>
-					   </table>
- 				   </div>
-                   <div class="col-md-6">
-                   	<div id="container_chart0">
-                   		 <!-- Sectors breakdown -->
-                   	</div>
-                   </div>	
-                  
-				</div>
-				<div class="row">
-                    <!-- Sectors distribution -->
-                    <div class="col-md-6" style="overflow-y:scroll; max-height:400px;">
-                        <table class="table table-striped table-bordered">
- 					<thead>
- 						<tr>
- 							<th colspan=5>Sector breakdown</th>
- 						</tr>
- 					</thead>
-                        <tbody id="table_breakdown"></tbody>
-                        	<!--contents go here-->
-                    </table>
-                    </div>	
-					
-                	<!-- chart 1 sidebar for transaction labels -->
-               	 	<div class="col-md-6" style="overflow-y:scroll; max-height:400px;">
-                       <!--div id="sidebar1" style="float:left; width:20%; margin-left:50px; height:400px"-->
-                           <table class="table table-striped table-bordered">
-                               <thead><tr><th colspan="2">Transaction history</th></tr></thead>
-                               <tbody id ="detail_cell"></tbody>
-                           </table>
-                       <!--/div-->
-                	</div>
-                </div>
-            </div>
-		</div>
-      <!-- Dashboard tab (need rework) -->
-        <div class="tab-pane" id="Tab4">
-            <div id="tab_container4">
-				<div class="row">
-				<div class="col-md-12">
-		            <table class="table table-borderless" style="width:50%;">
-		            	<tbody>
-		                	<tr>
-								<td><label>Select&nbsp;benchmark:</label>
-		                        <td> <input type="text" id="benchmark_entry"/></td>
-		                        <td><button id="benchmark_add" class="btn btn-default">Add benchmark</button></td>
-		                        <td><button id="clear_benchmarks" class="btn btn-default">Clear benchmarks</button></td>
-		                    <tr>
-		    			<tbody>
-		            </table>
-				</div>
-				<div class="col-md-12">
-                <!-- benchmark dashboard -->
-                <h4> Benchmarks to compare </h4>
-                <table id="reference_dashboard" class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>HOLDINGS</th><th colspan=6>RETURNS</th><th colspan=2>MOMENTUM</th>
-                        </tr>
-                        <tr>
-                            <td>Index</td>
-							<td>1 d</td>
-							<td>1 w</td>
-							<td>1 m</td>
-							<td>3 m</td>
-							<td>6 m</td>
-							<td>1 y</td>
-                            <td>50D-MA</td>
-							<td>200D-MA</td>
-                        </tr>
-                    </thead>
-                    <!-- benchmark rows -->
-                    <tbody id="reference_rows">
-                    </tbody>
-                </table>
-				</div>
-				<div class="col-md-12">
-                <!-- Positions returns and momentum -->
-                <h4> Portfolio positions breakdown</h4>
-                <table id="dashboard" class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>HOLDINGS</th><th colspan=6>RETURNS</th><th colspan=2>MOMENTUM</th>
-                        </tr>
-                        <tr>
-                            <td>Position</td>
-							<td>1 d</td>
-							<td>1 w</td>
-							<td>1 m</td>
-							<td>3 m</td>
-							<td>6 m</td>
-							<td>1 y</td>
-                            <td>50D-MA</td>
-							<td>200D-MA</td>
-                        </tr>
-                    </thead>
-                    <!-- dashboard rows -->
-                    <tbody id="dashboard_rows">
-                    </tbody>
-                </table>
-				</div>
-				</div>
-				
-			</div>
-		</div>
- 		<!--- Comparison to benchmark tab -->
-        <div class="tab-pane" id="Tab5">
-			<div id="tab_container5">
-				<div class="row">
-					<div id = "step4" class="col-md-12">			      
-						<table class="table table-bordered text-center" style="width:100%;">
-							<tr>
-								<th>
-									<label for="benchmark_list"> Select benchmark </label>
-									<select id="benchmark_list"></select>
-								</th>
-								<th style="display:none">
-									<label for="range_select"> Volatility range, days:</label>
-	                            	<input type="number" id = "range_select" min="2" max="30" value="5"/>
-								</th>
-							</tr>
-						</table>			
-			        </div>
-				</div>
-				<!-- Chart containers -->
-                <div class="row">
-                	<div class="col-md-6">
-                    	<h5 class="text-center">Historical Performance: Portofio vs Benchmark</h5>
-            			<div id="container_chart3"></div> 
-                    </div>
-                    <div class="col-md-6">
-                    	<h5 class="text-center">Historical Volatility: Portfolio vs Benchmark</h5>
-                      	<!--p id="risk_info" style="display:none">
-                        	Select risk model:
-                            <select id="model_select" onchange="draw_charts(1)">
-                            	<option value="STD_DEV">Standard Deviation</option>
-                                <option value="STD_DEV_CMT">Cumulative Standard Deviation</option>
-                            </select>
-                        </p-->
-						<div id="container_chart4"></div> 
-                    </div>
-                </div>
-				<div class="row">
-                	<div class="col-md-6">
-						<!-- Heatmap chart header -->
-						<h5 class="text-center">Risk and Return: Portfolio vs Benchmark</h5>
-                        <div id="container_chart4b"></div>
-                    </div>
-                     <div class="col-md-6">
-            			 	<h5 class="text-center">Risk and Return: Portfolio and Benchmark</h5>
-                         <div id="container_chart5a" ></div>
-                         <div id="container_chart5b" ></div>
-                    </div>
-				</div>
-				<div class="row">
-					<div class="col-md-6">
-						<h4>Risk and return - portfolio vs benchmark</h4>
-						<table id="net_values" class="table  table-striped table-bordered" cellspacing="0" cellpadding="0">
-							<tbody>
-								<tr>
-									<th> Series</th>
-									<td>Portfolio</td>
-									<td>Benchmark</td>
-								</tr>
-								<tr>
-									<th id="label_value">Initial Value</th>
-									<td id="portfolio_value">0</td>
-									<td id="benchmark_value">0</td>
-								</tr>
-								<tr>
-									<th id="label_final_pv">Final Value</th>
-									<td id="portfolio_final_pv">0</td>
-									<td id="benchmark_final_pv">0</td>
-								</tr>
-								<tr>
-									<th id="label_net_pnl">Net Profit/Loss</th>
-									<td id="portfolio_net_pnl">0</td>
-									<td id="benchmark_net_pnl">0</td>
-							    </tr>
-								<tr>
-									<th id="label_annualized">Annualized Profit/Loss</th>
-									<td id="portfolio_annualized">0</td>
-									<td id="benchmark_annualized">0</td>
-								</tr>
-							    <tr>
-									<th id="label_std">Volatility/Std. Dev</th>
-									<td id="portfolio_std">0</td>
-									<td id="benchmark_std">0</td>
-								</tr>
-							    <tr>
-									<th id="label_std">Beta</th>
-									<td id="portfolio_beta">0</td>
-									<td id="benchmark_beta">-</td>
-								</tr>
-                      			<tr>
-									<th id="label_vatr_pc">Value at risk - Percent</th>
-									<td id="portfolio_vatr_pc">0.0</td>
-									<td id="benchmark_vatr_pc">0.0</td>
-								</tr>
-                      			<tr>
-									<th id="label_vatr_abs">Value at risk - Absolute</th>
-									<td id="portfolio_vatr_abs">0.0</td>
-									<td id="benchmark_vatr_abs">0.0</td>
-								</tr>
-							</tbody>
-					   	</table>
-				    </div>
-					<div class="col-md-6">
-						<h4>Risk breakdown and diversification</h4>
-						<table class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
-							<thead>
-							   <tr>
-								   <th> - </th>
-								   <th>Nominal Ret.</th>
-								   <th>Weight</th>
-								   <th>Return Contribution</th>
-								   <th>Nominal Risk</th>
-								   <th>Risk Contribution</th>
-							   </tr>
-						   	</thead>
-						   	<tbody id="risk_composite">
-								<!-- risk decomposition goes here-->
-							</tbody>
-					   	</table>
-					</div>
-				</div>
-                
-			</div>
-		</div>
-         <!-- Save or share tab -->
-        <div class="tab-pane" id="Tab6">
-        	<div id="tab_container6">
-                <h4>Get your portfolio as a PDF report</h4>
-				<div class="row">
-					<div class="col-md-12">
-						<form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank">
-							<input type="submit" class="btn btn-default" value="Download" id="get_pdf_report" name="Get PDF Report"/>
-						</form>
-					</div>	
-				</div>				
-            </div>
+<head>
+  <title>iPlanner, your portfolio performance and risk measurement tools</title>
+  <!--meta section -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <!-- stylesheets imports -->
+  <link rel="stylesheet" href="lib/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="lib/css/jquery-ui.css"/>
+  <link href="lib/css/full-slider.css" rel="stylesheet">
+  <!--link rel="stylesheet" href="http://code.jquery.com/ui/1.10.4/themes/ui-darkness/jquery-ui.css"-->
+  <!-- javascript imports -->
+  <script src="lib/js/jquery/jquery-1.10.2.min.js"></script>
+  <script src="lib/js/jquery/jquery-ui.min.js"></script>
+  <!--script src="http://github.highcharts.com/highstock.js"></script-->
+  <script src="lib/js/highcharts/highstock.js"></script>
+  <script src="lib/js/highcharts/heatmap.js"></script>
+  <script src="lib/js/highcharts/highcharts-more.js"></script>
+  <!--script src="lib/js/highcharts/exporting.js"></script-->
+  <script src="lib/js/highcharts/solid-gauge.js"></script>
+  <script src="lib/js/bootstrap/bootstrap.min.js"></script>
+  <!-- page application code -->
+  <script src="js/interface.js"></script>
+  <script src="js/library.js"></script>
+  <script src="js/portfolio.js"></script>
+  <script src="js/graphics.js"></script>
+  <style>
+  body {
+    padding-top: 70px;
+  }
+  </style>
+</head>
+<body>
+  <!-- Top menu -->
+  <div class="container-fluid">
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <span class="navbar-brand">I&nbsp;P&nbsp;L&nbsp;A&nbsp;N&nbsp;N&nbsp;E&nbsp;R</span>
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <!--img src="/img/logo.png" style="max-width:73px;"/-->
         </div>
-    </div>
-</div>
-</body>
-</html> 
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="#Tab2" role="tab" data-toggle="tab">Positions</a></li>
+            <li><a href="#Tab3" role="tab" data-toggle="tab">Performance breakdown</a></li>
+            <li><a href="#Tab4" role="tab" data-toggle="tab">Compare to benchmarks</a></li>
+            <li><a href="#Tab5" role="tab" data-toggle="tab">Risk &amp; Returns</a></li>
+            <li><a href="#Tab6" role="tab" data-toggle="tab">Export</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!--Contents -->
+    <header>
+      <!-- Nav tabs -->
+      <!-- Top level tab panes -->
+      <div class="tab-content">
+        <!-- Positions builder tab -->
+        <div class="tab-pane active" id="Tab2">
+          <!-- Content tab for position selector -->
+          <div class="row"></div>
+          <div clas="row">
+            <div class="col-md-6">
+              <h4>Enter&nbsp;portfolio&nbsp;transactions or&nbsp;import&nbsp;transactions&nbsp;file</h4>
+            </div>
+            <div class="col-md-6">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <a class="btn btn-default" href="/lib/csv/template.csv" target="_self">Download template</a>
+                    </td>
+                    <td>
+                      <input class="form-control" id="chosenFile"  type="file" name="file_name"/>
+                    </td>
+                    <td>
+                      <input class="form-control btn-default" id="submitFile" value="Upload" type="button"/>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <label for="portfolio_date">Select&nbsp;date</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input type="date" style="width:90%" id="portfolio_date" class="form-control"/>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-3">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td colspan=3>
+                      <label>Select cash amount</label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input type="text" class="form-control" id="portfolio_cash" value="10000"/>
+                    </td>
+                    <td>
+                      <button id="cash_add" class="btn btn-default">Deposit</button>
+                    </td>
+                    <td>
+                      <button id="cash_remove" class="btn btn-default">Withdraw</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-7">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <td>
+                      <label>Instrument</label>
+                    </td>
+                    <td>
+                      <label>Price</label>
+                    </td>
+                    <td>
+                      <label>Volume</label>
+                    </td>
+                    <td>
+                      <label>Type</label>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <input class="form-control" type="text" id="instrument_entry"/>
+                    </td>
+                    <!--td style="border-top:0px">
+                    <input style="width:90%" type ="text" id="date_entry"/>
+                  </td-->
+                  <td>
+                    <input class="form-control" type ="text" value="0" width="50%" id="price_entry"/>
+                  </td>
+                  <td>
+                    <input class="form-control" type ="text" value="100" id="amount_entry"/>
+                  </td>
+                  <td>
+                    <select id="trade_type" class="form-control">
+                      <option>Buy</option><option>Sell</option><option>Short</option><option>Cover</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button id="transaction_add" class="btn btn-default">Add Trade</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <!-- Portfolio summary -->
+          <div class="col-md-12">
+            <h4 id="step3x1">Portfolio summary</h4>
+            <table id="net_portfolio" class="table table-bordered" cellspacing="0" cellpadding="0">
+              <tr>
+                <td><b>Net Value</b></td><td id="value_totals">0</td>
+                <td><b>Profit or loss</b></td><td id="pnl_totals">0</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-12">
+            <!-- Net positions -->
 
+            <h4 id="step3">Net positions</h4>
+            <table id="summary_table" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
+              <thead>
+                <tr>
+                  <th>Symbol</th>
+                  <th>Position</th>
+                  <th>Quantity</th>
+                  <th>Avg. Price</th>
+                  <th>Book Value</th>
+                  <th>Current Value</th>
+                  <th>PnL</th>
+                </tr>
+              </head>
+              <!-- row container -->
+              <tbody id="net_rows">
+              </tbody>
+            </table>
+          </div>
+          <!-- Trade history -->
+          <div class="col-md-12">
+            <h4 id="step2.5"> Transaction history</h4>
+            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Asset name</th><th>Sector</th><th>BuySell</th><th>Volume</th><th>Book date</th>
+                  <th>Book Price</th><th>Current Price</th><th>Actions</th>
+                </tr>
+              </thead>
+              <!-- trade history rows container-->
+              <tbody id="matrix">
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+      <!-- Portfolio charts contents tab -->
+      <div class="tab-pane" id="Tab3">
+        <div id="tab_container3">
+          <div class="row">
+            <div class="col-md-8">
+              <!-- Select chart type - profit or loss / value over time -->
+              <select id="chart_select">
+                <option value="pnl_chart">Profit or loss over time</option>
+                <option value="val_chart">Value over time</option>
+                <select>
+                  <!-- Select relative (0 - 100%) or absolute values -->
+                  <select id="perf_select">
+                    <option value="absolute">Absolute</option><option value="percent">Percentage</option>
+                  </select>
+                  <input style="display:inline" type="checkbox" id="flags_selected"
+                  class="checkbox" style="margin-left:10px" checked=true>
+                </input>
+                <label for="flags_selected">Show transaction labels</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div id="container_chart1">
+                  <!-- Performance -->
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div id="container_chart2b"></div>
+                <!-- Position performance charts -->
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col-md-6" id="net_positions_copy">
+                <table id="summary_table_copy" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
+                  <thead>
+                    <tr>
+                      <th colspan=7>Positions breakdown</th>
+                    </tr>
+                    <tr>
+                      <th>Symbol</th>
+                      <th>Position</th>
+                      <th>Quantity</th>
+                      <th>Avg. Price</th>
+                      <th>Book Value</th>
+                      <th>Current Value</th>
+                      <th>PnL</th>
+                    </tr>
+                  </head>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+              <div class="col-md-6">
+                <div id="container_chart0">
+                  <!-- Sectors breakdown -->
+                </div>
+              </div>
+
+            </div>
+            <div class="row">
+              <!-- Sectors distribution -->
+              <div class="col-md-6" style="overflow-y:scroll; max-height:400px;">
+                <table class="table table-striped table-bordered">
+                  <thead>
+                    <tr>
+                      <th colspan=5>Sector breakdown</th>
+                    </tr>
+                  </thead>
+                  <tbody id="table_breakdown"></tbody>
+                  <!--contents go here-->
+                </table>
+              </div>
+
+              <!-- chart 1 sidebar for transaction labels -->
+              <div class="col-md-6" style="overflow-y:scroll; max-height:400px;">
+                <!--div id="sidebar1" style="float:left; width:20%; margin-left:50px; height:400px"-->
+                <table class="table table-striped table-bordered">
+                  <thead><tr><th colspan="2">Transaction history</th></tr></thead>
+                  <tbody id ="detail_cell"></tbody>
+                </table>
+                <!--/div-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Dashboard tab (need rework) -->
+        <div class="tab-pane" id="Tab4">
+          <div id="tab_container4">
+            <div class="row">
+              <div class="col-md-12">
+                <table class="table table-borderless" style="width:50%;">
+                  <tbody>
+                    <tr>
+                      <td><label>Select&nbsp;benchmark:</label>
+                        <td> <input type="text" id="benchmark_entry"/></td>
+                        <td><button id="benchmark_add" class="btn btn-default">Add benchmark</button></td>
+                        <td><button id="clear_benchmarks" class="btn btn-default">Clear benchmarks</button></td>
+                        <tr>
+                          <tbody>
+                          </table>
+                        </div>
+                        <div class="col-md-12">
+                          <!-- benchmark dashboard -->
+                          <h4> Benchmarks to compare </h4>
+                          <table id="reference_dashboard" class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>HOLDINGS</th><th colspan=6>RETURNS</th><th colspan=2>MOMENTUM</th>
+                              </tr>
+                              <tr>
+                                <td>Index</td>
+                                <td>1 d</td>
+                                <td>1 w</td>
+                                <td>1 m</td>
+                                <td>3 m</td>
+                                <td>6 m</td>
+                                <td>1 y</td>
+                                <td>50D-MA</td>
+                                <td>200D-MA</td>
+                              </tr>
+                            </thead>
+                            <!-- benchmark rows -->
+                            <tbody id="reference_rows">
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="col-md-12">
+                          <!-- Positions returns and momentum -->
+                          <h4> Portfolio positions breakdown</h4>
+                          <table id="dashboard" class="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>HOLDINGS</th><th colspan=6>RETURNS</th><th colspan=2>MOMENTUM</th>
+                              </tr>
+                              <tr>
+                                <td>Position</td>
+                                <td>1 d</td>
+                                <td>1 w</td>
+                                <td>1 m</td>
+                                <td>3 m</td>
+                                <td>6 m</td>
+                                <td>1 y</td>
+                                <td>50D-MA</td>
+                                <td>200D-MA</td>
+                              </tr>
+                            </thead>
+                            <!-- dashboard rows -->
+                            <tbody id="dashboard_rows">
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <!--- Comparison to benchmark tab -->
+                  <div class="tab-pane" id="Tab5">
+                    <div id="tab_container5">
+                      <div class="row">
+                        <div id = "step4" class="col-md-12">
+                          <table class="table table-bordered text-center" style="width:100%;">
+                            <tr>
+                              <th>
+                                <label for="benchmark_list"> Select benchmark </label>
+                                <select id="benchmark_list"></select>
+                              </th>
+                              <th style="display:none">
+                                <label for="range_select"> Volatility range, days:</label>
+                                <input type="number" id = "range_select" min="2" max="30" value="5"/>
+                              </th>
+                            </tr>
+                          </table>
+                        </div>
+                      </div>
+                      <!-- Chart containers -->
+                      <div class="row">
+                        <div class="col-md-6">
+                          <h5 class="text-center">Historical Performance: Portofio vs Benchmark</h5>
+                          <div id="container_chart3"></div>
+                        </div>
+                        <div class="col-md-6">
+                          <h5 class="text-center">Historical Volatility: Portfolio vs Benchmark</h5>
+                          <!--p id="risk_info" style="display:none">
+                          Select risk model:
+                          <select id="model_select" onchange="draw_charts(1)">
+                          <option value="STD_DEV">Standard Deviation</option>
+                          <option value="STD_DEV_CMT">Cumulative Standard Deviation</option>
+                        </select>
+                      </p-->
+                      <div id="container_chart4"></div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <!-- Heatmap chart header -->
+                      <h5 class="text-center">Risk and Return: Portfolio vs Benchmark</h5>
+                      <div id="container_chart4b"></div>
+                    </div>
+                    <div class="col-md-6">
+                      <h5 class="text-center">Risk and Return: Portfolio and Benchmark</h5>
+                      <div id="container_chart5a" ></div>
+                      <div id="container_chart5b" ></div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <h4>Risk and return - portfolio vs benchmark</h4>
+                      <table id="net_values" class="table  table-striped table-bordered" cellspacing="0" cellpadding="0">
+                        <tbody>
+                          <tr>
+                            <th> Series</th>
+                            <td>Portfolio</td>
+                            <td>Benchmark</td>
+                          </tr>
+                          <tr>
+                            <th id="label_value">Initial Value</th>
+                            <td id="portfolio_value">0</td>
+                            <td id="benchmark_value">0</td>
+                          </tr>
+                          <tr>
+                            <th id="label_final_pv">Final Value</th>
+                            <td id="portfolio_final_pv">0</td>
+                            <td id="benchmark_final_pv">0</td>
+                          </tr>
+                          <tr>
+                            <th id="label_net_pnl">Net Profit/Loss</th>
+                            <td id="portfolio_net_pnl">0</td>
+                            <td id="benchmark_net_pnl">0</td>
+                          </tr>
+                          <tr>
+                            <th id="label_annualized">Annualized Profit/Loss</th>
+                            <td id="portfolio_annualized">0</td>
+                            <td id="benchmark_annualized">0</td>
+                          </tr>
+                          <tr>
+                            <th id="label_std">Volatility/Std. Dev</th>
+                            <td id="portfolio_std">0</td>
+                            <td id="benchmark_std">0</td>
+                          </tr>
+                          <tr>
+                            <th id="label_std">Beta</th>
+                            <td id="portfolio_beta">0</td>
+                            <td id="benchmark_beta">-</td>
+                          </tr>
+                          <tr>
+                            <th id="label_vatr_pc">Value at risk - Percent</th>
+                            <td id="portfolio_vatr_pc">0.0</td>
+                            <td id="benchmark_vatr_pc">0.0</td>
+                          </tr>
+                          <tr>
+                            <th id="label_vatr_abs">Value at risk - Absolute</th>
+                            <td id="portfolio_vatr_abs">0.0</td>
+                            <td id="benchmark_vatr_abs">0.0</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="col-md-6">
+                      <h4>Risk breakdown and diversification</h4>
+                      <table class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
+                        <thead>
+                          <tr>
+                            <th> - </th>
+                            <th>Nominal Ret.</th>
+                            <th>Weight</th>
+                            <th>Return Contribution</th>
+                            <th>Nominal Risk</th>
+                            <th>Risk Contribution</th>
+                          </tr>
+                        </thead>
+                        <tbody id="risk_composite">
+                          <!-- risk decomposition goes here-->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <!-- Save or share tab -->
+              <div class="tab-pane" id="Tab6">
+                <div id="tab_container6">
+                  <h4>Get your portfolio as a PDF report</h4>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank">
+                        <input type="submit" class="btn btn-default" value="Download" id="get_pdf_report" name="Get PDF Report"/>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+      </body>
+</html>
