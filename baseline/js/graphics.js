@@ -1067,7 +1067,7 @@ render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_
           });
         }
       },
-      "marginLeft": 50,
+      "marginLeft": 75,
       "marginRight": 0
     },
     "plotOptions": {
@@ -1101,7 +1101,7 @@ render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_
   }
   if (p_chart_mode == "val_chart")
   {
-    val_pnl_chart_object["yAxis"]["title"] = {"text":"Net Value"};
+//    val_pnl_chart_object["yAxis"]["title"] = {"text":"Net Value"};
   //  console.log(p_series_data[0][1]);
   //  val_pnl_chart_object["plotOptions"]["threshold"] = p_series_data[0][1];
     val_pnl_chart_object["title"] = { "text" : "Portfolio Aggregated Value"};
@@ -1109,7 +1109,7 @@ render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_
   }
   else if (p_chart_mode == "pnl_chart")
   {
-    val_pnl_chart_object["yAxis"]["title"] = {"text":"Net PnL"};
+//    val_pnl_chart_object["yAxis"]["title"] = {"text":"Net PnL"};
 //    val_pnl_chart_object["plotOptions"]["threshold"] = p_series_data[0][1];
     val_pnl_chart_object["title"] = { "text" : "Profit or Loss"};
   }
