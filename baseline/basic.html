@@ -42,7 +42,7 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right" id="navbar_right">
-              <li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Create Investor Profile</a></li>
+              <li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Your Investor Ranking</a></li>
               <li><a href="#Tab2" role="tab" data-toggle="tab">Build Investment Plan</a></li>
               <li><a href="#Tab3" role="tab" data-toggle="tab">View risk and returns</a></li>
               <li><a href="#Tab4" role="tab" data-toggle="tab">Allocate and rebalance</a></li>
@@ -52,122 +52,83 @@
       </div>
     </nav>
     <header>
-    <!-- Top level tab panes -->
+      <!-- Top level tab panes -->
       <div class="tab-content">
       <!-- Positions builder tab -->
         <div class="tab-pane active" id="Tab1">
           <div class="row">
-            <div class="col-md-12">
-              <table class="table table-bordered">
-                <tbody>
-                  <tr>
-                    <td>
-                      <label for="person_age">1. How old are you?</label>
-                    </td>
-                      <form>
-                        <td><input type="radio" name="sex" value="30" checked> Under 30</td>
-                        <td><input type="radio" name="sex" value="35"> 30-39</td>
-                        <td><input type="radio" name="sex" value="30">40-49</td>
-                        <td><input type="radio" name="sex" value="35"> 50-59</td>
-                        <td><input type="radio" name="sex" value="35"> 60 and older</td>
-                      </form>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="person_assets">2. What is your net worth (asset minus liabilites)?</label>
-                    </td>
-                    <form>
-                      <td><input type="radio" name="sex" value="50k" checked> Under 50,000</td>
-                      <td><input type="radio" name="sex" value="100k"> 50,000-100,000</td>
-                      <td><input type="radio" name="sex" value="30">100,000-250,000</td>
-                      <td><input type="radio" name="sex" value="35"> 250,000-500,000</td>
-                      <td><input type="radio" name="sex" value="35"> 500,000 and over</td>
-                    </form>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="person_assets">3. What is your expected annual contribution?</label>
-                    </td>
-                    <form>
-                      <td><input type="radio" name="sex" value="50k" checked> Under 5,000 </td>
-                      <td><input type="radio" name="sex" value="100k"> 5,000-10,000</td>
-                      <td><input type="radio" name="sex" value="30">10,000-25,000</td>
-                      <td><input type="radio" name="sex" value="35"> 25,000-50,000</td>
-                      <td><input type="radio" name="sex" value="35"> 50,000 and over</td>
-                    </form>
-                  </tr>
-                  <tr>
-                    <td colspan=2>
-                      <label for="person_assets">4. How would you rank your investment knowledge?</label>
-                    </td>
-                    <form>
-                      <td><input type="radio" name="sex" value="50k" checked> Poor</td>
-                      <td><input type="radio" name="sex" value="100k"> Mediocre</td>
-                      <td><input type="radio" name="sex" value="30"> Good</td>
-                      <td><input type="radio" name="sex" value="35"> Excellent </td>
-                    </form>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="person_assets">5. When do you expect to access majority of your portfolio funds?</label>
-                    </td>
-                    <form>
-                      <td><input type="radio" name="sex" value="50k" checked> 5 years or less</td>
-                      <td><input type="radio" name="sex" value="100k"> 5-10 years</td>
-                      <td><input type="radio" name="sex" value="30"> 10-15 years</td>
-                      <td><input type="radio" name="sex" value="35"> 15-20 years </td>
-                      <td><input type="radio" name="sex" value="50k"> 20 years or more</td>
-                    </form>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="person_assets">6. What are the goals of your portfolio?</label>
-                    </td>
-                    <form>
-                      <td><input type="radio" name="sex" value="50k" checked> Protect capital </td>
-                      <td><input type="radio" name="sex" value="100k"> Generate income</td>
-                      <td><input type="radio" name="sex" value="30"> Fund major expenses </td>
-                      <td><input type="radio" name="sex" value="35"> Accumulate wealth </td>
-                      <td><input type="radio" name="sex" value="50k"> Aggressively growth value</td>
-                    </form>
-                  </tr>
-                  <tr>
-                    <td>
-                      <label for="person_assets">7. What is the maximum portfolio value drop you are willing to tolerate?</label>
-                    </td>
-                    <form>
-                      <td><input type="radio" name="sex" value="50k" checked> 0 </td>
-                      <td><input type="radio" name="sex" value="100k"> 1-5% </td>
-                      <td><input type="radio" name="sex" value="30"> 5-10% </td>
-                      <td><input type="radio" name="sex" value="35"> 10-15% </td>
-                      <td><input type="radio" name="sex" value="50k"> 15-20%</td>
-                    </form>
-                  </tr>
-                  <tr>
-                    <td colspan=2>
-                      <label for="person_assets">8. How long are you willing to wait for your portfolio value to recover?</label>
-                    </td>
-                    <form>
-                      <td><input type="radio" name="sex" value="50k" checked> Less then three months </td>
-                      <td><input type="radio" name="sex" value="100k"> Three to six months </td>
-                      <td><input type="radio" name="sex" value="30"> Six months to one year </td>
-                      <td><input type="radio" name="sex" value="35"> One to two years</td>
-                    </form>
-                  </tr>
-                  <tr>
-                    <td colspan=4>
-                      <label for="person_assets">9. Is it more important for you to minimize loss or maximize return?</label>
-                    </td>
-                    <form>
-                      <td><input type="radio" name="sex" value="50k" checked> Minize loss </td>
-                      <td><input type="radio" name="sex" value="100k"> Maximize returns </td>
-
-                    </form>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <form>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="age">1. How old are you?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="age" value="30" checked> Under 30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="age" value="35"> 30-39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="age" value="30"> 40-49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="age" value="35"> 50-59&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="age" value="35"> 60 and older
+                </div>
+                <div class="form-group">
+                  <label for="net">2. What is your net worth (asset minus liabilites)?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="net" value="50k" checked> Under 50,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="net" value="100k"> $50,000-100,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="net" value="250k"> $100,000-250,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="net" value="500k"> $250,000-500,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="net" value="750k"> $500,000 and over
+                </div>
+                <div class="form-group">
+                  <label for="contrib">3. What is your expected annual contribution?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="contrib" value="50k" checked> Under 5,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="contrib" value="100k"> $5,000-10,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="contrib" value="250k"> $10,000-25,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="contrib" value="500k"> $25,000-50,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="contrib" value="750k"> $50,000 and over
+                </div>
+                <div class="form-group">
+                  <label for="know">4. How would you rank your investment knowledge?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="know" value="50k" checked> Poor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="know" value="100k"> Average&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="know" value="250k"> Good&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="know" value="500k"> Excellent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </div>
+                <div class="form-group">
+                  <label for="when">5. When do you expect to access majority of your portfolio funds?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="when" value="50k" checked> 5 years or less&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="when" value="100k"> 5-10 years&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="when" value="30"> 10-15 years&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="when" value="35"> 15-20 years&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="when" value="50k"> 20 years or more
+                </div>
+                <div class="form-group">
+                  <label for="withdraw">6. What are the goals of your portfolio?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="withdraw" value="50k" checked> Protect capital&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="withdraw" value="100k"> Generate income&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="withdraw" value="30"> Fund major expenses&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="withdraw" value="35"> Accumulate wealth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="withdraw" value="50k"> Aggressively growth value
+                </div>
+                <div class="form-group">
+                  <label for="loss">7. What is the maximum portfolio value drop you are willing to tolerate?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="loss" value="50k" checked> 0%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="loss" value="100k"> 1-5%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="loss" value="30"> 5-10%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="loss" value="35"> 10-15%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="loss" value="50k"> 15-20%
+                </div>
+                <div class="form-group">
+                  <label for="recover">8. How long are you willing to wait for your portfolio value to recover?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="recover" value="50k" checked> Less then three months&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="recover" value="100k"> Three to six months&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="recover" value="30"> Six months to one year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="recover" value="35"> One to two years
+                </div>
+                <div class="form-group">
+                  <label for="loss_or_profit">9. Is it more important for you to minimize loss or maximize return?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="loss_or_profit" value="50k" checked> Minize loss&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="radio" name="loss_or_profit" value="100k"> Maximize returns
+                </div>
+                <button type="submit" class="btn btn-default">Calculate score</button>
+              </div>
+            </form>
           </div>
         </div>
         <!-- Positions builder tab -->
