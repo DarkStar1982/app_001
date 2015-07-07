@@ -1,17 +1,15 @@
 $(document).ready(function(){
   $("#get_score").on('click', function(e){
-      var values = {
-        "age": $("input:radio[name=age]:checked").val(),
-        "net_worth": $("input:radio[name=net_worth]:checked").val(),
-        "contrib_rank" : $("input:radio[name=contrib]:checked").val(),
-        "investor_rank" : $("input:radio[name=know]:checked").val(),
-        "investment_duration" : $("input:radio[name=duration]:checked").val(),
-        "goal_rank" : $("input:radio[name=goal_rank]:checked").val(),
-        "risk_rank" : $("input:radio[name=risk_rank]:checked").val(),
-        "recover_duration" : $("input:radio[name=recover_duration]:checked").val(),
-        "loss_or_profit" : $("input:radio[name=loss_or_profit]:checked").val()
-      }
-      namespace_basic.compute_score(values);
+      var net_value = 0;
+      net_value =  parseInt($("#age").val())
+        + parseInt($("#net_assets").val())
+        + parseInt($("#knowledge").val())
+        + parseInt($("#duration").val())
+        + parseInt($("#goal").val())
+        + parseInt($("#max_drop").val())
+        + parseInt($("#recover").val())
+        + parseInt($("#profit_or_loss").val());
+      namespace_basic.compute_score(net_value);
     });
 });
 

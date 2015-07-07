@@ -57,76 +57,104 @@
       <!-- Positions builder tab -->
         <div class="tab-pane active" id="Tab1">
           <div class="row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label for="age">1. How old are you?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="age" value="1" checked> Under 30&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="age" value="2"> 30-39&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="age" value="3"> 40-49&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="age" value="4"> 50-59&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="age" value="5"> 60 and older
-                </div>
-                <div class="form-group">
-                  <label for="net">2. What is your net worth (asset minus liabilites)?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="net_worth" value="1" checked> Under 50,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="net_worth" value="2"> $50,000-100,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="net_worth" value="3"> $100,000-250,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="net_worth" value="4"> $250,000-500,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="net_worth" value="5"> $500,000 and over
-                </div>
-                <div class="form-group">
-                  <label for="contrib">3. What is your expected annual contribution?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="contrib" value="1" checked> Under 5,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="contrib" value="2"> $5,000-10,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="contrib" value="3"> $10,000-25,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="contrib" value="4"> $25,000-50,000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="contrib" value="5"> $50,000 and over
-                </div>
-                <div class="form-group">
-                  <label for="know">4. How would you rank your investment knowledge?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="know" value="1" checked> Poor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="know" value="2"> Average&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="know" value="3"> Good&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="know" value="4"> Excellent&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                </div>
-                <div class="form-group">
-                  <label for="when">5. When do you expect to access majority of your portfolio funds?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="duration" value="1" checked> 5 years or less&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="duration" value="2"> 5-10 years&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="duration" value="3"> 10-15 years&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="duration" value="4"> 15-20 years&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="duration" value="5"> 20 years or more
-                </div>
-                <div class="form-group">
-                  <label for="withdraw">6. What are the goals of your portfolio?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="goal_rank" value="1" checked> Protect capital&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="goal_rank" value="2"> Generate income&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="goal_rank" value="3"> Fund major expenses&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="goal_rank" value="4"> Accumulate wealth&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="goal_rank" value="5"> Aggressively growth value
-                </div>
-                <div class="form-group">
-                  <label for="loss">7. What is the maximum portfolio value drop you are willing to tolerate?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="risk_rank" value="1" checked> 0%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="risk_rank" value="2"> 1-5%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="risk_rank" value="3"> 5-10%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="risk_rank" value="4"> 10-15%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="risk_rank" value="5"> 15-20%
-                </div>
-                <div class="form-group">
-                  <label for="recover">8. How long are you willing to wait for your portfolio value to recover?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="recover_duration" value="1" checked> Less then three months&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="recover_duration" value="2"> Three to six months&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="recover_duration" value="3"> Six months to one year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="recover_duration" value="4"> One to two years
-                </div>
-                <div class="form-group">
-                  <label for="loss_or_profit">9. Is it more important for you to minimize loss or maximize return?</label><br/>&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="loss_or_profit" value="1" checked> Minize loss&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  <input type="radio" name="loss_or_profit" value="2"> Maximize returns
-                </div>
-                <input type="button" id="get_score" class="btn btn-default" value="Calculate score"/>
-              </div>
+            <div class="col-md-12">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td>1. How old are you?</td>
+                    <td>
+                    <select id="age" style="width:75%">
+                      <option value=5>Under 30</option>
+                      <option value=4>30-39</option>
+                      <option value=3>40-49</option>
+                      <option value=2>50-59</option>
+                      <option value=1>60 and older</option>
+                    </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2. What is your net worth (asset minus liabilites)?</td>
+                    <td>
+                    <select id="net_assets" style="width:75%">
+                      <option value=5>Under 10,000</option>
+                      <option value=4>10,000-100,000</option>
+                      <option value=3>100,000-500,000</option>
+                      <option value=2>500,000-100,000</option>
+                      <option value=1>1,000,000 and over</option>
+                    </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>3. How would you rank your investment knowledge?</td>
+                    <td>
+                    <select id="knowledge" style="width:75%">
+                      <option value=1>Poor</option>
+                      <option value=2>Average</option>
+                      <option value=3>Good</option>
+                      <option value=4>Excellent</option>
+                    </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>4. When do you expect to access majority of your portfolio funds?</td>
+                    <td>
+                    <select id="duration" style="width:75%">
+                      <option value=1>5 years or less</option>
+                      <option value=2>5-10 years</option>
+                      <option value=3>10-15 years</option>
+                      <option value=4>15-20 years</option>
+                      <option value=5>20 years or more</option>
+                    </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>5. What are the goals of your portfolio?</td>
+                    <td>
+                    <select id="goal" style="width:75%">
+                      <option value=1>Protect capital</option>
+                      <option value=2>Generate income</option>
+                      <option value=3>Fund major expenses</option>
+                      <option value=4>Accumulate wealth</option>
+                      <option value=5>Aggressively growth value</option>
+                    </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>6. What is the maximum portfolio value drop you are willing to tolerate?</td>
+                    <td>
+                    <select id="max_drop" style="width:75%">
+                      <option value=1>Less then 3 months</option>
+                      <option value=2>3 to 6 months</option>
+                      <option value=3>6 months to 1 year</option>
+                      <option value=4>1 to 2 years</option>
+                    </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>7. How long are you willing to wait for your portfolio value to recover?</td>
+                    <td>
+                    <select id="recover" style="width:75%">
+                      <option value=1>Less then 3 months</option>
+                      <option value=2>3 to 6 months</option>
+                      <option value=3>6 months to 1 year</option>
+                      <option value=4>1 to 2 years</option>
+                    </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>8. Is it more important for you to minimize loss or maximize return?</td>
+                    <td>
+                    <select id="profit_or_loss" style="width:75%">
+                      <option value=1>Minize loss</option>
+                      <option value=2>Maximize returns</option>
+                    </select>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <button class="btn btn-default" id="get_score">Get your investment profile</button>
+            </div>
+
           </div>
         </div>
         <!-- Positions builder tab -->
