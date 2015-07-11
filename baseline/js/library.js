@@ -1,21 +1,36 @@
 var namespace_html = (function()
 {
 	return {
+
+		array_to_table: function(p_array, p_table_class)
+	  {
+			/*
+			 [[header1, header2],
+				[value1, value2],
+				[value3, value3]]
+			*/
+			// append first row into <th> element
+			// append the rest of the rows into <td> element
+			// append the header rows inth <thead>
+			// append the rest of the rows into the <tbody>
+			// concat tbody and thead into table element and apply styles
+			return 0;
+	  },
+
 		create_element: function(tag, p_value, style_class)
 		{
 			if (style_class != null)
 				var a_str = "<"+tag +' class="'+style_class+'">'+ p_value + "</"+tag+">";
 			else
 				var a_str = "<"+tag +">"+ p_value + "</"+tag+">";
-			console.log(a_str);
 			return a_str;
 		},
-		
+
 		create_table_cell: function(p_value, p_class)
 		{
 			return namespace_html.create_element("td",p_value, p_class);
 		},
-	
+
 		//input is the array of cells
 		create_table_row: function(p_cell_list)
 		{
@@ -26,10 +41,11 @@ var namespace_html = (function()
 			}
 			return namespace_html.create_element("tr",result, null);
 		},
+
 		display_as_currency: function(p_value)
 		{
 			var new_val = parseFloat(p_value);
-			if (isNaN(new_val)) 
+			if (isNaN(new_val))
 				return p_value;
 			else
 			{
@@ -42,7 +58,7 @@ var namespace_html = (function()
 		display_as_percentage: function(p_value)
 		{
 			var new_val = parseFloat(p_value);
-			if (isNaN(new_val)) 
+			if (isNaN(new_val))
 				return p_value;
 			else
 			{
@@ -54,7 +70,7 @@ var namespace_html = (function()
 			return p_value.replace(/[$%]/g,'');
 		}
 	}
-	
+
 }) ();
 
 var namespace_time_series = (function()
@@ -70,7 +86,7 @@ var namespace_time_series = (function()
             	return_data[i] = [p_data[i][0], (p_data[i][1] / start_value)* 100.0];
         	return return_data;
     	},
-		
+
 		trim_data: function(p_data, date_start)
 	    {
 	        var p_new_data = [];
@@ -80,7 +96,7 @@ var namespace_time_series = (function()
 	        }
 	        return p_new_data;
 	    },
-		
+
 		/* data length should match, otherwise return fail*/
 		get_difference: function (p_data_a, p_data_b)
 		{
@@ -92,9 +108,9 @@ var namespace_time_series = (function()
 	        }
 	        return r_data;
 		},
-		
-		
-		
+
+
+
 		compute_mean: function(p_series)
 		{
 			var sum = 0.0;
@@ -103,7 +119,7 @@ var namespace_time_series = (function()
 			});
 			return sum / p_series.length;
 		},
-		
+
 		compute_beta: function(p_portfolio_series, p_benchmark_series)
 		{
 		//	console.log(p_portfolio_series);
@@ -112,7 +128,7 @@ var namespace_time_series = (function()
     		var variance = namespace_time_series.compute_variance(p_benchmark_series);
     		return (covariance / variance);
 		},
-		
+
 		compute_annual_beta: function(p_portfolio_series, p_benchmark_series)
 		{
 			if (p_portfolio_series.length<252 && p_benchmark_series.length<252)
@@ -128,7 +144,7 @@ var namespace_time_series = (function()
 				return namespace_time_series.compute_beta(new_portfolio_series,new_benchmark_series);
 			}
 		},
-		
+
 		compute_covariance: function(p_data_a, p_data_b)
 		{
 	    	var mean_a = namespace_time_series.compute_mean(p_data_a);
@@ -141,7 +157,7 @@ var namespace_time_series = (function()
 			}
 			return covar;
 		},
-		
+
 		compute_variance: function(p_data)
 		{
     		return namespace_time_series.compute_covariance(p_data, p_data)
@@ -246,14 +262,14 @@ var math_util = (function (){
 			else if (a>b) return b;
 			else return a;
 		},
-		
+
 		get_series_min_max: function(p_data)
 		{
 			var min = p_data[0][1];
 			var max = p_data[0][1];
         	for (var i=0; i<p_data.length;i++)
             {
-            	if (p_data[i][1]<min) min = p_data[i][1]; 
+            	if (p_data[i][1]<min) min = p_data[i][1];
             	if (p_data[i][1]>max) max = p_data[i][1];
             }
             return {"min": min, "max": max};
@@ -298,9 +314,9 @@ var math_util = (function (){
 
 /* DATE and TIME module */
 var datetime_util = (function () {
-	
+
 	return {
-		date_distance: function (a,b) 
+		date_distance: function (a,b)
 		{
 			var ms_per_day = 1000 * 60 * 60 * 24;
 			var utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
@@ -332,7 +348,7 @@ var datetime_util = (function () {
         		yesterday.setDate(today.getDate()-1);
         		return yesterday;
 		},
-		//return difference between input date and today in milliseconds      
+		//return difference between input date and today in milliseconds
 		get_diff_milliseconds: function(p_date)
 		{
         		var t = new Date();
@@ -342,7 +358,7 @@ var datetime_util = (function () {
         		return y;
 		},
 		// if delta > 0 get date with deltasubtracted from today
-		// else return 1st January of the same year 
+		// else return 1st January of the same year
 		// known bug here  - doesn't handle leap years
 		get_date_shifted: function(p_delta, p_flag_format)
 		{
@@ -378,14 +394,14 @@ var datetime_util = (function () {
                 		return new_date;
         		}
 		},
-		
+
 		convert_date_to_ms: function(p_date)
 		{
 			var xdate = new Date(p_date); // some mock date
         		var milliseconds = xdate.getTime();
         		return milliseconds;
 		},
-		
+
 		convert_date_shifts: function(p_date_shifts)
 		{
 			var dates=[];
@@ -412,7 +428,7 @@ var namespace_xls = (function (){
         	return x_rank / list.length * 100.0;
         else return x_rank;
     }
-	
+
 	return {
         /* as specified in Excel */
         rank: function (num, ref)
@@ -430,7 +446,7 @@ var namespace_xls = (function (){
         		var a4 = 138.357751867269;
         		var a5 = -30.6647980661472;
         		var a6 = 2.50662827745924;
-	
+
         		var b1 = -54.4760987982241;
         		var b2 = 161.585836858041;
         		var b3 = -155.698979859887;
@@ -448,13 +464,13 @@ var namespace_xls = (function (){
         		var d2 = 0.32246712907004;
         		var d3 = 2.445134137143;
         		var d4 = 3.75440866190742;
-			
-			// define values 
+
+			// define values
         		var pLow = 0.02425;
         		var pHigh = 1.0 - pLow;
         		var q;
         		var x = 0;
-        		if (p <= 0.0) 
+        		if (p <= 0.0)
             			p = pLow;
         		if (p >= 1.0)
             			p = pHigh;
@@ -462,7 +478,7 @@ var namespace_xls = (function (){
         		if (p < pLow)
         		{
            			q = Math.Sqrt(-2.0 * Math.Log(p));
-            			x = (((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) / 
+            			x = (((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) /
 					 ((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
         		}
         		else if (p <= pHigh)
@@ -475,11 +491,11 @@ var namespace_xls = (function (){
         		else if (p < 1.0)
         		{
             			q = Math.Sqrt(-2.0 * Math.Log(1 - p));
-            			x = -(((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) / 
+            			x = -(((((c1 * q + c2) * q + c3) * q + c4) * q + c5) * q + c6) /
 					((((d1 * q + d2) * q + d3) * q + d4) * q + 1);
         		}
 
        			return (sigma*x + mu);
-		}	
+		}
 	}
-}) (); 
+}) ();

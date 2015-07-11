@@ -11,10 +11,16 @@
     <link rel="stylesheet" href="lib/css/jquery-ui.css">
     <!-- Custom CSS -->
     <link href="lib/css/full-slider.css" rel="stylesheet">
+    <!--script src="http://github.highcharts.com/highstock.js"></script-->
     <!-- javascript imports -->
     <script src="lib/js/jquery/jquery-1.10.2.min.js"></script>
     <script src="lib/js/jquery/jquery-ui.min.js"></script>
     <script src="lib/js/bootstrap/bootstrap.min.js"></script>
+    <script src="lib/js/highcharts/highstock.js"></script>
+    <script src="lib/js/highcharts/heatmap.js"></script>
+    <script src="lib/js/highcharts/highcharts-more.js"></script>
+    <!-- page code -->
+    <script src="js/graphics.js"></script>
     <script src="js/basic.js"></script>
     <style>
     body {
@@ -45,8 +51,7 @@
               <li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Your Investor Ranking</a></li>
               <li><a href="#Tab2" role="tab" data-toggle="tab">Build Investment Plan</a></li>
               <li><a href="#Tab3" role="tab" data-toggle="tab">View risk and returns</a></li>
-              <li><a href="#Tab4" role="tab" data-toggle="tab">Allocate and rebalance</a></li>
-              <li><a href="#Tab5" role="tab" data-toggle="tab">Export results</a></li>
+              <li><a href="#Tab4" role="tab" data-toggle="tab">Export results</a></li>
             </ul>
           </div>
       </div>
@@ -168,7 +173,50 @@
         </div>
         <!-- Positions builder tab -->
         <div class="tab-pane" id="Tab2">
-          <p>"TEST 2"</p>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="col-md-6" id="chart_container_1"></div>
+              <table class="table table-bordered">
+                <thead>
+                  <tr><th>Security Type</th><th>Percentage Weight</th></tr>
+                </thead>
+                <tbody id="table_1"></tbody>
+              </table>
+              <div id="chart_container_12"></div>
+              <table class="table table-bordered" id="table_3">
+                <thead>
+                  <tr><th>Symbol</th><th>Percentage Weight</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <div class="col-md-6" id="chart_container_2"></div>
+              <table class="table table-bordered">
+                <thead>
+                  <tr><th>Security Type</th><th>Percentage Weight</th></tr>
+                </thead>
+                <tbody id="table_2"></tbody>
+              </table>
+              <div id="chart_container_22"></div>
+              <table class="table table-bordered"  id="table_4">
+                <thead>
+                  <tr><th>Symbol</th><th>Percentage Weight</th></tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-5"></div>
+            <div class="col-md-4">
+              <button class="btn btn-default" id="show_performance">See your risk and returns</button>
+            </div>
+            <div class="col-md-3"></div>
+          </div>
+        </div>
+        <div class="tab-pane" id="Tab3">
+          TEST3
         </div>
       </div>
     </header>
