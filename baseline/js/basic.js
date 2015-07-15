@@ -13,48 +13,48 @@ $(document).ready(function(){
 
 var namespace_marketdata = (function(){
   var stock_database ={
-    "VOO": { ticker:"VOO", currency: "USD", type: "EQ", risk_rank: 1, desc: "S&P 500" },
-    "OEF": { ticker:"OEF", currency: "USD", type: "EQ", risk_rank: 1, desc: "S&P 100" },
-    "IYY": { ticker:"IYY", currency: "USD", type: "EQ", risk_rank: 1, desc: "Dow Jones" },
-    "QQQ": { ticker:"QQQ", currency: "USD", type: "EQ", risk_rank: 1, desc: "NASDAQ 100" },
-    "IJR": { ticker:"IJR", currency: "USD", type: "EQ", risk_rank: 3, desc: "S&P 600 Small Cap" },
-    "IJH": { ticker:"IJH", currency: "USD", type: "EQ", risk_rank: 2, desc: "S&P 400 Mid Cap" },
-    "ELR": { ticker:"ELR", currency: "USD", type: "EQ", risk_rank: 1, desc: "S&P Large Cap" },
-    "IVW": { ticker:"IVW", currency: "USD", type: "EQ", risk_rank: 3, desc: "S&P Growth" },
-    "IVE": { ticker:"IVE", currency: "USD", type: "EQ", risk_rank: 1, desc: "S&P Value" },
-    "IWV": { ticker:"IWV", currency: "USD", type: "EQ", risk_rank: 3, desc: "Russel 3000" },
-    "UUP": { ticker:"UUP", currency: "USD", type: "EQ", risk_rank: 3, desc: "Currencies" },
-    "DBC": { ticker:"DBC", currency: "USD", type: "EQ", risk_rank: 3, desc: "Commodities" },
-    "BIL": { ticker:"BIL", currency: "USD", type: "FI", risk_rank: 1, desc: "CASH (USD Money Market)" },
-    "PFF": { ticker:"PFF", currency: "USD", type: "FI", risk_rank: 2, desc: "S&P US Preffered stock" },
-    "DVY": { ticker:"DVY", currency: "USD", type: "FI", risk_rank: 2, desc: "DJ US Select Dividend" },
-    "AGG": { ticker:"AGG", currency: "USD", type: "FI", risk_rank: 1, desc: "US Aggregate Bond" },
-    "IEI": { ticker:"IEI", currency: "USD", type: "FI", risk_rank: 1, desc: "US 3-7yr Treasury Bond" },
-    "IEF": { ticker:"IEF", currency: "USD", type: "FI", risk_rank: 1, desc: "US 7-10yr Treasury Bond" },
-    "TLH": { ticker:"TLH", currency: "USD", type: "FI", risk_rank: 1, desc: "US 10-20yr Treasury Bond" },
-    "TLT": { ticker:"TLT", currency: "USD", type: "FI", risk_rank: 1, desc: "US 20+yr Treasury Bond" },
-    "SHY": { ticker:"SHY", currency: "USD", type: "FI", risk_rank: 1, desc: "US 1-3yr Treasury Bond" },
-    "HYG": { ticker:"HYG", currency: "USD", type: "FI", risk_rank: 3, desc: "US High Yield" },
-    "XIC.TO": { ticker:"XIC.TO", currency: "CAD", type: "EQ", risk_rank: 1, desc: "S&P/TSX Composite" },
-    "XCS.TO": { ticker:"XCS.TO", currency: "CAD", type: "EQ", risk_rank: 3, desc: "S&P/TSX Small Cap" },
-    "XMD.TO": { ticker:"XMD.TO", currency: "CAD", type: "EQ", risk_rank: 2, desc: "S&P/TSX Mid Cap" },
-    "XIU.TO": { ticker:"XIU.TO", currency: "CAD", type: "EQ", risk_rank: 1, desc: "S&P/TSX Large Cap" },
-    "XCV.TO": { ticker:"XCV.TO", currency: "CAD", type: "EQ", risk_rank: 1, desc: "S&P/TSX Value" },
-    "XCG.TO": { ticker:"XCG.TO", currency: "CAD", type: "EQ", risk_rank: 3, desc: "S&P/TSX Growth" },
-    "XRE.TO": { ticker:"XRE.TO", currency: "CAD", type: "EQ", risk_rank: 2, desc: "S&P/TSX Capped REIT" },
-    "XBB.TO": { ticker:"XBB.TO", currency: "CAD", type: "FI", risk_rank: 1, desc: "iShares Universe Bond" },
-    "XCB.TO": { ticker:"XCB.TO", currency: "CAD", type: "FI", risk_rank: 2, desc: "iShares Corporate Bond Index" },
-    "VSC.TO": { ticker:"VSC.TO", currency: "CAD", type: "FI", risk_rank: 3, desc: "Canadian Short-Term Corporate Bond Index ETF" },
-    "XRB.TO": { ticker:"XRB.TO", currency: "CAD", type: "FI", risk_rank: 1, desc: "S&P/TSX Real Return Bond" },
-    "CMR.TO": { ticker:"CMR.TO", currency: "CAD", type: "FI", risk_rank: 1, desc: "CASH (CAD Money Market)" },
-    "EFA": { ticker:"EFA", currency: "INTL", type: "EQ", risk_rank: 3, desc: "MSCI EAFE" },
-    "IEV": { ticker:"IEV", currency: "INTL", type: "EQ", risk_rank: 3, desc: "S&P Europe 350" },
-    "AIA": { ticker:"AIA", currency: "INTL", type: "EQ", risk_rank: 3, desc: "S&P Global Asia 50" },
-    "EFV": { ticker:"EFV", currency: "INTL", type: "EQ", risk_rank: 3, desc: "MSCI EAFE Value" },
-    "EFG": { ticker:"EFG", currency: "INTL", type: "EQ", risk_rank: 3, desc: "MSCI EAFE Growth" },
-    "VEE": { ticker:"VEE", currency: "INTL", type: "EQ", risk_rank: 3, desc: "FTSE Emerging Markets Index ETF" },
-    "VGG": { ticker:"VGG", currency: "USD", type: "FI", risk_rank: 1, desc: "US Dividend Appreciation Index ETF" },
-    "VUN": { ticker:"VUN", currency: "USD", type: "FI", risk_rank: 1, desc: "US Total Market Index Bonds" },
+    "VOO": { ticker:"VOO", currency: "USD", type: "Equity", risk_rank: 1, desc: "S&P 500" },
+    "OEF": { ticker:"OEF", currency: "USD", type: "Equity", risk_rank: 1, desc: "S&P 100" },
+    "IYY": { ticker:"IYY", currency: "USD", type: "Equity", risk_rank: 1, desc: "Dow Jones" },
+    "QQQ": { ticker:"QQQ", currency: "USD", type: "Equity", risk_rank: 1, desc: "NASDAQ 100" },
+    "IJR": { ticker:"IJR", currency: "USD", type: "Equity", risk_rank: 3, desc: "S&P 600 Small Cap" },
+    "IJH": { ticker:"IJH", currency: "USD", type: "Equity", risk_rank: 2, desc: "S&P 400 Mid Cap" },
+    "ELR": { ticker:"ELR", currency: "USD", type: "Equity", risk_rank: 1, desc: "S&P Large Cap" },
+    "IVW": { ticker:"IVW", currency: "USD", type: "Equity", risk_rank: 3, desc: "S&P Growth" },
+    "IVE": { ticker:"IVE", currency: "USD", type: "Equity", risk_rank: 1, desc: "S&P Value" },
+    "IWV": { ticker:"IWV", currency: "USD", type: "Equity", risk_rank: 3, desc: "Russel 3000" },
+    "UUP": { ticker:"UUP", currency: "USD", type: "Equity", risk_rank: 3, desc: "Currencies" },
+    "DBC": { ticker:"DBC", currency: "USD", type: "Equity", risk_rank: 3, desc: "Commodities" },
+    "BIL": { ticker:"BIL", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "CASH (USD Money Market)" },
+    "PFF": { ticker:"PFF", currency: "USD", type: "Fixed Income", risk_rank: 2, desc: "S&P US Preffered stock" },
+    "DVY": { ticker:"DVY", currency: "USD", type: "Fixed Income", risk_rank: 2, desc: "DJ US Select Dividend" },
+    "AGG": { ticker:"AGG", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US Aggregate Bond" },
+    "IEI": { ticker:"IEI", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 3-7yr Treasury Bond" },
+    "IEF": { ticker:"IEF", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 7-10yr Treasury Bond" },
+    "TLH": { ticker:"TLH", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 10-20yr Treasury Bond" },
+    "TLT": { ticker:"TLT", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 20+yr Treasury Bond" },
+    "SHY": { ticker:"SHY", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 1-3yr Treasury Bond" },
+    "HYG": { ticker:"HYG", currency: "USD", type: "Fixed Income", risk_rank: 3, desc: "US High Yield" },
+    "XIC.TO": { ticker:"XIC.TO", currency: "CAD", type: "Equity", risk_rank: 1, desc: "S&P/TSX Composite" },
+    "XCS.TO": { ticker:"XCS.TO", currency: "CAD", type: "Equity", risk_rank: 3, desc: "S&P/TSX Small Cap" },
+    "XMD.TO": { ticker:"XMD.TO", currency: "CAD", type: "Equity", risk_rank: 2, desc: "S&P/TSX Mid Cap" },
+    "XIU.TO": { ticker:"XIU.TO", currency: "CAD", type: "Equity", risk_rank: 1, desc: "S&P/TSX Large Cap" },
+    "XCV.TO": { ticker:"XCV.TO", currency: "CAD", type: "Equity", risk_rank: 1, desc: "S&P/TSX Value" },
+    "XCG.TO": { ticker:"XCG.TO", currency: "CAD", type: "Equity", risk_rank: 3, desc: "S&P/TSX Growth" },
+    "XRE.TO": { ticker:"XRE.TO", currency: "CAD", type: "Equity", risk_rank: 2, desc: "S&P/TSX Capped REIT" },
+    "XBB.TO": { ticker:"XBB.TO", currency: "CAD", type: "Fixed Income", risk_rank: 1, desc: "iShares Universe Bond" },
+    "XCB.TO": { ticker:"XCB.TO", currency: "CAD", type: "Fixed Income", risk_rank: 2, desc: "iShares Corporate Bond Index" },
+    "VSC.TO": { ticker:"VSC.TO", currency: "CAD", type: "Fixed Income", risk_rank: 3, desc: "Canadian Short-Term Corporate Bond Index ETF" },
+    "XRB.TO": { ticker:"XRB.TO", currency: "CAD", type: "Fixed Income", risk_rank: 1, desc: "S&P/TSX Real Return Bond" },
+    "CMR.TO": { ticker:"CMR.TO", currency: "CAD", type: "Fixed Income", risk_rank: 1, desc: "CASH (CAD Money Market)" },
+    "EFA": { ticker:"EFA", currency: "INTL", type: "Equity", risk_rank: 3, desc: "MSCI EAFE" },
+    "IEV": { ticker:"IEV", currency: "INTL", type: "Equity", risk_rank: 3, desc: "S&P Europe 350" },
+    "AIA": { ticker:"AIA", currency: "INTL", type: "Equity", risk_rank: 3, desc: "S&P Global Asia 50" },
+    "EFV": { ticker:"EFV", currency: "INTL", type: "Equity", risk_rank: 3, desc: "MSCI EAFE Value" },
+    "EFG": { ticker:"EFG", currency: "INTL", type: "Equity", risk_rank: 3, desc: "MSCI EAFE Growth" },
+    "VEE": { ticker:"VEE", currency: "INTL", type: "Equity", risk_rank: 3, desc: "FTSE Emerging Markets Index ETF" },
+    "VGG": { ticker:"VGG", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US Dividend Appreciation Index ETF" },
+    "VUN": { ticker:"VUN", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US Total Market Index Bonds" },
   };
 
   return {
@@ -103,64 +103,52 @@ var namespace_iplanner = (function(){
 
   function compute_portfolio_data(score)
   {
-    var error_obj = {
-      name: 'Proprietary or Undetectable',
-      y: 0.2,
-      dataLabels: { enabled: false }
-    };
     var p_data = {};
     //append charts here
     if (score<16)
     {
-      p_data["basic"] = [['Cash',0.00],['Equity',0.00],['Fixed Income', 100.00],error_obj];
-      p_data["plus"] = [['Cash',0.00],['Equity',0.00],['Fixed Income', 100.00],error_obj];
+      p_data["basic"] = [['Cash',0.00],['Equity',0.00],['Fixed Income', 100.00]];
+      p_data["plus"] = [['Cash',0.00],['Equity',0.00],['Fixed Income', 100.00]];
     }
     else if (score<24)
     {
-      p_data["basic"] = [['Cash',5.00],['Equity',20.00],['Fixed Income', 75.00],error_obj];
-      p_data["plus"] = [['Cash',5.00],['Equity',25.00],['Fixed Income', 70.00],error_obj];
+      p_data["basic"] = [['Cash',5.00],['Equity',20.00],['Fixed Income', 75.00]];
+      p_data["plus"] = [['Cash',5.00],['Equity',25.00],['Fixed Income', 70.00]];
     }
     else if ((score>=24)&&(score<=30))
     {
-      p_data["basic"] = [['Cash',5.00],['Equity',40.00],['Fixed Income', 55.00],error_obj];
-      p_data["plus"] = [['Cash',5.00],['Equity',45.00],['Fixed Income', 50.00],error_obj];
+      p_data["basic"] = [['Cash',5.00],['Equity',40.00],['Fixed Income', 55.00]];
+      p_data["plus"] = [['Cash',5.00],['Equity',45.00],['Fixed Income', 50.00]];
     }
     else if (score>30)
     {
-      p_data["basic"] = [['Cash',5.00],['Equity',70.00],['Fixed Income', 25.00],error_obj];
-      p_data["plus"] = [['Cash',5.00],['Equity',75.00],['Fixed Income', 20.00],error_obj];
+      p_data["basic"] = [['Cash',5.00],['Equity',70.00],['Fixed Income', 25.00]];
+      p_data["plus"] = [['Cash',5.00],['Equity',75.00],['Fixed Income', 20.00]];
     }
     return p_data;
   }
 
   function create_detailed_series(p_score)
   {
-    var error_obj = {
-      name: 'Proprietary or Undetectable',
-      y: 0.2,
-      dataLabels: { enabled: false }
-    };
     var p_data_extended = {};
     //append charts here
     if (p_score<16)
     {
       p_data_extended["basic"] = [
         ['AGG', 40.0],
+        ['XBB.TO',30.0],
         ['IEI', 10.0],
         ['TLT', 10.0],
         ['SHY', 5.0],
-        ['HYG', 5.0],
-        ['XBB.TO',30],
-        error_obj
+        ['HYG', 5.0]
       ];
       p_data_extended["plus"] = [
-        ['AGG', 30.0],
-        ['IEI', 10.0],
+        ['AGG', 35.0],
+        ['XBB.TO',30.0],
+        ['HYG', 15.0],
         ['TLT', 10.0],
         ['SHY', 5.0],
-        ['HYG', 5.0],
-        ['XBB.TO',40],
-        error_obj
+        ['PFF', 5.0]
       ];
     }
     return p_data_extended;
@@ -169,15 +157,13 @@ var namespace_iplanner = (function(){
   function compute_chart_series(p_data)
   {
     var p_data_ex = {"basic":[], "plus":[]}
-    for (var i=0;i<p_data["basic"].length-1;i++)
+    for (var i=0;i<p_data["basic"].length;i++)
     {
       if (p_data["basic"][i][1] > 0.0)
         p_data_ex["basic"].push(p_data["basic"][i]);
       if (p_data["plus"][i][1] > 0.0)
         p_data_ex["plus"].push(p_data["plus"][i]);
     }
-    p_data_ex["basic"].push(p_data["basic"][p_data.length-1]);
-    p_data_ex["plus"].push(p_data["plus"][p_data.length-1]);
     return p_data_ex;
   }
 
@@ -206,9 +192,56 @@ var namespace_iplanner = (function(){
     return chart_objs;
   }
 
+  function cell_macro(p_value)
+  {
+    var cell = "<td>" + p_value + "</td>";
+    return cell;
+  }
+
+  function row_macro(p_values)
+  {
+    var row = "";
+    for (var i=0;i<p_values.length;i++)
+    {
+      row = row + cell_macro(p_values[i]);
+    }
+    row = "<tr>" + row + "</tr>";
+    return row;
+  }
+
   function append_tables_advanced(p_data)
   {
-    console.log(p_data);
+    var rows="";
+    var rows_2="";
+    for (var i=0;i<p_data["basic"].length;i++)
+    {
+      var symbol_data  = namespace_marketdata.get_data(p_data["basic"][i][0]);
+      rows = rows + row_macro([
+        symbol_data["ticker"],
+        symbol_data["currency"],
+        symbol_data["type"],
+        symbol_data["desc"],
+        p_data["basic"][i][1] +'%'
+      ]);
+    }
+    $("#table_3 tbody").empty();
+    $("#table_3 tbody").append(rows);
+    $("#table_3").show();
+    // add second one
+    for (var i=0;i<p_data["plus"].length;i++)
+    {
+      var symbol_data  = namespace_marketdata.get_data(p_data["plus"][i][0]);
+      rows_2 = rows_2 + row_macro([
+        symbol_data["ticker"],
+        symbol_data["currency"],
+        symbol_data["type"],
+        symbol_data["desc"],
+        p_data["plus"][i][1] +'%'
+      ]);
+    }
+    $("#table_4 tbody").empty();
+    $("#table_4 tbody").append(rows_2);
+    $("#table_4").show();
   }
 
   return {
