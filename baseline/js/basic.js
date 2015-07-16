@@ -27,7 +27,7 @@ var namespace_marketdata = (function(){
     "DBC": { ticker:"DBC", currency: "USD", type: "Equity", risk_rank: 3, desc: "Commodities" },
     "BIL": { ticker:"BIL", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "CASH (USD Money Market)" },
     "PFF": { ticker:"PFF", currency: "USD", type: "Fixed Income", risk_rank: 2, desc: "S&P US Preffered stock" },
-    "DVY": { ticker:"DVY", currency: "USD", type: "Fixed Income", risk_rank: 2, desc: "DJ US Select Dividend" },
+    "DVY": { ticker:"DVY", currency: "USD", type: "Equity", risk_rank: 2, desc: "DJ US Select Dividend" },
     "AGG": { ticker:"AGG", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US Aggregate Bond" },
     "IEI": { ticker:"IEI", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 3-7yr Treasury Bond" },
     "IEF": { ticker:"IEF", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 7-10yr Treasury Bond" },
@@ -53,7 +53,7 @@ var namespace_marketdata = (function(){
     "EFV": { ticker:"EFV", currency: "INTL", type: "Equity", risk_rank: 3, desc: "MSCI EAFE Value" },
     "EFG": { ticker:"EFG", currency: "INTL", type: "Equity", risk_rank: 3, desc: "MSCI EAFE Growth" },
     "VEE": { ticker:"VEE", currency: "INTL", type: "Equity", risk_rank: 3, desc: "FTSE Emerging Markets Index ETF" },
-    "VGG": { ticker:"VGG", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US Dividend Appreciation Index ETF" },
+    "VGG": { ticker:"VGG", currency: "USD", type: "Equity", risk_rank: 1, desc: "US Dividend Appreciation Index ETF" },
     "VUN": { ticker:"VUN", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US Total Market Index Bonds" },
   };
 
@@ -112,18 +112,18 @@ var namespace_iplanner = (function(){
     }
     else if (score<24)
     {
-      p_data["basic"] = [['Cash',5.00],['Equity',20.00],['Fixed Income', 75.00]];
-      p_data["plus"] = [['Cash',5.00],['Equity',25.00],['Fixed Income', 70.00]];
+      p_data["basic"] = [['Cash',0.00],['Equity',15.00],['Fixed Income', 85.00]];
+      p_data["plus"] = [['Cash',0.00],['Equity',15.00],['Fixed Income', 85.00]];
     }
     else if ((score>=24)&&(score<=30))
     {
-      p_data["basic"] = [['Cash',5.00],['Equity',40.00],['Fixed Income', 55.00]];
-      p_data["plus"] = [['Cash',5.00],['Equity',45.00],['Fixed Income', 50.00]];
+      p_data["basic"] = [['Cash',0.00],['Equity',60.00],['Fixed Income', 40.00]];
+      p_data["plus"] = [['Cash',0.00],['Equity',60.00],['Fixed Income', 40.00]];
     }
     else if (score>30)
     {
-      p_data["basic"] = [['Cash',5.00],['Equity',70.00],['Fixed Income', 25.00]];
-      p_data["plus"] = [['Cash',5.00],['Equity',75.00],['Fixed Income', 20.00]];
+      p_data["basic"] = [['Cash',0.00],['Equity',80.00],['Fixed Income', 20.00]];
+      p_data["plus"] = [['Cash',0.00],['Equity',80.00],['Fixed Income', 20.00]];
     }
     return p_data;
   }
@@ -149,6 +149,76 @@ var namespace_iplanner = (function(){
         ['TLT', 10.0],
         ['SHY', 5.0],
         ['PFF', 5.0]
+      ];
+    }
+    else if (p_score<24)
+    {
+      p_data_extended["basic"] = [
+        ['AGG', 40.0],
+        ['XBB.TO',20.0],
+        ['PFF', 10.0],
+        ['HYG', 10.0],
+        ['VGG', 10.0],
+        ['DVY', 5.0],
+        ['VSC.TO', 5.0]
+      ];
+      p_data_extended["plus"] = [
+        ['AGG', 40.0],
+        ['XBB.TO',20.0],
+        ['PFF', 15.0],
+        ['VGG', 15.0],
+        ['HYG', 10.0]
+      ];
+    }
+    else if ((p_score>=24)&&(p_score<=30))
+    {
+      p_data_extended["basic"] = [
+        ['VOO', 20.0],
+        ['IVE', 10.0],
+        ['IWV', 10.0],
+        ['AGG', 20.0],
+        ['HYG', 5.0],
+        ['XIC.TO', 20.0],
+        ['XBB.TO', 10.0],
+        ['VGG', 5.0]
+      ];
+      p_data_extended["plus"] = [
+        ['VOO', 20.0],
+        ['IVW', 5.0],
+        ['IVE', 5.0],
+        ['IWV', 10.0],
+        ['AGG', 15.0],
+        ['HYG', 10.0],
+        ['XIC.TO', 20.0],
+        ['XBB.TO', 10.0],
+        ['VGG', 5.0]
+      ];
+    }
+    else if (p_score>30)
+    {
+      p_data_extended["basic"] = [
+        ['VOO', 20.0],
+        ['IJR', 5.0],
+        ['IVE', 10.0],
+        ['IWV', 15.0],
+        ['AGG', 10.0],
+        ['HYG', 5.0],
+        ['XIU.TO', 15.0],
+        ['XCG.TO', 10.0],
+        ['XBB.TO', 5.0],
+        ['VGG', 5.0]
+      ];
+      p_data_extended["plus"] = [
+        ['VOO', 20.0],
+        ['IJR', 5.0],
+        ['IVE', 5.0],
+        ['IWV', 15.0],
+        ['AGG', 10.0],
+        ['XIU.TO', 15.0],
+        ['XCG.TO', 10.0],
+        ['XBB.TO', 5.0],
+        ['EFG',10.0],
+        ['VGG', 5.0]
       ];
     }
     return p_data_extended;
