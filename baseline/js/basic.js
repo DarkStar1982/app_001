@@ -9,58 +9,35 @@ $(document).ready(function(){
     $('a[href=#Tab3]').tab('show');
   });
 
+  namespace_marketdata.load_data();
 });
 
 var namespace_marketdata = (function(){
-  var stock_database ={
-    "VOO": { ticker:"VOO", currency: "USD", type: "Equity", risk_rank: 1, desc: "S&P 500" },
-    "OEF": { ticker:"OEF", currency: "USD", type: "Equity", risk_rank: 1, desc: "S&P 100" },
-    "IYY": { ticker:"IYY", currency: "USD", type: "Equity", risk_rank: 1, desc: "Dow Jones" },
-    "QQQ": { ticker:"QQQ", currency: "USD", type: "Equity", risk_rank: 1, desc: "NASDAQ 100" },
-    "IJR": { ticker:"IJR", currency: "USD", type: "Equity", risk_rank: 3, desc: "S&P 600 Small Cap" },
-    "IJH": { ticker:"IJH", currency: "USD", type: "Equity", risk_rank: 2, desc: "S&P 400 Mid Cap" },
-    "ELR": { ticker:"ELR", currency: "USD", type: "Equity", risk_rank: 1, desc: "S&P Large Cap" },
-    "IVW": { ticker:"IVW", currency: "USD", type: "Equity", risk_rank: 3, desc: "S&P Growth" },
-    "IVE": { ticker:"IVE", currency: "USD", type: "Equity", risk_rank: 1, desc: "S&P Value" },
-    "IWV": { ticker:"IWV", currency: "USD", type: "Equity", risk_rank: 3, desc: "Russel 3000" },
-    "UUP": { ticker:"UUP", currency: "USD", type: "Equity", risk_rank: 3, desc: "Currencies" },
-    "DBC": { ticker:"DBC", currency: "USD", type: "Equity", risk_rank: 3, desc: "Commodities" },
-    "BIL": { ticker:"BIL", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "CASH (USD Money Market)" },
-    "PFF": { ticker:"PFF", currency: "USD", type: "Fixed Income", risk_rank: 2, desc: "S&P US Preffered stock" },
-    "DVY": { ticker:"DVY", currency: "USD", type: "Equity", risk_rank: 2, desc: "DJ US Select Dividend" },
-    "AGG": { ticker:"AGG", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US Aggregate Bond" },
-    "IEI": { ticker:"IEI", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 3-7yr Treasury Bond" },
-    "IEF": { ticker:"IEF", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 7-10yr Treasury Bond" },
-    "TLH": { ticker:"TLH", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 10-20yr Treasury Bond" },
-    "TLT": { ticker:"TLT", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 20+yr Treasury Bond" },
-    "SHY": { ticker:"SHY", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US 1-3yr Treasury Bond" },
-    "HYG": { ticker:"HYG", currency: "USD", type: "Fixed Income", risk_rank: 3, desc: "US High Yield" },
-    "XIC.TO": { ticker:"XIC.TO", currency: "CAD", type: "Equity", risk_rank: 1, desc: "S&P/TSX Composite" },
-    "XCS.TO": { ticker:"XCS.TO", currency: "CAD", type: "Equity", risk_rank: 3, desc: "S&P/TSX Small Cap" },
-    "XMD.TO": { ticker:"XMD.TO", currency: "CAD", type: "Equity", risk_rank: 2, desc: "S&P/TSX Mid Cap" },
-    "XIU.TO": { ticker:"XIU.TO", currency: "CAD", type: "Equity", risk_rank: 1, desc: "S&P/TSX Large Cap" },
-    "XCV.TO": { ticker:"XCV.TO", currency: "CAD", type: "Equity", risk_rank: 1, desc: "S&P/TSX Value" },
-    "XCG.TO": { ticker:"XCG.TO", currency: "CAD", type: "Equity", risk_rank: 3, desc: "S&P/TSX Growth" },
-    "XRE.TO": { ticker:"XRE.TO", currency: "CAD", type: "Equity", risk_rank: 2, desc: "S&P/TSX Capped REIT" },
-    "XBB.TO": { ticker:"XBB.TO", currency: "CAD", type: "Fixed Income", risk_rank: 1, desc: "iShares Universe Bond" },
-    "XCB.TO": { ticker:"XCB.TO", currency: "CAD", type: "Fixed Income", risk_rank: 2, desc: "iShares Corporate Bond Index" },
-    "VSC.TO": { ticker:"VSC.TO", currency: "CAD", type: "Fixed Income", risk_rank: 3, desc: "Canadian Short-Term Corporate Bond Index ETF" },
-    "XRB.TO": { ticker:"XRB.TO", currency: "CAD", type: "Fixed Income", risk_rank: 1, desc: "S&P/TSX Real Return Bond" },
-    "CMR.TO": { ticker:"CMR.TO", currency: "CAD", type: "Fixed Income", risk_rank: 1, desc: "CASH (CAD Money Market)" },
-    "EFA": { ticker:"EFA", currency: "INTL", type: "Equity", risk_rank: 3, desc: "MSCI EAFE" },
-    "IEV": { ticker:"IEV", currency: "INTL", type: "Equity", risk_rank: 3, desc: "S&P Europe 350" },
-    "AIA": { ticker:"AIA", currency: "INTL", type: "Equity", risk_rank: 3, desc: "S&P Global Asia 50" },
-    "EFV": { ticker:"EFV", currency: "INTL", type: "Equity", risk_rank: 3, desc: "MSCI EAFE Value" },
-    "EFG": { ticker:"EFG", currency: "INTL", type: "Equity", risk_rank: 3, desc: "MSCI EAFE Growth" },
-    "VEE": { ticker:"VEE", currency: "INTL", type: "Equity", risk_rank: 3, desc: "FTSE Emerging Markets Index ETF" },
-    "VGG": { ticker:"VGG", currency: "USD", type: "Equity", risk_rank: 1, desc: "US Dividend Appreciation Index ETF" },
-    "VUN": { ticker:"VUN", currency: "USD", type: "Fixed Income", risk_rank: 1, desc: "US Total Market Index Bonds" },
-  };
+  var API_URL = "/data_api";
+
+  var stock_database ={};
 
   return {
-    get_data :function(p_symbol)
+    get_data: function(p_symbol)
     {
       return stock_database[p_symbol];
+    },
+
+    load_data: function()
+    {
+      $.getJSON(API_URL,  {call:"stock_list",}, function(data)
+      {
+        var stock_list = data.contents.stocks;
+        for (var i=0;i<stock_list.length;i++)
+        {
+            stock_database[stock_list[i]["value"]] = {
+              "ticker" : stock_list[i]["value"],
+              "currency" : stock_list[i]["currency"],
+              "type" : stock_list[i]["type"],
+              "desc" : stock_list[i]["desc"]
+            }
+        }
+      });
     }
   }
 
