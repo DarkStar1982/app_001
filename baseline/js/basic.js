@@ -6,7 +6,7 @@ $(document).ready(function(){
   });
 
   $("#show_performance").on('click', function(e){
-    $('a[href=#Tab3]').tab('show');
+    namespace_iplanner.show_performance_view();
   });
 
   namespace_marketdata.load_data();
@@ -44,6 +44,8 @@ var namespace_marketdata = (function(){
 }) ();
 
 var namespace_iplanner = (function(){
+  var p_data = {};
+  var p_data_extended = {};
 
   function compute_profile_score(p_rank_value)
   {
@@ -80,7 +82,6 @@ var namespace_iplanner = (function(){
 
   function compute_portfolio_data(score)
   {
-    var p_data = {};
     //append charts here
     if (score<16)
     {
@@ -107,7 +108,6 @@ var namespace_iplanner = (function(){
 
   function create_detailed_series(p_score)
   {
-    var p_data_extended = {};
     //append charts here
     if (p_score<16)
     {
@@ -351,6 +351,12 @@ var namespace_iplanner = (function(){
       $("#show_performance").show();
       $("#table_1").show();
       $("#table_2").show();
+    },
+
+    show_performance_view: function()
+    {
+      $('a[href=#Tab3]').tab('show');
+      console.log(p_data_extended);
     }
   }
 }) ();
