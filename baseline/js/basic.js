@@ -46,6 +46,7 @@ var namespace_marketdata = (function(){
 var namespace_iplanner = (function(){
   var p_data = {};
   var p_data_extended = {};
+  var API_URL = "/data_api";
 
   function compute_profile_score(p_rank_value)
   {
@@ -135,7 +136,7 @@ var namespace_iplanner = (function(){
         ['XBB.TO',20.0],
         ['PFF', 10.0],
         ['HYG', 10.0],
-        ['VGG', 10.0],
+        ['VEE', 10.0],
         ['DVY', 5.0],
         ['VSC.TO', 5.0]
       ];
@@ -143,7 +144,7 @@ var namespace_iplanner = (function(){
         ['AGG', 40.0],
         ['XBB.TO',20.0],
         ['PFF', 15.0],
-        ['VGG', 15.0],
+        ['VEE', 15.0],
         ['HYG', 10.0]
       ];
     }
@@ -157,7 +158,7 @@ var namespace_iplanner = (function(){
         ['HYG', 5.0],
         ['XIC.TO', 20.0],
         ['XBB.TO', 10.0],
-        ['VGG', 5.0]
+        ['VEE', 5.0]
       ];
       p_data_extended["plus"] = [
         ['VOO', 20.0],
@@ -168,7 +169,7 @@ var namespace_iplanner = (function(){
         ['HYG', 10.0],
         ['XIC.TO', 20.0],
         ['XBB.TO', 10.0],
-        ['VGG', 5.0]
+        ['VEE', 5.0]
       ];
     }
     else if (p_score>30)
@@ -183,7 +184,7 @@ var namespace_iplanner = (function(){
         ['XIU.TO', 15.0],
         ['XCG.TO', 10.0],
         ['XBB.TO', 5.0],
-        ['VGG', 5.0]
+        ['VEE', 5.0]
       ];
       p_data_extended["plus"] = [
         ['VOO', 20.0],
@@ -195,7 +196,7 @@ var namespace_iplanner = (function(){
         ['XCG.TO', 10.0],
         ['XBB.TO', 5.0],
         ['EFG',10.0],
-        ['VGG', 5.0]
+        ['VEE', 5.0]
       ];
     }
     return p_data_extended;
@@ -291,6 +292,44 @@ var namespace_iplanner = (function(){
     $("#table_4").show();
   }
 
+  function render_portfolios()
+  {
+    var net_cash = 100000;
+    var portfolio_value_list = [];
+    var start_date = "2014-08-01";
+    if ($("input[name=portfolio_selected]:checked").val()=="basic")
+    {
+      //start with 100k cash
+      $.each(p_data_extended["basic"], function(index, value){
+        portfolio_value_list.push([value[0],value[1]/100 * net_cash]);
+      });
+      var counter = portfolio_value_list.length;
+      var net_cash_value = 0;
+      $.each(portfolio_value_list, function(index, value){
+        $.getJSON(API_URL, {instrument:value[0], call:"quote", datetime:start_date}, function(data)
+        {
+          counter--;
+          //value[0],
+          var shares = math_util.aux_math_round(value[1]/data.contents.price,0);
+          net_cash_value = net_cash_value + shares*data.contents.price;
+          console.log([start_date, value[0],shares]);
+          console.log(net_cash_value)
+          if (counter<=0)
+          {
+            console.log("Finished");
+          }
+        });
+      })
+      //console.log(p_data_extended["basic"]);
+      //console.log("Basic selected");
+    }
+    else if ($("input[name=portfolio_selected]:checked").val()=="advanced")
+    {
+      console.log(p_data_extended["plus"]);
+      console.log("Advanced selected");
+    }
+  }
+
   return {
     init_page_state: function()
     {
@@ -355,8 +394,12 @@ var namespace_iplanner = (function(){
 
     show_performance_view: function()
     {
+      render_portfolios();
       $('a[href=#Tab3]').tab('show');
-      console.log(p_data_extended);
+      //build virtual portfolios
+      //request data
+      //plot charts
+      //console.log(p_data_extended);
     }
   }
 }) ();

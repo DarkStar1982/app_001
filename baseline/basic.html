@@ -22,6 +22,7 @@
     <!-- page code -->
     <script src="js/graphics.js"></script>
     <script src="js/basic.js"></script>
+    <script src="js/library.js"></script>
     <style>
     body {
       padding-top: 70px;
@@ -220,23 +221,28 @@
             </div>
           </div>
           <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <button class="btn btn-default" id="show_performance">See your risk and returns</button>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+          <hr/>
+        </div>
+        <div class="tab-pane" id="Tab3">
+          <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-2">
               <label for="radio_button">Select portfolio:</label>
             </div>
             <div class="col-md-2">
-              <input id="radio_button" type="radio" name="sex" value="male" checked>Basic
+              <input id="radio_button_basic" type="radio" name="portfolio_selected" value="basic" checked>Basic
             </div>
             <div class="col-md-2">
-              <input type="radio" name="sex" value="female">Advanced
+              <input id="radio_button_advanced" type="radio" name="portfolio_selected" value="advanced">Advanced
             </div>
-            <div class="col-md-3">
-              <button class="btn btn-default" id="show_performance">See your risk and returns</button>
-            </div>
+            <div class="col-md-3"></div>
           </div>
-          <hr/>
-        </div>
-        <div class="tab-pane" id="Tab3">
           <div class="row">
             <div class="col-md-6">
               <div class="col-md-6" id="chart_container_3"></div>
