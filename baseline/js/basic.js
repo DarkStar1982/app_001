@@ -43,6 +43,15 @@ var namespace_marketdata = (function(){
 
 }) ();
 
+var namespace_portfolio_aux = (function(){
+  return {
+    compute_transactions: function()
+    {
+      return 0:
+    }
+  }
+}) ();
+
 var namespace_iplanner = (function(){
   var p_data = {};
   var p_data_extended = {};
@@ -292,8 +301,15 @@ var namespace_iplanner = (function(){
     $("#table_4").show();
   }
 
+  //create transactions
+  //create position data from transactions
+  //compute net_dat from position data
+  //request portfolio series from net data and transactions
+  //plot chart
+
   function render_portfolios()
   {
+    var transaction_list = [];
     var net_cash = 100000;
     var portfolio_value_list = [];
     var start_date = "2014-08-01";
@@ -308,15 +324,52 @@ var namespace_iplanner = (function(){
       $.each(portfolio_value_list, function(index, value){
         $.getJSON(API_URL, {instrument:value[0], call:"quote", datetime:start_date}, function(data)
         {
-          counter--;
-          //value[0],
-          var shares = math_util.aux_math_round(value[1]/data.contents.price,0);
-          net_cash_value = net_cash_value + shares*data.contents.price;
-          console.log([start_date, value[0],shares]);
-          console.log(net_cash_value)
+          if (data.header.error_code == 0)
+          {
+            var book_price = data.contents.price;
+            /* var new_transaction = {
+              volume: math_util.aux_math_round(value[1]/data.contents.price,0),
+              book_date: start_date,
+              type: "Buy",
+              asset: value[0],
+              sector: undefined,
+              book_price: data.contents.price,
+              last_price: undefined,
+            };
+            net_cash_value = net_cash_value + new_transaction.volume*data.contents.price; */
+            var last_date = datetime_util.adjust_date(datetime_util.get_yesterday_date());
+            $.getJSON(API_URL, {instrument:value[0], call:"quote", datetime:last_date}, function(data)
+            {
+              if (data.header.error_code == 0)
+              {
+                var last_price = data.contents.price;
+                $.getJSON(API_URL, {instrument:value[0], call:"sector"}, function(data)
+                {
+                  if (data.header.error_code == 0)
+                  {
+                    //here be transaction
+                  }
+                  counter--;
+                });
+              }
+            });
+          }
+
+          //build a portfolio
+          //console.log([start_date, value[0], shares]);
+        //  console.log(net_cash_value);
           if (counter<=0)
           {
-            console.log("Finished");
+            var cash_transaction = {
+              volume: net_cash_value,
+              book_date: start_date,
+              type: "Deposit",
+              asset: "Cash",
+              sector: "-",
+              book_price: 1.0,
+              last_price: 1.0
+            }
+            transaction_list.push(cash_transaction);
           }
         });
       })
