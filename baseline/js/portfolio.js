@@ -4,7 +4,7 @@ var namespace_portfolio = (function()
     /* Constants */
     var API_URL = "/data_api";
     var DATA_LOAD_STATES  = ["loading","loading", "ready"];
-    
+
     /* Private Data */
     var state = {
         load_state: 1,
@@ -18,7 +18,7 @@ var namespace_portfolio = (function()
         m_benchmark_series: [],
         derived_values: {}
     };
-    
+
     /* Private methods */
     function get_next_id()
     {
@@ -50,7 +50,7 @@ var namespace_portfolio = (function()
                     break;
                 case "Withdraw":
                     total_cash = total_cash - parseFloat(row_data.volume)*parseFloat(row_data.book_price);
-                    break; 
+                    break;
                 case "Buy":
                     var book_value = parseFloat(row_data.volume)*parseFloat(row_data.book_price);
                     var last_value = parseFloat(row_data.volume)*parseFloat(row_data.last_price);
@@ -126,7 +126,7 @@ var namespace_portfolio = (function()
         //namespace_gui.send_log_message("start cash is "+  start_cash, "Info");
         return { "net_positions" : net_data, "total_cash": math_util.aux_math_round(total_cash,2), "start_cash" : start_cash };
     }
-   
+
     /* part 1 - calculate average price for positions and assemble final positions
      * part 2 - get cash nets */
     function compute_net_data(position_data)
@@ -157,8 +157,8 @@ var namespace_portfolio = (function()
                 }
                 if (net_data[k][0]>0)
                 {
-                    position_list.push({"symbol": k, 
-                                        "volume": net_data[k][0], 
+                    position_list.push({"symbol": k,
+                                        "volume": net_data[k][0],
                                         "price_avg": math_util.aux_math_round(avg_price,2),
                                         "book_value": math_util.aux_math_round(net_data[k][1],2),
                                         "last_value": math_util.aux_math_round(net_data[k][2],2),
@@ -170,7 +170,7 @@ var namespace_portfolio = (function()
                 total_pnl = total_pnl + profit_or_loss;
              }
         }
-        if (position_list.length == 0)   
+        if (position_list.length == 0)
         {
             var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-"};
             var end_totals = total_cash;
@@ -181,12 +181,12 @@ var namespace_portfolio = (function()
             var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-" };
             var end_totals = math_util.aux_math_round(total_cash + net_value,2);
 			total_pnl = math_util.aux_math_round(total_pnl,2);
-        }       
+        }
         return {"positions": position_list, "net_cash_row":cash_row, "total_value" : end_totals, "total_pnl": total_pnl};
     }
-  
+
     function cluster_transaction_events()
-    {         
+    {
         function format_date_extra(s_date)
         {
             var year = s_date.substring(0,4);
@@ -196,8 +196,8 @@ var namespace_portfolio = (function()
             return true_data1;
         }
 
-        var groups=[];     
-        var max_distance=3; 
+        var groups=[];
+        var max_distance=3;
         for (var i=0; i<state.transactions.length; i++)
         {
             var added = false;
@@ -206,10 +206,10 @@ var namespace_portfolio = (function()
             {
                 if (t_date >=groups[k]["start_date"] && t_date <=groups[k]["end_date"])
                 {
-                    added=true;                    
+                    added=true;
                 }
                 else if (datetime_util.date_distance(t_date, groups[k].start_date)<max_distance)
-                {   
+                {
                     //extend left edge
                     added=true;
                     groups[k]["start_date"] = t_date;
@@ -241,13 +241,13 @@ var namespace_portfolio = (function()
                                 "volume": state.transactions[i].volume,
                                 "action": state.transactions[i].type,
                                 "price": state.transactions[i].book_price
-                                }]     
+                                }]
                 });
              }
-        } 
-        return groups;   
+        }
+        return groups;
     }
- 
+
     function get_dashboard_data(data, p_label, p_info)
     {
         var dashboard_row ={};
@@ -257,7 +257,7 @@ var namespace_portfolio = (function()
         dashboard_row.info = p_info;
         return dashboard_row;
     }
- 
+
     function get_returns_data(p_input)
     {
         var offsets=[1, 5, 21, 63, 126, 252];
@@ -284,7 +284,7 @@ var namespace_portfolio = (function()
         dashboard_returns.ret_6m = series[4];
         dashboard_returns.ret_1y = series[5];
         return dashboard_returns;
-    }    
+    }
 
     function get_momentum_data(p_input)
     {
@@ -336,17 +336,17 @@ var namespace_portfolio = (function()
 		var max_pnl_rel = 0.0;
         for (var j=0;j<p_series_data.length;j++)
         {
-			if (p_series_data[j].pnl<0) 
+			if (p_series_data[j].pnl<0)
 				bubbles_a.push([j,p_series_data[j].pnl,"red"]);
 			else
 				bubbles_a.push([j,p_series_data[j].pnl,"green"]);
-			if (p_series_data[j].pnl_rel<0) 
+			if (p_series_data[j].pnl_rel<0)
 				bubbles_b.push([j,p_series_data[j].pnl_rel,"red"]);
 			else
 				bubbles_b.push([j,p_series_data[j].pnl_rel,"green"]);
 			if (Math.abs(p_series_data[j].pnl)>max_pnl) max_pnl = Math.abs(p_series_data[j].pnl);
 			if (Math.abs(p_series_data[j].pnl_rel)>max_pnl_rel) max_pnl_rel = Math.abs(p_series_data[j].pnl_rel);
-			
+
 		}
 		bubbles_a.sort(function(a,b){
 			if (a[1]<b[1]) return -1;
@@ -363,27 +363,27 @@ var namespace_portfolio = (function()
 			abs_list.push({"x":i,"y":p_series_data[bubbles_a[i][0]].pnl,"color":bubbles_a[i][2]});
 			data_positions_abs.push(p_series_data[bubbles_a[i][0]].symbol);
             info_obj_abs[p_series_data[bubbles_a[i][0]].symbol] = {
-                "volume": p_series_data[bubbles_a[i][0]].volume, 
-                "xpnl": p_series_data[bubbles_a[i][0]].pnl, 
+                "volume": p_series_data[bubbles_a[i][0]].volume,
+                "xpnl": p_series_data[bubbles_a[i][0]].pnl,
                 "rpnl": p_series_data[bubbles_a[i][0]].pnl_rel
             };
 	        rel_list.push({"x":i,"y":p_series_data[bubbles_b[i][0]].pnl_rel,"color":bubbles_b[i][2]});
 			data_positions_rel.push(p_series_data[bubbles_b[i][0]].symbol);
             info_obj_rel[p_series_data[bubbles_b[i][0]].symbol] = {
-                "volume": p_series_data[bubbles_b[i][0]].volume, 
-                "xpnl": p_series_data[bubbles_b[i][0]].pnl, 
+                "volume": p_series_data[bubbles_b[i][0]].volume,
+                "xpnl": p_series_data[bubbles_b[i][0]].pnl,
                 "rpnl": p_series_data[bubbles_b[i][0]].pnl_rel
             };
         }
-		
+
         return {
-			"abs_list":abs_list, 
-			"rel_list":rel_list, 
-			"data_positions": [data_positions_abs, data_positions_rel], 
+			"abs_list":abs_list,
+			"rel_list":rel_list,
+			"data_positions": [data_positions_abs, data_positions_rel],
 			"hash_table":[info_obj_abs, info_obj_rel],
 			"max_pnl":max_pnl,
 			"max_pnl_rel":max_pnl_rel};
-    } 
+    }
 
     function get_sector_chart_data(p_net_data)
     {
@@ -392,8 +392,8 @@ var namespace_portfolio = (function()
         for (var i=0; i<p_net_data.positions.length; i++)
         {
             var sector = p_net_data.positions[i].sector;
-            //if there is a sector value defined, add to that sector accumulated 
-            //if there is not a sector value, create a sector 
+            //if there is a sector value defined, add to that sector accumulated
+            //if there is not a sector value, create a sector
             if (hash_table[sector] == undefined)
             {
                 hash_table[sector]=p_net_data.positions[i].last_value;
@@ -410,12 +410,12 @@ var namespace_portfolio = (function()
        {
             if (hash_table.hasOwnProperty(x))
             {
-                var percentage_value = (hash_table[x] / p_net_data.total_value) * 100; 
+                var percentage_value = (hash_table[x] / p_net_data.total_value) * 100;
                 chart_data.push([x, percentage_value]);
             }
-       } 
+       }
        return chart_data;
-    }    
+    }
 
     function compute_derived_values(p_data)
     {
@@ -425,7 +425,7 @@ var namespace_portfolio = (function()
         derived_values["diff_percent"] = p_data.pop()[1] - p_data[0][1];
         derived_values["annualized"] = math_util.compute_annualized(derived_values["diff_percent"], get_first_date());
         derived_values["std_dev"] = math_util.compute_stdev(p_data);
-        return derived_values; 
+        return derived_values;
     }
 
     function aux_list_slice(p_list, p_start, p_end)
@@ -486,7 +486,7 @@ var namespace_portfolio = (function()
             frame_start = frame_start + 1;
             frame_end = frame_end + 1;
         }
-        return list_result 
+        return list_result
     }
 
     function postprocess_data(p_data, p_color, p_x_mul)
@@ -516,7 +516,7 @@ var namespace_portfolio = (function()
 		//group by sector
 		var hash_table = {};
 		$.each(p_data["positions"], function(index, value)
-		{			
+		{
 			var sector = value["sector"];
 			if (hash_table[sector] == undefined)
 			{
@@ -553,7 +553,7 @@ var namespace_portfolio = (function()
 		}
 		//step 3
 		$.each(p_data["positions"], function(index, value)
-		{	
+		{
 			net_row["book_value"] = net_row["book_value"] + value["book_value"];
 			net_row["market_value"] = net_row["market_value"] + value["last_value"];
 			net_row["unrealized_pnl"] = net_row["unrealized_pnl"] + value["pnl"];
@@ -570,8 +570,8 @@ var namespace_portfolio = (function()
 		});
 		return sector_table;
 	}
-	
-	
+
+
 	function compute_positions_risk(p_data)
 	{
 		var risk_table=[];
@@ -634,8 +634,9 @@ var namespace_portfolio = (function()
 			]);
 		return risk_comp_table;
 	}
-    function recompute_and_render()
-    {
+
+  function recompute_and_render()
+  {
             //sort transactions before processing
             state.transactions.sort(function (a,b){
                 if (a.book_date > b.book_date) return 1;
@@ -644,16 +645,16 @@ var namespace_portfolio = (function()
             });
             // step 1. aggregate transaction data and compute position rows and net values
             // also render immediately
-            state.net_data = compute_net_data(compute_position_data()); 
+            state.net_data = compute_net_data(compute_position_data());
 			var sector_breakdown_table= compute_sector_table(state.net_data);
 			var risk_table = compute_positions_risk(state.net_data);
             namespace_gui.render_tables(state.net_data, state.transactions, sector_breakdown_table, risk_table);
-            // step 2. load profit, risk risk and volatility series, then compute 
+            // step 2. load profit, risk risk and volatility series, then compute
             // dashboard and derived values and render portfolio tables and charts
             var post_data = JSON.stringify({"transactions":state.transactions, "positions": state.net_data["positions"]});
             if (state.transactions.length>0) $.post('/data_api/', {call:"portfolio_series", data: post_data}, function(data)
             {
-                var json_data = JSON.parse(data);    
+                var json_data = JSON.parse(data);
                 if (json_data.header.error_code == 0)
                 {
                     //aggregated portfolio series
@@ -675,7 +676,7 @@ var namespace_portfolio = (function()
                         dashboard_rows.push(xrow);
                     }
                     state.portfolio_series["dashboard_data"] = dashboard_rows;
-                    state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions,state.net_data.total_value);  
+                    state.portfolio_series["position_chart_data"] = get_position_chart_data(state.net_data.positions,state.net_data.total_value);
                     state.portfolio_series["sector_chart_data"] = get_sector_chart_data(state.net_data);
                     state.portfolio_series["risk_chart_data"] = json_data.derived_risk;
 					//compute_local_risk_series(state.portfolio_series["norm_pnl_series"], state.risk_interval);
@@ -685,7 +686,7 @@ var namespace_portfolio = (function()
                     namespace_gui.render_portfolio_dashboard(state.portfolio_series["dashboard_data"]);
 					//update the portfolio with first benchmark
 					if (state.benchmark_state == 0)
-					{	
+					{
 						state.benchmark_state = 1;
 						add_dashboard_benchmark(state.list_benchmarks[0].value);
 					}
@@ -693,7 +694,7 @@ var namespace_portfolio = (function()
 					var risk_table_data = compute_risk_decomposition_table(state.portfolio_series["position_risk_series"]);
 					namespace_gui.render_risk_decomposition_table(risk_table_data);
                 }
-                else 
+                else
                 {
                     namespace_gui.send_log_message("Failed to receive correct portfolio time series data", "System");
                     namespace_gui.send_log_message(json_data, "System");
@@ -706,33 +707,33 @@ var namespace_portfolio = (function()
 			}
     }
 
-    /* This one definitely needs unit testing */ 
+    /* This one definitely needs unit testing */
     function check_transaction(p_action)
     {
         var valid_flag = true;
         var valid_message = "No error";
         var message = "No error";
-        
+
         /* Part 1  - basec validation and sanity check */
-        if (p_action.asset==null || p_action.asset==undefined || p_action.asset=='') 
+        if (p_action.asset==null || p_action.asset==undefined || p_action.asset=='')
             message = "Incorrect symbol";
         if (p_action.volume <=0 || p_action.volume==null || p_action.volume=='')
             message = "Transaction volume can't be undefined, zero or negative";
         if (p_action.book_price<=0 || p_action.book_price==null || p_action.book_price =='' || p_action.last_price<0)
             message = "Transaction price can't be undefined or negative";
-        
+
         /* Part 2 - check transaction dates */
-        var last_date = datetime_util.adjust_date(new Date()); 
+        var last_date = datetime_util.adjust_date(new Date());
         var first_date = get_first_date();
         if (p_action.book_date > last_date || p_action.book_date < first_date)
             message = "Transaction date is outside the valid range betwen " + first_date + " and " + last_date;
-        
+
         /* Part 3 - check Withdraw transactions */
         if (p_action.type == "Withdraw"  && state.net_data.net_cash_row.total_cash < p_action.volume)
-            message = "Insufficient cash to withdraw"; 
-       
+            message = "Insufficient cash to withdraw";
+
         /* Part 4 - buy validation */
-        if (p_action.type == "Buy") 
+        if (p_action.type == "Buy")
         {
             //Rule B1
             if (state.net_data.net_cash_row.total_cash < p_action.volume*p_action.book_price)
@@ -740,7 +741,7 @@ var namespace_portfolio = (function()
             //Rule B2 - can't buy if open short position exixts
             var search_str = p_action.asset +"_S";
             for (var i=0;i< state.net_data.positions.length; i++)
-            {   
+            {
                 if (state.net_data.positions[i].symbol == search_str && state.net_data.positions[i].volume>0)
                 {
                     message = "Cannot buy same stock with open short position";
@@ -748,15 +749,15 @@ var namespace_portfolio = (function()
                 }
             }
         }
-        /* Part 5 - sell validation 
+        /* Part 5 - sell validation
          * S1 Can't sell if no long position or insufficient quantity of long position
          * S2 ...Or sell before buy! */
-        if (p_action.type == "Sell") 
+        if (p_action.type == "Sell")
         {
             var search_str = p_action.asset +"_B";
             var found = false;
             for (var i=0;i< state.net_data.positions.length; i++)
-            {   
+            {
                 if (state.net_data.positions[i].symbol == search_str)
                 {
                     if (p_action.volume > state.net_data.positions[i].volume)
@@ -774,7 +775,7 @@ var namespace_portfolio = (function()
             }
         }
         /* Short validation */
-        if (p_action.type == "Short") 
+        if (p_action.type == "Short")
         {
             //Rule SS1 - check cash
             if (state.net_data.net_cash_row.total_cash < p_action.volume*p_action.book_price)
@@ -782,7 +783,7 @@ var namespace_portfolio = (function()
             //Rule SS2 - can't buy if open long position exixts
             var search_str = p_action.asset +"_B";
             for (var i=0;i< state.net_data.positions.length; i++)
-            {   
+            {
                 if (state.net_data.positions[i].symbol == search_str && state.net_data.positions[i].volume>0)
                 {
                     message = "Cannot short stock if there is a long position in the same stock";
@@ -791,15 +792,15 @@ var namespace_portfolio = (function()
             }
         }
 
-        /* Cover validation 
+        /* Cover validation
          * Rule C1 - Can't cover if no short position to cover
          * Rule C2 - Can't cover more then short position */
-        if (p_action.type == "Cover") 
+        if (p_action.type == "Cover")
         {
             var search_str = p_action.asset +"_S";
             var found = false;
             for (var i=0;i< state.net_data.positions.length; i++)
-            {   
+            {
                 if (state.net_data.positions[i].symbol == search_str)
                 {
                     if (p_action.volume > state.net_data.positions[i].volume)
@@ -823,11 +824,11 @@ var namespace_portfolio = (function()
 
         return { "valid": valid_flag, "error_message": message };
     }
-    
+
     function push_and_recompute(p_action, function_call)
     {
         var check_result = check_transaction(p_action);
-        if (check_result.valid) 
+        if (check_result.valid)
         {
             p_action.gui_id = get_next_id();
             state.transactions.push(p_action);
@@ -835,7 +836,7 @@ var namespace_portfolio = (function()
         }
         else namespace_gui.send_log_message(check_result.error_message, "User");
    }
-        
+
 
     /* postprocess transaction if neccessary*/
     function add_transaction(p_action, function_call)
@@ -845,7 +846,7 @@ var namespace_portfolio = (function()
         {
             push_and_recompute(p_action, function_call);
         }
-        else 
+        else
         {
             var last_date = datetime_util.adjust_date(datetime_util.get_yesterday_date());
             $.getJSON(API_URL, {instrument:p_action.asset, call:"quote", datetime:last_date}, function(data)
@@ -858,7 +859,7 @@ var namespace_portfolio = (function()
                         if (data.header.error_code == 0)
                         {
                             p_action.sector = data.contents.sector_data;
-                            push_and_recompute(p_action, function_call); 
+                            push_and_recompute(p_action, function_call);
                         }
                         else {
                            namespace_gui.send_log_message("Failed to load sector data, see responce data below", "System");
@@ -877,21 +878,21 @@ var namespace_portfolio = (function()
     /* received transaction gui id and  then attempt deletion */
     function remove_transaction(p_id, function_call)
     {
-        var delete_index = -1; 
+        var delete_index = -1;
         for (var i = 0; i<state.transactions.length; i++)
         {
             if (state.transactions[i].gui_id == p_id)
                 delete_index=i;
         }
-        if (delete_index != -1) 
+        if (delete_index != -1)
             state.transactions.splice(delete_index, 1);
 		else
 		{
-			
+
 		}
        function_call();
-    } 
-    
+    }
+
     /* load benchmark series for the duration of portfolio
      * then apply the derived data computation
      * and render dashboard benchmark row */
@@ -907,14 +908,14 @@ var namespace_portfolio = (function()
                // var risk_data = compute_local_risk_series(data["norm_value_series"], state.risk_interval);
                // var derived_data = compute_derived_values(data["norm_value_series"]);
                 state.m_benchmark_series[p_benchmark]= {
-					"norm_value_series": data["norm_value_series"], 
+					"norm_value_series": data["norm_value_series"],
 					"norm_value_split":data["norm_value_split"],
                     "risk_chart_data": data["derived_risk"],
                     "derived_values":data["derived_split"],
 				};
                 row_data = get_dashboard_data(data["norm_value_series"], p_benchmark, "-");
                // calculate benchmark derived data
-               // update portfolio derived data = partial (beta, etc) 
+               // update portfolio derived data = partial (beta, etc)
                 state.m_benchmark_series['dashboard_data'].push(row_data);
                 namespace_gui.update_benchmark_selector(p_benchmark);
                 namespace_gui.append_dashboard_row([row_data]);
@@ -941,45 +942,45 @@ var namespace_portfolio = (function()
             namespace_gui.init_page(state);
         }
     }
-    
+
 	function get_net_summary_object()
 	{
 		return [["Net Value", "Net PnL"],[state.net_data["total_value"], state.net_data["total_pnl"]]];
 	}
-	
+
 	function get_transaction_history_object()
 	{
 		var contents = [["Symbol", "Sector", "Action", "Volume", "Book Date", "Book Price", "Last Price"]];
 		$.each(state["transactions"], function(ind, val)
 		{
-			var row_list = [val["asset"], 
-							val["sector"], 
-							val["type"], 
-							val["volume"], 
-							val["book_date"], 
-							val["book_price"], 
+			var row_list = [val["asset"],
+							val["sector"],
+							val["type"],
+							val["volume"],
+							val["book_date"],
+							val["book_price"],
 							val["last_price"]];
 			contents.push(row_list);
 		});
 		return contents;
 	}
-	
+
 	function get_positions_object()
 	{
 		var contents = [["Symbol", "Volume", "Average Price", "Book Value", "Last Value", "PnL"]]
 		$.each(state.net_data["positions"], function(ind, val)
 		{
-			var row_list = [val["symbol"], 
-				val["volume"], 
-				val["price_avg"], 
-				val["book_value"], 
-				val["last_value"], 
+			var row_list = [val["symbol"],
+				val["volume"],
+				val["price_avg"],
+				val["book_value"],
+				val["last_value"],
 				val["pnl"]];
 			contents.push(row_list);
 		});
         //var cash_row = { "start_cash": start_cash, "total_cash":total_cash, "cash_change": "-" };
-		var cash_row = ['Cash', 
-						'-', 
+		var cash_row = ['Cash',
+						'-',
 						'-',
 						state.net_data["net_cash_row"]["start_cash"],
 						state.net_data["net_cash_row"]["total_cash"],
@@ -988,7 +989,7 @@ var namespace_portfolio = (function()
 		contents.push(cash_row);
 		return contents;
 	}
-	
+
 	function get_portfolio_returns_object()
 	{
 		var contents = [
@@ -998,7 +999,7 @@ var namespace_portfolio = (function()
 		{
 			contents.push([
 				value["asset"],
-				value["info"], 
+				value["info"],
 				value["portfolio_returns"]["ret_1d"],
 				value["portfolio_returns"]["ret_1w"],
 				value["portfolio_returns"]["ret_1m"],
@@ -1011,7 +1012,7 @@ var namespace_portfolio = (function()
 		});
 		return contents;
 	}
-	
+
 	function get_benchmark_returns_object()
 	{
 		var contents = [
@@ -1021,7 +1022,7 @@ var namespace_portfolio = (function()
 		{
 			contents.push([
 				value["asset"],
-				value["info"], 
+				value["info"],
 				value["portfolio_returns"]["ret_1d"],
 				value["portfolio_returns"]["ret_1w"],
 				value["portfolio_returns"]["ret_1m"],
@@ -1034,21 +1035,21 @@ var namespace_portfolio = (function()
 		});
 		return contents;
 	}
-	
+
     /* Load required page data:
     * - Instruments list
-    * - Benchmarks list  
+    * - Benchmarks list
     * -Set values for empty portfolio  */
-    
+
 	function initialize()
     {
-        $.getJSON(API_URL, { call:"stock_list" }, function (data) 
+        $.getJSON(API_URL, { call:"stock_list" }, function (data)
         {
             if (data.header.error_code == 0)
             {
                 state.list_instruments = data.contents.stocks;
                 state.list_benchmarks = data.contents.benchmarks;
-                state.load_state = state.load_state+1;     
+                state.load_state = state.load_state+1;
                 init_gui_if_ready();
             }
         });
@@ -1064,7 +1065,7 @@ var namespace_portfolio = (function()
             "total_pnl" : 0.0
         }
     }
-	
+
 	/* receive the list of parts and assembole the json object to be interpreted as pdf report */
 	function generate_pdf_report(p_data)
 	{
@@ -1122,18 +1123,18 @@ var namespace_portfolio = (function()
 					var contents = JSON.stringify(namespace_graphs.return_quadrant_chart_object());
 					report_object.push({"type":"chart", "contents": contents, "header": "Portfolio vs Benchmark: Historical Risk and Returns "});
 					break;
-			}				
+			}
 		});
 		namespace_gui.process_message("attach_report", report_object);
 		//return report_object;
 	}
-	
+
     /* default risk interval and such */
     function load_portfolio_defaults(p_data)
     {
         state.risk_interval = p_data["risk_interval"];
     }
-	
+
     /* Public methods */
     return {
         /* message handler */
@@ -1142,7 +1143,7 @@ var namespace_portfolio = (function()
             switch (p_verb)
             {
                 case "add_record":
-                    add_transaction(p_data, recompute_and_render); 
+                    add_transaction(p_data, recompute_and_render);
                     break;
                 case "remove_record":
                     remove_transaction(p_data, recompute_and_render);
@@ -1166,4 +1167,3 @@ var namespace_portfolio = (function()
         }
     }
 }) ();
-

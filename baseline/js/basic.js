@@ -8,6 +8,9 @@ $(document).ready(function(){
   $("#show_performance").on('click', function(e){
     namespace_iplanner.show_performance_view();
   });
+  $("input[name='portfolio_selected']").change(function(){
+    namespace_iplanner.update_portfolio_view();
+  });
 
   namespace_marketdata.load_data();
 });
@@ -45,6 +48,119 @@ var namespace_marketdata = (function(){
 
 var namespace_portfolio_aux = (function(){
   return {
+
+    compute_risk_decomposition_table: function(p_data, p_derived_data, p_net_data)
+    {
+      var risk_comp_table=[];
+      var d_risk = 1.0;
+      var ret_sum = 0.0;
+      var p_risk =  p_derived_data[0]["std_dev"];
+      var x_risk = Math.pow(p_risk, 2);
+      $.each(p_data, function(index, value){
+        var n_ret = p_net_data["positions"][index]["pnl_rel"];
+        var n_weight = math_util.aux_math_round((p_net_data["positions"][index]["last_value"]/p_net_data["total_value"]),2);
+        var n_contrib = math_util.aux_math_round(p_net_data["positions"][index]["pnl"] /p_net_data["total_value"]*100,2);
+        var n_risk = math_util.aux_math_round(p_data[index]["risk_values"][0][0][1],2);
+        ret_sum = ret_sum + n_contrib;
+        var c_risk = math_util.aux_math_round((Math.pow(n_weight,2) * Math.pow(n_risk,2)) / Math.pow(p_risk,2),2);
+        d_risk = d_risk - c_risk;
+        x_risk = x_risk - c_risk;
+        risk_comp_table.push([
+          value["symbol"],
+          namespace_html.display_as_percentage(math_util.aux_math_round(n_ret,2)),
+          namespace_html.display_as_percentage(math_util.aux_math_round(n_weight*100,2)),
+          namespace_html.display_as_percentage(math_util.aux_math_round(n_contrib,2)),
+          namespace_html.display_as_percentage(math_util.aux_math_round(n_risk*100,2)),
+          namespace_html.display_as_percentage(math_util.aux_math_round(c_risk*100,2))
+        ]);
+      });
+      // d_c_risk = math_util.aux_math_round((1.0 - d_risk),4) math_util.aux_math_round(x_risk,2);
+      d_risk = math_util.aux_math_round(d_risk, 2);
+      risk_comp_table.push([
+        "Diversification",
+        "",
+        "",
+        "",
+        "",
+        namespace_html.display_as_percentage(math_util.aux_math_round(d_risk*100,2))]);
+    //  var port_return = math_util.aux_math_round(state.portfolio_series["derived_values"][0]["diff_percent"], 2);
+      var port_return = math_util.aux_math_round(p_derived_data[0]["diff_percent"], 2);
+      var net_weight = 1.0;
+      var net_risk = 1.0;
+      risk_comp_table.push([
+        "Portfolio",
+        namespace_html.display_as_percentage(math_util.aux_math_round(port_return,2)),
+        namespace_html.display_as_percentage(math_util.aux_math_round(net_weight*100.0,2)),
+        namespace_html.display_as_percentage(math_util.aux_math_round(ret_sum,2)),
+        namespace_html.display_as_percentage(math_util.aux_math_round(p_risk,2)),
+        namespace_html.display_as_percentage(math_util.aux_math_round(100,2))
+        ]);
+      return risk_comp_table;
+    },
+
+    get_position_chart_data: function(p_series_data, p_net_value)
+    {
+        var abs_list=[];
+        var rel_list=[];
+        var info_obj_abs = {};
+        var info_obj_rel = {};
+        var data_positions_abs=[];
+        var data_positions_rel=[];
+        var bubbles_a=[];
+        var bubbles_b=[];
+        var max_pnl = 0.0;
+        var max_pnl_rel = 0.0;
+        for (var j=0;j<p_series_data.length;j++)
+        {
+          if (p_series_data[j].pnl<0)
+            bubbles_a.push([j,p_series_data[j].pnl,"red"]);
+          else
+            bubbles_a.push([j,p_series_data[j].pnl,"green"]);
+      if (p_series_data[j].pnl_rel<0)
+        bubbles_b.push([j,p_series_data[j].pnl_rel,"red"]);
+      else
+        bubbles_b.push([j,p_series_data[j].pnl_rel,"green"]);
+      if (Math.abs(p_series_data[j].pnl)>max_pnl) max_pnl = Math.abs(p_series_data[j].pnl);
+      if (Math.abs(p_series_data[j].pnl_rel)>max_pnl_rel) max_pnl_rel = Math.abs(p_series_data[j].pnl_rel);
+
+    }
+    bubbles_a.sort(function(a,b){
+      if (a[1]<b[1]) return -1;
+      if (a[1]>b[1]) return 1;
+      if (a[1]==b[1]) return 0;
+    });
+    bubbles_b.sort(function(a,b){
+      if (a[1]<b[1]) return -1;
+      if (a[1]>b[1]) return 1;
+      if (a[1]==b[1]) return 0;
+    });
+    for (var i=0;i<bubbles_a.length;i++)
+    {
+      abs_list.push({"x":i,"y":p_series_data[bubbles_a[i][0]].pnl,"color":bubbles_a[i][2]});
+      data_positions_abs.push(p_series_data[bubbles_a[i][0]].symbol);
+            info_obj_abs[p_series_data[bubbles_a[i][0]].symbol] = {
+                "volume": p_series_data[bubbles_a[i][0]].volume,
+                "xpnl": p_series_data[bubbles_a[i][0]].pnl,
+                "rpnl": p_series_data[bubbles_a[i][0]].pnl_rel
+            };
+          rel_list.push({"x":i,"y":p_series_data[bubbles_b[i][0]].pnl_rel,"color":bubbles_b[i][2]});
+      data_positions_rel.push(p_series_data[bubbles_b[i][0]].symbol);
+            info_obj_rel[p_series_data[bubbles_b[i][0]].symbol] = {
+                "volume": p_series_data[bubbles_b[i][0]].volume,
+                "xpnl": p_series_data[bubbles_b[i][0]].pnl,
+                "rpnl": p_series_data[bubbles_b[i][0]].pnl_rel
+            };
+        }
+
+        return {
+      "abs_list":abs_list,
+      "rel_list":rel_list,
+      "data_positions": [data_positions_abs, data_positions_rel],
+      "hash_table":[info_obj_abs, info_obj_rel],
+      "max_pnl":max_pnl,
+      "max_pnl_rel":max_pnl_rel};
+    },
+
     compute_net_data: function(position_data)
     {
         var total_cash = position_data.total_cash;
@@ -445,13 +561,54 @@ var namespace_iplanner = (function(){
     $("#table_4").show();
   }
 
+  function render_risk_decomposition_table(p_container_id, p_risk_data)
+  {
+    $(p_container_id).empty()
+    $.each(p_risk_data, function(index, value)
+    {
+      var row = [];
+      $.each(value, function(i,v){
+        row.push(namespace_html.create_table_cell(v,"col-md-2"));
+      });
+      $(p_container_id).append(namespace_html.create_table_row(row,null));
+    });
+  }
+
+  //request portfolio series from net data and transactions
+  function render_charts(p_data_transactions, p_net_data)
+  {
+    var p_data_positions = p_net_data["positions"];
+    var p_total_value = p_net_data["total_value"];
+    var post_data = JSON.stringify({"transactions": p_data_transactions, "positions": p_data_positions});
+    if (p_data_transactions.length>0) $.post('/data_api/', {call:"portfolio_series", data: post_data}, function(data)
+    {
+      var json_data = JSON.parse(data);
+      if (json_data.header.error_code == 0)
+      {
+        var display_mode = "percent";
+        var chart_mode = "val_chart";
+        var flag_mode = false;
+        var flags = [];
+        var risk_series = json_data.position_risk_series;
+        var position_data = namespace_portfolio_aux.get_position_chart_data(p_data_positions,p_total_value);
+        namespace_graphs.render_val_pnl_chart(json_data.norm_value_series, "#chart_container_3", display_mode, flag_mode, chart_mode, flags);
+        namespace_graphs.render_position_chart(position_data, "#chart_container_4", display_mode);
+        var risk_table_data = namespace_portfolio_aux.compute_risk_decomposition_table(risk_series,json_data.derived_split,p_net_data);
+        render_risk_decomposition_table("#risk_decomposited", risk_table_data);
+      }
+    });
+  }
+
+  // get data for risk and return table
+  // get data for risk breakdown table
+  function render_tables()
+  {
+
+  }
   //create transactions
   //create position data from transactions
   //compute net_dat from position data
-  //request portfolio series from net data and transactions
-  //plot chart
-
-  function render_portfolios()
+  function compute_portfolios()
   {
     var transaction_list = [];
     var net_cash = 100000;
@@ -459,15 +616,31 @@ var namespace_iplanner = (function(){
     var start_date = "2014-08-01";
     if ($("input[name=portfolio_selected]:checked").val()=="basic")
     {
-      //start with 100k cash
-      $.each(p_data_extended["basic"], function(index, value){
+      var portfolio_selected_data = p_data_extended["basic"];
+    }
+    else if ($("input[name=portfolio_selected]:checked").val()=="advanced")
+    {
+      var portfolio_selected_data = p_data_extended["plus"];
+    }
+    //start with 100k cash
+    $.each(portfolio_selected_data, function(index, value){
         portfolio_value_list.push([value[0],value[1]/100 * net_cash]);
-      });
-      var counter = portfolio_value_list.length;
-      var net_cash_value = 0;
-      $.each(portfolio_value_list, function(index, value){
-        $.getJSON(API_URL, {instrument:value[0], call:"quote", datetime:start_date}, function(data)
-        {
+    });
+    var counter = portfolio_value_list.length;
+    var net_cash_value = 0;
+    var cash_transaction = {
+        volume: net_cash,
+        book_date: start_date,
+        type: "Deposit",
+        asset: "Cash",
+        sector: "-",
+        book_price: 1.0,
+        last_price: 1.0
+    };
+    transaction_list.push(cash_transaction);
+    $.each(portfolio_value_list, function(index, value){
+      $.getJSON(API_URL, {instrument:value[0], call:"quote", datetime:start_date}, function(data)
+      {
           if (data.header.error_code == 0)
           {
             var book_price = data.contents.price;
@@ -498,19 +671,12 @@ var namespace_iplanner = (function(){
                     counter--;
                     if (counter<=0)
                     {
-                      var cash_transaction = {
-                        volume: net_cash_value,
-                        book_date: start_date,
-                        type: "Deposit",
-                        asset: "Cash",
-                        sector: "-",
-                        book_price: 1.0,
-                        last_price: 1.0
-                      };
-                      transaction_list.push(cash_transaction);
-                      console.log(transaction_list);
+                      transaction_list[0].volume = net_cash_value;
+                      //console.log(transaction_list);
                       var position_data = namespace_portfolio_aux.compute_position_data(transaction_list);
-                      console.log(position_data);
+                      var net_data = namespace_portfolio_aux.compute_net_data(position_data);
+                      render_charts(transaction_list, net_data)
+            				//	render_tables(risk_table_data);
                     }
                   }
                 });
@@ -518,13 +684,7 @@ var namespace_iplanner = (function(){
             });
           }
         });
-      })
-    }
-    else if ($("input[name=portfolio_selected]:checked").val()=="advanced")
-    {
-      console.log(p_data_extended["plus"]);
-      console.log("Advanced selected");
-    }
+    });
   }
 
   return {
@@ -537,6 +697,9 @@ var namespace_iplanner = (function(){
       $("#table_2").hide();
       $("#table_3").hide();
       $("#table_4").hide();
+      $("#table_5").hide();
+      $("#header_1").hide();
+      $("#portfolio_selector").hide();
     },
 
     get_profile: function()
@@ -591,12 +754,16 @@ var namespace_iplanner = (function(){
 
     show_performance_view: function()
     {
-      render_portfolios();
+      compute_portfolios();
+      $("#portfolio_selector").show();
+      $("#table_5").show();
+      $("#header_1").show();
       $('a[href=#Tab3]').tab('show');
-      //build virtual portfolios
-      //request data
-      //plot charts
-      //console.log(p_data_extended);
+    },
+
+    update_portfolio_view: function()
+    {
+      compute_portfolios();
     }
   }
 }) ();
