@@ -11,7 +11,9 @@ $(document).ready(function(){
   $("input[name='portfolio_selected']").change(function(){
     namespace_iplanner.update_portfolio_view();
   });
-
+  $("#export_results").on('click', function(e){
+    namespace_iplanner.show_export_view();
+  });
   namespace_marketdata.load_data();
 });
 
@@ -595,15 +597,30 @@ var namespace_iplanner = (function(){
         namespace_graphs.render_position_chart(position_data, "#chart_container_4", display_mode);
         var risk_table_data = namespace_portfolio_aux.compute_risk_decomposition_table(risk_series,json_data.derived_split,p_net_data);
         render_risk_decomposition_table("#risk_decomposited", risk_table_data);
+        render_risk_and_return_tables(json_data.derived_split[0])
       }
     });
   }
 
   // get data for risk and return table
   // get data for risk breakdown table
-  function render_tables()
+  function render_risk_and_return_tables(p_client_report)
   {
-
+    $("#portfolio_net_pnl").text(math_util.aux_math_round(p_client_report.diff_percent,2)+"%");
+    $("#portfolio_value").text(p_client_report.value_start+"%");
+    $("#portfolio_final_pv").text(math_util.aux_math_round(p_client_report.value_end,2)+"%");
+    $("#portfolio_annualized").text(p_client_report.annualized+"%");
+    $("#portfolio_std").text(p_client_report.std_dev+"%");
+    var p1 = 0.95;
+    var p_val = namespace_html.read_value_as_float($("#value_totals").text());
+    var a2 = $("#portfolio_annualized").text();
+    var b2 = $("#portfolio_std").text();
+    var c2 = parseFloat(a2.substring(0,a2.length - 1));
+    var d2 = parseFloat(b2.substring(0,b2.length - 1));
+    var vatr2 = math_util.aux_math_round(namespace_xls.norminv(p1,c2,d2),2);
+    var vatr2_abs = math_util.aux_math_round(p_val*vatr2/100.0,2);
+    $("#portfolio_vatr_pc").text(namespace_html.display_as_percentage(vatr2));
+    $("#portfolio_vatr_abs").text(namespace_html.display_as_currency(vatr2_abs));
   }
   //create transactions
   //create position data from transactions
@@ -699,7 +716,11 @@ var namespace_iplanner = (function(){
       $("#table_4").hide();
       $("#table_5").hide();
       $("#header_1").hide();
+      $("#net_values_risk").hide();
       $("#portfolio_selector").hide();
+      $("#header_2").hide();
+      $("#net_values_report").hide();
+      $("#export_results").hide();
     },
 
     get_profile: function()
@@ -758,9 +779,18 @@ var namespace_iplanner = (function(){
       $("#portfolio_selector").show();
       $("#table_5").show();
       $("#header_1").show();
+      $("#net_values_risk").show();
+      $("#header_2").show();
+      $("#net_values_report").show();
+      $("#export_results").show();
       $('a[href=#Tab3]').tab('show');
     },
 
+    show_export_view: function()
+    {
+
+    },
+    
     update_portfolio_view: function()
     {
       compute_portfolios();

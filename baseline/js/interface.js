@@ -137,9 +137,7 @@ var namespace_gui = (function() {
         $("#portfolio_sharpe").text("0.0");
         $("#benchmark_sharpe").text("0.0");
         var p1 = 0.95;
-		console.log($("#value_totals").text());
         var p_val = namespace_html.read_value_as_float($("#value_totals").text());
-		console.log(p_val);
         var a1 = $("#benchmark_annualized").text();
         var b1 = $("#benchmark_std").text();
         var a2 = $("#portfolio_annualized").text();
