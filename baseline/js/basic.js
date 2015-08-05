@@ -788,9 +788,9 @@ var namespace_iplanner = (function(){
 
     show_export_view: function()
     {
-
+      $('a[href=#Tab4]').tab('show');
     },
-    
+
     update_portfolio_view: function()
     {
       compute_portfolios();
