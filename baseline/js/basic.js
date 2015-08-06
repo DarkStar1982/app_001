@@ -14,6 +14,9 @@ $(document).ready(function(){
   $("#export_results").on('click', function(e){
     namespace_iplanner.show_export_view();
   });
+  $("#recalculate").on('click', function(e){
+    namespace_iplanner.show_export_view();
+  });
   namespace_marketdata.load_data();
 });
 
@@ -704,6 +707,52 @@ var namespace_iplanner = (function(){
     });
   }
 
+  function compute_display_positions(p_data, p_container_id)
+  {
+    //read net amount
+    var start_amount = $("#money").val();
+  //  var positions_basic = p_data_extended["basic"];
+    var positions_basic = p_data;
+    var display_positions_basic = [];
+    var display_start="2014-08-01";
+    display_positions_basic.push(["Cash","Deposit", start_amount, display_start, 1.0]);
+    //create objects in the format
+    //symbol, type, volume, date, price
+    var counter = positions_basic.length;
+    $.each(positions_basic, function(index, value)
+    {
+      $.getJSON(API_URL, {instrument:value[0], call:"quote", datetime:display_start}, function(data)
+      {
+        if (data.header.error_code == 0)
+        {
+          var last_quote = data.contents.price;
+          var volume = value[1]/100 * start_amount / last_quote;
+          display_positions_basic.push([
+            value[0],
+            "Buy",
+            math_util.aux_math_round(volume-0.5,0),
+            display_start,
+            math_util.aux_math_round(last_quote,2)
+          ]);
+          counter--;
+          if (counter<=0)
+          {
+            var rows = "";
+            $.each(display_positions_basic, function(index, value){
+              rows = rows + row_macro(value);
+            });
+            $(p_container_id).empty();
+            $(p_container_id).append(rows);
+            //append as table
+          }
+        }
+      });
+    });
+    //console.log(display_positions_basic);
+
+    //show
+  }
+
   return {
     init_page_state: function()
     {
@@ -788,7 +837,15 @@ var namespace_iplanner = (function(){
 
     show_export_view: function()
     {
+      compute_display_positions(p_data_extended["basic"],"#basic_positions_body");
+      compute_display_positions(p_data_extended["plus"],"#plus_positions_body");
       $('a[href=#Tab4]').tab('show');
+    },
+
+    recalculate_exportable_positions: function()
+    {
+      compute_display_positions(p_data_extended["basic"],"#basic_positions_body");
+      compute_display_positions(p_data_extended["plus"],"#plus_positions_body");
     },
 
     update_portfolio_view: function()

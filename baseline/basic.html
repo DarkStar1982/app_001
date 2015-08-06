@@ -239,7 +239,7 @@
               <input id="radio_button_basic" type="radio" name="portfolio_selected" value="basic" checked>Basic
             </div>
             <div class="col-md-2">
-              <input id="radio_button_advanced" type="radio" name="portfolio_selected" value="advanced">Advanced
+              <input id="radio_button_advanced" type="radio" name="portfolio_selected" value="advanced">Plus
             </div>
             <div class="col-md-3"></div>
           </div>
@@ -322,20 +322,53 @@
             <div class="col-md-2">
               <button class="btn btn-default" id="recalculate">Recalculate positions</button>
             </div>
-            <div class="col-md-6"></div>
+            <div class="col-md-2">
+              <label for="csv_button_basic">Select portofolio to export</label>
+            </div>
+            <div class="col-md-1">
+              <input id="csv_button_basic" type="radio" name="positions_csv" value="basic" checked>Basic
+            </div>
+            <div class="col-md-1">
+              <input id="csv_button_advanced" type="radio" name="positions_csv" value="advanced">Plus
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-default" id="recalculate">Get as csv</button>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-6">
               <h4 style="text-align:center">Basic</h4>
               <!--table of positions -->
+              <table id="basic_positions" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
+                <thead>
+                  <th>Symbol</th>
+                  <th>Type</th>
+                  <th>Volume</th>
+                  <th>Date</th>
+                  <th>Price</th>
+                </thead>
+                <tbody id="basic_positions_body">
+                </tbody>
+              </table>
               <!-- get as csv -->
             </div>
             <div class="col-md-6">
               <h4 style="text-align:center">Plus</h4>
               <!--table of positions -->
-              <!-- get as csv -->
+              <table id="plus_positions" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
+                <thead>
+                  <th>Symbol</th>
+                  <th>Type</th>
+                  <th>Volume</th>
+                  <th>Date</th>
+                  <th>Price</th>
+                </thead>
+                <tbody id="plus_positions_body">
+                </tbody>
+              </table>
             </div>
           </div>
+          <hr/>
         </div>
       </div>
   </header>
