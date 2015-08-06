@@ -17,6 +17,11 @@ $(document).ready(function(){
   $("#recalculate").on('click', function(e){
     namespace_iplanner.show_export_view();
   });
+
+  $("#get_positions_as_csv").on('submit', function(e){
+   namespace_iplanner.get_csv_file();
+ });
+
   namespace_marketdata.load_data();
 });
 
@@ -320,6 +325,7 @@ var namespace_portfolio_aux = (function(){
 var namespace_iplanner = (function(){
   var p_data = {};
   var p_data_extended = {};
+  var p_csv_positions = {};
   var API_URL = "/data_api";
 
   function compute_profile_score(p_rank_value)
@@ -707,7 +713,7 @@ var namespace_iplanner = (function(){
     });
   }
 
-  function compute_display_positions(p_data, p_container_id)
+  function compute_display_positions(p_data, p_container_id, p_selected)
   {
     //read net amount
     var start_amount = $("#money").val();
@@ -738,6 +744,7 @@ var namespace_iplanner = (function(){
           if (counter<=0)
           {
             var rows = "";
+            p_csv_positions[p_selected]=display_positions_basic;
             $.each(display_positions_basic, function(index, value){
               rows = rows + row_macro(value);
             });
@@ -835,17 +842,32 @@ var namespace_iplanner = (function(){
       $('a[href=#Tab3]').tab('show');
     },
 
+    get_csv_file: function()
+    {
+      if ($("input[name='positions_csv']").val()=="advanced")
+      {
+        var p_data=p_csv_positions["plus"];
+      }
+      else if ($("input[name='positions_csv']").val()=="basic")
+      {
+        var p_data=p_csv_positions["basic"];
+      }
+      var data=JSON.stringify(p_data);
+      var input = $("<input>").attr("type", "hidden").attr("name", "data").val(data);
+      $('#get_positions_as_csv').append($(input));
+    },
+
     show_export_view: function()
     {
-      compute_display_positions(p_data_extended["basic"],"#basic_positions_body");
-      compute_display_positions(p_data_extended["plus"],"#plus_positions_body");
+      compute_display_positions(p_data_extended["basic"],"#basic_positions_body","basic");
+      compute_display_positions(p_data_extended["plus"],"#plus_positions_body", "plus");
       $('a[href=#Tab4]').tab('show');
     },
 
     recalculate_exportable_positions: function()
     {
-      compute_display_positions(p_data_extended["basic"],"#basic_positions_body");
-      compute_display_positions(p_data_extended["plus"],"#plus_positions_body");
+      compute_display_positions(p_data_extended["basic"],"#basic_positions_body","basic");
+      compute_display_positions(p_data_extended["plus"],"#plus_positions_body", "plus");
     },
 
     update_portfolio_view: function()
