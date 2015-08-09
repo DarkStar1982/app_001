@@ -8,9 +8,7 @@ $(document).ready(function(){
   $("#show_performance").on('click', function(e){
     namespace_iplanner.show_performance_view();
   });
-  $("input[name='portfolio_selected']").change(function(){
-    namespace_iplanner.update_portfolio_view();
-  });
+
   $("#export_results").on('click', function(e){
     namespace_iplanner.show_export_view();
   });
@@ -367,22 +365,18 @@ var namespace_iplanner = (function(){
     if (score<16)
     {
       p_data["basic"] = [['Cash',0.00],['Equity',0.00],['Fixed Income', 100.00]];
-      p_data["plus"] = [['Cash',0.00],['Equity',0.00],['Fixed Income', 100.00]];
     }
     else if (score<24)
     {
       p_data["basic"] = [['Cash',0.00],['Equity',15.00],['Fixed Income', 85.00]];
-      p_data["plus"] = [['Cash',0.00],['Equity',15.00],['Fixed Income', 85.00]];
     }
     else if ((score>=24)&&(score<=30))
     {
       p_data["basic"] = [['Cash',0.00],['Equity',60.00],['Fixed Income', 40.00]];
-      p_data["plus"] = [['Cash',0.00],['Equity',60.00],['Fixed Income', 40.00]];
     }
     else if (score>30)
     {
       p_data["basic"] = [['Cash',0.00],['Equity',80.00],['Fixed Income', 20.00]];
-      p_data["plus"] = [['Cash',0.00],['Equity',80.00],['Fixed Income', 20.00]];
     }
     return p_data;
   }
@@ -400,14 +394,6 @@ var namespace_iplanner = (function(){
         ['SHY', 5.0],
         ['HYG', 5.0]
       ];
-      p_data_extended["plus"] = [
-        ['AGG', 35.0],
-        ['XBB.TO',30.0],
-        ['HYG', 15.0],
-        ['TLT', 10.0],
-        ['SHY', 5.0],
-        ['PFF', 5.0]
-      ];
     }
     else if (p_score<24)
     {
@@ -420,13 +406,6 @@ var namespace_iplanner = (function(){
         ['DVY', 5.0],
         ['VSC.TO', 5.0]
       ];
-      p_data_extended["plus"] = [
-        ['AGG', 40.0],
-        ['XBB.TO',20.0],
-        ['PFF', 15.0],
-        ['VEE', 15.0],
-        ['HYG', 10.0]
-      ];
     }
     else if ((p_score>=24)&&(p_score<=30))
     {
@@ -436,17 +415,6 @@ var namespace_iplanner = (function(){
         ['IWV', 10.0],
         ['AGG', 20.0],
         ['HYG', 5.0],
-        ['XIC.TO', 20.0],
-        ['XBB.TO', 10.0],
-        ['VEE', 5.0]
-      ];
-      p_data_extended["plus"] = [
-        ['VOO', 20.0],
-        ['IVW', 5.0],
-        ['IVE', 5.0],
-        ['IWV', 10.0],
-        ['AGG', 15.0],
-        ['HYG', 10.0],
         ['XIC.TO', 20.0],
         ['XBB.TO', 10.0],
         ['VEE', 5.0]
@@ -466,31 +434,18 @@ var namespace_iplanner = (function(){
         ['XBB.TO', 5.0],
         ['VEE', 5.0]
       ];
-      p_data_extended["plus"] = [
-        ['VOO', 20.0],
-        ['IJR', 5.0],
-        ['IVE', 5.0],
-        ['IWV', 15.0],
-        ['AGG', 10.0],
-        ['XIU.TO', 15.0],
-        ['XCG.TO', 10.0],
-        ['XBB.TO', 5.0],
-        ['EFG',10.0],
-        ['VEE', 5.0]
-      ];
     }
     return p_data_extended;
   }
 
   function compute_chart_series(p_data)
   {
-    var p_data_ex = {"basic":[], "plus":[]}
+    var p_data_ex = {"basic":[]};
     for (var i=0;i<p_data["basic"].length;i++)
     {
       if (p_data["basic"][i][1] > 0.0)
         p_data_ex["basic"].push(p_data["basic"][i]);
-      if (p_data["plus"][i][1] > 0.0)
-        p_data_ex["plus"].push(p_data["plus"][i]);
+
     }
     return p_data_ex;
   }
@@ -498,7 +453,7 @@ var namespace_iplanner = (function(){
   function create_charts_simple(p_data)
   {
     var chart_objs = [{
-      title : { text : 'Basic'},
+      title : { text : null},
       legend : {enabled:false},
       series: [{
             type: 'pie',
@@ -506,16 +461,6 @@ var namespace_iplanner = (function(){
             innerSize: '50%',
             data:p_data["basic"]
         }]
-    },
-    {
-      title : { text : 'Plus'},
-      legend : {enabled:false},
-      series: [{
-            type: 'pie',
-            name: 'Portfolio share',
-            innerSize: '50%',
-            data: p_data["plus"]
-          }]
     }];
     return chart_objs;
   }
@@ -556,20 +501,6 @@ var namespace_iplanner = (function(){
     $("#table_3 tbody").append(rows);
     $("#table_3").show();
     // add second one
-    for (var i=0;i<p_data["plus"].length;i++)
-    {
-      var symbol_data  = namespace_marketdata.get_data(p_data["plus"][i][0]);
-      rows_2 = rows_2 + row_macro([
-        symbol_data["ticker"],
-        symbol_data["currency"],
-        symbol_data["type"],
-        symbol_data["desc"],
-        p_data["plus"][i][1] +'%'
-      ]);
-    }
-    $("#table_4 tbody").empty();
-    $("#table_4 tbody").append(rows_2);
-    $("#table_4").show();
   }
 
   function render_risk_decomposition_table(p_container_id, p_risk_data)
@@ -640,14 +571,7 @@ var namespace_iplanner = (function(){
     var net_cash = 100000;
     var portfolio_value_list = [];
     var start_date = "2014-08-01";
-    if ($("input[name=portfolio_selected]:checked").val()=="basic")
-    {
-      var portfolio_selected_data = p_data_extended["basic"];
-    }
-    else if ($("input[name=portfolio_selected]:checked").val()=="advanced")
-    {
-      var portfolio_selected_data = p_data_extended["plus"];
-    }
+    var portfolio_selected_data = p_data_extended["basic"];
     //start with 100k cash
     $.each(portfolio_selected_data, function(index, value){
         portfolio_value_list.push([value[0],value[1]/100 * net_cash]);
@@ -717,7 +641,7 @@ var namespace_iplanner = (function(){
   {
     //read net amount
     var start_amount = $("#money").val();
-  //  var positions_basic = p_data_extended["basic"];
+    //var positions_basic = p_data_extended["basic"];
     var positions_basic = p_data;
     var display_positions_basic = [];
     var display_start="2014-08-01";
@@ -773,7 +697,6 @@ var namespace_iplanner = (function(){
       $("#table_5").hide();
       $("#header_1").hide();
       $("#net_values_risk").hide();
-      $("#portfolio_selector").hide();
       $("#header_2").hide();
       $("#net_values_report").hide();
       $("#export_results").hide();
@@ -809,8 +732,6 @@ var namespace_iplanner = (function(){
       var chart_data_advanced = create_detailed_series(score);
       var charts_advanced = create_charts_simple(chart_data_advanced);
       $("#chart_container_1").highcharts('Chart', charts_simple[0]);
-      $("#chart_container_2").highcharts('Chart', charts_simple[1]);
-      $("#chart_container_22").highcharts('Chart', charts_advanced[1]);
       $("#chart_container_12").highcharts('Chart', charts_advanced[0]);
       //append tables simple
       append_tables_advanced(chart_data_advanced);
@@ -818,21 +739,15 @@ var namespace_iplanner = (function(){
       $("#table_1").append('<tr><td>Cash</td><td>'+p_data["basic"][0][1]+'%</td></tr>');
       $("#table_1").append('<tr><td>Equity</td><td>'+p_data["basic"][1][1]+'%</td></tr>');
       $("#table_1").append('<tr><td>Fixed Income</td><td>'+p_data["basic"][2][1]+'%</td></tr>');
-      $("#table_2").empty();
-      $("#table_2").append('<tr><td>Cash</td><td>'+p_data["plus"][0][1]+'%</td></tr>');
-      $("#table_2").append('<tr><td>Equity</td><td>'+p_data["plus"][1][1]+'%</td></tr>');
-      $("#table_2").append('<tr><td>Fixed Income</td><td>'+p_data["plus"][2][1]+'%</td></tr>');
       //set visibilty
       $('a[href=#Tab2]').tab('show');
       $("#show_performance").show();
       $("#table_1").show();
-      $("#table_2").show();
     },
 
     show_performance_view: function()
     {
       compute_portfolios();
-      $("#portfolio_selector").show();
       $("#table_5").show();
       $("#header_1").show();
       $("#net_values_risk").show();
@@ -860,14 +775,12 @@ var namespace_iplanner = (function(){
     show_export_view: function()
     {
       compute_display_positions(p_data_extended["basic"],"#basic_positions_body","basic");
-      compute_display_positions(p_data_extended["plus"],"#plus_positions_body", "plus");
       $('a[href=#Tab4]').tab('show');
     },
 
     recalculate_exportable_positions: function()
     {
       compute_display_positions(p_data_extended["basic"],"#basic_positions_body","basic");
-      compute_display_positions(p_data_extended["plus"],"#plus_positions_body", "plus");
     },
 
     update_portfolio_view: function()

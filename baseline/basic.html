@@ -175,16 +175,22 @@
         <!-- Positions builder tab -->
         <div class="tab-pane" id="Tab2">
           <div class="row">
-            <div class="col-md-6">
               <div class="col-md-6" id="chart_container_1"></div>
-              <table class="table table-bordered">
-                <thead>
-                  <tr><th>Security Type</th><th>Percentage Weight</th></tr>
-                </thead>
-                <tbody id="table_1"></tbody>
-              </table>
-              <div id="chart_container_12"></div>
-              <table class="table table-bordered" id="table_3">
+              <div class="col-md-6">
+                <h4> Positions Distribution</h4>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr><th>Security Type</th><th>Percentage Weight</th></tr>
+                  </thead>
+                  <tbody id="table_1"></tbody>
+                </table>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6" id="chart_container_12"></div>
+              <div class="col-md-6">
+                <h4>Detailed Positon Breakdown</h4>
+                <table class="table table-bordered" id="table_3">
                 <thead>
                   <tr>
                     <th>Symbol</th>
@@ -197,29 +203,7 @@
                 <tbody></tbody>
               </table>
             </div>
-            <div class="col-md-6">
-              <div class="col-md-6" id="chart_container_2"></div>
-              <table class="table table-bordered">
-                <thead>
-                  <tr><th>Security Type</th><th>Percentage Weight</th></tr>
-                </thead>
-                <tbody id="table_2"></tbody>
-              </table>
-              <div id="chart_container_22"></div>
-              <table class="table table-bordered" id="table_4">
-                <thead>
-                  <tr>
-                    <th>Symbol</th>
-                    <th>Market</th>
-                    <th>Type</th>
-                    <th>Description</th>
-                    <th>Percentage Weight</th>
-                  </tr>
-                </thead>
-                <tbody></tbody>
-              </table>
             </div>
-          </div>
           <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
@@ -230,19 +214,6 @@
           <hr/>
         </div>
         <div class="tab-pane" id="Tab3">
-          <div class="row" id="portfolio_selector">
-            <div class="col-md-3"></div>
-            <div class="col-md-2">
-              <label for="radio_button">Select portfolio:</label>
-            </div>
-            <div class="col-md-2">
-              <input id="radio_button_basic" type="radio" name="portfolio_selected" value="basic" checked>Basic
-            </div>
-            <div class="col-md-2">
-              <input id="radio_button_advanced" type="radio" name="portfolio_selected" value="advanced">Plus
-            </div>
-            <div class="col-md-3"></div>
-          </div>
           <div class="row">
               <div class="col-md-6" id="chart_container_3"></div>
               <div class="col-md-6" id="chart_container_4"></div>
@@ -322,24 +293,10 @@
             <div class="col-md-2">
               <button class="btn btn-default" id="recalculate">Recalculate positions</button>
             </div>
-            <div class="col-md-2">
-              <label for="csv_button_basic">Select portofolio to export</label>
-            </div>
-            <div class="col-md-1">
-              <input id="csv_button_basic" type="radio" name="positions_csv" value="basic" checked>Basic
-            </div>
-            <div class="col-md-1">
-              <input id="csv_button_advanced" type="radio" name="positions_csv" value="advanced">Plus
-            </div>
-            <div class="col-md-2">
-              <form id="get_positions_as_csv" action="/get_csv/" method="post" target="_blank">
-                <input type="submit" class="btn btn-default" value="Download as CSV" id="get_positions_as_csv" name="Get as CSV"/>
-              </form>
-            </div>
           </div>
           <div class="row">
-            <div class="col-md-6">
-              <h4 style="text-align:center">Basic</h4>
+            <div class="col-md-12">
+              <h4 style="text-align:center">Portfolio positions</h4>
               <!--table of positions -->
               <table id="basic_positions" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
                 <thead>
@@ -353,21 +310,14 @@
                 </tbody>
               </table>
               <!-- get as csv -->
+              </div>
             </div>
-            <div class="col-md-6">
-              <h4 style="text-align:center">Plus</h4>
-              <!--table of positions -->
-              <table id="plus_positions" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
-                <thead>
-                  <th>Symbol</th>
-                  <th>Type</th>
-                  <th>Volume</th>
-                  <th>Date</th>
-                  <th>Price</th>
-                </thead>
-                <tbody id="plus_positions_body">
-                </tbody>
-              </table>
+            <div class="row">
+              <div class="col-md-2">
+                <form id="get_positions_as_csv" action="/get_csv/" method="post" target="_blank">
+                  <input type="submit" class="btn btn-default" value="Download positions as CSV" id="get_positions_as_csv" name="Get as CSV"/>
+                </form>
+              </div>
             </div>
           </div>
           <hr/>
