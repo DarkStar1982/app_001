@@ -5,13 +5,14 @@ $(document).ready(function(){
     namespace_iplanner.get_profile();
   });
 
-  $("#show_performance").on('click', function(e){
+/*  $("#show_performance").on('click', function(e){
     namespace_iplanner.show_performance_view();
   });
 
   $("#export_results").on('click', function(e){
     namespace_iplanner.show_export_view();
-  });
+  }); */
+
   $("#recalculate").on('click', function(e){
     namespace_iplanner.show_export_view();
   });
@@ -740,9 +741,10 @@ var namespace_iplanner = (function(){
       $("#table_1").append('<tr><td>Equity</td><td>'+p_data["basic"][1][1]+'%</td></tr>');
       $("#table_1").append('<tr><td>Fixed Income</td><td>'+p_data["basic"][2][1]+'%</td></tr>');
       //set visibilty
-      $('a[href=#Tab2]').tab('show');
       $("#show_performance").show();
       $("#table_1").show();
+      $('a[href=#Tab2]').tab('show');
+      this.show_performance_view();
     },
 
     show_performance_view: function()
@@ -754,7 +756,8 @@ var namespace_iplanner = (function(){
       $("#header_2").show();
       $("#net_values_report").show();
       $("#export_results").show();
-      $('a[href=#Tab3]').tab('show');
+      //$('a[href=#Tab3]').tab('show');
+      this.show_export_view();
     },
 
     get_csv_file: function()
@@ -775,7 +778,7 @@ var namespace_iplanner = (function(){
     show_export_view: function()
     {
       compute_display_positions(p_data_extended["basic"],"#basic_positions_body","basic");
-      $('a[href=#Tab4]').tab('show');
+      //$('a[href=#Tab4]').tab('show');
     },
 
     recalculate_exportable_positions: function()
