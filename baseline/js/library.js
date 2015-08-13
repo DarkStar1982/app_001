@@ -340,6 +340,15 @@ var datetime_util = (function () {
 			var sdate = p_date.getFullYear()+'-'+month+'-'+xdate;
         	return sdate;
 		},
+
+		get_last_year_date: function()
+		{
+			var today= new Date();
+			var yesterday = new Date(today);
+			yesterday.setFullYear(today.getFullYear()-1);
+			return yesterday;
+		},
+
 		//self-explanatory
 		get_yesterday_date: function()
 		{

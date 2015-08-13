@@ -50,8 +50,8 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right" id="navbar_right">
               <li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Your Investor Ranking</a></li>
-              <li><a href="#Tab2" role="tab" data-toggle="tab">Build Investment Plan</a></li>
-              <li><a href="#Tab3" role="tab" data-toggle="tab">View risk and returns</a></li>
+              <li><a href="#Tab2" role="tab" data-toggle="tab">View Investment Plan</a></li>
+              <li><a href="#Tab3" role="tab" data-toggle="tab">See risk and returns</a></li>
               <li><a href="#Tab4" role="tab" data-toggle="tab">Export results</a></li>
             </ul>
           </div>
@@ -175,21 +175,10 @@
         <!-- Positions builder tab -->
         <div class="tab-pane" id="Tab2">
           <div class="row">
-              <div class="col-md-6" id="chart_container_1"></div>
-              <div class="col-md-6">
-                <h4>Basic Positions Distribution</h4>
-                <table class="table table-bordered">
-                  <thead>
-                    <tr><th>Security Type</th><th>Percentage Weight</th></tr>
-                  </thead>
-                  <tbody id="table_1"></tbody>
-                </table>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6" id="chart_container_12"></div>
-              <div class="col-md-6">
-                <h4>Detailed Position Breakdown</h4>
+              <div class="col-md-4" id="chart_container_1"></div>
+              <!--div class="col-md-6" id="chart_container_12"></div-->
+              <div class="col-md-8">
+                <h4  style="text-align:center">Positions breakdown</h4>
                 <table class="table table-bordered" id="table_3">
                 <thead>
                   <tr>
@@ -203,7 +192,8 @@
                 <tbody></tbody>
               </table>
             </div>
-            </div>
+          </div>
+
           <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">

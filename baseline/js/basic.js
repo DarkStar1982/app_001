@@ -451,10 +451,10 @@ var namespace_iplanner = (function(){
     return p_data_ex;
   }
 
-  function create_charts_simple(p_data)
+  function create_charts_simple(p_data, p_title)
   {
     var chart_objs = [{
-      title : { text : null},
+      title : { text : p_title},
       legend : {enabled:false},
       series: [{
             type: 'pie',
@@ -571,7 +571,10 @@ var namespace_iplanner = (function(){
     var transaction_list = [];
     var net_cash = 100000;
     var portfolio_value_list = [];
-    var start_date = "2014-08-01";
+    //today date
+    var today = new Date();
+    //convert to string
+    var start_date = datetime_util.adjust_date(datetime_util.get_last_year_date()); //.(today);
     var portfolio_selected_data = p_data_extended["basic"];
     //start with 100k cash
     $.each(portfolio_selected_data, function(index, value){
@@ -645,7 +648,7 @@ var namespace_iplanner = (function(){
     //var positions_basic = p_data_extended["basic"];
     var positions_basic = p_data;
     var display_positions_basic = [];
-    var display_start="2014-08-01";
+    var display_start=datetime_util.adjust_date(new Date());
     display_positions_basic.push(["Cash","Deposit", start_amount, display_start, 1.0]);
     //create objects in the format
     //symbol, type, volume, date, price
@@ -728,21 +731,28 @@ var namespace_iplanner = (function(){
     {
       var score = $("#p_score").text();
       var p_data = compute_portfolio_data(score);
+      var simple_title = "<b>Recommended allocation</b><br/>Equity "
+        + p_data["basic"][1][1] + "%, Fixed Income "+p_data["basic"][2][1]+"%";
       var chart_data = compute_chart_series(p_data);
-      var charts_simple = create_charts_simple(chart_data);
+      //$("#header_1").append(simple_title);
+      var charts_simple = create_charts_simple(chart_data, simple_title);
       var chart_data_advanced = create_detailed_series(score);
-      var charts_advanced = create_charts_simple(chart_data_advanced);
+  //    var charts_advanced = create_charts_simple(chart_data_advanced, "All positions");
       $("#chart_container_1").highcharts('Chart', charts_simple[0]);
-      $("#chart_container_12").highcharts('Chart', charts_advanced[0]);
+    //  $("#chart_container_12").highcharts('Chart', charts_advanced[0]);
       //append tables simple
-      append_tables_advanced(chart_data_advanced);
       $("#table_1").empty();
-      $("#table_1").append('<tr><td>Cash</td><td>'+p_data["basic"][0][1]+'%</td></tr>');
-      $("#table_1").append('<tr><td>Equity</td><td>'+p_data["basic"][1][1]+'%</td></tr>');
-      $("#table_1").append('<tr><td>Fixed Income</td><td>'+p_data["basic"][2][1]+'%</td></tr>');
+      append_tables_advanced(chart_data_advanced);
+      //p_data["basic"][0][1]
+  /*    $("#table_1").append(
+        '<tr><td><b>Basic portfolio distribution: </b></td>' +
+        '<td><b>Equity: <b>' + p_data["basic"][1][1] + '%</td>' +
+        '<td><b>Fixed Income: </b>' +p_data["basic"][2][1]+'%</td></tr>'
+      ); */
       //set visibilty
       $("#show_performance").show();
       $("#table_1").show();
+      $("#table_2").show();
       $('a[href=#Tab2]').tab('show');
       this.show_performance_view();
     },
