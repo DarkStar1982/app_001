@@ -451,7 +451,7 @@ var namespace_iplanner = (function(){
     return p_data_ex;
   }
 
-  function create_charts_simple(p_data, p_title)
+  function create_charts_pie(p_data, p_title)
   {
     var chart_objs = [{
       title : { text : p_title},
@@ -459,12 +459,27 @@ var namespace_iplanner = (function(){
       series: [{
             type: 'pie',
             name: 'Portfolio share',
-            innerSize: '50%',
+            //innerSize: '50%',
             data:p_data["basic"]
         }]
     }];
     return chart_objs;
   }
+
+  function create_charts_bar(p_data, p_title)
+  {
+    var chart_objs = [{
+      title : { text : p_title},
+      legend : {enabled:false},
+      series: [{
+            type: 'bar',
+            name: 'Portfolio share',
+            data:p_data["basic"]
+        }]
+    }];
+    return chart_objs;
+  }
+
 
   function cell_macro(p_value)
   {
@@ -683,9 +698,6 @@ var namespace_iplanner = (function(){
         }
       });
     });
-    //console.log(display_positions_basic);
-
-    //show
   }
 
   return {
@@ -735,11 +747,11 @@ var namespace_iplanner = (function(){
         + p_data["basic"][1][1] + "%, Fixed Income "+p_data["basic"][2][1]+"%";
       var chart_data = compute_chart_series(p_data);
       //$("#header_1").append(simple_title);
-      var charts_simple = create_charts_simple(chart_data, simple_title);
+      var charts_simple = create_charts_pie(chart_data, simple_title);
       var chart_data_advanced = create_detailed_series(score);
-  //    var charts_advanced = create_charts_simple(chart_data_advanced, "All positions");
+      var charts_advanced = create_charts_bar(chart_data_advanced, "All positions");
       $("#chart_container_1").highcharts('Chart', charts_simple[0]);
-    //  $("#chart_container_12").highcharts('Chart', charts_advanced[0]);
+      $("#chart_container_12").highcharts('Chart', charts_advanced[0]);
       //append tables simple
       $("#table_1").empty();
       append_tables_advanced(chart_data_advanced);
