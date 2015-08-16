@@ -505,18 +505,28 @@ var namespace_iplanner = (function(){
     for (var i=0;i<p_data["basic"].length;i++)
     {
       var symbol_data  = namespace_marketdata.get_data(p_data["basic"][i][0]);
-      rows = rows + row_macro([
+      var new_row = row_macro([
         symbol_data["ticker"],
         symbol_data["currency"],
-        symbol_data["type"],
+      //  symbol_data["type"],
         symbol_data["desc"],
         p_data["basic"][i][1] +'%'
       ]);
+      if (symbol_data["type"] == "Fixed Income")
+      {
+        rows = rows + new_row;
+      }
+      else if (symbol_data["type"] == "Equity")
+      {
+        rows_2 = rows_2 + new_row;
+      }
     }
     $("#table_3 tbody").empty();
     $("#table_3 tbody").append(rows);
     $("#table_3").show();
-    // add second one
+    $("#table_31 tbody").empty();
+    $("#table_31 tbody").append(rows_2);
+    $("#table_31").show();
   }
 
   function render_risk_decomposition_table(p_container_id, p_risk_data)

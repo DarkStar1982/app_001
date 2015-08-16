@@ -50,7 +50,9 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right" id="navbar_right">
               <li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Get investment plan</a></li>
-              <li><a href="#Tab2" role="tab" data-toggle="tab"> Portfolio Composition</a></li>
+              <li><a href="#Tab2" role="tab" data-toggle="tab">Portfolio Composition</a></li>
+              <li><a href="#Tab3" role="tab" data-toggle="tab">Risks and Returns</a></li>
+              <li><a href="#Tab4" role="tab" data-toggle="tab">Export positions</a></li>
             </ul>
           </div>
       </div>
@@ -173,16 +175,17 @@
         <!-- Positions builder tab -->
         <div class="tab-pane" id="Tab2">
           <div class="row">
-              <div class="col-md-6" id="chart_container_1"></div>
-              <div class="col-md-6" id="chart_container_12"></div>
-              <div class="col-md-12">
+            <div class="col-md-6" id="chart_container_1"></div>
+            <div class="col-md-6" id="chart_container_12"></div>
+          </div>
+          <div class="row">
+              <div class="col-md-6">
                 <h4>Positions - fixed income</h4>
                 <table class="table table-bordered" id="table_3">
                 <thead>
                   <tr>
                     <th>Symbol</th>
                     <th>Market</th>
-                    <th>Type</th>
                     <th>Description</th>
                     <th>Weight</th>
                   </tr>
@@ -190,38 +193,81 @@
                 <tbody></tbody>
               </table>
             </div>
+            <div class="col-md-6">
+              <h4>Positions - equity</h4>
+              <table class="table table-bordered" id="table_31">
+              <thead>
+                <tr>
+                  <th>Symbol</th>
+                  <th>Market</th>
+                  <th>Description</th>
+                  <th>Weight</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+          </div>
+        </div>
+        <div class="tab-pane" id="Tab3">
+          <div class="row">
+              <div class="col-md-6" id="chart_container_3"></div>
+              <div class="col-md-6" id="chart_container_4"></div>
           </div>
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <h4 id="header_2" style='text-align:center'>Historical risk and returns</h4>
-              <table id="net_values_report" class="table  table-striped table-bordered" cellspacing="0" cellpadding="0">
+              <table id="net_values_report" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
                 <tbody>
                   <tr>
-                    <th>Range</th>
-                    <th id="label_value">Initial Value</th>
-                    <th id="label_final_pv">Final Value</th>
-                    <th id="label_net_pnl">Net Profit/Loss</th>
-                    <th id="label_annualized">Annualized Profit/Loss</th>
-                    <th id="label_std">Volatility (Std. Dev)</th>
-                    <th id="label_vatr_pc">Value at risk - Percent</th>
+                    <th class="col-md-1">Duration</th>
+                    <td class="col-md-1">Since last year</td>
                   </tr>
                   <tr>
-                    <td>Since last year</td>
+                    <th id="label_value">Initial Value</th>
                     <td id="portfolio_value">0</td>
+                  </tr>
+                  <tr>
+                    <th id="label_final_pv">Final Value</th>
                     <td id="portfolio_final_pv">0</td>
+                  </tr>
+                  <tr>
+                    <th id="label_net_pnl">Net Profit/Loss</th>
                     <td id="portfolio_net_pnl">0</td>
+                  </tr>
+                  <tr>
+                    <th id="label_annualized">Annualized Profit/Loss</th>
                     <td id="portfolio_annualized">0</td>
+                  </tr>
+                  <tr>
+                    <th id="label_std">Volatility (Std. Dev)</th>
                     <td id="portfolio_std">0</td>
+                  </tr>
+                  <tr>
+                    <th id="label_vatr_pc">Value at risk - Percent</th>
                     <td id="portfolio_vatr_pc">0.0</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            <div class="col-md-6">
+              <h4 id="header_2" style='text-align:center'>Risk breakdown and diversification</h4>
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <th>Position </th>
+                  <th>Nominal Ret.</th>
+                  <th>Weight</th>
+                  <th>Return Contribution</th>
+                  <th>Nominal Risk</th>
+                  <th>Risk Contribution</th>
+                </thead>
+                <tbody id="risk_decomposited">
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="row">
-              <div class="col-md-6" id="chart_container_3"></div>
-              <div class="col-md-6" id="chart_container_4"></div>
-          </div>
+        </div>
+        <div class="tab-pane" id="Tab4">
           <div class="row">
             <h4 style="text-align:center">Export portfolio positions</h4>
             <div class="col-md-2">
