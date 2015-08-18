@@ -365,19 +365,31 @@ var namespace_iplanner = (function(){
     //append charts here
     if (score<16)
     {
-      p_data["basic"] = [['Cash',0.00],['Equity',0.00],['Fixed Income', 100.00]];
+      p_data["basic"] = [
+        {name:'Equity',color:'#00EF7F', y:0.00},
+        {name:'Fixed Income',color:'#007F7F',y: 100.00}
+      ];
     }
     else if (score<24)
     {
-      p_data["basic"] = [['Cash',0.00],['Equity',15.00],['Fixed Income', 85.00]];
+      p_data["basic"] = [
+        {name:'Equity',color:'#00EF7F', y: 15.00},
+        {name:'Fixed Income',color:'#007F7F',y: 85.00}
+      ];
     }
     else if ((score>=24)&&(score<=30))
     {
-      p_data["basic"] = [['Cash',0.00],['Equity',60.00],['Fixed Income', 40.00]];
+      p_data["basic"] = [
+        {name:'Equity',color:'#00EF7F', y:60.00},
+        {name:'Fixed Income',color:'#007F7F',y: 40.00}
+      ];
     }
     else if (score>30)
     {
-      p_data["basic"] = [['Cash',0.00],['Equity',80.00],['Fixed Income', 20.00]];
+      p_data["basic"] = [
+        {name:'Equity',color:'#00EF7F', y:80.00},
+        {name:'Fixed Income',color:'#007F7F',y: 20.00}
+      ];
     }
     return p_data;
   }
@@ -387,30 +399,48 @@ var namespace_iplanner = (function(){
     //append charts here
     if (p_score<16)
     {
-      p_data_extended["basic"] = [
-        ['AGG', 40.0],
-        ['XBB.TO',30.0],
-        ['IEI', 10.0],
-        ['TLT', 10.0],
-        ['SHY', 5.0],
-        ['HYG', 5.0]
+      p_data_extended["basic"] = [[
+          ['AGG', 40.0],
+          ['XBB.TO', 30.0],
+          ['IEI', 10.0],
+          ['TLT', 10.0],
+          ['SHY', 5.0],
+          ['HYG', 5.0]
+        ],
+        [
+          {name:'AGG', color: '#007F7F', y:40.0},
+          {name:'XBB.TO', color: '#007F7F', y:30.0},
+          {name:'IEI', color: '#007F7F', y:10.0},
+          {name:'TLT', color: '#007F7F', y:10.0},
+          {name:'SHY', color: '#007F7F', y:5.0},
+          {name:'HYG', color: '#007F7F', y:5.0}
+        ]
       ];
     }
     else if (p_score<24)
     {
-      p_data_extended["basic"] = [
+      p_data_extended["basic"] = [[
         ['AGG', 40.0],
         ['XBB.TO',20.0],
         ['PFF', 10.0],
         ['HYG', 10.0],
         ['VEE', 10.0],
         ['DVY', 5.0],
-        ['VSC.TO', 5.0]
+        ['VSC.TO', 5.0]],
+        [
+          {name:'AGG', color: '#007F7F', y:40.0},
+          {name:'XBB.TO', color: '#007F7F', y:20.0},
+          {name:'PFF', color: '#007F7F', y:10.0},
+          {name:'HYG', color: '#007F7F', y:10.0},
+          {name:'VEE', color: '#00EF7F', y:10.0},
+          {name:'DVY', color: '#00EF7F', y:5.0},
+          {name:'VSC.TO', color: '#007F7F', y:5.0}
+        ]
       ];
     }
     else if ((p_score>=24)&&(p_score<=30))
     {
-      p_data_extended["basic"] = [
+      p_data_extended["basic"] = [[
         ['VOO', 20.0],
         ['IVE', 10.0],
         ['IWV', 10.0],
@@ -418,12 +448,21 @@ var namespace_iplanner = (function(){
         ['HYG', 5.0],
         ['XIC.TO', 20.0],
         ['XBB.TO', 10.0],
-        ['VEE', 5.0]
-      ];
+        ['VEE', 5.0]],
+        [
+          {name:'VOO', color: '#00EF7F', y:20.0},
+          {name:'IVE', color: '#00EF7F', y:10.0},
+          {name:'IWV', color: '#00EF7F', y:10.0},
+          {name:'AGG', color: '#007F7F', y:20.0},
+          {name:'HYG', color: '#007F7F', y:5.0},
+          {name:'XIC.TO', color: '#00EF7F', y:20.0},
+          {name:'XBB.TO', color: '#007F7F', y:10.0},
+          {name:'VEE', color: '#00EF7F', y:5.0}
+        ]];
     }
     else if (p_score>30)
     {
-      p_data_extended["basic"] = [
+      p_data_extended["basic"] = [[
         ['VOO', 20.0],
         ['IJR', 5.0],
         ['IVE', 10.0],
@@ -433,7 +472,19 @@ var namespace_iplanner = (function(){
         ['XIU.TO', 15.0],
         ['XCG.TO', 10.0],
         ['XBB.TO', 5.0],
-        ['VEE', 5.0]
+        ['VEE', 5.0]],
+        [
+          {name:'VOO', color: '#00EF7F', y:20.0},
+          {name:'IJR', color: '#00EF7F', y:5.0},
+          {name:'IVE', color: '#00EF7F', y:10.0},
+          {name:'IWV', color: '#00EF7F', y:15.0},
+          {name:'AGG', color: '#007F7F', y:10.0},
+          {name:'HYG', color: '#007F7F', y:5.0},
+          {name:'XIU.TO', color: '#00EF7F', y:15.0},
+          {name:'XCG.TO', color: '#00EF7F', y:10.0},
+          {name:'XBB.TO', color: '#007F7F', y:5.0},
+          {name:'VEE', color: '#00EF7F', y:5.0}
+        ]
       ];
     }
     return p_data_extended;
@@ -460,7 +511,7 @@ var namespace_iplanner = (function(){
             type: 'pie',
             name: 'Portfolio share',
             //innerSize: '50%',
-            data:p_data["basic"]
+            data:p_data
         }]
     }];
     return chart_objs;
@@ -468,13 +519,14 @@ var namespace_iplanner = (function(){
 
   function create_charts_bar(p_data, p_title)
   {
+    var formatted_data = [];
     var chart_objs = [{
       title : { text : p_title},
       legend : {enabled:false},
       series: [{
             type: 'bar',
             name: 'Portfolio share',
-            data:p_data["basic"]
+            data: p_data
         }]
     }];
     return chart_objs;
@@ -502,15 +554,15 @@ var namespace_iplanner = (function(){
   {
     var rows="";
     var rows_2="";
-    for (var i=0;i<p_data["basic"].length;i++)
+    for (var i=0;i<p_data.length;i++)
     {
-      var symbol_data  = namespace_marketdata.get_data(p_data["basic"][i][0]);
+      var symbol_data  = namespace_marketdata.get_data(p_data[i][0]);
       var new_row = row_macro([
         symbol_data["ticker"],
         symbol_data["currency"],
       //  symbol_data["type"],
         symbol_data["desc"],
-        p_data["basic"][i][1] +'%'
+        p_data[i][1] +'%'
       ]);
       if (symbol_data["type"] == "Fixed Income")
       {
@@ -600,7 +652,7 @@ var namespace_iplanner = (function(){
     var today = new Date();
     //convert to string
     var start_date = datetime_util.adjust_date(datetime_util.get_last_year_date()); //.(today);
-    var portfolio_selected_data = p_data_extended["basic"];
+    var portfolio_selected_data = p_data_extended["basic"][0];
     //start with 100k cash
     $.each(portfolio_selected_data, function(index, value){
         portfolio_value_list.push([value[0],value[1]/100 * net_cash]);
@@ -753,18 +805,19 @@ var namespace_iplanner = (function(){
     {
       var score = $("#p_score").text();
       var p_data = compute_portfolio_data(score);
+      console.log(p_data);
       var simple_title = "<b>Recommended allocation</b><br/>Equity "
-        + p_data["basic"][1][1] + "%, Fixed Income "+p_data["basic"][2][1]+"%";
-      var chart_data = compute_chart_series(p_data);
-      //$("#header_1").append(simple_title);
-      var charts_simple = create_charts_pie(chart_data, simple_title);
+        + p_data["basic"][0]['y'] + "%, Fixed Income "+p_data["basic"][1]['y']+"%";
+    //  var chart_data = compute_chart_series(p_data);
+      //$("#header_1").append(simple_title)
+      var charts_simple = create_charts_pie(p_data["basic"], simple_title);
       var chart_data_advanced = create_detailed_series(score);
-      var charts_advanced = create_charts_bar(chart_data_advanced, "All positions");
+      var charts_advanced = create_charts_bar(chart_data_advanced["basic"][1], "All positions");
       $("#chart_container_1").highcharts('Chart', charts_simple[0]);
       $("#chart_container_12").highcharts('Chart', charts_advanced[0]);
       //append tables simple
       $("#table_1").empty();
-      append_tables_advanced(chart_data_advanced);
+      append_tables_advanced(chart_data_advanced["basic"][0]);
       //p_data["basic"][0][1]
   /*    $("#table_1").append(
         '<tr><td><b>Basic portfolio distribution: </b></td>' +
@@ -809,13 +862,13 @@ var namespace_iplanner = (function(){
 
     show_export_view: function()
     {
-      compute_display_positions(p_data_extended["basic"],"#basic_positions_body","basic");
+      compute_display_positions(p_data_extended["basic"][0],"#basic_positions_body","basic");
       //$('a[href=#Tab4]').tab('show');
     },
 
     recalculate_exportable_positions: function()
     {
-      compute_display_positions(p_data_extended["basic"],"#basic_positions_body","basic");
+      compute_display_positions(p_data_extended["basic"][0],"#basic_positions_body","basic");
     },
 
     update_portfolio_view: function()
