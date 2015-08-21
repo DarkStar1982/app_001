@@ -366,29 +366,29 @@ var namespace_iplanner = (function(){
     if (score<16)
     {
       p_data["basic"] = [
-        {name:'Equity',color:'#00EF7F', y:0.00},
-        {name:'Fixed Income',color:'#007F7F',y: 100.00}
+        {name:'EQ',color:'#00EF7F', y:0.00},
+        {name:'FI',color:'#007F7F',y: 100.00}
       ];
     }
     else if (score<24)
     {
       p_data["basic"] = [
-        {name:'Equity',color:'#00EF7F', y: 15.00},
-        {name:'Fixed Income',color:'#007F7F',y: 85.00}
+        {name:'EQ',color:'#00EF7F', y: 15.00},
+        {name:'FI',color:'#007F7F',y: 85.00}
       ];
     }
     else if ((score>=24)&&(score<=30))
     {
       p_data["basic"] = [
-        {name:'Equity',color:'#00EF7F', y:60.00},
-        {name:'Fixed Income',color:'#007F7F',y: 40.00}
+        {name:'EQ',color:'#00EF7F', y:60.00},
+        {name:'FI',color:'#007F7F',y: 40.00}
       ];
     }
     else if (score>30)
     {
       p_data["basic"] = [
-        {name:'Equity',color:'#00EF7F', y:80.00},
-        {name:'Fixed Income',color:'#007F7F',y: 20.00}
+        {name:'EQ',color:'#00EF7F', y:80.00},
+        {name:'FI',color:'#007F7F',y: 20.00}
       ];
     }
     return p_data;
@@ -409,11 +409,11 @@ var namespace_iplanner = (function(){
         ],
         [
           {name:'AGG', color: '#007F7F', y:40.0},
-          {name:'XBB.TO', color: '#007F7F', y:30.0},
-          {name:'IEI', color: '#007F7F', y:10.0},
-          {name:'TLT', color: '#007F7F', y:10.0},
-          {name:'SHY', color: '#007F7F', y:5.0},
-          {name:'HYG', color: '#007F7F', y:5.0}
+          {name:'XBB.TO', color: '#007F7A', y:30.0},
+          {name:'IEI', color: '#007F77', y:10.0},
+          {name:'TLT', color: '#007F70', y:10.0},
+          {name:'SHY', color: '#007F6B', y:5.0},
+          {name:'HYG', color: '#007F67', y:5.0}
         ]
       ];
     }
@@ -428,13 +428,13 @@ var namespace_iplanner = (function(){
         ['DVY', 5.0],
         ['VSC.TO', 5.0]],
         [
-          {name:'AGG', color: '#007F7F', y:40.0},
-          {name:'XBB.TO', color: '#007F7F', y:20.0},
-          {name:'PFF', color: '#007F7F', y:10.0},
-          {name:'HYG', color: '#007F7F', y:10.0},
           {name:'VEE', color: '#00EF7F', y:10.0},
-          {name:'DVY', color: '#00EF7F', y:5.0},
-          {name:'VSC.TO', color: '#007F7F', y:5.0}
+          {name:'DVY', color: '#00EF77', y:5.0},
+          {name:'AGG', color: '#007F7F', y:40.0},
+          {name:'XBB.TO', color: '#007F7A', y:20.0},
+          {name:'PFF', color: '#007F77', y:10.0},
+          {name:'HYG', color: '#007F70', y:10.0},
+          {name:'VSC.TO', color: '#007F6B', y:5.0}
         ]
       ];
     }
@@ -451,13 +451,13 @@ var namespace_iplanner = (function(){
         ['VEE', 5.0]],
         [
           {name:'VOO', color: '#00EF7F', y:20.0},
-          {name:'IVE', color: '#00EF7F', y:10.0},
-          {name:'IWV', color: '#00EF7F', y:10.0},
+          {name:'IVE', color: '#00EF7B', y:10.0},
+          {name:'IWV', color: '#00EF77', y:10.0},
+          {name:'XIC.TO', color: '#00EF74', y:20.0},
+          {name:'VEE', color: '#00EF70', y:5.0},
           {name:'AGG', color: '#007F7F', y:20.0},
-          {name:'HYG', color: '#007F7F', y:5.0},
-          {name:'XIC.TO', color: '#00EF7F', y:20.0},
-          {name:'XBB.TO', color: '#007F7F', y:10.0},
-          {name:'VEE', color: '#00EF7F', y:5.0}
+          {name:'HYG', color: '#007F7B', y:5.0},
+          {name:'XBB.TO', color: '#007F77', y:10.0}
         ]];
     }
     else if (p_score>30)
@@ -475,15 +475,15 @@ var namespace_iplanner = (function(){
         ['VEE', 5.0]],
         [
           {name:'VOO', color: '#00EF7F', y:20.0},
-          {name:'IJR', color: '#00EF7F', y:5.0},
-          {name:'IVE', color: '#00EF7F', y:10.0},
-          {name:'IWV', color: '#00EF7F', y:15.0},
+          {name:'IJR', color: '#00EF7B', y:5.0},
+          {name:'IVE', color: '#00EF77', y:10.0},
+          {name:'IWV', color: '#00EF74', y:15.0},
+          {name:'XIU.TO', color: '#00EF6B', y:15.0},
+          {name:'XCG.TO', color: '#00EF67', y:10.0},
+          {name:'VEE', color: '#00EF7F', y:5.0},
           {name:'AGG', color: '#007F7F', y:10.0},
-          {name:'HYG', color: '#007F7F', y:5.0},
-          {name:'XIU.TO', color: '#00EF7F', y:15.0},
-          {name:'XCG.TO', color: '#00EF7F', y:10.0},
           {name:'XBB.TO', color: '#007F7F', y:5.0},
-          {name:'VEE', color: '#00EF7F', y:5.0}
+          {name:'HYG', color: '#007F7F', y:5.0},
         ]
       ];
     }
@@ -524,7 +524,7 @@ var namespace_iplanner = (function(){
       title : { text : p_title},
       legend : {enabled:false},
       series: [{
-            type: 'bar',
+            type: 'pie',
             name: 'Portfolio share',
             data: p_data
         }]
@@ -812,7 +812,7 @@ var namespace_iplanner = (function(){
       //$("#header_1").append(simple_title)
       var charts_simple = create_charts_pie(p_data["basic"], simple_title);
       var chart_data_advanced = create_detailed_series(score);
-      var charts_advanced = create_charts_bar(chart_data_advanced["basic"][1], "All positions");
+      var charts_advanced = create_charts_bar(chart_data_advanced["basic"][1], "Detailed distrubution");
       $("#chart_container_1").highcharts('Chart', charts_simple[0]);
       $("#chart_container_12").highcharts('Chart', charts_advanced[0]);
       //append tables simple

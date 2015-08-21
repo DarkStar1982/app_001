@@ -27,6 +27,9 @@
     body {
       padding-top: 70px;
     }
+    table{
+      font-size: 12px;
+    }
     #navbar_right {
       padding-right: 0px;
       margin-right: 0px;
@@ -175,37 +178,42 @@
         <!-- Positions builder tab -->
         <div class="tab-pane" id="Tab2">
           <div class="row">
-            <div class="col-md-6" id="chart_container_1"></div>
-            <div class="col-md-6" id="chart_container_12"></div>
-          </div>
-          <div class="row">
-              <div class="col-md-6">
-                <h4>Positions - fixed income</h4>
+            <div class="col-md-4" id="chart_container_1"></div>
+            <div class="col-md-4" id="chart_container_12"></div>
+            <div class="col-md-4">
+              <br>
                 <table class="table table-bordered" id="table_3">
                 <thead>
-                  <tr>
+                  <!--tr>
                     <th>Symbol</th>
                     <th>Market</th>
                     <th>Description</th>
                     <th>Weight</th>
-                  </tr>
+                  </tr-->
+                  <tr><th colspan="4">Fixed income</th></tr>
                 </thead>
                 <tbody></tbody>
               </table>
-            </div>
-            <div class="col-md-6">
-              <h4>Positions - equity</h4>
               <table class="table table-bordered" id="table_31">
               <thead>
-                <tr>
-                  <th>Symbol</th>
+                <tr><th colspan="4">Equity</th><tr>
+                <!--tr>
+                  <td>Symbol</td>
                   <th>Market</th>
                   <th>Description</th>
                   <th>Weight</th>
-                </tr>
+                </tr-->
               </thead>
               <tbody></tbody>
             </table>
+            </div>
+          </div>
+          <div class="row">
+
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+
           </div>
           </div>
         </div>
@@ -215,7 +223,7 @@
               <div class="col-md-6" id="chart_container_4"></div>
           </div>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <h4 id="header_2" style='text-align:center'>Historical risk and returns</h4>
               <table id="net_values_report" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
                 <tbody>
@@ -250,16 +258,16 @@
                 </tbody>
               </table>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-8">
               <h4 id="header_2" style='text-align:center'>Risk breakdown and diversification</h4>
               <table class="table table-striped table-bordered">
                 <thead>
                   <th>Position </th>
                   <th>Nominal Ret.</th>
                   <th>Weight</th>
-                  <th>Return Contribution</th>
+                  <th>Ret. Contrib</th>
                   <th>Nominal Risk</th>
-                  <th>Risk Contribution</th>
+                  <th>Risk Contrib.</th>
                 </thead>
                 <tbody id="risk_decomposited">
                 </tbody>
