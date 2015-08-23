@@ -1067,7 +1067,7 @@ render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_
           });
         }
       },
-      "marginLeft": 75,
+      "marginLeft": 15,
       "marginRight": 0
     },
     "plotOptions": {
