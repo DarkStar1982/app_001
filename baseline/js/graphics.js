@@ -999,7 +999,7 @@ function update_heatmap_chart_object(p_values, p_colors_pnl, p_colors_risk)
         $(p_container_id).highcharts('Chart', {
           chart: {
             type: 'column',
-            marginLeft: 75
+            //marginLeft: 75
           },
           title : { text : 'Positions profit or loss'},
           yAxis : {
@@ -1007,6 +1007,7 @@ function update_heatmap_chart_object(p_values, p_colors_pnl, p_colors_risk)
             max: y_scale[1],
             tickLength:3,
             minorTickLength:0,
+            title: null
           },
           xAxis: { categories : x_scale},
           plotOptions: {

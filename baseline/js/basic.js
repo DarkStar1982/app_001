@@ -796,7 +796,7 @@ var namespace_iplanner = (function(){
       '<tr><td id="p_score">'
         + p_obj["score"] + '</td><td>' + p_obj["title"] + '</td><td>'
         + p_obj["Description"]
-        + '</td><td><button class="btn btn-default" onclick="namespace_iplanner.show_portfolio_selection()">Show Investment Plans</button></td></tr></table>';
+        + '</td><td><button class="btn btn-default" onclick="namespace_iplanner.show_portfolio_selection()">Show Investment Plan</button></td></tr></table>';
       $("#investor_type").empty();
       $("#investor_type").append(template);
     },
@@ -847,14 +847,14 @@ var namespace_iplanner = (function(){
 
     get_csv_file: function()
     {
-      if ($("input[name='positions_csv']").val()=="advanced")
+  /*    if ($("input[name='positions_csv']").val()=="advanced")
       {
         var p_data=p_csv_positions["plus"];
       }
       else if ($("input[name='positions_csv']").val()=="basic")
       {
-        var p_data=p_csv_positions["basic"];
-      }
+      } */
+      var p_data=p_csv_positions["basic"];
       var data=JSON.stringify(p_data);
       var input = $("<input>").attr("type", "hidden").attr("name", "data").val(data);
       $('#get_positions_as_csv').append($(input));
