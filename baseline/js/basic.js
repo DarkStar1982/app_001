@@ -5,6 +5,10 @@ $(document).ready(function(){
     namespace_iplanner.get_profile();
   });
 
+  $("#get_pdf_report").on('submit', function (e){
+    namespace_iplanner.return_report_data();
+  });
+
 /*  $("#show_performance").on('click', function(e){
     namespace_iplanner.show_performance_view();
   });
@@ -50,6 +54,17 @@ var namespace_marketdata = (function(){
             }
         }
       });
+    }
+  }
+
+}) ();
+
+var namespace_portfolio_report = (function(){
+
+  return {
+    get_report_pdf: function()
+    {
+
     }
   }
 
@@ -874,6 +889,19 @@ var namespace_iplanner = (function(){
     update_portfolio_view: function()
     {
       compute_portfolios();
+    },
+
+    return_report_data :function ()
+    {
+      //get data as table
+      //get chart data
+      //attach data
+      var p_data = [];
+      //convert to list of pdf blocks
+      //send data to server
+      var data=JSON.stringify(p_data);
+      var input = $("<input>").attr("type", "hidden").attr("name", "data").val(data);
+      $('#get_pdf_report').append($(input));
     }
   }
 }) ();
