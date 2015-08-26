@@ -342,6 +342,15 @@ var namespace_iplanner = (function(){
   var p_csv_positions = {};
   var API_URL = "/data_api";
 
+  var saved_charts = {
+    "allocation_chart" : {},
+    "detailed_allocations" : {}
+  };
+
+  var saved_tables = {
+    "positions_fixed" : {},
+    "positions_equity" : {}
+  }
   function compute_profile_score(p_rank_value)
   {
     var investor_profile = {};
@@ -521,7 +530,7 @@ var namespace_iplanner = (function(){
   {
     var chart_objs = [{
       title : { text : p_title},
-      legend : {enabled:false},
+      legend : {enabled: false},
       series: [{
             type: 'pie',
             name: 'Portfolio share',
@@ -529,6 +538,7 @@ var namespace_iplanner = (function(){
             data:p_data
         }]
     }];
+    saved_charts["allocation_chart"]  = chart_objs[0];
     return chart_objs;
   }
 
@@ -544,6 +554,7 @@ var namespace_iplanner = (function(){
             data: p_data
         }]
     }];
+    saved_charts["detailed_allocations"] = chart_objs[0];
     return chart_objs;
   }
 
@@ -569,6 +580,9 @@ var namespace_iplanner = (function(){
   {
     var rows="";
     var rows_2="";
+    saved_tables["positions_fixed"] = [["Symbol", "Market","Description", "Weight"]];
+    saved_tables["positions_equity"] = [["Symbol", "Market","Description", "Weight"]];
+
     for (var i=0;i<p_data.length;i++)
     {
       var symbol_data  = namespace_marketdata.get_data(p_data[i][0]);
@@ -582,12 +596,25 @@ var namespace_iplanner = (function(){
       if (symbol_data["type"] == "Fixed Income")
       {
         rows = rows + new_row;
+        saved_tables["positions_fixed"].push([
+          symbol_data["ticker"],
+          symbol_data["currency"],
+          symbol_data["desc"],
+          p_data[i][1] +'%'
+        ]);
       }
       else if (symbol_data["type"] == "Equity")
       {
         rows_2 = rows_2 + new_row;
+        saved_tables["positions_equity"].push([
+          symbol_data["ticker"],
+          symbol_data["currency"],
+          symbol_data["desc"],
+          p_data[i][1] +'%'
+        ]);
       }
     }
+
     $("#table_3 tbody").empty();
     $("#table_3 tbody").append(rows);
     $("#table_3").show();
@@ -897,6 +924,14 @@ var namespace_iplanner = (function(){
       //get chart data
       //attach data
       var p_data = [];
+      var summary_obj = [["Net Value", "Net PnL"],[100000, 1000]];
+      var allocation_chart_object = JSON.stringify(saved_charts["allocation_chart"]);
+      var detailed_allocations = JSON.stringify(saved_charts["detailed_allocations"]);
+      p_data.push({"type":"chart","contents": allocation_chart_object, "header":"Allocation Summary"});
+      p_data.push({"type":"table","contents": saved_tables["positions_fixed"], "header":"Positions - Fixed Income"});
+      p_data.push({"type":"table","contents": saved_tables["positions_equity"], "header":"Positions - Fixed Income"});
+      p_data.push({"type":"chart","contents": detailed_allocations, "header":"Detailed Positions"});
+
       //convert to list of pdf blocks
       //send data to server
       var data=JSON.stringify(p_data);

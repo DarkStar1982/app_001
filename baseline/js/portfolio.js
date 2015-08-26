@@ -1077,7 +1077,7 @@ var namespace_portfolio = (function()
 			{
 				case 'p_table_sum':
 					var contents = get_net_summary_object();
-					report_object.push({"type":"table","contents": contents, "header":"Portfolio summary", "styles":["pnl_color"]});
+					report_object.push({"type":"table","contents": contents, "header":"Portfolio allocation", "styles":["pnl_color"]});
 					break;
 				case 'p_table_hist':
 					var contents = get_transaction_history_object();
