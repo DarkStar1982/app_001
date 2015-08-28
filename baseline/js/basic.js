@@ -349,7 +349,8 @@ var namespace_iplanner = (function(){
 
   var saved_tables = {
     "positions_fixed" : {},
-    "positions_equity" : {}
+    "positions_equity" : {},
+    "performance_year" : {}
   }
   function compute_profile_score(p_rank_value)
   {
@@ -666,11 +667,15 @@ var namespace_iplanner = (function(){
   // get data for risk breakdown table
   function render_risk_and_return_tables(p_client_report)
   {
-    $("#portfolio_net_pnl").text(math_util.aux_math_round(p_client_report.diff_percent,2)+"%");
-    $("#portfolio_value").text(p_client_report.value_start+"%");
-    $("#portfolio_final_pv").text(math_util.aux_math_round(p_client_report.value_end,2)+"%");
-    $("#portfolio_annualized").text(p_client_report.annualized+"%");
-    $("#portfolio_std").text(p_client_report.std_dev+"%");
+    var portfolio_final_value =math_util.aux_math_round(p_client_report.value_end,2)+"%";
+    var portfolio_net_profit = math_util.aux_math_round(p_client_report.diff_percent,2)+"%";
+    var portfolio_annualized = p_client_report.annualized+"%";
+    var portfolio_std_vol = p_client_report.std_dev+"%";
+    $("#portfolio_net_pnl").text(portfolio_net_profit);
+    $("#portfolio_value").text("100%");
+    $("#portfolio_final_pv").text(portfolio_final_value);
+    $("#portfolio_annualized").text(portfolio_annualized);
+    $("#portfolio_std").text(portfolio_std_vol);
     var p1 = 0.95;
     var p_val = namespace_html.read_value_as_float($("#value_totals").text());
     var a2 = $("#portfolio_annualized").text();
@@ -678,9 +683,12 @@ var namespace_iplanner = (function(){
     var c2 = parseFloat(a2.substring(0,a2.length - 1));
     var d2 = parseFloat(b2.substring(0,b2.length - 1));
     var vatr2 = math_util.aux_math_round(namespace_xls.norminv(p1,c2,d2),2);
-    var vatr2_abs = math_util.aux_math_round(p_val*vatr2/100.0,2);
-    $("#portfolio_vatr_pc").text(namespace_html.display_as_percentage(vatr2));
-    $("#portfolio_vatr_abs").text(namespace_html.display_as_currency(vatr2_abs));
+    var vatr3 = namespace_html.display_as_percentage(vatr2);
+    $("#portfolio_vatr_pc").text(vatr3);
+    saved_tables["performance_year"] = [
+        ["Period", "Initial Value", "Final Value", "Net Profit/Loss", "Annual Profit/Loss", "Volatility", "Value at Risk"],
+        ["1 Year", "100%", portfolio_final_value, portfolio_net_profit,portfolio_annualized,portfolio_std_vol,vatr3]
+    ];
   }
   //create transactions
   //create position data from transactions
@@ -926,11 +934,17 @@ var namespace_iplanner = (function(){
       var p_data = [];
       var summary_obj = [["Net Value", "Net PnL"],[100000, 1000]];
       var allocation_chart_object = JSON.stringify(saved_charts["allocation_chart"]);
+      var performance_chart_ojbect = JSON.stringify(namespace_graphs.return_val_pnl_chart_object());
       var detailed_allocations = JSON.stringify(saved_charts["detailed_allocations"]);
+
+      var positions_chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
       p_data.push({"type":"chart","contents": allocation_chart_object, "header":"Allocation Summary"});
       p_data.push({"type":"table","contents": saved_tables["positions_fixed"], "header":"Positions - Fixed Income"});
       p_data.push({"type":"table","contents": saved_tables["positions_equity"], "header":"Positions - Fixed Income"});
+      p_data.push({"type":"table","contents": saved_tables["performance_year"], "header":"Portfolio Performance"});
       p_data.push({"type":"chart","contents": detailed_allocations, "header":"Detailed Positions"});
+      p_data.push({"type":"chart","contents": performance_chart_ojbect, "header":"Historical Perfomance"});
+      p_data.push({"type":"chart","contents": positions_chart_object, "header":"Positions Performance"});
 
       //convert to list of pdf blocks
       //send data to server
