@@ -350,7 +350,9 @@ var namespace_iplanner = (function(){
   var saved_tables = {
     "positions_fixed" : {},
     "positions_equity" : {},
-    "performance_year" : {}
+    "performance_year" : {},
+    "risk_table" : [],
+    "computed_positions" : []
   }
   function compute_profile_score(p_rank_value)
   {
@@ -626,10 +628,12 @@ var namespace_iplanner = (function(){
 
   function render_risk_decomposition_table(p_container_id, p_risk_data)
   {
+    saved_tables["risk_table"].push(["Symbol", "Nominal Ret", "Weight", "Return Contrib.", "Nominal Risk", "Risk contrib."])
     $(p_container_id).empty()
     $.each(p_risk_data, function(index, value)
     {
       var row = [];
+      saved_tables["risk_table"].push(value);
       $.each(value, function(i,v){
         row.push(namespace_html.create_table_cell(v,"col-md-2"));
       });
@@ -799,9 +803,12 @@ var namespace_iplanner = (function(){
           if (counter<=0)
           {
             var rows = "";
+            saved_tables["computed_positions"]=[];
+            saved_tables["computed_positions"].push(["Symbol", "Action", "Volume", "Date", "Price"]);
             p_csv_positions[p_selected]=display_positions_basic;
             $.each(display_positions_basic, function(index, value){
               rows = rows + row_macro(value);
+              saved_tables["computed_positions"].push(value);
             });
             $(p_container_id).empty();
             $(p_container_id).append(rows);
@@ -928,15 +935,11 @@ var namespace_iplanner = (function(){
 
     return_report_data :function ()
     {
-      //get data as table
-      //get chart data
-      //attach data
       var p_data = [];
       var summary_obj = [["Net Value", "Net PnL"],[100000, 1000]];
       var allocation_chart_object = JSON.stringify(saved_charts["allocation_chart"]);
       var performance_chart_ojbect = JSON.stringify(namespace_graphs.return_val_pnl_chart_object());
       var detailed_allocations = JSON.stringify(saved_charts["detailed_allocations"]);
-
       var positions_chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
       p_data.push({"type":"chart","contents": allocation_chart_object, "header":"Allocation Summary"});
       p_data.push({"type":"table","contents": saved_tables["positions_fixed"], "header":"Positions - Fixed Income"});
@@ -945,7 +948,9 @@ var namespace_iplanner = (function(){
       p_data.push({"type":"chart","contents": detailed_allocations, "header":"Detailed Positions"});
       p_data.push({"type":"chart","contents": performance_chart_ojbect, "header":"Historical Perfomance"});
       p_data.push({"type":"chart","contents": positions_chart_object, "header":"Positions Performance"});
-
+      p_data.push({"type":"table","contents": saved_tables["risk_table"], "header":"Portfolio Risk and Returns"});
+      p_data.push({"type":"table","contents": saved_tables["computed_positions"], "header":"Your Positions"});
+      //compute positions
       //convert to list of pdf blocks
       //send data to server
       var data=JSON.stringify(p_data);
