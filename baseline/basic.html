@@ -34,6 +34,27 @@
       padding-right: 0px;
       margin-right: 0px;
     }
+    .enter-income{
+      width:160px;
+      display:inline-block;
+      position:relative;
+      text-align:center;
+      margin-left:10px;
+      margin-top:0px;
+      font-size:24px;
+      color:white;
+      border:solid;
+      border-top:none;
+      border-left:none;
+      border-right:none;
+      outline: none;
+      color:#bfbfbf;
+      padding:0;
+      background-color:transparent;
+      -moz-transition:all 0.3s ease-in-out;-o-transition:all 0.3s ease-in-out;
+      -webkit-transition:all 0.3s ease-in-out;transition:all 0.3s ease-in-out
+    }
+
     </style>
   </head>
   <body>
@@ -66,23 +87,54 @@
       <!-- Positions builder tab -->
         <div class="tab-pane active" id="Tab1">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td><span style="font-size:24px" class="col-md-12">How old are you?</span></td>
+                    <td class="col-md-3"><span class="nowrap"><input type="tel" placeholder="" maxlength="10" name="age" class="enter-income" /></span></td>
+                  </tr>
+                </tbody>
+              </table>
+              <table class="table table-borderless">
+                  <tr>
+                    <td><span style="font-size:24px" class="col-md-12">How much are you willing to invest?</span></td>
+                    <td class="col-md-3"><span class="nowrap"><input type="tel" placeholder="" maxlength="10" name="income" class="enter-income" /></span></td>
+                  </tr>
+                </table>
+                <table class="table table-borderless">
+
+                  <tr>
+                    <td><span style="font-size:24px" class="col-md-12">What type of investor you are?</span></td>
+                    <td class="col-md-3">
+                      <select id="knowledge" class="enter-income">
+                        <option value=1>Convervative</option>
+                        <option value=2>Income</option>
+                        <option value=3>Growth</option>
+                        <option value=4>Rist taker</option>
+                      </select></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-6" style="display:none">
               <table class="table table-bordered">
                 <tbody>
                   <tr>
-                    <td>1. How old are you?</td>
+                    <td><span style="font-size:24px">How old are you?</span></td>
                     <td>
-                    <select id="age" style="width:75%">
-                      <option value=5>Under 30</option>
-                      <option value=4>30-39</option>
-                      <option value=3>40-49</option>
-                      <option value=2>50-59</option>
-                      <option value=1>60 and older</option>
-                    </select>
+                      <select id="age" style="font-size:24px">
+                                            <option value=5>Under 30</option>
+                                            <option value=4>30-39</option>
+                                            <option value=3>40-49</option>
+                                            <option value=2>50-59</option>
+                                            <option value=1>60 and older</option>
+                                          </select>
                     </td>
                   </tr>
                   <tr>
-                    <td>2. What is your net worth (asset minus liabilites)?</td>
+                    <td><span style="font-size:24px">How much are you willing to invest?</span></td>
                     <td>
                     <select id="net_assets" style="width:75%">
                       <option value=5>Under 10,000</option>
@@ -94,7 +146,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>3. How would you rank your investment knowledge?</td>
+                    <td><span style="font-size:24px">What type of investor you are?</span></td>
                     <td>
                     <select id="knowledge" style="width:75%">
                       <option value=1>Poor</option>
@@ -162,6 +214,8 @@
                 </tbody>
               </table>
             </div>
+            <div class="col-md-3"></div>
+
           </div>
           <div class="row" style="margin-bottom:30px">
               <div class="col-md-4"></div>
@@ -171,8 +225,10 @@
               <div class="col-md-4"></div>
           </div>
           <div class="row">
-            <div class="col-md-12" id="investor_type">
+            <div class="col-md-3"></div>
+            <div class="col-md-6" id="investor_type">
             </div>
+            <div class="col-md-3"></div>
           </div>
         </div>
         <!-- Positions builder tab -->
