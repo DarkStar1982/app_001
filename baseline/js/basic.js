@@ -839,21 +839,21 @@ var namespace_iplanner = (function(){
 
     get_profile: function()
     {
-      var net_value =  parseInt($("#age").val())
-        + parseInt($("#net_assets").val())
-        + parseInt($("#knowledge").val())
-        + parseInt($("#duration").val())
-        + parseInt($("#goal").val())
-        + parseInt($("#max_drop").val())
-        + parseInt($("#recover").val())
-        + parseInt($("#profit_or_loss").val());
+      var net_value =  16;
+      var investort_mode =$("#investor_mode :selected").text();
+      var investor_age = $("#investor_age").val();
+      var investor_amount = $("#investor_amount").val();
+      console.log(investor_age);
+      console.log(investor_amount);
       var p_obj = compute_profile_score(net_value);
       var template='<table class="table table-bordered">'+
-      '<tr><th>Score</th><th>Your&nbsp;Investment&nbsp;Profile</th><th>Notes</th><th>Actions</th></tr>'+
-      '<tr><td id="p_score">'
-        + p_obj["score"] + '</td><td>' + p_obj["title"] + '</td><td>'
+      '<tr><th style="display:none">Score</th><td style="font-size:23px">Your&nbsp;Investment&nbsp;Type</td>'+
+      '</td><td style="font-size:24px">' + p_obj["title"] + '</td></tr>'+
+      '<tr><td id="p_score" style="display:none;">'+ p_obj["score"] +'</td><td style="font-size:24px">Notes</td>'
+        +'<td style="font-size:24px">'
         + p_obj["Description"]
-        + '</td><td><button class="btn btn-default" onclick="namespace_iplanner.show_portfolio_selection()">Show Investment Plan</button></td></tr></table>';
+        + '</td></tr></td></tr></table>'
+        +'<button class="btn btn-default" onclick="namespace_iplanner.show_portfolio_selection()">Show Investment Plan</button>';
       $("#investor_type").empty();
       $("#investor_type").append(template);
     },
