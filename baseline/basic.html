@@ -131,15 +131,57 @@
           <div class="row" style="margin-bottom:30px">
               <div class="col-md-3"></div>
               <div class="col-md-6">
-                <button class="btn btn-default" id="get_score">Get portfolio</button>
+                <button class="btn btn-default" id="get_score">Show portfolios</button>
               </div>
               <div class="col-md-3"></div>
           </div>
           <div class="row">
             <div class="col-md-3"></div>
-            <div class="col-md-6" id="investor_type">
+            <div class="col-md-6">
+              <table class="table table-borderless" id="portfolios_list" style="display:none">
+                <tr>
+                  <td style="border-top:0">
+                    <a href="#" class="btn btn-primary btn-lg" style="text-align:left" role="button"
+                    onclick="namespace_iplanner.show_portfolio_selection(8)">
+                      <span class="glyphicon glyphicon-list-alt"></span> <em>Conservative</em><br/>
+                      <small>
+                        You primary objective is preservation<br/> of the capital with minimal risk.
+                      </small>
+                      </a>
+                 </td>
+                 <td style="border-top:0">
+                   <a href="#" class="btn btn-info btn-lg" style="text-align:left" role="button"
+                   onclick="namespace_iplanner.show_portfolio_selection(16)">
+                     <span class="glyphicon glyphicon-list-alt"></span> <em>Income</em><br/>
+                     <small>
+                       You are willing to tolerate some market <br/>fluctuations for the better returns
+                     </small>
+                   </a>
+                   </td>
+                 </tr>
+                 <tr>
+                  <td style="border-top:0">
+                    <a href="#" class="btn btn-success btn-lg" style="text-align:left" role="button"
+                    onclick="namespace_iplanner.show_portfolio_selection(24)">
+                      <span class="glyphicon glyphicon-list-alt"></span> <em>Balanced</em></br>
+                      <small>
+                        You are willing to accept market <br/>fluctuations  and wait for the market.
+                      </small>
+                    </a>
+
+                    </td>
+                    <td style="border-top:0">
+                      <a href="#" class="btn btn-warning btn-lg" style="text-align:left" role="button"
+                      onclick="namespace_iplanner.show_portfolio_selection(32)">
+                        <span class="glyphicon glyphicon-list-alt"></span> <em>Growth</em><br/>
+                        <small>
+                          You are a knowledgeable investor and <br/>not concerned about short-term value
+                        </small>
+                      </a>
+                    </td>
+                </tr>
+              </table>
             </div>
-            <div class="col-md-3"></div>
           </div>
         </div>
         <!-- Positions builder tab -->

@@ -831,6 +831,7 @@ var namespace_iplanner = (function(){
       $("#table_4").hide();
       $("#table_5").hide();
       $("#header_1").hide();
+
       $("#net_values_risk").hide();
       $("#header_2").hide();
       $("#net_values_report").hide();
@@ -839,13 +840,20 @@ var namespace_iplanner = (function(){
 
     get_profile: function()
     {
-      var net_value =  16;
-      var investort_mode =$("#investor_mode :selected").text();
-      var investor_age = $("#investor_age").val();
-      var investor_amount = $("#investor_amount").val();
-      console.log(investor_age);
-      console.log(investor_amount);
-      var p_obj = compute_profile_score(net_value);
+      var scores ={
+        "Conservative" : 8,
+        "Income" : 16,
+        "Growth": 24,
+        "Risk taker" : 32
+      };
+
+      var net_value = 0;
+      var investor_mode =$("#investor_mode :selected").text();
+      var investor_age = parseInt($("#investor_age").val());
+      var investor_amount =  parseInt($("#investor_amount").val());
+      //console.log(net_value);
+      $("#portfolios_list").show();
+      /* var p_obj = compute_profile_score(net_value);
       var template='<table class="table table-bordered">'+
       '<tr><th style="display:none">Score</th><td style="font-size:23px">Your&nbsp;Investment&nbsp;Type</td>'+
       '</td><td style="font-size:24px">' + p_obj["title"] + '</td></tr>'+
@@ -855,14 +863,13 @@ var namespace_iplanner = (function(){
         + '</td></tr></td></tr></table>'
         +'<button class="btn btn-default" onclick="namespace_iplanner.show_portfolio_selection()">Show Investment Plan</button>';
       $("#investor_type").empty();
-      $("#investor_type").append(template);
+      $("#investor_type").append(template); */
     },
 
-    show_portfolio_selection: function()
+    show_portfolio_selection: function(p_score)
     {
-      var score = $("#p_score").text();
+      var score = p_score;
       var p_data = compute_portfolio_data(score);
-      console.log(p_data);
       var simple_title = "<b>Recommended allocation</b><br/>Equity "
         + p_data["basic"][0]['y'] + "%, Fixed Income "+p_data["basic"][1]['y']+"%";
     //  var chart_data = compute_chart_series(p_data);
