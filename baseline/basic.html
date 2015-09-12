@@ -73,8 +73,8 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right" id="navbar_right">
-              <li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Rank yourself</a></li>
-              <li><a href="#Tab2" role="tab" data-toggle="tab">View Portfolio</a></li>
+              <li class="active"><a href="#Tab1" role="tab" data-toggle="tab">Assess yourself</a></li>
+              <li><a href="#Tab2" role="tab" data-toggle="tab">Portfolio Examples</a></li>
               <!--li><a href="#Tab3" role="tab" data-toggle="tab">Risks and Returns</a></li-->
               <!--li><a href="#Tab4" role="tab" data-toggle="tab">Export positions</a></li-->
             </ul>
@@ -86,7 +86,7 @@
       <div class="tab-content">
       <!-- Positions builder tab -->
         <div class="tab-pane active" id="Tab1">
-          <div class="row">
+          <div class="row" style="display:none">
             <div class="col-md-3"></div>
             <div class="col-md-6">
               <table class="table table-borderless">
@@ -128,7 +128,7 @@
               </table>
             </div>
           </div>
-          <div class="row" style="margin-bottom:30px">
+          <div class="row" style="margin-bottom:30px;display:none">
               <div class="col-md-3"></div>
               <div class="col-md-6">
                 <button class="btn btn-default" id="get_score">Show portfolios</button>
@@ -138,7 +138,7 @@
           <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-6">
-              <table class="table table-borderless" id="portfolios_list" style="display:none">
+              <table class="table table-borderless" id="portfolios_list">
                 <tr>
                   <td style="border-top:0">
                     <a href="#" class="btn btn-primary btn-lg" style="text-align:left" role="button"
@@ -186,13 +186,15 @@
         </div>
         <!-- Positions builder tab -->
         <div class="tab-pane" id="Tab2">
+          <label id="intro_label">Please select any of the portfolio types on the previous tab</label>
+
           <div class="row">
             <div class="col-md-6" id="chart_container_1"></div>
             <div class="col-md-6" id="chart_container_12"></div>
           </div>
           <div class="row">
             <div class="col-md-6">
-              <h4>Fixed income positions</h4>
+              <h4 id="header_4">Fixed income positions</h4>
                 <table class="table table-bordered" id="table_3">
                 <thead>
                   <tr>
@@ -206,7 +208,7 @@
               </table>
             </div>
             <div class="col-md-6">
-              <h4>Equity positions</h4>
+              <h4 id="header_5">Equity positions</h4>
               <table class="table table-bordered" id="table_31">
               <thead>
                 <tr>
@@ -227,7 +229,7 @@
           <div class="row">
             <div class="col-md-6">
                 <h4 id="header_3" style='text-align:center'>Risk and Returns  - breakdown and diversification</h4>
-                  <table class="table table-striped table-bordered">
+                  <table class="table table-striped table-bordered" id="table_7">
                     <thead>
                       <th>Symbol</th>
                       <th>Nominal Ret.</th>
@@ -239,33 +241,34 @@
                     <tbody id="risk_decomposited">
                     </tbody>
                 </table>
+                <h4 id="header_2" style='text-align:center'>Historical risk and returns</h4>
+                <table id="net_values_report" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
+                    <tbody>
+                      <tr>
+                        <th class="col-md-1">Duration</th>
+                        <th id="label_value">Initial Value</th>
+                        <th id="label_final_pv">Final Value</th>
+                        <th id="label_net_pnl">Net Profit/Loss</th>
+                        <th id="label_annualized">Annual. Profit/Loss</th>
+                        <th id="label_std">Volatilty. (Std. Dev)</th>
+                        <th id="label_vatr_pc">Value at risk - Percent</th>
+                      </tr>
+                      <tr>
+                        <td class="col-md-1">1 year</td>
+                        <td id="portfolio_value">0</td>
+                        <td id="portfolio_final_pv">0</td>
+                        <td id="portfolio_net_pnl">0</td>
+                        <td id="portfolio_annualized">0</td>
+                        <td id="portfolio_std">0</td>
+                        <td id="portfolio_vatr_pc">0.0</td>
+                      </tr>
+                    </tbody>
+                </table>
             </div>
             <div class="col-md-6">
-              <h4 id="header_2" style='text-align:center'>Historical risk and returns</h4>
-              <table id="net_values_report" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
-                  <tbody>
-                    <tr>
-                      <th class="col-md-1">Duration</th>
-                      <th id="label_value">Initial Value</th>
-                      <th id="label_final_pv">Final Value</th>
-                      <th id="label_net_pnl">Net Profit/Loss</th>
-                      <th id="label_annualized">Annual. Profit/Loss</th>
-                      <th id="label_std">Volatilty. (Std. Dev)</th>
-                      <th id="label_vatr_pc">Value at risk - Percent</th>
-                    </tr>
-                    <tr>
-                      <td class="col-md-1">1 year</td>
-                      <td id="portfolio_value">0</td>
-                      <td id="portfolio_final_pv">0</td>
-                      <td id="portfolio_net_pnl">0</td>
-                      <td id="portfolio_annualized">0</td>
-                      <td id="portfolio_std">0</td>
-                      <td id="portfolio_vatr_pc">0.0</td>
-                    </tr>
-                  </tbody>
-              </table>
-              <h4>Create your positions</h4>
-              <table class="table table-striped table-bordered">
+
+              <h4 id="header_6">Create your positions</h4>
+              <table class="table table-striped table-bordered" id="table_8">
                 <tr>
                   <td>
                     <label style="font-size:16"for="money">Amount, USD </label>
@@ -305,7 +308,6 @@
             <input type="submit" class="btn btn-default" value="Download positions as CSV" id="get_positions_as_csv" name="Get as CSV"/>
           </form>
           </div>
-
         </div>
       </div>
     </div>

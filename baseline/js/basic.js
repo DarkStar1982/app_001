@@ -828,10 +828,19 @@ var namespace_iplanner = (function(){
       $("#table_1").hide();
       $("#table_2").hide();
       $("#table_3").hide();
+      $("#table_31").hide();
       $("#table_4").hide();
       $("#table_5").hide();
+      $("#table_7").hide();
+      $("#table_8").hide();
       $("#header_1").hide();
-
+      $("#header_3").hide();
+      $("#header_4").hide();
+      $("#header_5").hide();
+      $("#header_6").hide();
+      $("#basic_positions").hide();
+      $("#get_pdf_report").hide();
+      $("#get_positions_as_csv").hide();
       $("#net_values_risk").hide();
       $("#header_2").hide();
       $("#net_values_report").hide();
@@ -889,9 +898,22 @@ var namespace_iplanner = (function(){
         '<td><b>Fixed Income: </b>' +p_data["basic"][2][1]+'%</td></tr>'
       ); */
       //set visibilty
+      $("#intro_label").hide();
       $("#show_performance").show();
       $("#table_1").show();
       $("#table_2").show();
+      $("#table_3").show();
+      $("#table_31").show();
+      $("#table_4").show();
+      $("#table_7").show();
+      $("#table_8").show();
+      $("#header_3").show();
+      $("#header_4").show();
+      $("#header_5").show();
+      $("#header_6").show();
+      $("#basic_positions").show();
+      $("#get_pdf_report").show();
+      $("#get_positions_as_csv").show();
       $('a[href=#Tab2]').tab('show');
       this.show_performance_view();
     },
