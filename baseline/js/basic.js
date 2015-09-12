@@ -453,7 +453,7 @@ var namespace_iplanner = (function(){
         ['HYG', 10.0],
         ['VEE', 10.0],
         ['DVY', 5.0],
-        ['VSC.TO', 5.0]],
+        ['XSB.TO', 5.0]],
         [
           {name:'VEE', color: '#00EF7F', y:10.0},
           {name:'DVY', color: '#00EF77', y:5.0},
@@ -461,7 +461,7 @@ var namespace_iplanner = (function(){
           {name:'XBB.TO', color: '#007F7A', y:20.0},
           {name:'PFF', color: '#007F77', y:10.0},
           {name:'HYG', color: '#007F70', y:10.0},
-          {name:'VSC.TO', color: '#007F6B', y:5.0}
+          {name:'XSB.TO', color: '#007F6B', y:5.0}
         ]
       ];
     }
@@ -705,7 +705,7 @@ var namespace_iplanner = (function(){
     //today date
     var today = new Date();
     //convert to string
-    var start_date = datetime_util.adjust_date(datetime_util.get_last_year_date()); //.(today);
+    var start_date = datetime_util.adjust_date(datetime_util.get_shifted_year_date(3)); //.(today);
     var portfolio_selected_data = p_data_extended["basic"][0];
     //start with 100k cash
     $.each(portfolio_selected_data, function(index, value){
