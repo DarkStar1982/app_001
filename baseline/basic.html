@@ -112,7 +112,6 @@
                   </tr>
                 </table>
                 <table class="table table-borderless">
-
                   <tr>
                     <td><span style="font-size:24px" class="col-md-12">What type of investor are you?</span></td>
                     <td class="col-md-3">
@@ -137,39 +136,51 @@
           </div>
           <div class="row">
             <div class="col-md-3"></div>
-            <div class="col-md-6">
-              <table class="table table-borderless" id="portfolios_list">
+            <div class="col-md-3">
+              <table class="table table-borderless">
                 <tr>
                   <td style="border-top:0;">
-                    <a href="#" class="btn btn-primary btn-lg" style="text-align:left; height:240px;width:290px" role="button"
+                    <a href="#" class="btn btn-primary btn-lg" style="text-align:left; height:240px;width:100%" role="button"
                     onclick="namespace_iplanner.show_portfolio_selection(8)">
                       <span class="glyphicon glyphicon-list-alt"></span> <em>Conservative</em><br/>
                       <small>
-                        Your primary objective is preservation<br/> of the capital with minimal risk. You <br/>
-                        can allow only short amount of time  <br/> forportfolio to recover from negative<br/> period.
+                        Your primary objective is <br/>preservation of the capital with <br/>minimal risk. You
+                        can allow only<br/> short amount of time for portfolio<br/> to recover from negative period.
                         <br/><br/><br/><br/>
                         <em>Risk:</em> &#9733;<br/>
                         <em>Return:</em> &#9733;
-
                       </small>
                       </a>
                  </td>
+               </tr>
+             </table>
+           </div>
+           <div class="col-md-3">
+             <table class="table table-borderless">
+               <tr>
                  <td style="border-top:0">
-                   <a href="#" class="btn btn-info btn-lg" style="text-align:left; height:240px;width:290px" role="button"
+                   <a href="#" class="btn btn-info btn-lg" style="text-align:left; height:240px;width:100%" role="button"
                    onclick="namespace_iplanner.show_portfolio_selection(16)">
                      <span class="glyphicon glyphicon-list-alt"></span> <em>Income</em><br/>
                      <small>
-                       You are willing to tolerate some market <br/>fluctuations for the better returns
-                       <br/><br/><br/><br/> <br/> <br/> <br/>
+                       You are willing to tolerate some <br/> market fluctuations for the better<br/> returns
+                       <br/><br/><br/><br/> <br/> <br/>
                        <em>Risk:</em> &#9733;&#9733;<br/>
                        <em>Return:</em> &#9733;&#189;
                      </small>
                    </a>
                    </td>
                  </tr>
+               </table>
+             </div>
+           </div>
+           <div class="row">
+             <div class="col-md-3"></div>
+             <div class="col-md-3">
+               <table class="table table-borderless">
                  <tr>
                   <td style="border-top:0">
-                    <a href="#" class="btn btn-success btn-lg" style="text-align:left; height:240px;width:290px" role="button"
+                    <a href="#" class="btn btn-success btn-lg" style="text-align:left; height:240px;width:100%" role="button"
                     onclick="namespace_iplanner.show_portfolio_selection(24)">
                       <span class="glyphicon glyphicon-list-alt"></span> <em>Balanced</em></br>
                       <small>
@@ -181,10 +192,14 @@
                         <em>Return:</em> &#9733;&#9733;
                       </small>
                     </a>
-
                     </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="col-md-3">
+                <table class="table table-borderless">
                     <td style="border-top:0">
-                      <a href="#" class="btn btn-warning btn-lg" style="text-align:left; height:240px;width:290px" role="button"
+                      <a href="#" class="btn btn-warning btn-lg" style="text-align:left; height:240px;width:95%" role="button"
                       onclick="namespace_iplanner.show_portfolio_selection(32)">
                         <span class="glyphicon glyphicon-list-alt"></span> <em>Growth</em><br/>
                         <small>
@@ -206,30 +221,78 @@
         <!-- Positions builder tab -->
         <div class="tab-pane" id="Tab2">
           <label id="intro_label">Please select any of the portfolio types on the previous tab</label>
-
           <div class="row">
-            <div class="col-md-6" id="chart_container_1"></div>
-            <div class="col-md-6" id="chart_container_12"></div>
+              <div class="col-md-6">
+              <table class="table table-bordered" style="background-color:rgb(39,43,48);">
+                <tr>
+                  <td id="chart_title_1" style="text-align:center"></td>
+                </tr>
+                <tr>
+                    <td id="chart_container_1" style="padding-left:0px"></td>
+                  </tr>
+                  <tr>
+                    <td><span>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                      eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    </p></span>
+                  </tr>
+                </tr>
+              </table>
+              </div>
+              <div class="col-md-6">
+              <table class="table table-bordered" style="background-color:rgb(39,43,48);">
+                <tr>
+                  <td id="chart_title_2" style="text-align:center"></td>
+                </tr>
+                <tr>
+                    <td id="chart_container_12" style="padding-left:0px"></td>
+                  </tr>
+                  <tr>
+                    <td><span>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                      eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    </span></td>
+                  </tr>
+                </tr>
+              </table>
+              </div>
           </div>
           <div class="row">
             <div class="col-md-6">
-              <h4 id="header_4">Fixed income positions</h4>
-                <table class="table table-bordered" id="table_3">
-                <thead>
-                  <tr>
+              <table class="table table-bordered" id="table_3">
+              <thead>
+                <tr id="header_4"><td colspan=4 style="text-align:center"><h4>Fixed income positions</h4></td></tr>
+                <tr>
                     <th>Symbol</th>
                     <th>Market</th>
                     <th>Description</th>
                     <th>Weight</th>
-                  </tr>
+                </tr>
                 </thead>
                 <tbody></tbody>
-              </table>
+                <tfoot>
+                  <td colspan=4>
+                    <span>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                      eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    </span>
+                  </td>
+                </tfoot>
+            </table>
             </div>
             <div class="col-md-6">
-              <h4 id="header_5">Equity positions</h4>
               <table class="table table-bordered" id="table_31">
               <thead>
+                <tr id="header_5"><td colspan="4" style="text-align:center"><h4>Equity positions</h4></td></tr>
                 <tr>
                   <td>Symbol</td>
                   <th>Market</th>
@@ -238,12 +301,61 @@
                 </tr>
               </thead>
               <tbody></tbody>
+              <tfoot>
+                <td colspan=4>
+                  <span>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                    eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                  </span>
+                </td>
+              </tfoot>
             </table>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6" id="chart_container_4"></div>
-            <div class="col-md-6" id="chart_container_3"></div>
+            <div class="col-md-6" >
+              <table class="table table-bordered" style="background-color:rgb(39,43,48);">
+                <tr>
+                  <td id="chart_title_3" style="text-align:center"><h4>Positions Profit or Loss</h4></td>
+                </tr>
+                <tr>
+                    <td id="chart_container_4" style="padding-left:0px"></td>
+                  </tr>
+                  <tr>
+                    <td><span>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                      eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    </p></span>
+                  </tr>
+                </tr>
+              </table>
+            </div>
+            <div class="col-md-6">
+              <table class="table table-bordered" style="background-color:rgb(39,43,48);">
+                <tr>
+                  <td id="chart_title_4" style="text-align:center"><h4>Portfolio Performance</h4></td>
+                </tr>
+                <tr>
+                    <td id="chart_container_3" style="padding-left:0px"></td>
+                  </tr>
+                  <tr>
+                    <td><span>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                      eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                    </p></span>
+                  </tr>
+                </tr>
+              </table>
+            </div>
           </div>
           <div class="row">
             <div class="col-md-6">

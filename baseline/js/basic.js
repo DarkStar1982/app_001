@@ -879,13 +879,16 @@ var namespace_iplanner = (function(){
     {
       var score = p_score;
       var p_data = compute_portfolio_data(score);
-      var simple_title = "<b>Recommended allocation</b><br/>Equity "
-        + p_data["basic"][0]['y'] + "%, Fixed Income "+p_data["basic"][1]['y']+"%";
+      var simple_title = "<h4><b>Recommended allocation</b><br/><em>Equity "
+        + p_data["basic"][0]['y'] + "%, Fixed Income "+p_data["basic"][1]['y']+"%</em></h4>";
+      var complex_title = "<h4><b>Detailed distribution</b><br/><br/></h4>";
     //  var chart_data = compute_chart_series(p_data);
       //$("#header_1").append(simple_title)
-      var charts_simple = create_charts_pie(p_data["basic"], simple_title);
+      var charts_simple = create_charts_pie(p_data["basic"], null);
+      $("#chart_title_1").html(simple_title);
+      $("#chart_title_2").html(complex_title);
       var chart_data_advanced = create_detailed_series(score);
-      var charts_advanced = create_charts_bar(chart_data_advanced["basic"][1], "Detailed distrubution");
+      var charts_advanced = create_charts_bar(chart_data_advanced["basic"][1], null);
       $("#chart_container_1").highcharts('Chart', charts_simple[0]);
       $("#chart_container_12").highcharts('Chart', charts_advanced[0]);
       //append tables simple

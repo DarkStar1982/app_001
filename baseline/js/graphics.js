@@ -1001,7 +1001,7 @@ function update_heatmap_chart_object(p_values, p_colors_pnl, p_colors_risk)
             type: 'column',
             //marginLeft: 75
           },
-          title : { text : 'Positions profit or loss'},
+          title : { text : null},
           yAxis : {
             min: y_scale[0],
             max: y_scale[1],
@@ -1068,7 +1068,7 @@ render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_
           });
         }
       },
-      "marginLeft": 15,
+      "marginLeft": 20,
       "marginRight": 0
     },
     "plotOptions": {
@@ -1105,7 +1105,7 @@ render_val_pnl_chart: function(p_series_data, p_container_id, p_display_mode, p_
 //    val_pnl_chart_object["yAxis"]["title"] = {"text":"Net Value"};
   //  console.log(p_series_data[0][1]);
   //  val_pnl_chart_object["plotOptions"]["threshold"] = p_series_data[0][1];
-    val_pnl_chart_object["title"] = { "text" : "Portfolio Aggregated Value"};
+    val_pnl_chart_object["title"] = { "text" : null};
 
   }
   else if (p_chart_mode == "pnl_chart")
