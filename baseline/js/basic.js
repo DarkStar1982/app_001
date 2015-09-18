@@ -845,6 +845,10 @@ var namespace_iplanner = (function(){
       $("#header_2").hide();
       $("#net_values_report").hide();
       $("#export_results").hide();
+      $("#frame_1").hide();
+      $("#frame_2").hide();
+      $("#frame_3").hide();
+      $("#frame_4").hide();
     },
 
     get_profile: function()
@@ -917,6 +921,10 @@ var namespace_iplanner = (function(){
       $("#basic_positions").show();
       $("#get_pdf_report").show();
       $("#get_positions_as_csv").show();
+      $("#frame_1").show();
+      $("#frame_2").show();
+      $("#frame_3").show();
+      $("#frame_4").show();
       $('a[href=#Tab2]').tab('show');
       this.show_performance_view();
     },
