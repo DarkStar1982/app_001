@@ -822,27 +822,32 @@ var namespace_iplanner = (function(){
   function get_portfolio_intro(score)
   {
     var intro_text ="";
+    var intro_css="";
     if (score<16)
     {
       intro_text = "<h4>Conservative</h4>Your primary objective is preservation of the capital with minimal risk. You"
       +"can allow only short amount of time for portfolio to recover from negative period.";
+      intro_css="btn-primary";
     }
     else if (score<24)
     {
       intro_text = "<h4>Income</h4>You are willing to tolerate some market fluctuations for the better returns";
+      intro_css="btn-info";
     }
     else if ((score>=24)&&(score<=30))
     {
       intro_text = "<h4>Balanced</h4>You are willing to tolerate market fluctuations and more time for the market"
       + " to recover value. You have some  experience with investments and you understand"
       + "tradeoff between market risks and returns.";
+      intro_css="btn-success";
     }
     else if (score>30)
     {
       intro_text = "<h4>Growth</h4>You are a knowledgeable investor and not concerned about short-term"
       +"fluctuations. You are willing to wait longer time to maximize your profits.";
+      intro_css="btn-warning";
     }
-    return intro_text;
+    return {"text":intro_text, "css":intro_css};
   }
 
   return {
@@ -925,7 +930,8 @@ var namespace_iplanner = (function(){
       //append tables simple
       $("#table_1").empty();
       $("#intro_text").empty();
-      $("#intro_text").append(p_text);
+      $("#intro_text").append(p_text["text"]);
+      $("#intro_text").addClass(p_text["css"]);
       append_tables_advanced(chart_data_advanced["basic"][0]);
       //p_data["basic"][0][1]
   /*    $("#table_1").append(
