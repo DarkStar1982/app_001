@@ -819,6 +819,32 @@ var namespace_iplanner = (function(){
     });
   }
 
+  function get_portfolio_intro(score)
+  {
+    var intro_text ="";
+    if (score<16)
+    {
+      intro_text = "<h4>Conservative</h4>Your primary objective is preservation of the capital with minimal risk. You"
+      +"can allow only short amount of time for portfolio to recover from negative period.";
+    }
+    else if (score<24)
+    {
+      intro_text = "<h4>Income</h4>You are willing to tolerate some market fluctuations for the better returns";
+    }
+    else if ((score>=24)&&(score<=30))
+    {
+      intro_text = "<h4>Balanced</h4>You are willing to tolerate market fluctuations and more time for the market"
+      + " to recover value. You have some  experience with investments and you understand"
+      + "tradeoff between market risks and returns.";
+    }
+    else if (score>30)
+    {
+      intro_text = "<h4>Growth</h4>You are a knowledgeable investor and not concerned about short-term"
+      +"fluctuations. You are willing to wait longer time to maximize your profits.";
+    }
+    return intro_text;
+  }
+
   return {
     init_page_state: function()
     {
@@ -883,6 +909,7 @@ var namespace_iplanner = (function(){
     {
       var score = p_score;
       var p_data = compute_portfolio_data(score);
+      var p_text = get_portfolio_intro(score);
       var simple_title = "<h4><b>Recommended allocation</b><br/><em>Equity "
         + p_data["basic"][0]['y'] + "%, Fixed Income "+p_data["basic"][1]['y']+"%</em></h4>";
       var complex_title = "<h4><b>Detailed distribution</b><br/><br/></h4>";
@@ -897,6 +924,8 @@ var namespace_iplanner = (function(){
       $("#chart_container_12").highcharts('Chart', charts_advanced[0]);
       //append tables simple
       $("#table_1").empty();
+      $("#intro_text").empty();
+      $("#intro_text").append(p_text);
       append_tables_advanced(chart_data_advanced["basic"][0]);
       //p_data["basic"][0][1]
   /*    $("#table_1").append(
