@@ -101,7 +101,7 @@ var namespace_portfolio_aux = (function(){
       // d_c_risk = math_util.aux_math_round((1.0 - d_risk),4) math_util.aux_math_round(x_risk,2);
       d_risk = math_util.aux_math_round(d_risk, 2);
       risk_comp_table.push([
-        "Diversification",
+        'Diversification&nbsp;<a href="" data-toggle="modal" data-target="#myModal6"><span class="glyphicon glyphicon-info-sign"></span></a>',
         "",
         "",
         "",
@@ -112,7 +112,7 @@ var namespace_portfolio_aux = (function(){
       var net_weight = 1.0;
       var net_risk = 1.0;
       risk_comp_table.push([
-        "Portfolio",
+        'Portfolio&nbsp;<a href="" data-toggle="modal" data-target="#myModal7"><span class="glyphicon glyphicon-info-sign"></span></a>',
         namespace_html.display_as_percentage(math_util.aux_math_round(port_return,2)),
         namespace_html.display_as_percentage(math_util.aux_math_round(net_weight*100.0,2)),
         namespace_html.display_as_percentage(math_util.aux_math_round(ret_sum,2)),
