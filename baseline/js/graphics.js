@@ -823,9 +823,9 @@ function update_heatmap_chart_object(p_values, p_colors_pnl, p_colors_risk)
   {
     var date_shifts = [1,3,6,0,12];
     if (p_index==5)
-    var date_shifted = namespace_gui.get_start_date();
+      var date_shifted = p_series[0][0];// namespace_gui.get_start_date();
     else
-    var date_shifted = datetime_util.get_date_shifted(date_shifts[p_index]);
+      var date_shifted = datetime_util.get_date_shifted(date_shifts[p_index]);
     var date_start = datetime_util.convert_date_to_ms(date_shifted);
     //alert(date_start);
     //trim data by date
@@ -837,7 +837,7 @@ function update_heatmap_chart_object(p_values, p_colors_pnl, p_colors_risk)
     p_chart.series[0].setData(new_data);
     var axis = p_chart.xAxis[0];
     var edata = axis.getExtremes();
-    var start_datum = xdata[0][0];
+    var start_datum = p_series[0][0];
     axis.setExtremes(start_datum, edata.dataMax);
     // -- >
   }
