@@ -31,7 +31,8 @@ $(document).ready(function(){
 var namespace_marketdata = (function(){
   var API_URL = "/data_api";
 
-  var stock_database ={};
+  var stock_database = {};
+  var benchmark_database = {};
 
   return {
     get_data: function(p_symbol)
@@ -44,6 +45,7 @@ var namespace_marketdata = (function(){
       $.getJSON(API_URL,  {call:"stock_list",}, function(data)
       {
         var stock_list = data.contents.stocks;
+        var benchmark_list = data.contents.benchmarks;
         for (var i=0;i<stock_list.length;i++)
         {
             stock_database[stock_list[i]["value"]] = {
@@ -53,6 +55,14 @@ var namespace_marketdata = (function(){
               "desc" : stock_list[i]["desc"]
             }
         }
+        $.each(benchmark_list, function(index, obj){
+          benchmark_database[obj["value"]] = {
+            "ticker":obj["value"],
+            "description": obj["label"]
+          };
+          $("#benchmark_list").append('<option value='+index+'>'+obj["value"]+'</option>');
+        });
+        console.log(benchmark_database);
       });
     }
   }
@@ -647,18 +657,40 @@ var namespace_iplanner = (function(){
     var p_data_positions = p_net_data["positions"];
     var p_total_value = p_net_data["total_value"];
     var post_data = JSON.stringify({"transactions": p_data_transactions, "positions": p_data_positions});
+    var current_benchmark = $("#benchmark_list :selected").text();
+    var start_date = datetime_util.adjust_date(datetime_util.get_shifted_year_date(3)); //.(today);
+
     if (p_data_transactions.length>0) $.post('/data_api/', {call:"portfolio_series", data: post_data}, function(data)
     {
       var json_data = JSON.parse(data);
       if (json_data.header.error_code == 0)
       {
+        //post to benchmark data handler
+      //  console.log(current_benchmark);
+        $.getJSON('/data_api/', {call:"benchmark_series", symbol: current_benchmark, start_date: start_date}, function(b_data)
+        {
+          //console.log(b_data);
+          var series_data = [];
+          series_data[0]={
+            "name":"Portfolio",
+            "data":json_data.norm_pnl_split,
+            type:'line'
+          };
+          series_data[1]={
+                    name: current_benchmark,
+                    data: b_data["norm_value_split"],
+                    type: 'line',
+                    dashStyle: 'dot'
+                  };
+          namespace_graphs.render_performance_chart(series_data, "#chart_container_3");
+        });
         var display_mode = "percent";
         var chart_mode = "val_chart";
         var flag_mode = false;
         var flags = [];
         var risk_series = json_data.position_risk_series;
         var position_data = namespace_portfolio_aux.get_position_chart_data(p_data_positions,p_total_value);
-        namespace_graphs.render_val_pnl_chart(json_data.norm_value_series, "#chart_container_3", display_mode, flag_mode, chart_mode, flags);
+        //namespace_graphs.render_val_pnl_chart(json_data.norm_value_series, "#chart_container_3", display_mode, flag_mode, chart_mode, flags);
         namespace_graphs.render_position_chart(position_data, "#chart_container_4", display_mode);
         var risk_table_data = namespace_portfolio_aux.compute_risk_decomposition_table(risk_series,json_data.derived_split,p_net_data);
         render_risk_decomposition_table("#risk_decomposited", risk_table_data);

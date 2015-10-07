@@ -397,17 +397,18 @@ var namespace_gui = (function() {
             {
                 if (m_benchmark_data.hasOwnProperty(k))
                 {
-                    if (k == current_benchmark){
+                    if (k == current_benchmark)
+                    {
                         series_data.push({
-							name: k,
-							data: m_benchmark_data[k]["norm_value_split"],
-							type:'line',
-							dashStyle: 'dot'});
-						portfolio_chart_data["derived_values"][0]["beta"] = namespace_time_series.compute_annual_beta(
-							series_data[0]["data"][0],
-							series_data[1]["data"][0]
-						);
-						update_derived_value_tabs(portfolio_chart_data["derived_values"][0],m_benchmark_data[k]["derived_values"][0]);
+							                     name: k,
+							                    data: m_benchmark_data[k]["norm_value_split"],
+							                    type:'line',
+							                    dashStyle: 'dot'});
+                      portfolio_chart_data["derived_values"][0]["beta"] = namespace_time_series.compute_annual_beta(
+                        series_data[0]["data"][0],
+                        series_data[1]["data"][0]
+						          );
+						      update_derived_value_tabs(portfolio_chart_data["derived_values"][0],m_benchmark_data[k]["derived_values"][0]);
 			            namespace_graphs.render_performance_chart(series_data, "#container_chart3");
                         namespace_graphs.render_risk_chart_group(portfolio_chart_data["risk_chart_data"],
                                                                  portfolio_chart_data["derived_values"],
