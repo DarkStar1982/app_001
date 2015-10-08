@@ -9,6 +9,11 @@ $(document).ready(function(){
     namespace_iplanner.return_report_data();
   });
 
+  $("#show_intro").on('click', function(e){
+    $("#intro_slides").show();
+    $("#intro_paragraph").hide();
+    $("#show_intro").hide();
+  });
 /*  $("#show_performance").on('click', function(e){
     namespace_iplanner.show_performance_view();
   });
@@ -912,6 +917,7 @@ var namespace_iplanner = (function(){
       $("#frame_2").hide();
       $("#frame_3").hide();
       $("#frame_4").hide();
+      $("#intro_slides").hide();
     },
 
     get_profile: function()
