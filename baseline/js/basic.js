@@ -9,11 +9,11 @@ $(document).ready(function(){
     namespace_iplanner.return_report_data();
   });
 
-  $("#show_intro").on('click', function(e){
+/*  $("#show_intro").on('click', function(e){
     $("#intro_slides").show();
     $("#intro_paragraph").hide();
     $("#show_intro").hide();
-  });
+  }); */
 /*  $("#show_performance").on('click', function(e){
     namespace_iplanner.show_performance_view();
   });
