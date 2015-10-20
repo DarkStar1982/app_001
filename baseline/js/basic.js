@@ -139,6 +139,10 @@ var namespace_portfolio_aux = (function(){
 
     get_position_chart_data: function(p_series_data, p_net_value)
     {
+        function format_position(p_symbol)
+        {
+          return p_symbol.replace('_B','');
+        }
         var abs_list=[];
         var rel_list=[];
         var info_obj_abs = {};
@@ -176,14 +180,14 @@ var namespace_portfolio_aux = (function(){
     for (var i=0;i<bubbles_a.length;i++)
     {
       abs_list.push({"x":i,"y":p_series_data[bubbles_a[i][0]].pnl,"color":bubbles_a[i][2]});
-      data_positions_abs.push(p_series_data[bubbles_a[i][0]].symbol);
+      data_positions_abs.push(format_position(p_series_data[bubbles_a[i][0]].symbol));
             info_obj_abs[p_series_data[bubbles_a[i][0]].symbol] = {
                 "volume": p_series_data[bubbles_a[i][0]].volume,
                 "xpnl": p_series_data[bubbles_a[i][0]].pnl,
                 "rpnl": p_series_data[bubbles_a[i][0]].pnl_rel
             };
           rel_list.push({"x":i,"y":p_series_data[bubbles_b[i][0]].pnl_rel,"color":bubbles_b[i][2]});
-      data_positions_rel.push(p_series_data[bubbles_b[i][0]].symbol);
+      data_positions_rel.push(format_position(p_series_data[bubbles_b[i][0]].symbol));
             info_obj_rel[p_series_data[bubbles_b[i][0]].symbol] = {
                 "volume": p_series_data[bubbles_b[i][0]].volume,
                 "xpnl": p_series_data[bubbles_b[i][0]].pnl,
@@ -724,7 +728,7 @@ var namespace_iplanner = (function(){
     var d2 = parseFloat(b2.substring(0,b2.length - 1));
     var vatr2 = math_util.aux_math_round(namespace_xls.norminv(p1,c2,d2),2);
     var vatr3 = namespace_html.display_as_percentage(vatr2);
-    $("#portfolio_vatr_pc").text(vatr3);
+    //show_portfolio_selection$("#portfolio_vatr_pc").text(vatr3);
     saved_tables["performance_year"] = [
         ["Period", "Initial Value", "Final Value", "Net Profit/Loss", "Annual Profit/Loss", "Volatility", "Value at Risk"],
         ["1 Year", "100%", portfolio_final_value, portfolio_net_profit,portfolio_annualized,portfolio_std_vol,vatr3]
@@ -968,6 +972,8 @@ var namespace_iplanner = (function(){
       $("#table_1").empty();
       $("#intro_text").empty();
       $("#intro_text").append(p_text["text"]);
+      $("#intro_text").removeClass();
+      $("#intro_text").addClass('paragraph_hilite');
       $("#intro_text").addClass(p_text["css"]);
       append_tables_advanced(chart_data_advanced["basic"][0]);
       //p_data["basic"][0][1]
@@ -990,7 +996,7 @@ var namespace_iplanner = (function(){
       $("#header_4").show();
       $("#header_5").show();
       $("#header_6").show();
-      $("#basic_positions").show();
+    //  $("#basic_positions").show();
       $("#get_pdf_report").show();
       $("#get_positions_as_csv").show();
       $("#frame_1").show();
@@ -1031,13 +1037,13 @@ var namespace_iplanner = (function(){
 
     show_export_view: function()
     {
-      compute_display_positions(p_data_extended["basic"][0],"#basic_positions_body","basic");
+    //  compute_display_positions(p_data_extended["basic"][0],"#basic_positions_body","basic");
       //$('a[href=#Tab4]').tab('show');
     },
 
     recalculate_exportable_positions: function()
     {
-      compute_display_positions(p_data_extended["basic"][0],"#basic_positions_body","basic");
+    //  compute_display_positions(p_data_extended["basic"][0],"#basic_positions_body","basic");
     },
 
     update_portfolio_view: function()

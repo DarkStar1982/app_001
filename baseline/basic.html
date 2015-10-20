@@ -91,9 +91,10 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right" id="navbar_right">
               <li class="active"><a href="#Tab0" role="tab" data-toggle="tab">Investment Philosophy</a></li>
-              <li><a href="#Tab1" role="tab" data-toggle="tab">Portfolio Templates</a></li>
-              <li><a href="#Tab2" role="tab" data-toggle="tab" style="display:none">See portfolio example</a></li>
-              <li><a href="#Tab3" role="tab" data-toggle="tab">Contact Us </a></li>
+              <li><a href="#Tab1" role="tab" data-toggle="tab">Example Portfolios</a></li>
+              <li><a href="#Tab2" role="tab" data-toggle="tab" style="display:none">Build Your Own</a></li>
+              <li><a href="#Tab3" role="tab" data-toggle="tab">Build Your Own</a></li>
+              <li><a href="#Tab4" role="tab" data-toggle="tab">Contact Us </a></li>
             </ul>
           </div>
       </div>
@@ -351,7 +352,7 @@
                   <td id="chart_title_4" style="text-align:center"><h4>Portfolio Performance</h4></td>
                 </tr>
                 <tr>
-                  <td>Select benchmark <select id="benchmark_list"></select></td>
+                  <td>Benchmark <select id="benchmark_list"></select></td>
                 </tr>
                 <tr>
                     <td id="chart_container_3" style="padding-left:0px"></td>
@@ -367,14 +368,14 @@
           </div>
           <div class="row">
             <div class="col-md-6">
-                  <table class="table table-striped table-bordered" id="table_7">
-                    <thead>
-                      <tr>
-                        <td colspan=6>
-                          <h4 id="header_3" style='text-align:center'>Risk and Returns  - breakdown and diversification</h4>
-                        </td>
-                      </tr>
-                      <tr>
+              <table class="table table-striped table-bordered" id="table_7">
+                <thead>
+                  <tr>
+                    <td colspan=6>
+                      <h4 id="header_3" style='text-align:center'>Risk and Returns  - breakdown and diversification</h4>
+                    </td>
+                  </tr>
+                  <tr>
                         <th>Symbol</th>
                         <th>Returns&nbsp;<a href="#" data-toggle="modal" data-target="#myModal">
                           <span class="glyphicon glyphicon-info-sign"></span></a>
@@ -407,6 +408,8 @@
                       </tr>
                     </tfoot>
                 </table>
+              </div>
+              <div class="col-md-6">
                 <table id="net_values_report" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
                   <thead>
                     <tr>
@@ -420,19 +423,19 @@
                         <th class="col-md-1">Duration</th>
                         <th id="label_value">Initial Value</th>
                         <th id="label_final_pv">Final Value</th>
-                        <th id="label_net_pnl">Net Profit/Loss</th>
-                        <th id="label_annualized">Annual. Profit/Loss</th>
+                        <th id="label_net_pnl">Net PnL</th>
+                        <th id="label_annualized">Annual. PnL</th>
                         <th id="label_std">Volatilty. (Std. Dev)</th>
-                        <th id="label_vatr_pc">Value at risk - Percent</th>
+                        <!--th id="label_vatr_pc">Value at risk - Percent</th-->
                       </tr>
                       <tr>
-                        <td class="col-md-1">1 year</td>
+                        <td class="col-md-1">3 years</td>
                         <td id="portfolio_value">0</td>
                         <td id="portfolio_final_pv">0</td>
                         <td id="portfolio_net_pnl">0</td>
                         <td id="portfolio_annualized">0</td>
                         <td id="portfolio_std">0</td>
-                        <td id="portfolio_vatr_pc">0.0</td>
+                        <!--td id="portfolio_vatr_pc">0.0</td-->
                       </tr>
                     </tbody>
                     <tfoot>
@@ -447,51 +450,10 @@
                     </tfoot>
                 </table>
             </div>
-            <div class="col-md-6">
-            <table id="basic_positions" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
-              <thead>
-                <tr>
-                  <td colspan=5>
-                    <h4 id="header_6"  style="text-align:center">Build your positions</h4>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="vertical-align:bottom">
-                    Amount, USD
-                  </td>
-                  <td colspan="3">
-                    <input type="text" class="form-control" id="money" value="100000"/>
-                  </td>
-                  <td>
-                    <button class="btn btn-default" id="recalculate">Recalculate</button>
-                  </td>
-                </tr>
-                <tr>
-                  <th>Symbol</th>
-                  <th>Action</th>
-                  <th>Volume</th>
-                  <th>Date</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-            <tbody id="basic_positions_body">
-            </tbody>
-            <tfoot>
-              <tr>
-                <td colspan=7>
-                  <span>
-                    This table displays the number of shares of the various securities
-                    given specific portfolio amount as of the most recent closing price (as displayed in the date column)
-                  </span>
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
         </div>
         <div class="row">
           <div class="col-md-4"></div>
-          <div class="col-md-2">
+          <!--div class="col-md-2">
             <form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank">
               <input type="submit" class="btn btn-default" value="Download portfolio as PDF" id="get_pdf_report" name="Get PDF Report"/>
             </form>
@@ -500,11 +462,18 @@
           <form id="get_positions_as_csv" action="/get_csv/" method="post" target="_blank">
             <input type="submit" class="btn btn-default" value="Download positions as CSV" id="get_positions_as_csv" name="Get as CSV"/>
           </form>
-          </div>
+        </div-->
           <!-- Build your own button -->
         </div>
       </div>
       <div class="tab-pane" id="Tab3">
+        <div class="row">
+          <div class="col-md-6">
+            <p>Coming soon...</p>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane" id="Tab4">
         <div class="row">
           <div class="col-md-6">
             <h4>Questions? Comments? Send us a note!</h4>
@@ -514,7 +483,7 @@
             <a href="javascript:(function()%7BSendLinkByMail()%3B%7D)()%3B" class="btn btn-default">Send</a>
           </div>
           <div class="col-md-6">
-            <h4>About the team</h4>
+            <h4>The Team</h4>
             <div class="row">
               <div class="col-md-3">
                 <img src="img/author_1.jpg" style="width:100%"/>
@@ -651,7 +620,7 @@
         <h4 class="modal-title" id="myModalLabel">Investment Philosophy Explained </h4>
       </div>
       <div class="modal-body">
-        <iframe src="//www.slideshare.net/slideshow/embed_code/key/F9YRRHc8ZmORtR" width="720" height="405" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> 
+        <iframe src="//www.slideshare.net/slideshow/embed_code/key/F9YRRHc8ZmORtR" width="720" height="405" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen>
         </iframe>
         <div style="margin-bottom:5px">
           <strong>
