@@ -110,18 +110,19 @@ var namespace_portfolio_aux = (function(){
           namespace_html.display_as_percentage(math_util.aux_math_round(n_weight*100,2)),
           namespace_html.display_as_percentage(math_util.aux_math_round(n_contrib,2)),
           namespace_html.display_as_percentage(math_util.aux_math_round(n_risk*100,2)),
-          namespace_html.display_as_percentage(math_util.aux_math_round(c_risk*100,2))
+        //  namespace_html.display_as_percentage(math_util.aux_math_round(c_risk*100,2))
         ]);
       });
       // d_c_risk = math_util.aux_math_round((1.0 - d_risk),4) math_util.aux_math_round(x_risk,2);
       d_risk = math_util.aux_math_round(d_risk, 2);
-      risk_comp_table.push([
+    /*  risk_comp_table.push([
         'Diversification&nbsp;<a href="" data-toggle="modal" data-target="#myModal6"><span class="glyphicon glyphicon-info-sign"></span></a>',
         "",
         "",
         "",
         "",
-        namespace_html.display_as_percentage(math_util.aux_math_round(d_risk*100,2))]);
+       namespace_html.display_as_percentage(math_util.aux_math_round(d_risk*100,2))
+    ]); */
     //  var port_return = math_util.aux_math_round(state.portfolio_series["derived_values"][0]["diff_percent"], 2);
       var port_return = math_util.aux_math_round(p_derived_data[0]["diff_percent"], 2);
       var net_weight = 1.0;
@@ -132,7 +133,7 @@ var namespace_portfolio_aux = (function(){
         namespace_html.display_as_percentage(math_util.aux_math_round(net_weight*100.0,2)),
         namespace_html.display_as_percentage(math_util.aux_math_round(ret_sum,2)),
         namespace_html.display_as_percentage(math_util.aux_math_round(p_risk*100,2)),
-        namespace_html.display_as_percentage(math_util.aux_math_round(100,2))
+    //    namespace_html.display_as_percentage(math_util.aux_math_round(100,2))
         ]);
       return risk_comp_table;
     },
@@ -647,7 +648,7 @@ var namespace_iplanner = (function(){
 
   function render_risk_decomposition_table(p_container_id, p_risk_data)
   {
-    saved_tables["risk_table"].push(["Symbol", "Nominal Ret", "Weight", "Return Contrib.", "Nominal Risk", "Risk contrib."])
+    saved_tables["risk_table"].push(["Symbol", "Nominal Ret", "Weight", "Return Contrib.", "Nominal Risk" /* "Risk contrib." */])
     $(p_container_id).empty()
     $.each(p_risk_data, function(index, value)
     {
@@ -702,14 +703,15 @@ var namespace_iplanner = (function(){
         namespace_graphs.render_position_chart(position_data, "#chart_container_4", display_mode);
         var risk_table_data = namespace_portfolio_aux.compute_risk_decomposition_table(risk_series,json_data.derived_split, json_data.derived_risk, p_net_data);
         render_risk_decomposition_table("#risk_decomposited", risk_table_data);
-        render_risk_and_return_tables(json_data.derived_split[0])
+        var risk_std = risk_table_data[risk_table_data.length-1][4];
+        render_risk_and_return_tables(json_data.derived_split[0], risk_std);
       }
     });
   }
 
   // get data for risk and return table
   // get data for risk breakdown table
-  function render_risk_and_return_tables(p_client_report)
+  function render_risk_and_return_tables(p_client_report, p_risk_std)
   {
     var portfolio_final_value =math_util.aux_math_round(p_client_report.value_end,2)+"%";
     var portfolio_net_profit = math_util.aux_math_round(p_client_report.diff_percent,2)+"%";
@@ -719,7 +721,7 @@ var namespace_iplanner = (function(){
     $("#portfolio_value").text("100%");
     $("#portfolio_final_pv").text(portfolio_final_value);
     $("#portfolio_annualized").text(portfolio_annualized);
-    $("#portfolio_std").text(portfolio_std_vol);
+    $("#portfolio_std").text(p_risk_std);
     var p1 = 0.95;
     var p_val = namespace_html.read_value_as_float($("#value_totals").text());
     var a2 = $("#portfolio_annualized").text();

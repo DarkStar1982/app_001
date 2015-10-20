@@ -108,47 +108,44 @@
             <div class="col-md-6">
               <h3>Investment Philosophy</h3>
               <p>
-                Today’s financial institutions focus too much on gathering assets from retail investors with slogans like:​​
-                “Open and account today and qualify to get 1000 free trades for 6 months”
+                Today’s financial institutions focus too much on
+               gathering assets from retail investors with slogans like:
+                “Open and account today and qualify to get 1000 free
+               trades for 6 months”
               </p>
               <p>
-                At ​iPlanner we feel that the industry is leaning too heavily in converting every investor out
-                there to a trader. Financial literacy and know how including successful trading, comes at a price.
+                At iPlanner we feel that the industry is leaning too
+               heavily in converting every investor out there to a trader.
+               Financial literacy and know how including successful
+               trading, comes at a price. It takes time and effort to
+               navigate through the clutter of financial media and the
+               coveted “1000 free trades” for a new investor that is
+               just getting started is the equivalent of giving a toddler a
+               gun and 1000 bullets.
               </p>
               <p>
-                It takes time and effort to navigate through the clutter of financial media and the coveted
-                “1000 free trades” for a new investor that is just getting started is the equivalent of giving a
-                toddler a gun and 1000 bullets.
+                We are proponents of passive index investing using
+               highly liquid, low fee ETFs tracking various asset classes
+               like equities, bonds, cash instruments and understanding how
+               they perform over time by placing a high emphasis on
+               diversification and long-run returns.
+                We aim to create technology that will enable investors
+               to build a goal-based investment strategy in a fast and
+               transparent way.
               </p>
               <p>
-                There are savvy traders out there that are able to consistently earn above-average returns
-                no matter what the market conditions might be. They could certainly benefit from 1000 free trades.
-              </p>
-              <p>
-                However the moms and pops, the students, the young professionals who don’t have the luxury of
-                following the markets every day trying to exploit the opportunities out there (and there are plenty)
-                are better off starting to invest in an efficient way.
-              </p>
-                <p>
-                We are proponents of passive index investing using highly liquid, low fee ETFs tracking various
-                asset classes like equities, bonds, cash instruments and understanding how they perform over time by
-                placing a high emphasis on diversification and long-run returns.</p>
-                <p>
-                We aim to create technology that will enable investors to build a goal-based investment
-                strategy in a fast and transparent way. Today’s investment advice industry is not very
-                transparent and that is how they have been able to charge high fees  for decades and very
-                often underperforming their own benchmarks. </p>
-                <p>
-                Traditional fees can range between 1-2.5%.
-                in the long run, the excess fees paid to can lead to underperformance for a portfolio tracking the same strategy.
-                </p>
-                <p>
-                iPlanner advocates that for the retail investors who want to invest and not take 50/0 shots day-trading,
-                there is a better way!
-               </p>
-                <p>Below is a detailed overview of our approach.
-                We encourage you to read through it as it will provide some useful insight.</p>
-                <a href="#" data-toggle="modal" class="btn btn-default" data-target="#myModal8">See more</a>
+                iPlanner advocates that for the retail
+               investors who want to invest and not take 50/50 shots
+               day-trading, there is a better way!!
+                Below is a detailed overview of our approach. We
+               encourage you to read through it as it will provide some
+               useful insight.
+             </p>
+
+                <a href="#" data-toggle="modal" class="btn btn-primary btn-lg" style="text-align:center; height:100px;width:100%" role="button"
+                data-target="#myModal8">
+                  <h3>iPlanner Investing Method Presentation</h3>
+                </a>
             </div>
             <div class="col-md-3">
             </div>
@@ -352,7 +349,8 @@
                   <td id="chart_title_4" style="text-align:center"><h4>Portfolio Performance</h4></td>
                 </tr>
                 <tr>
-                  <td>Benchmark <select id="benchmark_list"></select></td>
+                  <td>Benchmark <select id="benchmark_list"></select><a href="#" data-toggle="modal" data-target="#myModal9">
+                    <span class="glyphicon glyphicon-info-sign"></span></a></td>
                 </tr>
                 <tr>
                     <td id="chart_container_3" style="padding-left:0px"></td>
@@ -376,7 +374,7 @@
                     </td>
                   </tr>
                   <tr>
-                        <th>Symbol</th>
+                    <th>Symbol</th>
                         <th>Returns&nbsp;<a href="#" data-toggle="modal" data-target="#myModal">
                           <span class="glyphicon glyphicon-info-sign"></span></a>
                         </th>
@@ -389,7 +387,7 @@
                         <th>Nominal Risk&nbsp;<a href="#" data-toggle="modal" data-target="#myModal4">
                           <span class="glyphicon glyphicon-info-sign"></span></a>
                         </th>
-                        <th>Risk Contrib.&nbsp;<a href="#" data-toggle="modal" data-target="#myModal5">
+                        <th style="display:none">Risk Contrib.&nbsp;<a href="#" data-toggle="modal" data-target="#myModal5">
                           <span class="glyphicon glyphicon-info-sign"></span></a>
                         </th>
                       </tr>
@@ -425,7 +423,7 @@
                         <th id="label_final_pv">Final Value</th>
                         <th id="label_net_pnl">Net PnL</th>
                         <th id="label_annualized">Annual. PnL</th>
-                        <th id="label_std">Volatilty. (Std. Dev)</th>
+                        <th id="label_std">Volatilty (Risk)</th>
                         <!--th id="label_vatr_pc">Value at risk - Percent</th-->
                       </tr>
                       <tr>
@@ -449,6 +447,9 @@
                       </tr>
                     </tfoot>
                 </table>
+                  <form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank" style="width:100%">
+                    <input type="submit" class="btn btn-primary btn-lg" value="Download portfolio as PDF" id="get_pdf_report" name="Get PDF Report" style="text-align:center; height:70px;width:100%"/>
+                  </form>
             </div>
         </div>
         <div class="row">
@@ -468,9 +469,16 @@
       </div>
       <div class="tab-pane" id="Tab3">
         <div class="row">
-          <div class="col-md-6">
-            <p>Coming soon...</p>
+          <div class="col-md-12">
+            <br/><br/><br/><br/><br/><br/><br/>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4"></div>
+          <div class="col-md-4">
+            <h1 style="text-align:center">Coming soon...</h1>
+          </div>
+          <div class="col-md-4"></div>
         </div>
       </div>
       <div class="tab-pane" id="Tab4">
@@ -489,7 +497,7 @@
                 <img src="img/author_1.jpg" style="width:100%"/>
               </div>
               <div class="col-md-9">
-              <p><h5>Edmond Tasellari</h5>
+              <p><h5>Ed Sotiri</h5>
                 Detail oriented and enthusiastic business professional with strong
                 analytical problem solving skills and practical knowledge of
                 investment markets.
@@ -608,6 +616,19 @@
       </div>
       <div class="modal-body">
         Consolidated portfolio metrics since inception.
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="myModal9" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Benchmark </h4>
+      </div>
+      <div class="modal-body">
+        The benchmark used is an S&amp;P 500 ETF
       </div>
     </div>
   </div>
