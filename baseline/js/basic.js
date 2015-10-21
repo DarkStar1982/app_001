@@ -128,7 +128,7 @@ var namespace_portfolio_aux = (function(){
       var net_weight = 1.0;
       var net_risk = 1.0;
       risk_comp_table.push([
-        'Portfolio&nbsp;<a href="" data-toggle="modal" data-target="#myModal7"><span class="glyphicon glyphicon-info-sign"></span></a>',
+        'Portfolio',
         namespace_html.display_as_percentage(math_util.aux_math_round(port_return,2)),
         namespace_html.display_as_percentage(math_util.aux_math_round(net_weight*100.0,2)),
         namespace_html.display_as_percentage(math_util.aux_math_round(ret_sum,2)),
@@ -732,8 +732,8 @@ var namespace_iplanner = (function(){
     var vatr3 = namespace_html.display_as_percentage(vatr2);
     //show_portfolio_selection$("#portfolio_vatr_pc").text(vatr3);
     saved_tables["performance_year"] = [
-        ["Period", "Initial Value", "Final Value", "Net Profit/Loss", "Annual Profit/Loss", "Volatility", "Value at Risk"],
-        ["1 Year", "100%", portfolio_final_value, portfolio_net_profit,portfolio_annualized,portfolio_std_vol,vatr3]
+        ["Period", "Initial Value", "Final Value", "Net PnL", "Annual PnL", "Volatility"],
+        ["3 Years", "100%", portfolio_final_value, portfolio_net_profit,portfolio_annualized,p_risk_std]
     ];
   }
   //create transactions
@@ -1069,7 +1069,7 @@ var namespace_iplanner = (function(){
       p_data.push({"type":"chart","contents": performance_chart_ojbect, "header":"Historical Perfomance"});
       p_data.push({"type":"chart","contents": positions_chart_object, "header":"Positions Performance"});
       p_data.push({"type":"table","contents": saved_tables["risk_table"], "header":"Portfolio Risk and Returns"});
-      p_data.push({"type":"table","contents": saved_tables["computed_positions"], "header":"Your Positions"});
+  //    p_data.push({"type":"table","contents": saved_tables["computed_positions"], "header":"Your Positions"});
       //compute positions
       //convert to list of pdf blocks
       //send data to server
