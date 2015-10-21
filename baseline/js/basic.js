@@ -1058,7 +1058,7 @@ var namespace_iplanner = (function(){
       var p_data = [];
       var summary_obj = [["Net Value", "Net PnL"],[100000, 1000]];
       var allocation_chart_object = JSON.stringify(saved_charts["allocation_chart"]);
-      var performance_chart_ojbect = JSON.stringify(namespace_graphs.return_val_pnl_chart_object());
+      var performance_chart_ojbect = JSON.stringify(namespace_graphs.return_performance_chart_object());
       var detailed_allocations = JSON.stringify(saved_charts["detailed_allocations"]);
       var positions_chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
       p_data.push({"type":"chart","contents": allocation_chart_object, "header":"Allocation Summary"});
