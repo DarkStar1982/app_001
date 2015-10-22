@@ -1007,7 +1007,7 @@ function update_heatmap_chart_object(p_values, p_colors_pnl, p_colors_risk)
             max: y_scale[1],
             tickLength:3,
             minorTickLength:0,
-            title: null
+            title: {text:'Percent'}
           },
           xAxis: { categories : x_scale},
           plotOptions: {
