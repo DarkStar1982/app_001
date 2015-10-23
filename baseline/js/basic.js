@@ -92,7 +92,6 @@ var namespace_portfolio_aux = (function(){
       var risk_comp_table=[];
       var d_risk = 1.0;
       var ret_sum = 0.0;
-      console.log(p_risk_data);
       var p_risk = p_risk_data[0][0][1];// p_derived_data[0]["std_dev"];
       var x_risk = Math.pow(p_risk, 2);
       $.each(p_data, function(index, value){
