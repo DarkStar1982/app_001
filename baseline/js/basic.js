@@ -647,6 +647,7 @@ var namespace_iplanner = (function(){
 
   function render_risk_decomposition_table(p_container_id, p_risk_data)
   {
+    saved_tables["risk_table"] = [];
     saved_tables["risk_table"].push(["Symbol", "Nominal Ret", "Weight", "Return Contrib.", "Nominal Risk" /* "Risk contrib." */])
     $(p_container_id).empty()
     $.each(p_risk_data, function(index, value)
@@ -1054,6 +1055,7 @@ var namespace_iplanner = (function(){
 
     return_report_data :function ()
     {
+      //$('#get_pdf_report').empty();
       var p_data = [];
       var summary_obj = [["Net Value", "Net PnL"],[100000, 1000]];
       var allocation_chart_object = JSON.stringify(saved_charts["allocation_chart"]);
