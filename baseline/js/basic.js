@@ -1064,7 +1064,7 @@ var namespace_iplanner = (function(){
       var positions_chart_object = JSON.stringify(namespace_graphs.return_position_chart_object());
       p_data.push({"type":"chart","contents": allocation_chart_object, "header":"Allocation Summary"});
       p_data.push({"type":"table","contents": saved_tables["positions_fixed"], "header":"Positions - Fixed Income"});
-      p_data.push({"type":"table","contents": saved_tables["positions_equity"], "header":"Positions - Fixed Income"});
+      p_data.push({"type":"table","contents": saved_tables["positions_equity"], "header":"Positions - Equity"});
       p_data.push({"type":"table","contents": saved_tables["performance_year"], "header":"Portfolio Performance"});
       p_data.push({"type":"chart","contents": detailed_allocations, "header":"Detailed Positions"});
       p_data.push({"type":"chart","contents": performance_chart_ojbect, "header":"Historical Perfomance"});
