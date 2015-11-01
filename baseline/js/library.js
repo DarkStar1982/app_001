@@ -349,6 +349,11 @@ var datetime_util = (function () {
 			return yesterday;
 		},
 
+		get_date_as_string: function()
+		{
+			var today= new Date();
+			return ''+today.getFullYear()+today.getMonth()+today.getDate();
+		},
 		get_shifted_year_date: function(p_year)
 		{
 			var today= new Date();

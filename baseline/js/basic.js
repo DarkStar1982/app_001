@@ -360,6 +360,7 @@ var namespace_iplanner = (function(){
   var p_data_extended = {};
   var p_csv_positions = {};
   var API_URL = "/data_api";
+  var portfolio_string = "";
 
   var saved_charts = {
     "allocation_chart" : {},
@@ -415,6 +416,7 @@ var namespace_iplanner = (function(){
         {name:'EQ',color:'#00EF7F', y:0.00},
         {name:'FI',color:'#007F7F',y: 100.00}
       ];
+      portfolio_string = "x1a1"+datetime_util.get_date_as_string();
     }
     else if (score<24)
     {
@@ -422,6 +424,7 @@ var namespace_iplanner = (function(){
         {name:'EQ',color:'#00EF7F', y: 15.00},
         {name:'FI',color:'#007F7F',y: 85.00}
       ];
+      portfolio_string = "x1a2"+datetime_util.get_date_as_string();
     }
     else if ((score>=24)&&(score<=30))
     {
@@ -429,6 +432,7 @@ var namespace_iplanner = (function(){
         {name:'EQ',color:'#00EF7F', y:60.00},
         {name:'FI',color:'#007F7F',y: 40.00}
       ];
+      portfolio_string = "x1a3"+datetime_util.get_date_as_string();
     }
     else if (score>30)
     {
@@ -436,6 +440,7 @@ var namespace_iplanner = (function(){
         {name:'EQ',color:'#00EF7F', y:80.00},
         {name:'FI',color:'#007F7F',y: 20.00}
       ];
+      portfolio_string = "x1a4"+datetime_util.get_date_as_string();
     }
     return p_data;
   }
@@ -666,7 +671,11 @@ var namespace_iplanner = (function(){
   {
     var p_data_positions = p_net_data["positions"];
     var p_total_value = p_net_data["total_value"];
-    var post_data = JSON.stringify({"transactions": p_data_transactions, "positions": p_data_positions});
+    var post_data = JSON.stringify({
+      "transactions": p_data_transactions,
+      "positions": p_data_positions,
+      "portfolio_id": portfolio_string
+    });
     var current_benchmark = $("#benchmark_list :selected").text();
     var start_date = datetime_util.adjust_date(datetime_util.get_shifted_year_date(3)); //.(today);
 
