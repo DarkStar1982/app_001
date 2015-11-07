@@ -87,7 +87,7 @@ var namespace_portfolio_report = (function(){
 var namespace_portfolio_aux = (function(){
   return {
 
-    compute_risk_decomposition_table: function(p_data, p_derived_data, p_risk_data, p_net_data)
+    compute_risk_decomposition_table: function(p_data, p_derived_data, p_risk_data, p_net_data, p_correlations, porfolio_corr)
     {
       var risk_comp_table=[];
       var d_risk = 1.0;
@@ -109,20 +109,10 @@ var namespace_portfolio_aux = (function(){
           namespace_html.display_as_percentage(math_util.aux_math_round(n_weight*100,2)),
           namespace_html.display_as_percentage(math_util.aux_math_round(n_contrib,2)),
           namespace_html.display_as_percentage(math_util.aux_math_round(n_risk*100,2)),
-        //  namespace_html.display_as_percentage(math_util.aux_math_round(c_risk*100,2))
+          math_util.aux_math_round(p_correlations[value["symbol"]],2)
         ]);
       });
-      // d_c_risk = math_util.aux_math_round((1.0 - d_risk),4) math_util.aux_math_round(x_risk,2);
       d_risk = math_util.aux_math_round(d_risk, 2);
-    /*  risk_comp_table.push([
-        'Diversification&nbsp;<a href="" data-toggle="modal" data-target="#myModal6"><span class="glyphicon glyphicon-info-sign"></span></a>',
-        "",
-        "",
-        "",
-        "",
-       namespace_html.display_as_percentage(math_util.aux_math_round(d_risk*100,2))
-    ]); */
-    //  var port_return = math_util.aux_math_round(state.portfolio_series["derived_values"][0]["diff_percent"], 2);
       var port_return = math_util.aux_math_round(p_derived_data[0]["diff_percent"], 2);
       var net_weight = 1.0;
       var net_risk = 1.0;
@@ -132,7 +122,7 @@ var namespace_portfolio_aux = (function(){
         namespace_html.display_as_percentage(math_util.aux_math_round(net_weight*100.0,2)),
         namespace_html.display_as_percentage(math_util.aux_math_round(ret_sum,2)),
         namespace_html.display_as_percentage(math_util.aux_math_round(p_risk*100,2)),
-    //    namespace_html.display_as_percentage(math_util.aux_math_round(100,2))
+        math_util.aux_math_round(porfolio_corr,2)
         ]);
       return risk_comp_table;
     },
@@ -684,8 +674,6 @@ var namespace_iplanner = (function(){
       var json_data = JSON.parse(data);
       if (json_data.header.error_code == 0)
       {
-        //post to benchmark data handler
-      //  console.log(current_benchmark);
         $.getJSON('/data_api/', {call:"benchmark_series", symbol: current_benchmark, start_date: start_date}, function(b_data)
         {
           var series_data = [];
@@ -701,17 +689,23 @@ var namespace_iplanner = (function(){
                     dashStyle: 'dot'
                   };
           namespace_graphs.render_performance_chart(series_data, "#chart_container_3");
+          // for each symbol compute correlation with benchmark_series
+          var correlations = {};
+          $.each(json_data.position_value_series, function(index, value){
+            correlations[value["symbol"]] = math_util.compute_series_correlation(value["series"], b_data.norm_value_series);
+          });
+          var risk_series = json_data.position_risk_series;
+          var portfolio_correlation = math_util.compute_series_correlation(json_data.norm_pnl_split[0], b_data.norm_value_series);
+          var risk_table_data = namespace_portfolio_aux.compute_risk_decomposition_table(risk_series,json_data.derived_split, json_data.derived_risk, p_net_data,correlations,portfolio_correlation);
+          render_risk_decomposition_table("#risk_decomposited", risk_table_data);
         });
         var display_mode = "percent";
         var chart_mode = "val_chart";
         var flag_mode = false;
         var flags = [];
-        var risk_series = json_data.position_risk_series;
         var position_data = namespace_portfolio_aux.get_position_chart_data(p_data_positions,p_total_value);
         //namespace_graphs.render_val_pnl_chart(json_data.norm_value_series, "#chart_container_3", display_mode, flag_mode, chart_mode, flags);
         namespace_graphs.render_position_chart(position_data, "#chart_container_4", display_mode);
-        var risk_table_data = namespace_portfolio_aux.compute_risk_decomposition_table(risk_series,json_data.derived_split, json_data.derived_risk, p_net_data);
-        render_risk_decomposition_table("#risk_decomposited", risk_table_data);
         var risk_std = risk_table_data[risk_table_data.length-1][4];
         render_risk_and_return_tables(json_data.derived_split[0], risk_std);
       }

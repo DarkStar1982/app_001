@@ -209,12 +209,12 @@ var math_util = (function (){
 	function stat_compute_mean(p_data)
 	{
 		var sum = 0.0
-        	for (var i=0; i<p_data.length;i++)
-        	{
+    for (var i=0; i<p_data.length;i++)
+    {
 			sum = sum + p_data[i];
 		}
 		var mean = sum / p_data.length;
-        	return mean;
+    return mean;
 	}
 
 	function aux_compute_covariance (p_data_a, p_data_b)
@@ -230,7 +230,7 @@ var math_util = (function (){
 			c_sum = c_sum + (x_a[i] - mean_a)*(x_b[i]-mean_b);
 		}
 		var x_result = c_sum / (min_length)
-        	return x_result;
+    return x_result;
 	}
 
 	function aux_compute_variance (p_data)
@@ -250,7 +250,7 @@ var math_util = (function (){
 	/*** public ***/
 	return {
 		aux_currency_round: function(p_value) {
-        		return (Math.round(p_value*100) / 100.0);
+    	return (Math.round(p_value*100) / 100.0);
 		},
 		aux_math_round: function(p_value, p_digits)
 		{
@@ -262,7 +262,6 @@ var math_util = (function (){
 			else if (a>b) return b;
 			else return a;
 		},
-
 		get_series_min_max: function(p_data)
 		{
 			var min = p_data[0][1];
@@ -273,6 +272,21 @@ var math_util = (function (){
             	if (p_data[i][1]>max) max = p_data[i][1];
             }
             return {"min": min, "max": max};
+		},
+		compute_stdev_2: function(p_data)
+		{
+			var sum =0.0;
+			for (var i=0;i<p_data.length;i++)
+			{
+				sum = sum + p_data[i][1];
+			}
+			var mean = sum / p_data.length;
+			var sum_var = 0.0;
+			for (var i=0;i<p_data.length;i++)
+			{
+				sum_var = sum_var + Math.pow((p_data[i][1] - mean),2);
+			}
+			return Math.sqrt(sum_var/p_data.length);
 		},
 
 		compute_stdev: function(p_data){
@@ -307,8 +321,15 @@ var math_util = (function (){
 		},
 		compute_sharpe: function()
 		{
+		},
+		compute_series_correlation: function(p_data_a, p_data_b)
+		{
+			var covar_val = aux_compute_covariance(p_data_a, p_data_b);
+			var q_a = this.compute_stdev_2(p_data_a);
+			var q_b = this.compute_stdev_2(p_data_b);
+			var result = covar_val / (q_a * q_b);
+			return result;
 		}
-
 	};
 })();
 
