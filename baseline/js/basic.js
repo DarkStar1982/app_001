@@ -698,6 +698,10 @@ var namespace_iplanner = (function(){
           var portfolio_correlation = math_util.compute_series_correlation(json_data.norm_pnl_split[0], b_data.norm_value_series);
           var risk_table_data = namespace_portfolio_aux.compute_risk_decomposition_table(risk_series,json_data.derived_split, json_data.derived_risk, p_net_data,correlations,portfolio_correlation);
           render_risk_decomposition_table("#risk_decomposited", risk_table_data);
+	 var risk_std = risk_table_data[risk_table_data.length-1][4];
+        render_risk_and_return_tables(json_data.derived_split[0], risk_std);
+      
+	
         });
         var display_mode = "percent";
         var chart_mode = "val_chart";
@@ -706,9 +710,7 @@ var namespace_iplanner = (function(){
         var position_data = namespace_portfolio_aux.get_position_chart_data(p_data_positions,p_total_value);
         //namespace_graphs.render_val_pnl_chart(json_data.norm_value_series, "#chart_container_3", display_mode, flag_mode, chart_mode, flags);
         namespace_graphs.render_position_chart(position_data, "#chart_container_4", display_mode);
-        var risk_std = risk_table_data[risk_table_data.length-1][4];
-        render_risk_and_return_tables(json_data.derived_split[0], risk_std);
-      }
+       }
     });
   }
 
