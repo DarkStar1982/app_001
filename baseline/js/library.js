@@ -233,6 +233,16 @@ var math_util = (function (){
     return x_result;
 	}
 
+	function convert_series_returns(p_data, p_offset)
+	{
+		var x_data = [];
+		for (var i=1; i<p_data.length;i++)
+		{
+			x_data.push([p_data[i][0],p_data[i][1]/p_data[i-1][1] - 1.0]);
+		}
+		return x_data;
+	}
+
 	function aux_compute_variance (p_data)
 	{
 		var x_data = extract_data(p_data);
@@ -324,9 +334,11 @@ var math_util = (function (){
 		},
 		compute_series_correlation: function(p_data_a, p_data_b)
 		{
-			var covar_val = aux_compute_covariance(p_data_a, p_data_b);
-			var q_a = this.compute_stdev_2(p_data_a);
-			var q_b = this.compute_stdev_2(p_data_b);
+			var x_data_a = convert_series_returns(p_data_a,31);
+			var x_data_b = convert_series_returns(p_data_b,31);
+			var covar_val = aux_compute_covariance(x_data_a, x_data_b);
+			var q_a = this.compute_stdev_2(x_data_a);
+			var q_b = this.compute_stdev_2(x_data_b);
 			var result = covar_val / (q_a * q_b);
 			return result;
 		}
