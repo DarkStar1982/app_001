@@ -98,7 +98,7 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right" id="navbar_right">
-              <li class="active"><a href="#Tab0" role="tab" data-toggle="tab">Investment Philosophy</a></li>
+              <li class="active"><a href="#Tab0" role="tab" data-toggle="tab">Investment Goals</a></li>
               <li><a href="#Tab1" role="tab" data-toggle="tab">Example Portfolios</a></li>
               <li><a href="#Tab2" role="tab" data-toggle="tab" style="display:none">Build Your Own</a></li>
               <li><a href="#Tab3" role="tab" data-toggle="tab">Build Your Own</a></li>
@@ -111,51 +111,99 @@
       <div class="tab-content">
         <div class="tab-pane active" id="Tab0">
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-2">
             </div>
-            <div class="col-md-6">
-              <h3>Investment Philosophy</h3>
-              <p>
-                Today’s financial institutions focus too much on
-               gathering assets from retail investors with slogans like:
-                “Open and account today and qualify to get 1000 free
-               trades for 6 months”
-              </p>
-              <p>
-                At iPlanner we feel that the industry is leaning too
-               heavily in converting every investor out there to a trader.
-               Financial literacy and know how including successful
-               trading, comes at a price. It takes time and effort to
-               navigate through the clutter of financial media and the
-               coveted “1000 free trades” for a new investor that is
-               just getting started is the equivalent of giving a toddler a
-               gun and 1000 bullets.
-              </p>
-              <p>
-                We are proponents of passive index investing using
-               highly liquid, low fee ETFs tracking various asset classes
-               like equities, bonds, cash instruments and understanding how
-               they perform over time by placing a high emphasis on
-               diversification and long-run returns.
-                We aim to create technology that will enable investors
-               to build a goal-based investment strategy in a fast and
-               transparent way.
-              </p>
-              <p>
-                iPlanner advocates that for the retail
-               investors who want to invest and not take 50/50 shots
-               day-trading, there is a better way!!
-                Below is a detailed overview of our approach. We
-               encourage you to read through it as it will provide some
-               useful insight.
-             </p>
-
-                <a href="#" data-toggle="modal" class="btn btn-primary btn-lg" style="text-align:center; height:100px;width:100%" role="button"
-                data-target="#myModal8">
-                  <h3>iPlanner Investing Method Presentation</h3>
-                </a>
+            <div class="col-md-8">
+              <h3 style="text-align:center">Define your Investment Goals</h3>
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <td><span style="font-size:24px" class="col-md-12">How old are you?</span></td>
+                    <td class="col-md-3"><span class="nowrap"><input type="tel" placeholder="" maxlength="10" name="age" class="enter-income" /></span></td>
+                  </tr>
+                </tbody>
+               </table>
+               <table class="table table-borderless">
+                  <tr>
+                    <td><span style="font-size:24px" class="col-md-12">How much are you willing to invest annually?</span></td>
+                    <td class="col-md-3"><span class="nowrap"><input type="tel" placeholder="" maxlength="10" name="income" class="enter-income" /></span></td>
+                  </tr>
+                </table>
+                <table class="table table-borderless">
+                  <tr>
+                    <td><span style="font-size:24px" class="col-md-12">What type of investor you are?</span></td>
+                    <td class="col-md-4">
+                      <select id="knowledge" class="enter-income" style="width:90%">
+                        <option value=1>Conservative</option>
+                        <option value=2>Income</option>
+                        <option value=3>Growth</option>
+                        <option value=4>Rist taker</option>
+                      </select></td>
+                  </tr>
+              </table>
+              <table class="table table-borderless">
+                <tr>
+                  <td><span style="font-size:24px" class="col-md-12">When do you expect to access majority of your portfolio funds?</span></td>
+                  <td class="col-md-4">
+                    <select id="duration" class="enter-income" style="width:90%">
+                      <option value=1>5 years or less</option>
+                      <option value=2>5-10 years</option>
+                      <option value=3>10-15 years</option>
+                      <option value=4>15-20 years</option>
+                      <option value=5>20 years or more</option>
+                    </select></td>
+                </tr>
+            </table>
+            <table class="table table-borderless">
+              <tr>
+                <td><span style="font-size:24px" class="col-md-12">What are the goals of your portfolio?</span></td>
+                <td class="col-md-4">
+                  <select id="goals" class="enter-income" style="width:90%">
+                    <option value=1>Protect capital</option>
+                    <option value=2>Generate income</option>
+                    <option value=3>Fund major expenses</option>
+                    <option value=4>Accumulate wealth</option>
+                    <option value=5>Aggressively growth value</option>
+                  </select></td>
+              </tr>
+            </table>
+            <table class="table table-borderless">
+              <tr>
+                <td><span style="font-size:24px" class="col-md-12">What is the maximum duration of portfolio value drop you are willing to tolerate?</span></td>
+                <td class="col-md-4">
+                  <select id="drop_length" class="enter-income" style="width:90%">
+                    <option value=1>Less then 3 months</option>
+                    <option value=2>3 to 6 months</option>
+                    <option value=3>6 months to 1 year</option>
+                    <option value=4>1 to 2 years</option>
+                  </select></td>
+              </tr>
+            </table>
+            <table class="table table-borderless">
+              <tr>
+                <td><span style="font-size:24px" class="col-md-12">How long are you willing to wait for your portfolio value to recover?</span></td>
+                <td class="col-md-4">
+                  <select id="recovery_length" class="enter-income" style="width:90%">
+                    <option value=1>Less then 3 months</option>
+                    <option value=2>3 to 6 months</option>
+                    <option value=3>6 months to 1 year</option>
+                    <option value=4>1 to 2 years</option>
+                  </select></td>
+              </tr>
+            </table>
+            <table class="table table-borderless">
+              <tr>
+                <td><span style="font-size:24px" class="col-md-12">Is it more important for you to minimize loss or maximize returns?<span></td>
+                <td class="col-md-4">
+                  <form action="">
+                    <input type="radio" name="optimize" style="font-size:24px" value="loss"><span style="font-size:24px"> Minimize loss</span><br/>
+                    <input type="radio" name="optimize" style="font-size:24px" value="returns"><span style="font-size:24px"> Maximize returns</span>
+                  </form>
+                </td>
+              </tr>
+            </table>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-2">
             </div>
           </div>
         </div>
