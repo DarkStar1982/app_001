@@ -113,97 +113,200 @@
           <div class="row">
             <div class="col-md-2">
             </div>
-            <div class="col-md-8">
-              <h3 style="text-align:center">Define your Investment Goals</h3>
-              <table class="table table-borderless">
-                <tbody>
-                  <tr>
-                    <td><span style="font-size:24px" class="col-md-12">How old are you?</span></td>
-                    <td class="col-md-3"><span class="nowrap"><input type="tel" placeholder="" maxlength="10" name="age" class="enter-income" /></span></td>
-                  </tr>
-                </tbody>
-               </table>
-               <table class="table table-borderless">
-                  <tr>
-                    <td><span style="font-size:24px" class="col-md-12">How much are you willing to invest annually?</span></td>
-                    <td class="col-md-3"><span class="nowrap"><input type="tel" placeholder="" maxlength="10" name="income" class="enter-income" /></span></td>
-                  </tr>
-                </table>
-                <table class="table table-borderless">
-                  <tr>
-                    <td><span style="font-size:24px" class="col-md-12">What type of investor you are?</span></td>
-                    <td class="col-md-4">
-                      <select id="knowledge" class="enter-income" style="width:90%">
-                        <option value=1>Conservative</option>
-                        <option value=2>Income</option>
-                        <option value=3>Growth</option>
-                        <option value=4>Rist taker</option>
-                      </select></td>
-                  </tr>
-              </table>
-              <table class="table table-borderless">
-                <tr>
-                  <td><span style="font-size:24px" class="col-md-12">When do you expect to access majority of your portfolio funds?</span></td>
-                  <td class="col-md-4">
-                    <select id="duration" class="enter-income" style="width:90%">
-                      <option value=1>5 years or less</option>
-                      <option value=2>5-10 years</option>
-                      <option value=3>10-15 years</option>
-                      <option value=4>15-20 years</option>
-                      <option value=5>20 years or more</option>
-                    </select></td>
-                </tr>
-            </table>
-            <table class="table table-borderless">
-              <tr>
-                <td><span style="font-size:24px" class="col-md-12">What are the goals of your portfolio?</span></td>
-                <td class="col-md-4">
-                  <select id="goals" class="enter-income" style="width:90%">
-                    <option value=1>Protect capital</option>
-                    <option value=2>Generate income</option>
-                    <option value=3>Fund major expenses</option>
-                    <option value=4>Accumulate wealth</option>
-                    <option value=5>Aggressively growth value</option>
-                  </select></td>
-              </tr>
-            </table>
-            <table class="table table-borderless">
-              <tr>
-                <td><span style="font-size:24px" class="col-md-12">What is the maximum duration of portfolio value drop you are willing to tolerate?</span></td>
-                <td class="col-md-4">
-                  <select id="drop_length" class="enter-income" style="width:90%">
-                    <option value=1>Less then 3 months</option>
-                    <option value=2>3 to 6 months</option>
-                    <option value=3>6 months to 1 year</option>
-                    <option value=4>1 to 2 years</option>
-                  </select></td>
-              </tr>
-            </table>
-            <table class="table table-borderless">
-              <tr>
-                <td><span style="font-size:24px" class="col-md-12">How long are you willing to wait for your portfolio value to recover?</span></td>
-                <td class="col-md-4">
-                  <select id="recovery_length" class="enter-income" style="width:90%">
-                    <option value=1>Less then 3 months</option>
-                    <option value=2>3 to 6 months</option>
-                    <option value=3>6 months to 1 year</option>
-                    <option value=4>1 to 2 years</option>
-                  </select></td>
-              </tr>
-            </table>
-            <table class="table table-borderless">
-              <tr>
-                <td><span style="font-size:24px" class="col-md-12">Is it more important for you to minimize loss or maximize returns?<span></td>
-                <td class="col-md-4">
-                  <form action="">
-                    <input type="radio" name="optimize" style="font-size:24px" value="loss"><span style="font-size:24px"> Minimize loss</span><br/>
-                    <input type="radio" name="optimize" style="font-size:24px" value="returns"><span style="font-size:24px"> Maximize returns</span>
-                  </form>
-                </td>
-              </tr>
-            </table>
+            <div class="col-md-6">
+              <form role="form">
+                <div class="form-group">
+                  <label for="field1"><big>How old are you?</big></label>
+                </div>
+              </form>
             </div>
             <div class="col-md-2">
+            <form>
+              <div class="form-group">
+                <input type="text" class="form-control" id="field1">
+              </div>
+            </form>
+            </div>
+          <div class="col-md-2">
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-6">
+              <form role="form">
+                <div class="form-group">
+                  <label for="field2"><big>How much are you willing to invest annually?</big></label>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+              <form>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="field2">
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-6">
+              <form role="form">
+                <div class="form-group">
+                  <label for="knowledge"><big>What type of investor you are?</big></label>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+              <form>
+                <div class="form-group">
+                  <select id="knowledge" class="form-control">
+                    <option value=1>Conservative</option>
+                    <option value=2>Income</option>
+                    <option value=3>Growth</option>
+                    <option value=4>Risk taker</option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-6">
+              <form role="form">
+                <div class="form-group">
+                  <label for="duration"><big>When do you expect to withdraw your portfolio funds?</big></label>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+              <form>
+              <div class="form-group">
+              <select id="duration" class="form-control">
+                <option value=1>5 years or less</option>
+                <option value=2>5-10 years</option>
+                <option value=3>10-15 years</option>
+                <option value=4>15-20 years</option>
+                <option value=5>20 years or more</option>
+              </select>
+              </div>
+            </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-6">
+              <form role="form">
+                <div class="form-group">
+                  <label for="goals"><big>What are the goals of your portfolio?</big></label>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+              <form>
+              <div class="form-group">
+              <select id="goals" class="form-control">
+                <option value=1>Protect capital</option>
+                <option value=2>Generate income</option>
+                <option value=3>Fund major expenses</option>
+                <option value=4>Accumulate wealth</option>
+                <option value=5>Aggressively growth value</option>
+              </select>
+            </div>
+            </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-6">
+              <form role="form">
+                <div class="form-group">
+                  <label for="drop"><big>What is the maximum duration of negative returns you can tolerate?</big></label>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+              <form>
+              <div class="form-group">
+              <select id="drop" class="form-control">
+                <option value=1>Less then 3 months</option>
+                <option value=2>3 to 6 months</option>
+                <option value=3>6 months to 1 year</option>
+                <option value=4>1 to 2 years</option>
+              </select>
+              </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-6">
+              <form role="form">
+                <div class="form-group">
+                  <label for="recovery_length"><big>How long are you willing to wait for your portfolio value to recover?</big></label>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+              <form>
+              <div class="form-group">
+              <select id="recovery_length" class="form-control">
+                <option value=1>Less then 3 months</option>
+                <option value=2>3 to 6 months</option>
+                <option value=3>6 months to 1 year</option>
+                <option value=4>1 to 2 years</option>
+              </select>
+              </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-6">
+              <form role="form">
+                <div class="form-group">
+                  <label for="loss_return"><big>Is it more important for you to minimize loss or maximize returns?</big></label>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+              <form>
+              <div class="form-group">
+              <select id="loss_return" class="form-control">
+                <option value=1>Minimize losses</option>
+                <option value=3>Maximize returns</option>
+              </select>
+              </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+              <button class="btn btn-default" onclick="namespace_iplanner.show_portfolio_summary()">Get your portfolio choices</button>
+            </div>
+            <div class="col-md-4">
             </div>
           </div>
         </div>

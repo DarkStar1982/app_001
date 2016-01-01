@@ -700,8 +700,8 @@ var namespace_iplanner = (function(){
           render_risk_decomposition_table("#risk_decomposited", risk_table_data);
 	 var risk_std = risk_table_data[risk_table_data.length-1][4];
         render_risk_and_return_tables(json_data.derived_split[0], risk_std);
-      
-	
+
+
         });
         var display_mode = "percent";
         var chart_mode = "val_chart";
@@ -1012,6 +1012,11 @@ var namespace_iplanner = (function(){
       $("#frame_4").show();
       $('a[href=#Tab2]').tab('show');
       this.show_performance_view();
+    },
+
+    show_portfolio_summary: function()
+    {
+      $('a[href=#Tab1]').tab('show');
     },
 
     show_performance_view: function()
