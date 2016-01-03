@@ -1,4 +1,7 @@
 $(document).ready(function(){
+  // init input masks
+  $("#field1").mask('000');
+  $("#field2").mask('000,000,000,000,000.00', {reverse: true});
   namespace_iplanner.init_page_state();
   //page event handlers
   $("#get_score").on('click', function(e){
@@ -8,19 +11,6 @@ $(document).ready(function(){
   $("#get_pdf_report").on('submit', function (e){
     namespace_iplanner.return_report_data();
   });
-
-/*  $("#show_intro").on('click', function(e){
-    $("#intro_slides").show();
-    $("#intro_paragraph").hide();
-    $("#show_intro").hide();
-  }); */
-/*  $("#show_performance").on('click', function(e){
-    namespace_iplanner.show_performance_view();
-  });
-
-  $("#export_results").on('click', function(e){
-    namespace_iplanner.show_export_view();
-  }); */
 
   $("#recalculate").on('click', function(e){
     namespace_iplanner.show_export_view();
