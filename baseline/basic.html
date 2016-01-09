@@ -99,10 +99,11 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right" id="navbar_right">
-              <li class="active"><a href="#Tab0" role="tab" data-toggle="tab">Investment Goals</a></li>
+              <li class="active"><a href="#TabA" role="tab" data-toggle="tab">IIROC Form</a></li>
+              <li><a href="#Tab0" role="tab" data-toggle="tab">Investment Goals</a></li>
               <li><a href="#Tab1" role="tab" data-toggle="tab">Example Portfolios</a></li>
               <li><a href="#Tab2" role="tab" data-toggle="tab" style="display:none">Build Your Own</a></li>
-              <li><a href="#Tab3" role="tab" data-toggle="tab">Build Your Own</a></li>
+              <li><a href="/iplanner.html">Build Your Own</a></li>
               <li><a href="#Tab4" role="tab" data-toggle="tab">Contact Us </a></li>
             </ul>
           </div>
@@ -110,7 +111,211 @@
     </nav>
       <!-- Top level tab panes -->
       <div class="tab-content">
-        <div class="tab-pane active" id="Tab0">
+        <div class="tab-pane active" id="TabA">
+          <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+              <h3>New Client application form</h3>
+              <span>(to be completed by Registered Representative)</span>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+          <br/>
+          <div class="row">
+            <div class="col-md-1">
+            </div>
+            <div class="col-md-2">
+              <form role="form">
+                <div class="form-group">
+                  <label for="field_name"><big>Name</big></label>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+            <form>
+              <div class="form-group form-inline">
+                <input type=radio value="Mr" name="field_title"/>Mr.&nbsp;&nbsp;&nbsp;
+                <input type=radio value="Mrs." name="field_title"/>Mrs&nbsp;&nbsp;&nbsp;
+                <input type=radio value="Miss" name="field_title"/>Miss
+              </div>
+            </form>
+            </div>
+            <div class="col-md-6">
+            <form>
+              <div class="form-group">
+                <input type="text" class="form-control" id="fiefield_nameld1">
+              </div>
+            </form>
+            </div>
+          <div class="col-md-1">
+          </div>
+         </div>
+         <div class="row">
+           <div class="col-md-1">
+           </div>
+           <div class="col-md-2">
+             <form role="form">
+               <div class="form-group">
+                 <label for="field_home"><big>Home</big></label>
+               </div>
+             </form>
+           </div>
+           <div class="col-md-8">
+           <form>
+             <div class="form-group">
+               <input type="text" class="form-control" id="field_home">
+             </div>
+           </form>
+           <div class="col-md-12" style="text-align:center;margin-top:-10px"><small>(Street)</small></div>
+           </div>
+         <div class="col-md-1">
+         </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-2">
+            <form role="form">
+              <div class="form-group">
+                <label for="field_city"><big>Address</big></label>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-4">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" id="field_city">
+            </div>
+          </form>
+          <div class="col-md-12" style="text-align:center;margin-top:-10px"><small>(City)</small></div>
+          </div>
+          <div class="col-md-2">
+            <form>
+            <div class="form-group">
+              <select class="form-control" id="field_province">
+                <option>Ontario</option>
+                <option>Quebec</option>
+                <option>British Columbia</option>
+                <option>Alberta</option>
+                <option>Mantioba</option>
+                <option>Saskatchewan</option>
+                <option>Nova Scotia	</option>
+                <option>New Brunswik</option>
+                <option>Newfoundland and Labrador</option>
+                <option>Prince Edward Island</option>
+                <option>Northwest Territories</option>
+                <option>Yukon</option>
+                <option>Nunavut</option>
+              </select>
+              </div>
+            </form>
+            <div class="col-md-12" style="text-align:center;margin-top:-10px"><small>(Province)</small></div>
+          </div>
+          <div class="col-md-2">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" id="field_postcode">
+            </div>
+          </form>
+          <div class="col-md-12" style="text-align:center;margin-top:-10px"><small>(Postal Code)</small></div>
+          </div>
+          <div class="col-md-1">
+        </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-3">
+            <form role="form">
+              <div class="form-group form-inline">
+                <label for="field_birthday"><big>Date of Birth&nbsp;</big></label>
+                <input type="date" id="field_birthday" class="form-control"/>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-3">
+            <form role="form">
+              <div class="form-group form-inline">
+                <label for="field_sin"><big>Client's SIN&nbsp;</big></label>
+                <input type="text" id="field_sin" class="form-control"/>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-4">
+            <form role="form">
+              <div class="form-group form-inline">
+                <label for="field_"><big>Client's Citizenship&nbsp;</big></label>
+                <input type="text" id="field_citizenship" class="form-control"/>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-1">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-1">
+            <form role="form">
+              <div class="form-group form-inline">
+                <label><big>Phones:&nbsp;</big></label>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-9">
+            <form role="form">
+              <div class="form-group form-inline">
+                <label for="field_sin">Home&nbsp;</label>
+                <input type="text" id="field_phone_home" class="form-control"/>
+                <label for="field_sin">Business&nbsp;</label>
+                <input type="text" id="field_phone_business" class="form-control"/>
+                <label for="field_sin">Other&nbsp;</label>
+                <input type="text" id="field_phone_other" class="form-control"/>
+                <label for="field_sin">Fax&nbsp;</label>
+                <input type="text" id="field_phone_fax" class="form-control"/>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-1">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-1">
+          </div>
+          <div class="col-md-3">
+            <form role="form">
+              <div class="form-group form-inline">
+                <label>Is RR registered in the Province or Country in which the client resides?</label>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-1">
+            <form role="form">
+              <div class="form-group form-inline">
+                <input type=radio value="Y" name="field_rr"/>Yes&nbsp;&nbsp;
+                <input type=radio value="N" name="field_rr"/>No
+              </div>
+            </form>
+          </div>
+          <div class="col-md-6">
+            <div class="col-md-12" style="text-align:center"><label><big>Types of account requested:</big></label></div>
+            <form role="form form-inline">
+              <input type="checkbox" id="account_cash">&nbsp;Cash&nbsp;
+              <input type="checkbox" id="account_margin">&nbsp;Margin&nbsp;
+              <input type="checkbox" id="account_dap">&nbsp;D.A.P&nbsp;
+              <input type="checkbox" id="account_rrsp">&nbsp;RRSP/RRIF&nbsp;
+              <input type="checkbox" id="account_other">&nbsp;Other&nbsp;
+              <input type="checkbox" id="account_pro">&nbsp;Pro&nbsp;
+              <input type="checkbox" id="account_us">&nbsp;U.S.Funds&nbsp;
+              <input type="checkbox" id="account_cdn">&nbsp;CDN Funds&nbsp;
+            </form>
+          </div>
+          <div class="col-md-1">
+          </div>
+        </div>
+        </div>
+        <!--end iiroc form -->
+        <div class="tab-pane" id="Tab0">
           <div class="row">
             <div class="col-md-2">
             </div>
