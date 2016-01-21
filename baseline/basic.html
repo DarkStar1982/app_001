@@ -99,11 +99,11 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right" id="navbar_right">
-              <li class="active"><a href="#TabA" role="tab" data-toggle="tab">IIROC Form</a></li>
-              <li><a href="#Tab0" role="tab" data-toggle="tab">Investment Goals</a></li>
+              <li class="active"><a href="#Tab0" role="tab" data-toggle="tab">Investment Goals</a></li>
               <li><a href="#Tab1" role="tab" data-toggle="tab">Example Portfolios</a></li>
               <li><a href="#Tab2" role="tab" data-toggle="tab" style="display:none">Build Your Own</a></li>
               <li><a href="/iplanner.html">Build Your Own</a></li>
+              <li><a href="#TabA" role="tab" data-toggle="tab">IIROC Form</a></li>
               <li><a href="#Tab4" role="tab" data-toggle="tab">Contact Us </a></li>
             </ul>
           </div>
@@ -111,7 +111,514 @@
     </nav>
       <!-- Top level tab panes -->
       <div class="tab-content">
-        <div class="tab-pane active" id="TabA">
+        <div class="tab-pane active" id="Tab0">
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-6">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="field1"><big>How old are you?</big></label>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+              <form>
+                <div class="form-group">
+                  <input type="text" class="form-control" id="field1">
+                </div>
+              </form>
+              </div>
+            <div class="col-md-2">
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-6">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="field2"><big>How much are you willing to invest annually?</big></label>
+                    <hr/>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+                <form>
+                  <div class="form-group">
+                    <input type="text" class="form-control" id="field2">
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+
+              </div>
+              <div class="col-md-6">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="knowledge"><big>What type of investor you are?</big></label>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+                <form>
+                  <div class="form-group">
+                    <select id="knowledge" class="form-control">
+                      <option value=1>Conservative</option>
+                      <option value=2>Income</option>
+                      <option value=3>Growth</option>
+                      <option value=4>Risk taker</option>
+                    </select>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-6">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="duration"><big>When do you expect to withdraw your portfolio funds?</big></label>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+                <form>
+                <div class="form-group">
+                <select id="duration" class="form-control">
+                  <option value=1>5 years or less</option>
+                  <option value=2>5-10 years</option>
+                  <option value=3>10-15 years</option>
+                  <option value=4>15-20 years</option>
+                  <option value=5>20 years or more</option>
+                </select>
+                </div>
+              </form>
+              </div>
+              <div class="col-md-2">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-6">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="goals"><big>What are the goals of your portfolio?</big></label>
+                    <hr/>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+                <form>
+                <div class="form-group">
+                <select id="goals" class="form-control">
+                  <option value=1>Protect capital</option>
+                  <option value=2>Generate income</option>
+                  <option value=3>Fund major expenses</option>
+                  <option value=4>Accumulate wealth</option>
+                  <option value=5>Aggressively growth value</option>
+                </select>
+              </div>
+              </form>
+              </div>
+              <div class="col-md-2">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-6">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="drop"><big>What is the maximum duration of negative returns you can tolerate?</big></label>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+                <form>
+                <div class="form-group">
+                <select id="drop" class="form-control">
+                  <option value=1>Less then 3 months</option>
+                  <option value=2>3 to 6 months</option>
+                  <option value=3>6 months to 1 year</option>
+                  <option value=4>1 to 2 years</option>
+                </select>
+                </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-6">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="recovery_length"><big>How long are you willing to wait for your portfolio value to recover?</big></label>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+                <form>
+                <div class="form-group">
+                <select id="recovery_length" class="form-control">
+                  <option value=1>Less then 3 months</option>
+                  <option value=2>3 to 6 months</option>
+                  <option value=3>6 months to 1 year</option>
+                  <option value=4>1 to 2 years</option>
+                </select>
+                </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+              </div>
+              <div class="col-md-6">
+                <form role="form">
+                  <div class="form-group">
+                    <label for="loss_return"><big>Is it more important for you to minimize loss or maximize returns?</big></label>
+                  </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+                <form>
+                <div class="form-group">
+                <select id="loss_return" class="form-control">
+                  <option value=1>Minimize losses</option>
+                  <option value=3>Maximize returns</option>
+                </select>
+                </div>
+                </form>
+              </div>
+              <div class="col-md-2">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+              </div>
+              <div class="col-md-4">
+                <button class="btn btn-default" onclick="namespace_iplanner.show_portfolio_summary()">Get your portfolio choices</button>
+              </div>
+              <div class="col-md-4">
+              </div>
+            </div>
+          </div>
+          <!-- Positions builder tab -->
+            <div class="tab-pane" id="Tab1">
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                  <a href="#" class="btn btn-primary btn-lg" style="text-align:left; height:240px;width:100%" role="button"
+                        onclick="namespace_iplanner.show_portfolio_selection(8)">
+                          <span class="glyphicon glyphicon-list-alt"></span> <em>Conservative</em><br/>
+                          <small>
+                            Your primary objective is <br/>preservation of the capital with <br/>minimal risk. You
+                            can allow only<br/> short amount of time for portfolio<br/> to recover from negative period.
+                            <br/><br/><br/><br/>
+                            <em>Risk:</em> &#9733;<br/>
+                            <em>Return:</em> &#9733;
+                          </small>
+                  </a>&nbsp;
+               </div>
+               <div class="col-md-3">
+                       <a href="#" class="btn btn-info btn-lg" style="text-align:left; height:240px;width:100%" role="button"
+                       onclick="namespace_iplanner.show_portfolio_selection(16)">
+                         <span class="glyphicon glyphicon-list-alt"></span> <em>Income</em><br/>
+                         <small>
+                           You are willing to tolerate some <br/> market fluctuations for the better<br/> returns
+                           <br/><br/><br/><br/> <br/> <br/>
+                           <em>Risk:</em> &#9733;&#9733;<br/>
+                           <em>Return:</em> &#9733;&#189;
+                         </small>
+                       </a>
+               </div>
+               <div class="col-md-3"></div>
+             </div>
+             <br/>
+             <div class="row">
+                 <div class="col-md-3"></div>
+                 <div class="col-md-3">
+                        <a href="#" class="btn btn-success btn-lg" style="text-align:left; height:240px;width:100%" role="button"
+                        onclick="namespace_iplanner.show_portfolio_selection(24)">
+                          <span class="glyphicon glyphicon-list-alt"></span> <em>Balanced</em></br>
+                          <small>
+                            You are willing to tolerate market <br/> fluctuations and more time for the
+                            <br/>  market to recover value. You have <br/>some  experience with investments  <br/> and you understand
+                            tradeoff <br/>between market risks and returns.
+                            <br/><br/><br/>
+                            <em>Risk:</em> &#9733;&#9733;&#9733;<br/>
+                            <em>Return:</em> &#9733;&#9733;
+                          </small>
+                        </a>&nbsp;
+                  </div>
+                  <div class="col-md-3">
+                          <a href="#" class="btn btn-warning btn-lg" style="text-align:left; height:240px;width:100%" role="button"
+                          onclick="namespace_iplanner.show_portfolio_selection(32)">
+                            <span class="glyphicon glyphicon-list-alt"></span> <em>Growth</em><br/>
+                            <small>
+                              You are a knowledgeable investor <br/> and not concerned about
+                              <br/> short-term fluctuations. You are  <br/> willing to wait longer time to <br/>
+                              maximize your profits.
+                              <br/><br/><br/>
+                              <br/>
+
+                              <em>Risk:</em> &#9733;&#9733;&#9733;&#9733;<br/>
+                              <em>Return:</em> &#9733;&#9733;&#9733;
+                            </small>
+                          </a>
+                </div>
+                <div class="col-md-3"></div>
+              </div>
+            </div>
+            <!-- Positions builder tab -->
+            <div class="tab-pane" id="Tab2">
+              <label id="intro_label">Please select any of the portfolio types on the previous tab</label>
+              <div class="row">
+                <div class="col-md-12">
+                  <br/>
+                  <p id="intro_text" class="paragraph_hilite" >
+                  </p>
+                  <br/><br/>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                  <table class="table table-bordered" style="background-color:rgb(39,43,48);" id="frame_1">
+                    <tr>
+                      <td id="chart_title_1" style="text-align:center"></td>
+                    </tr>
+                    <tr>
+                        <td id="chart_container_1" style="padding-left:0px"></td>
+                      </tr>
+                      <tr>
+                        <td><span>Allocation is the split of funds between different asset classes.
+                        </span>
+                      </td>
+                    </tr>
+                  </table>
+                  </div>
+                  <div class="col-md-6">
+                  <table class="table table-bordered" style="background-color:rgb(39,43,48);" id="frame_2">
+                    <tr>
+                      <td id="chart_title_2" style="text-align:center"></td>
+                    </tr>
+                    <tr>
+                        <td id="chart_container_12" style="padding-left:0px"></td>
+                      </tr>
+                      <tr>
+                        <td><span>Detailed distribution gives invidual assets/securities held
+                          in the portfolio and their respective weights.
+                        </span></td>
+                      </tr>
+                    </tr>
+                  </table>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-bordered" id="table_3">
+                  <thead>
+                    <tr id="header_4"><td colspan=4 style="text-align:center"><h4>Fixed income positions</h4></td></tr>
+                    <tr>
+                        <th>Symbol</th>
+                        <th>Market</th>
+                        <th>Description</th>
+                        <th>Weight</th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot>
+                      <td colspan=4>
+                        <span>
+                          List of symbols, markets and description of fixed income assets and their weights.
+
+                        </span>
+                      </td>
+                    </tfoot>
+                </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table table-bordered" id="table_31">
+                  <thead>
+                    <tr id="header_5"><td colspan="4" style="text-align:center"><h4>Equity positions</h4></td></tr>
+                    <tr>
+                      <td>Symbol</td>
+                      <th>Market</th>
+                      <th>Description</th>
+                      <th>Weight</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                  <tfoot>
+                    <td colspan=4>
+                      <span>
+                        List of symbols, markets and description of equity assets and their weights.
+                      </span>
+                    </td>
+                  </tfoot>
+                </table>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6" >
+                  <table class="table table-bordered" style="background-color:rgb(39,43,48);" id="frame_3">
+                    <tr>
+                      <td id="chart_title_3" style="text-align:center"><h4>Positions Profit or Loss</h4></td>
+                    </tr>
+                    <tr>
+                        <td id="chart_container_4" style="padding-left:0px"></td>
+                      </tr>
+                      <tr>
+                        <td><span>Cumulative profit and loss for the individual securities since inception.
+                        </span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+                <div class="col-md-6">
+                  <table class="table table-bordered" style="background-color:rgb(39,43,48);" id="frame_4">
+                    <tr>
+                      <td id="chart_title_4" style="text-align:center"><h4>Portfolio Performance</h4></td>
+                    </tr>
+                    <tr>
+                      <td>Benchmark <select id="benchmark_list"></select><a href="#" data-toggle="modal" data-target="#myModal9">
+                        <span class="glyphicon glyphicon-info-sign"></span></a></td>
+                    </tr>
+                    <tr>
+                        <td id="chart_container_3" style="padding-left:0px"></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <span>Consolidated portofolio performance over various time periods
+                        </span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <table class="table table-striped table-bordered" id="table_7">
+                    <thead>
+                      <tr>
+                        <td colspan=6>
+                          <h4 id="header_3" style='text-align:center'>Risk and Returns  - breakdown and diversification</h4>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th>Symbol</th>
+                            <th>Returns&nbsp;<a href="#" data-toggle="modal" data-target="#myModal">
+                              <span class="glyphicon glyphicon-info-sign"></span></a>
+                            </th>
+                            <th>Weight&nbsp;<a href="#" data-toggle="modal" data-target="#myModal2">
+                              <span class="glyphicon glyphicon-info-sign"></span></a>
+                            </th>
+                            <th>Return Contrib&nbsp;<a href="#" data-toggle="modal" data-target="#myModal3">
+                              <span class="glyphicon glyphicon-info-sign"></span></a>
+                            </th>
+                            <th>Nominal Risk&nbsp;<a href="#" data-toggle="modal" data-target="#myModal4">
+                              <span class="glyphicon glyphicon-info-sign"></span></a>
+                            </th>
+                            <th style="display:none">Risk Contrib.&nbsp;<a href="#" data-toggle="modal" data-target="#myModal5">
+                              <span class="glyphicon glyphicon-info-sign"></span></a>
+                            </th>
+                            <th>Benchmark Corr.<a href="#" data-toggle="modal" data-target="#myModal20">
+                              <span class="glyphicon glyphicon-info-sign"></span></a>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody id="risk_decomposited">
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan=6>
+                              <span>
+                                  For a description of the risk &amp; return categories displayed in this table,
+                                  please refer to the information icon in the column header.
+
+                              </span>
+                            </td>
+                          </tr>
+                        </tfoot>
+                    </table>
+                  </div>
+                  <div class="col-md-6">
+                    <table id="net_values_report" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
+                      <thead>
+                        <tr>
+                          <td colspan=7>
+                            <h4 id="header_2" style='text-align:center'>Historical risk and returns</h4>
+                          </td>
+                        </tr>
+                      </thead>
+                        <tbody>
+                          <tr>
+                            <th class="col-md-1">Duration</th>
+                            <th id="label_value">Initial Value</th>
+                            <th id="label_final_pv">Final Value</th>
+                            <th id="label_net_pnl">Net PnL</th>
+                            <th id="label_annualized">Annual. PnL</th>
+                            <th id="label_std">Volatilty (Risk)</th>
+                            <!--th id="label_vatr_pc">Value at risk - Percent</th-->
+                          </tr>
+                          <tr>
+                            <td class="col-md-1">3 years</td>
+                            <td id="portfolio_value">0</td>
+                            <td id="portfolio_final_pv">0</td>
+                            <td id="portfolio_net_pnl">0</td>
+                            <td id="portfolio_annualized">0</td>
+                            <td id="portfolio_std">0</td>
+                            <!--td id="portfolio_vatr_pc">0.0</td-->
+                          </tr>
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <td colspan=7>
+                              <span>For a description of the risk &amp; return categories displayed in this table,
+                                                            please refer to the information icon in the column header.
+
+                              </span>
+                            </td>
+                          </tr>
+                        </tfoot>
+                    </table>
+                    <!--form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank">
+                      <input type="submit" class="btn btn-default" value="Download portfolio as PDF" id="get_pdf_report" name="Get PDF Report"/>
+                    </form-->
+
+                      <form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank" style="width:100%">
+                        <input type="submit" class="btn btn-primary btn-lg" value="Download portfolio as PDF" id="get_pdf_report" name="Get PDF Report" style="text-align:center; height:70px;width:100%"/>
+                      </form>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4"></div>
+              <!--div class="col-md-2">
+                <form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank">
+                  <input type="submit" class="btn btn-default" value="Download portfolio as PDF" id="get_pdf_report" name="Get PDF Report"/>
+                </form>
+              </div>
+              <div class="col-md-2">
+              <form id="get_positions_as_csv" action="/get_csv/" method="post" target="_blank">
+                <input type="submit" class="btn btn-default" value="Download positions as CSV" id="get_positions_as_csv" name="Get as CSV"/>
+              </form>
+            </div-->
+              <!-- Build your own button -->
+            </div>
+          </div>
+        <div class="tab-pane" id="TabA">
           <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
@@ -1201,527 +1708,6 @@
         </div>
       </div>
         <!--end iiroc form -->
-      <div class="tab-pane" id="Tab0">
-          <div class="row">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-6">
-              <form role="form">
-                <div class="form-group">
-                  <label for="field1"><big>How old are you?</big></label>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-            <form>
-              <div class="form-group">
-                <input type="text" class="form-control" id="field1">
-              </div>
-            </form>
-            </div>
-          <div class="col-md-2">
-          </div>
-        </div>
-        <div class="row">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-6">
-              <form role="form">
-                <div class="form-group">
-                  <label for="field2"><big>How much are you willing to invest annually?</big></label>
-                  <hr/>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-              <form>
-                <div class="form-group">
-                  <input type="text" class="form-control" id="field2">
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-2">
-
-            </div>
-            <div class="col-md-6">
-              <form role="form">
-                <div class="form-group">
-                  <label for="knowledge"><big>What type of investor you are?</big></label>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-              <form>
-                <div class="form-group">
-                  <select id="knowledge" class="form-control">
-                    <option value=1>Conservative</option>
-                    <option value=2>Income</option>
-                    <option value=3>Growth</option>
-                    <option value=4>Risk taker</option>
-                  </select>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-6">
-              <form role="form">
-                <div class="form-group">
-                  <label for="duration"><big>When do you expect to withdraw your portfolio funds?</big></label>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-              <form>
-              <div class="form-group">
-              <select id="duration" class="form-control">
-                <option value=1>5 years or less</option>
-                <option value=2>5-10 years</option>
-                <option value=3>10-15 years</option>
-                <option value=4>15-20 years</option>
-                <option value=5>20 years or more</option>
-              </select>
-              </div>
-            </form>
-            </div>
-            <div class="col-md-2">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-6">
-              <form role="form">
-                <div class="form-group">
-                  <label for="goals"><big>What are the goals of your portfolio?</big></label>
-                  <hr/>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-              <form>
-              <div class="form-group">
-              <select id="goals" class="form-control">
-                <option value=1>Protect capital</option>
-                <option value=2>Generate income</option>
-                <option value=3>Fund major expenses</option>
-                <option value=4>Accumulate wealth</option>
-                <option value=5>Aggressively growth value</option>
-              </select>
-            </div>
-            </form>
-            </div>
-            <div class="col-md-2">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-6">
-              <form role="form">
-                <div class="form-group">
-                  <label for="drop"><big>What is the maximum duration of negative returns you can tolerate?</big></label>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-              <form>
-              <div class="form-group">
-              <select id="drop" class="form-control">
-                <option value=1>Less then 3 months</option>
-                <option value=2>3 to 6 months</option>
-                <option value=3>6 months to 1 year</option>
-                <option value=4>1 to 2 years</option>
-              </select>
-              </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-6">
-              <form role="form">
-                <div class="form-group">
-                  <label for="recovery_length"><big>How long are you willing to wait for your portfolio value to recover?</big></label>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-              <form>
-              <div class="form-group">
-              <select id="recovery_length" class="form-control">
-                <option value=1>Less then 3 months</option>
-                <option value=2>3 to 6 months</option>
-                <option value=3>6 months to 1 year</option>
-                <option value=4>1 to 2 years</option>
-              </select>
-              </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-2">
-            </div>
-            <div class="col-md-6">
-              <form role="form">
-                <div class="form-group">
-                  <label for="loss_return"><big>Is it more important for you to minimize loss or maximize returns?</big></label>
-                </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-              <form>
-              <div class="form-group">
-              <select id="loss_return" class="form-control">
-                <option value=1>Minimize losses</option>
-                <option value=3>Maximize returns</option>
-              </select>
-              </div>
-              </form>
-            </div>
-            <div class="col-md-2">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-4">
-              <button class="btn btn-default" onclick="namespace_iplanner.show_portfolio_summary()">Get your portfolio choices</button>
-            </div>
-            <div class="col-md-4">
-            </div>
-          </div>
-        </div>
-      <!-- Positions builder tab -->
-        <div class="tab-pane" id="Tab1">
-          <div class="row">
-            <div class="col-md-3"></div>
-            <div class="col-md-3">
-              <a href="#" class="btn btn-primary btn-lg" style="text-align:left; height:240px;width:100%" role="button"
-                    onclick="namespace_iplanner.show_portfolio_selection(8)">
-                      <span class="glyphicon glyphicon-list-alt"></span> <em>Conservative</em><br/>
-                      <small>
-                        Your primary objective is <br/>preservation of the capital with <br/>minimal risk. You
-                        can allow only<br/> short amount of time for portfolio<br/> to recover from negative period.
-                        <br/><br/><br/><br/>
-                        <em>Risk:</em> &#9733;<br/>
-                        <em>Return:</em> &#9733;
-                      </small>
-              </a>&nbsp;
-           </div>
-           <div class="col-md-3">
-                   <a href="#" class="btn btn-info btn-lg" style="text-align:left; height:240px;width:100%" role="button"
-                   onclick="namespace_iplanner.show_portfolio_selection(16)">
-                     <span class="glyphicon glyphicon-list-alt"></span> <em>Income</em><br/>
-                     <small>
-                       You are willing to tolerate some <br/> market fluctuations for the better<br/> returns
-                       <br/><br/><br/><br/> <br/> <br/>
-                       <em>Risk:</em> &#9733;&#9733;<br/>
-                       <em>Return:</em> &#9733;&#189;
-                     </small>
-                   </a>
-           </div>
-           <div class="col-md-3"></div>
-         </div>
-         <br/>
-         <div class="row">
-             <div class="col-md-3"></div>
-             <div class="col-md-3">
-                    <a href="#" class="btn btn-success btn-lg" style="text-align:left; height:240px;width:100%" role="button"
-                    onclick="namespace_iplanner.show_portfolio_selection(24)">
-                      <span class="glyphicon glyphicon-list-alt"></span> <em>Balanced</em></br>
-                      <small>
-                        You are willing to tolerate market <br/> fluctuations and more time for the
-                        <br/>  market to recover value. You have <br/>some  experience with investments  <br/> and you understand
-                        tradeoff <br/>between market risks and returns.
-                        <br/><br/><br/>
-                        <em>Risk:</em> &#9733;&#9733;&#9733;<br/>
-                        <em>Return:</em> &#9733;&#9733;
-                      </small>
-                    </a>&nbsp;
-              </div>
-              <div class="col-md-3">
-                      <a href="#" class="btn btn-warning btn-lg" style="text-align:left; height:240px;width:100%" role="button"
-                      onclick="namespace_iplanner.show_portfolio_selection(32)">
-                        <span class="glyphicon glyphicon-list-alt"></span> <em>Growth</em><br/>
-                        <small>
-                          You are a knowledgeable investor <br/> and not concerned about
-                          <br/> short-term fluctuations. You are  <br/> willing to wait longer time to <br/>
-                          maximize your profits.
-                          <br/><br/><br/>
-                          <br/>
-
-                          <em>Risk:</em> &#9733;&#9733;&#9733;&#9733;<br/>
-                          <em>Return:</em> &#9733;&#9733;&#9733;
-                        </small>
-                      </a>
-            </div>
-            <div class="col-md-3"></div>
-          </div>
-        </div>
-        <!-- Positions builder tab -->
-        <div class="tab-pane" id="Tab2">
-          <label id="intro_label">Please select any of the portfolio types on the previous tab</label>
-          <div class="row">
-            <div class="col-md-12">
-              <br/>
-              <p id="intro_text" class="paragraph_hilite" >
-              </p>
-              <br/><br/>
-            </div>
-          </div>
-          <div class="row">
-              <div class="col-md-6">
-              <table class="table table-bordered" style="background-color:rgb(39,43,48);" id="frame_1">
-                <tr>
-                  <td id="chart_title_1" style="text-align:center"></td>
-                </tr>
-                <tr>
-                    <td id="chart_container_1" style="padding-left:0px"></td>
-                  </tr>
-                  <tr>
-                    <td><span>Allocation is the split of funds between different asset classes.
-                    </span>
-                  </td>
-                </tr>
-              </table>
-              </div>
-              <div class="col-md-6">
-              <table class="table table-bordered" style="background-color:rgb(39,43,48);" id="frame_2">
-                <tr>
-                  <td id="chart_title_2" style="text-align:center"></td>
-                </tr>
-                <tr>
-                    <td id="chart_container_12" style="padding-left:0px"></td>
-                  </tr>
-                  <tr>
-                    <td><span>Detailed distribution gives invidual assets/securities held
-                      in the portfolio and their respective weights.
-                    </span></td>
-                  </tr>
-                </tr>
-              </table>
-              </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <table class="table table-bordered" id="table_3">
-              <thead>
-                <tr id="header_4"><td colspan=4 style="text-align:center"><h4>Fixed income positions</h4></td></tr>
-                <tr>
-                    <th>Symbol</th>
-                    <th>Market</th>
-                    <th>Description</th>
-                    <th>Weight</th>
-                </tr>
-                </thead>
-                <tbody></tbody>
-                <tfoot>
-                  <td colspan=4>
-                    <span>
-                      List of symbols, markets and description of fixed income assets and their weights.
-
-                    </span>
-                  </td>
-                </tfoot>
-            </table>
-            </div>
-            <div class="col-md-6">
-              <table class="table table-bordered" id="table_31">
-              <thead>
-                <tr id="header_5"><td colspan="4" style="text-align:center"><h4>Equity positions</h4></td></tr>
-                <tr>
-                  <td>Symbol</td>
-                  <th>Market</th>
-                  <th>Description</th>
-                  <th>Weight</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-              <tfoot>
-                <td colspan=4>
-                  <span>
-                    List of symbols, markets and description of equity assets and their weights.
-                  </span>
-                </td>
-              </tfoot>
-            </table>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6" >
-              <table class="table table-bordered" style="background-color:rgb(39,43,48);" id="frame_3">
-                <tr>
-                  <td id="chart_title_3" style="text-align:center"><h4>Positions Profit or Loss</h4></td>
-                </tr>
-                <tr>
-                    <td id="chart_container_4" style="padding-left:0px"></td>
-                  </tr>
-                  <tr>
-                    <td><span>Cumulative profit and loss for the individual securities since inception.
-                    </span>
-                  </td>
-                </tr>
-              </table>
-            </div>
-            <div class="col-md-6">
-              <table class="table table-bordered" style="background-color:rgb(39,43,48);" id="frame_4">
-                <tr>
-                  <td id="chart_title_4" style="text-align:center"><h4>Portfolio Performance</h4></td>
-                </tr>
-                <tr>
-                  <td>Benchmark <select id="benchmark_list"></select><a href="#" data-toggle="modal" data-target="#myModal9">
-                    <span class="glyphicon glyphicon-info-sign"></span></a></td>
-                </tr>
-                <tr>
-                    <td id="chart_container_3" style="padding-left:0px"></td>
-                </tr>
-                <tr>
-                  <td>
-                    <span>Consolidated portofolio performance over various time periods
-                    </span>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <table class="table table-striped table-bordered" id="table_7">
-                <thead>
-                  <tr>
-                    <td colspan=6>
-                      <h4 id="header_3" style='text-align:center'>Risk and Returns  - breakdown and diversification</h4>
-                    </td>
-                  </tr>
-                  <tr>
-                    <th>Symbol</th>
-                        <th>Returns&nbsp;<a href="#" data-toggle="modal" data-target="#myModal">
-                          <span class="glyphicon glyphicon-info-sign"></span></a>
-                        </th>
-                        <th>Weight&nbsp;<a href="#" data-toggle="modal" data-target="#myModal2">
-                          <span class="glyphicon glyphicon-info-sign"></span></a>
-                        </th>
-                        <th>Return Contrib&nbsp;<a href="#" data-toggle="modal" data-target="#myModal3">
-                          <span class="glyphicon glyphicon-info-sign"></span></a>
-                        </th>
-                        <th>Nominal Risk&nbsp;<a href="#" data-toggle="modal" data-target="#myModal4">
-                          <span class="glyphicon glyphicon-info-sign"></span></a>
-                        </th>
-                        <th style="display:none">Risk Contrib.&nbsp;<a href="#" data-toggle="modal" data-target="#myModal5">
-                          <span class="glyphicon glyphicon-info-sign"></span></a>
-                        </th>
-                        <th>Benchmark Corr.<a href="#" data-toggle="modal" data-target="#myModal20">
-                          <span class="glyphicon glyphicon-info-sign"></span></a>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody id="risk_decomposited">
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colspan=6>
-                          <span>
-                              For a description of the risk &amp; return categories displayed in this table,
-                              please refer to the information icon in the column header.
-
-                          </span>
-                        </td>
-                      </tr>
-                    </tfoot>
-                </table>
-              </div>
-              <div class="col-md-6">
-                <table id="net_values_report" class="table table-striped table-bordered" cellspacing="0" cellpadding="0">
-                  <thead>
-                    <tr>
-                      <td colspan=7>
-                        <h4 id="header_2" style='text-align:center'>Historical risk and returns</h4>
-                      </td>
-                    </tr>
-                  </thead>
-                    <tbody>
-                      <tr>
-                        <th class="col-md-1">Duration</th>
-                        <th id="label_value">Initial Value</th>
-                        <th id="label_final_pv">Final Value</th>
-                        <th id="label_net_pnl">Net PnL</th>
-                        <th id="label_annualized">Annual. PnL</th>
-                        <th id="label_std">Volatilty (Risk)</th>
-                        <!--th id="label_vatr_pc">Value at risk - Percent</th-->
-                      </tr>
-                      <tr>
-                        <td class="col-md-1">3 years</td>
-                        <td id="portfolio_value">0</td>
-                        <td id="portfolio_final_pv">0</td>
-                        <td id="portfolio_net_pnl">0</td>
-                        <td id="portfolio_annualized">0</td>
-                        <td id="portfolio_std">0</td>
-                        <!--td id="portfolio_vatr_pc">0.0</td-->
-                      </tr>
-                    </tbody>
-                    <tfoot>
-                      <tr>
-                        <td colspan=7>
-                          <span>For a description of the risk &amp; return categories displayed in this table,
-                                                        please refer to the information icon in the column header.
-
-                          </span>
-                        </td>
-                      </tr>
-                    </tfoot>
-                </table>
-                <!--form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank">
-                  <input type="submit" class="btn btn-default" value="Download portfolio as PDF" id="get_pdf_report" name="Get PDF Report"/>
-                </form-->
-
-                  <form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank" style="width:100%">
-                    <input type="submit" class="btn btn-primary btn-lg" value="Download portfolio as PDF" id="get_pdf_report" name="Get PDF Report" style="text-align:center; height:70px;width:100%"/>
-                  </form>
-            </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4"></div>
-          <!--div class="col-md-2">
-            <form id="get_pdf_report" action="/get_pdf/" method="post" target="_blank">
-              <input type="submit" class="btn btn-default" value="Download portfolio as PDF" id="get_pdf_report" name="Get PDF Report"/>
-            </form>
-          </div>
-          <div class="col-md-2">
-          <form id="get_positions_as_csv" action="/get_csv/" method="post" target="_blank">
-            <input type="submit" class="btn btn-default" value="Download positions as CSV" id="get_positions_as_csv" name="Get as CSV"/>
-          </form>
-        </div-->
-          <!-- Build your own button -->
-        </div>
-      </div>
-      <div class="tab-pane" id="Tab3">
-        <div class="row">
-          <div class="col-md-12">
-            <br/><br/><br/><br/><br/><br/><br/>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4"></div>
-          <div class="col-md-4">
-            <h1 style="text-align:center">Coming soon...</h1>
-          </div>
-          <div class="col-md-4"></div>
-        </div>
-      </div>
       <div class="tab-pane" id="Tab4">
         <div class="row">
           <div class="col-md-6">
