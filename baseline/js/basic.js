@@ -432,17 +432,17 @@ var namespace_iplanner = (function(){
     {
       p_data_extended["basic"] = [[
           ['AGG', 40.0],
-          ['XBB.TO', 30.0],
+          ['IEF', 30.0],
           ['IEI', 10.0],
-          ['TLT', 10.0],
+          ['TLH', 10.0],
           ['SHY', 5.0],
           ['HYG', 5.0]
         ],
         [
           {name:'AGG', color: '#007F7F', y:40.0},
-          {name:'XBB.TO', color: '#007F7A', y:30.0},
+          {name:'IEF', color: '#007F7A', y:30.0},
           {name:'IEI', color: '#007F77', y:10.0},
-          {name:'TLT', color: '#007F70', y:10.0},
+          {name:'TLH', color: '#007F70', y:10.0},
           {name:'SHY', color: '#007F6B', y:5.0},
           {name:'HYG', color: '#007F67', y:5.0}
         ]
@@ -452,20 +452,19 @@ var namespace_iplanner = (function(){
     {
       p_data_extended["basic"] = [[
         ['AGG', 40.0],
-        ['XBB.TO',20.0],
+        ['TLH', 20.0],
         ['PFF', 10.0],
         ['HYG', 10.0],
-        ['VEE', 10.0],
-        ['DVY', 5.0],
-        ['XSB.TO', 5.0]],
+        ['EFV', 10.0],
+        ['DVY', 10.0],
+	],
         [
-          {name:'VEE', color: '#00EF7F', y:10.0},
-          {name:'DVY', color: '#00EF77', y:5.0},
+          {name:'EFV', color: '#00EF7F', y:10.0},
+          {name:'DVY', color: '#00EF77', y:10.0},
           {name:'AGG', color: '#007F7F', y:40.0},
-          {name:'XBB.TO', color: '#007F7A', y:20.0},
+          {name:'TLH', color: '#007F7A', y:20.0},
           {name:'PFF', color: '#007F77', y:10.0},
           {name:'HYG', color: '#007F70', y:10.0},
-          {name:'XSB.TO', color: '#007F6B', y:5.0}
         ]
       ];
     }
@@ -477,18 +476,18 @@ var namespace_iplanner = (function(){
         ['IWV', 10.0],
         ['AGG', 20.0],
         ['HYG', 5.0],
-        ['XIC.TO', 20.0],
-        ['XBB.TO', 10.0],
-        ['VEE', 5.0]],
+        ['TLH', 20.0],
+        ['PFF', 10.0],
+        ['EFA', 5.0]],
         [
           {name:'VOO', color: '#00EF7F', y:20.0},
           {name:'IVE', color: '#00EF7B', y:10.0},
           {name:'IWV', color: '#00EF77', y:10.0},
-          {name:'XIC.TO', color: '#00EF74', y:20.0},
-          {name:'VEE', color: '#00EF70', y:5.0},
+          {name:'TLH', color: '#00EF74', y:20.0},
+          {name:'EFA', color: '#00EF70', y:5.0},
           {name:'AGG', color: '#007F7F', y:20.0},
           {name:'HYG', color: '#007F7B', y:5.0},
-          {name:'XBB.TO', color: '#007F77', y:10.0}
+          {name:'PFF', color: '#007F77', y:10.0}
         ]];
     }
     else if (p_score>30)
@@ -500,20 +499,20 @@ var namespace_iplanner = (function(){
         ['IWV', 15.0],
         ['AGG', 10.0],
         ['HYG', 5.0],
-        ['XIU.TO', 15.0],
-        ['XCG.TO', 10.0],
-        ['XBB.TO', 5.0],
-        ['VEE', 5.0]],
+        ['EFV', 15.0],
+        ['EFA', 10.0],
+        ['TLH', 5.0],
+        ['QQQ', 5.0]],
         [
           {name:'VOO', color: '#00EF7F', y:20.0},
           {name:'IJR', color: '#00EF7B', y:5.0},
           {name:'IVE', color: '#00EF77', y:10.0},
           {name:'IWV', color: '#00EF74', y:15.0},
-          {name:'XIU.TO', color: '#00EF6B', y:15.0},
-          {name:'XCG.TO', color: '#00EF67', y:10.0},
-          {name:'VEE', color: '#00EF7F', y:5.0},
+          {name:'EFV', color: '#00EF6B', y:15.0},
+          {name:'EFA', color: '#00EF67', y:10.0},
+          {name:'QQQ', color: '#00EF7F', y:5.0},
           {name:'AGG', color: '#007F7F', y:10.0},
-          {name:'XBB.TO', color: '#007F7F', y:5.0},
+          {name:'TLH', color: '#007F7F', y:5.0},
           {name:'HYG', color: '#007F7F', y:5.0},
         ]
       ];
